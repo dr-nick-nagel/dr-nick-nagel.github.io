@@ -1,0 +1,167 @@
+:root {
+  --NAV_WIDTH:      180px;
+  --BANNER_HEIGHT:  80px;
+  --CONTENT_WIDTH:  550px;
+  --CONTENT_HEIGHT: 500px;
+}
+
+body
+{
+  background-color: #EAEAEA;
+  font:    10pt Arial;
+  margin:  0;
+  padding: 20px;
+}
+
+/*
+-----------  BANNER TEXT ------------
+Need to shift it right so use margins. 
+The content needs to be outside the flex display
+since it always needs to be at the top...
+Not gonna lie. The line-height trick is old-school.
+If you don't like it get rid of it in favor of flex 
+solution...
+*/
+div.banner {
+  height:      var( --BANNER_HEIGHT );
+  line-height: var( --BANNER_HEIGHT );
+  margin-left: calc( var( --NAV_WIDTH ) + 20px ); 
+  /* Using google fonts for script. Fall back to cursive... */
+  font-family: 'Dancing Script', cursive;
+  font-size: 25pt;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+/* ---- NAV BAR STYLES ---- */
+.navigation {
+    color: #225;
+    width: var( --NAV_WIDTH );
+    margin-top: calc( -1 * var( --BANNER_HEIGHT ));
+}
+
+.navigation ul {
+    list-style: none;
+    margin: 0;
+}
+
+
+/* ---- CONTENT AREA STYLES ---- */
+.content {
+    background-color: #FFF;
+    /*display: flex;*/
+    padding: 20px;
+    width:   var( --CONTENT_WIDTH );
+    height:  var( --CONTENT_HEIGHT );
+    overflow: auto;
+    border: inset 2px;
+}
+
+
+/* 
+------- Responsive styles ------------------------------------------------
+
+Important Note! Notice the .navigation rules. In order to
+vertically align the nave items to center position, we
+
+1. set display to flex to turn the nav-bar into a flex container, and
+
+2. vertically align the items with   `align-items: center`  ...
+
+--------------------------------------------------------------------------
+*/
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    div.banner {
+        display: flex;
+        justify-content: center;
+        width:  unset;
+        margin-left: unset;
+        margin-top:  -20px;
+    }
+
+    .navigation {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width:  unset;
+        margin: unset;
+        margin-top: -20px;
+        padding-left: unset;  
+    }
+    
+    .navigation #pallas-athena-image {
+        height: 100px;
+    }
+    
+    .navigation li, 
+    .navigation .image_item,
+    .navigation ul {
+        display: inline-block;
+    }
+    
+    .navigation ul {
+        display: inline-block;
+        padding: 0;
+        margin-left: 10px;
+    }
+    
+    .navigation li {
+        margin: 10px;
+    }
+    
+    .content {
+        width: unset;
+        height: 75vh;
+    }
+    
+    footer {
+        font-size: smaller;
+    }
+
+}
+
+/* --------------------
+Landscape orientation 
+'Bit of a fight with the AI guys over this. But Lesson learned:
+media queries for devices in lanscape should just use width AND height.
+without the height the rules fire on desk-top (undesireable...)
+-----------------------
+*/
+@media (max-width: 1000px) and (max-height: 450px) {
+    div.banner {
+        margin-top: -20px;
+    }
+    .content {
+        width: unset;
+        height: 65vh;
+    }
+}
+
+
+a:link
+{
+  color: #1545FF;
+}
+a:visited
+{
+  color: #3585FF;
+}
+a:active
+{
+  color: #35FFA0;
+}
+a:hover
+{
+  color: #002580;
+}
+
+
+
+

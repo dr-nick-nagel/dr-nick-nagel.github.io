@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Using LaTeX with Pelican</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="math" />
+    <meta name="tags" content="LaTeX" />
+    <meta name="tags" content="equations" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+<article>
+  <header>
+    <h2>
+      <a href="https://dr-nick-nagel.github.io/blog/latex-pelican.html" rel="bookmark"
+         title="Permalink to Using LaTeX with Pelican">Using LaTeX with Pelican</a></h2>
+ 
+  </header>
+  <p>This is a test for LaTeX rendering.</p>
+<ol>
+<li>
+<p>Same line rendering: $\color{red}{f(x) = x^2}$ . The math should render in-lined.</p>
+</li>
+<li>
+<p>Same line rendering: $f(x) = x^2$ . The math should render in-lined.</p>
+</li>
+<li>
+<p>TEST: if I had $1,000,000.00, I would buy you a house...</p>
+</li>
+<li>
+<p>Block Rendering. Remember the activation function?</p>
+</li>
+</ol>
+<p>$$
+\sigma \left( \sum a_i w_{ij} + b_j \right)
+$$</p>
+  <footer>
+    <p>Published: <time datetime="2024-07-25T00:00:00-04:00">
+      Thu 25 July 2024
+    </time></p>
+    <address>
+      By           <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+    </address>
+    <p>
+        Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
+    </p>
+    <p>
+        Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/math.html">math</a>
+            <a href="https://dr-nick-nagel.github.io/tag/latex.html">LaTeX</a>
+            <a href="https://dr-nick-nagel.github.io/tag/equations.html">equations</a>
+    </p>
+  </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
