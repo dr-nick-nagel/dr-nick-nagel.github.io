@@ -2,7 +2,7 @@
 
 This is the repo for my website, nicknagel.com . 
 
-Now a static site generatred with <a href="http://getpelican.com" target="_blank">Pelican</a>.
+Now a static site generatred with [Pelican](http://getpelican.com).
 
 Hosted via *github pages*.
 
