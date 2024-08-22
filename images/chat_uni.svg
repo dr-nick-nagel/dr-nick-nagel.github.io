@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Body -->
+  <ellipse cx="100" cy="120" rx="60" ry="40" fill="#E5A9D1" stroke="#D79BCE" stroke-width="2"/>
+
+  <!-- Legs -->
+  <rect x="70" y="140" width="10" height="40" fill="#E5A9D1" stroke="#D79BCE" stroke-width="2"/>
+  <rect x="120" y="140" width="10" height="40" fill="#E5A9D1" stroke="#D79BCE" stroke-width="2"/>
+
+  <!-- Head -->
+  <ellipse cx="150" cy="90" rx="30" ry="20" fill="#E5A9D1" stroke="#D79BCE" stroke-width="2"/>
+  
+  <!-- Eye -->
+  <circle cx="155" cy="85" r="5" fill="#000"/>
+
+  <!-- Horn -->
+  <polygon points="150,60 155,20 160,60" fill="#F5E1B0" stroke="#D79BCE" stroke-width="2"/>
+
+  <!-- Mane -->
+  <path d="M120 80 Q110 60 90 60 Q80 80 70 70 Q60 60 50 80" fill="none" stroke="#E5A9D1" stroke-width="5"/>
+
+  <!-- Tail -->
+  <path d="M40 130 Q20 120 30 140 Q40 160 60 140" fill="#E5A9D1" stroke="#D79BCE" stroke-width="2"/>
+</svg>
+
