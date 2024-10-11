@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Streaming over Discord on an Ubuntu System</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="linux" />
+    <meta name="tags" content="ubuntu" />
+    <meta name="tags" content="peer-to-peer" />
+    <meta name="tags" content="streaming" />
+    <meta name="tags" content="audio" />
+    <meta name="tags" content="video" />
+    <meta name="tags" content="screen share" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/discord-streaming.html" rel="bookmark"
+           title="Permalink to Streaming over Discord on an Ubuntu System">Streaming over Discord on an Ubuntu System</a></h2>
+      
+    </header>
+    <h1>Introduction</h1>
+<p>As a linux aficionado I've recently committed to a an Ubuntu system to meet the bulk of my laptop / workstation needs which include -- among many other things -- supporting distributed (i.e., remote) community engagement. I've had a long-standing interest in providing immersive on-line experiences using a wide range of media -- an interest which has often gone hand-in-hand with video gaming. So it should come as no surprise that, in order to satisfy numerous use-cases I decided to explore the possibility of hosting community meetings and events using <em>Discord</em> on my Ubuntu system. </p>
+<p>While it proved <em>very good</em> at meeting many of my needs as a video-voice-chat server, Discord proved difficult in one mission-critical aspect; streaming video content using screen share. The problem is that <em>Discord on Linux cannot stream application audio during screen shares</em>. </p>
+<h2>The Problem</h2>
+<p>A little research showed it wasn't just me. At the time of this writing Discord does not -- and cannot in-and-of-itself -- capture audio when screen sharing on linux. The problem revolves around streaming audio and the architecture surrounding audio capture on linux. </p>
+<h2>Purpose</h2>
+<p>Finding a solution to the problem -- a workaround really -- turned out to require some effort. So the purpose of this post is to share my results with the community and, hopefully, spare some linux/discord enthusiasts out there some of the effort I had to work through by way of trial-and-error. </p>
+<h1>Solution</h1>
+<p>On researching the solution I found most existing workarounds kind of vague and it took a while for me to land on something workable. Proposed solutions ranged from installing a utility called <em>pulsemixer</em>, to attempting to set up a virtual camera using <em>OBS Studio</em> . None of these really worked for me although OBS seems to have promise for other linux broadcast use-cases. What worked best for me in the end was a solution using <em>pavucontrol</em> . </p>
+<p>So, in a nutshell, I'll summarize the workaround, and then dive a bit deeper into the details for those who may be interested. </p>
+<h2>The Recipe</h2>
+<p>First, the short answer...</p>
+<p>In order to stream video over discord what worked best for me was to:</p>
+<ol>
+<li>
+<p>Install <em>pavucontrol</em>.</p>
+</li>
+<li>
+<p>Set up a voice channel on Discord.</p>
+</li>
+<li>
+<p>Use Discord's <em>screen share</em> to select a screen or window to share.</p>
+</li>
+<li>
+<p>Use <em>pavucontrol</em> to capture the audio from the selected screen or application window.</p>
+</li>
+</ol>
+<p><strong>Just be aware, if you fall back on this approach, you won't be heard if you try using your mic while sharing your application A/V.</strong> To get your voice back you'll have to switch back to your voice source in <em>pavucontrol</em> . </p>
+<h2>Understanding your linux Audio System</h2>
+<p>To get this workaround to actually work, you'll want to understand a bit about your linux audio system. For Ubuntu at least, the framework for working with audio streams is <em>PulseAudio</em> . Among other things, PulseAudio enables routing and mixing audio streams for recording and production. </p>
+<p><code>pavucontrol</code> is a lightweight GUI that sits on top of PulseAudio enabling you to control important aspects of audio streaming like source selection and volume controls.</p>
+<p>In order to use <em>pavucontrol</em> with Discord to stream video sound you can use the following procedure. </p>
+<h2>Procedure</h2>
+<h3>One-time Setup</h3>
+<ol>
+<li>Verify that PulseAudio is available on your system (it will usually be installed and operating on linux distros).</li>
+</ol>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>pulseaudio<span class="w"> </span>--version
+</code></pre></div>
+
+<ol>
+<li>PulseAudio should be running as a process which can be verified with:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>pulseaudio
+</code></pre></div>
+
+<ol>
+<li>Install <em>pavucontrol</em></li>
+</ol>
+<div class="highlight"><pre><span></span><code>sudo apt update
+sudo apt install pavucontrol
+</code></pre></div>
+
+<ol>
+<li>And, of course, it's assumed you have Discord installed on your system (the easiest way as of this writing is with snap since it doesn't seem to be registered as a APT repository)...</li>
+</ol>
+<div class="highlight"><pre><span></span><code>sudo snap install discord
+</code></pre></div>
+
+<h3>Routine Use</h3>
+<p>Once you've completed the initial setup, you can use the following procedure to stream audio and video through discord as desired. My use-case that prompted this post concerns streaming video in a browser but I'm guessing it will generalize to other application windows.</p>
+<ol>
+<li>
+<p><strong>Launch Discord</strong>.</p>
+</li>
+<li>
+<p><strong>Launch your browser</strong>. Find whatever video it may be that you want to share.</p>
+</li>
+<li>
+<p><strong>Use the screen-share control in Discord</strong> to select and share the screen/window with your video.</p>
+</li>
+</ol>
+<p>Once you have the screen-share running you'll have an additional audio stream which you should be able to control through <em>pavucontrol</em>. So ...</p>
+<ol>
+<li>
+<p><strong>Launch pavucontrol.</strong></p>
+</li>
+<li>
+<p>Go to the <strong>Recording Tab</strong>. Find the drop down box and change the sound source to: "Monitor of Built-in Audio Analog Stereo". This is the WebRTC stream created by Discord when you start the share. </p>
+</li>
+</ol>
+<div style="text-align: center; width: 100%; ">
+  <img src="/images/discord_streaming/pavu_recording_tab.png" 
+       width="300px"
+       alt="Voice channel settings in discord"/>
+</div>
+
+<p>And that's basically it. That's the workaround to fix the problem of audio streaming using screen share on discord on linux (at least for Ubuntu). </p>
+<h2>Additional Tweaks</h2>
+<p>A few more things worth mentioning. </p>
+<h3>More pavucontrol settings</h3>
+<p>Another problem I had to work out concerned the the perceived quality of my voice streaming over Discord. Friends complained that the audio quality of my voice was poor when speaking through my mic. The problem may have been due to audio settings on my system. Through trial-and-error we found that <strong>lowering the input volume on the <em>Input Devices</em> tab</strong> using pavucontrol significantly improved the quality. I found setting the dB level to about 25% worked well on my system.</p>
+<div style="text-align: center; width: 100%; ">
+  <img src="/images/discord_streaming/pavu_in_devices.png" 
+       width="300px"
+       alt="Voice channel settings in discord"/>
+</div>
+
+<h3>Disable Krisp for Music</h3>
+<p>Another issue we encountered almost immediately revolves around use-cases involving <em>music</em>. On attempting to share music audio with friends we quickly found the workaround became unusable. By and large, songs we tried to stream (e.g., anime theme songs) were not captured. That is, only the segments of the song with vocals would stream out to users over the discord channel. </p>
+<p>Through trial-and-error we identified <a href="https://support.discord.com/hc/en-us/articles/360040843952-Krisp-FAQ#:~:text=We've%20integrated%20Krisp%20to,while%20still%20transmitting%20your%20voice">discord's use of Krisp</a> as the probable culprit. In all fairness to discord, their main use-case is to provide excellent voice streaming -- and Krisp helps with this by applying a machine learning solution to noise suppression. But when trying to stream music, the unhappy side effect for us is that music gets filtered out. Users may want to keep this in mind when attempting to stream music using this workaround. </p>
+<p>To disable Krisp:</p>
+<ol>
+<li>Open the settings view for your discord voice channel...</li>
+</ol>
+<div style="text-align: center; width: 100%; ">
+  <img src="/images/discord_streaming/discord_voice_channel_settings.png" 
+       width="300px"
+       alt="Voice channel settings in discord"/>
+</div>
+
+<ol>
+<li>
+<p>Go to "Video and Voice", and</p>
+</li>
+<li>
+<p>Find the section enabling you to disable the noise suppression ...</p>
+</li>
+</ol>
+<div style="text-align: center; width: 100%; ">
+  <img src="/images/discord_streaming/discord_crisp.png" 
+       width="300px"
+       alt="noise suppression area"/>
+</div>
+
+<h1>Summary</h1>
+<p>So that's just about it. To sum up, this post is intended to help with a workaround to the problems encountered by linux users wanting to stream A/V content using Discord. The problem is that discord does not have an internal solution enabling screen capture and streaming that includes application audio. The workaround provided here shows how to use <em>pavucontrol</em> to redirect the sound source for WebRTC streaming (utilized by Discord) to the desired share application (albeit at the expense of losing the host mic during the share). </p>
+<h1>Discussion</h1>
+<p>So, it's a bit of a disappointment to me, that, as usual, linux adopters are treated as second class citizens when it comes to feature support for gaming systems. By that I mean that video game applications and applications supporting the industry seem to be developed for Windows first. This despite the overwhelmingly vast contributions made by the linux community of users to software engineering and computer science in general. The screen share feature on Discord is reported to support application A/V streams internally on Windows. But on linux, as you see here, not-so-much. So hopefully the workaround I've described here will help mitigate the problem -- at least for some users for some use-cases. In any event, it's prompted me to head down the path of a prototype implementation for peer-to-peer WebRTC applications on linux. Tune back in for future posts on that project.</p>
+<p>One more point before leaving off. The elephant-in-the-room that I haven't mentioned in this post concerns copyright and copyright infringement. As more and more advancements are made facilitating the sharing and distribution of digital content it becomes increasingly easier and more tempting to violate copyright restrictions. A full discussion is beyond the scope of this post, but, for the moment suffice it to say that it is my strong opinion that copyright restriction on all content should be respected. As a content provider, I know as well as anyone that mechanisms must be in place, and respected, that allow content producers to make a living off their hard work. So support your local artists and compensate those whose content you use accordingly!</p>
+<h1>Acknowledgments</h1>
+<p>Special thanks to <a href="https://www.facebook.com/lyraproductionsTN/">Luke Nagel</a> for contributing time and effort to develop the workaround proposed in this post.</p>
+<h1>Resources</h1>
+<ol>
+<li>
+<p><a href="https://support.discord.com/hc/en-us/articles/360040843952-Krisp-FAQ#:~:text=We've%20integrated%20Krisp%20to,while%20still%20transmitting%20your%20voice">Krisp in Discord</a></p>
+</li>
+<li>
+<p><a href="https://freedesktop.org/software/pulseaudio/pavucontrol/">pavucontrol</a></p>
+</li>
+<li>
+<p><a href="https://www.freedesktop.org/wiki/Software/PulseAudio/">PulseAudio</a></p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2024-10-10T00:00:00-04:00">
+        Thu 10 October 2024
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/linux.html">linux</a>
+            <a href="https://dr-nick-nagel.github.io/tag/ubuntu.html">ubuntu</a>
+            <a href="https://dr-nick-nagel.github.io/tag/peer-to-peer.html">peer-to-peer</a>
+            <a href="https://dr-nick-nagel.github.io/tag/streaming.html">streaming</a>
+            <a href="https://dr-nick-nagel.github.io/tag/audio.html">audio</a>
+            <a href="https://dr-nick-nagel.github.io/tag/video.html">video</a>
+            <a href="https://dr-nick-nagel.github.io/tag/screen-share.html">screen share</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

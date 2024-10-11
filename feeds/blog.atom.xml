@@ -1,5 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2024-08-21T00:00:00-04:00</updated><entry><title>What does Looking at Imagery with text-based AI Tell us about Creativity?</title><link href="https://dr-nick-nagel.github.io/blog/creative-ai.html" rel="alternate"></link><published>2024-08-21T00:00:00-04:00</published><updated>2024-08-21T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-08-21:/blog/creative-ai.html</id><summary type="html">&lt;p&gt;Some thoughts as we start delving into general AI ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Backdrop&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2024-10-10T00:00:00-04:00</updated><entry><title>Streaming over Discord on an Ubuntu System</title><link href="https://dr-nick-nagel.github.io/blog/discord-streaming.html" rel="alternate"></link><published>2024-10-10T00:00:00-04:00</published><updated>2024-10-10T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-10-10:/blog/discord-streaming.html</id><summary type="html">&lt;p&gt;How to stream video using discord on ubuntu...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;As a linux aficionado I've recently committed to a an Ubuntu system to meet the bulk of my laptop / workstation needs which include -- among many other things -- supporting distributed (i.e., remote) community engagement. I've had a long-standing interest in providing immersive on-line experiences using a wide range of media -- an interest which has often gone hand-in-hand with video gaming. So it should come as no surprise that, in order to satisfy numerous use-cases I decided to explore the possibility of hosting community meetings and events using &lt;em&gt;Discord&lt;/em&gt; on my Ubuntu system. &lt;/p&gt;
+&lt;p&gt;While it proved &lt;em&gt;very good&lt;/em&gt; at meeting many of my needs as a video-voice-chat server, Discord proved difficult in one mission-critical aspect; streaming video content using screen share. The problem is that &lt;em&gt;Discord on Linux cannot stream application audio during screen shares&lt;/em&gt;. &lt;/p&gt;
+&lt;h2&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;A little research showed it wasn't just me. At the time of this writing Discord does not -- and cannot in-and-of-itself -- capture audio when screen sharing on linux. The problem revolves around streaming audio and the architecture surrounding audio capture on linux. &lt;/p&gt;
+&lt;h2&gt;Purpose&lt;/h2&gt;
+&lt;p&gt;Finding a solution to the problem -- a workaround really -- turned out to require some effort. So the purpose of this post is to share my results with the community and, hopefully, spare some linux/discord enthusiasts out there some of the effort I had to work through by way of trial-and-error. &lt;/p&gt;
+&lt;h1&gt;Solution&lt;/h1&gt;
+&lt;p&gt;On researching the solution I found most existing workarounds kind of vague and it took a while for me to land on something workable. Proposed solutions ranged from installing a utility called &lt;em&gt;pulsemixer&lt;/em&gt;, to attempting to set up a virtual camera using &lt;em&gt;OBS Studio&lt;/em&gt; . None of these really worked for me although OBS seems to have promise for other linux broadcast use-cases. What worked best for me in the end was a solution using &lt;em&gt;pavucontrol&lt;/em&gt; . &lt;/p&gt;
+&lt;p&gt;So, in a nutshell, I'll summarize the workaround, and then dive a bit deeper into the details for those who may be interested. &lt;/p&gt;
+&lt;h2&gt;The Recipe&lt;/h2&gt;
+&lt;p&gt;First, the short answer...&lt;/p&gt;
+&lt;p&gt;In order to stream video over discord what worked best for me was to:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Install &lt;em&gt;pavucontrol&lt;/em&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set up a voice channel on Discord.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use Discord's &lt;em&gt;screen share&lt;/em&gt; to select a screen or window to share.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use &lt;em&gt;pavucontrol&lt;/em&gt; to capture the audio from the selected screen or application window.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Just be aware, if you fall back on this approach, you won't be heard if you try using your mic while sharing your application A/V.&lt;/strong&gt; To get your voice back you'll have to switch back to your voice source in &lt;em&gt;pavucontrol&lt;/em&gt; . &lt;/p&gt;
+&lt;h2&gt;Understanding your linux Audio System&lt;/h2&gt;
+&lt;p&gt;To get this workaround to actually work, you'll want to understand a bit about your linux audio system. For Ubuntu at least, the framework for working with audio streams is &lt;em&gt;PulseAudio&lt;/em&gt; . Among other things, PulseAudio enables routing and mixing audio streams for recording and production. &lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pavucontrol&lt;/code&gt; is a lightweight GUI that sits on top of PulseAudio enabling you to control important aspects of audio streaming like source selection and volume controls.&lt;/p&gt;
+&lt;p&gt;In order to use &lt;em&gt;pavucontrol&lt;/em&gt; with Discord to stream video sound you can use the following procedure. &lt;/p&gt;
+&lt;h2&gt;Procedure&lt;/h2&gt;
+&lt;h3&gt;One-time Setup&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Verify that PulseAudio is available on your system (it will usually be installed and operating on linux distros).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;pulseaudio&lt;span class="w"&gt; &lt;/span&gt;--version
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;PulseAudio should be running as a process which can be verified with:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;ps&lt;span class="w"&gt; &lt;/span&gt;aux&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;grep&lt;span class="w"&gt; &lt;/span&gt;pulseaudio
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Install &lt;em&gt;pavucontrol&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo apt update
+sudo apt install pavucontrol
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;And, of course, it's assumed you have Discord installed on your system (the easiest way as of this writing is with snap since it doesn't seem to be registered as a APT repository)...&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo snap install discord
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Routine Use&lt;/h3&gt;
+&lt;p&gt;Once you've completed the initial setup, you can use the following procedure to stream audio and video through discord as desired. My use-case that prompted this post concerns streaming video in a browser but I'm guessing it will generalize to other application windows.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Launch Discord&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Launch your browser&lt;/strong&gt;. Find whatever video it may be that you want to share.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Use the screen-share control in Discord&lt;/strong&gt; to select and share the screen/window with your video.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Once you have the screen-share running you'll have an additional audio stream which you should be able to control through &lt;em&gt;pavucontrol&lt;/em&gt;. So ...&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Launch pavucontrol.&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Go to the &lt;strong&gt;Recording Tab&lt;/strong&gt;. Find the drop down box and change the sound source to: "Monitor of Built-in Audio Analog Stereo". This is the WebRTC stream created by Discord when you start the share. &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div style="text-align: center; width: 100%; "&gt;
+  &lt;img src="/images/discord_streaming/pavu_recording_tab.png" 
+       width="300px"
+       alt="Voice channel settings in discord"/&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And that's basically it. That's the workaround to fix the problem of audio streaming using screen share on discord on linux (at least for Ubuntu). &lt;/p&gt;
+&lt;h2&gt;Additional Tweaks&lt;/h2&gt;
+&lt;p&gt;A few more things worth mentioning. &lt;/p&gt;
+&lt;h3&gt;More pavucontrol settings&lt;/h3&gt;
+&lt;p&gt;Another problem I had to work out concerned the the perceived quality of my voice streaming over Discord. Friends complained that the audio quality of my voice was poor when speaking through my mic. The problem may have been due to audio settings on my system. Through trial-and-error we found that &lt;strong&gt;lowering the input volume on the &lt;em&gt;Input Devices&lt;/em&gt; tab&lt;/strong&gt; using pavucontrol significantly improved the quality. I found setting the dB level to about 25% worked well on my system.&lt;/p&gt;
+&lt;div style="text-align: center; width: 100%; "&gt;
+  &lt;img src="/images/discord_streaming/pavu_in_devices.png" 
+       width="300px"
+       alt="Voice channel settings in discord"/&gt;
+&lt;/div&gt;
+
+&lt;h3&gt;Disable Krisp for Music&lt;/h3&gt;
+&lt;p&gt;Another issue we encountered almost immediately revolves around use-cases involving &lt;em&gt;music&lt;/em&gt;. On attempting to share music audio with friends we quickly found the workaround became unusable. By and large, songs we tried to stream (e.g., anime theme songs) were not captured. That is, only the segments of the song with vocals would stream out to users over the discord channel. &lt;/p&gt;
+&lt;p&gt;Through trial-and-error we identified &lt;a href="https://support.discord.com/hc/en-us/articles/360040843952-Krisp-FAQ#:~:text=We've%20integrated%20Krisp%20to,while%20still%20transmitting%20your%20voice"&gt;discord's use of Krisp&lt;/a&gt; as the probable culprit. In all fairness to discord, their main use-case is to provide excellent voice streaming -- and Krisp helps with this by applying a machine learning solution to noise suppression. But when trying to stream music, the unhappy side effect for us is that music gets filtered out. Users may want to keep this in mind when attempting to stream music using this workaround. &lt;/p&gt;
+&lt;p&gt;To disable Krisp:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open the settings view for your discord voice channel...&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div style="text-align: center; width: 100%; "&gt;
+  &lt;img src="/images/discord_streaming/discord_voice_channel_settings.png" 
+       width="300px"
+       alt="Voice channel settings in discord"/&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Go to "Video and Voice", and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Find the section enabling you to disable the noise suppression ...&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div style="text-align: center; width: 100%; "&gt;
+  &lt;img src="/images/discord_streaming/discord_crisp.png" 
+       width="300px"
+       alt="noise suppression area"/&gt;
+&lt;/div&gt;
+
+&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;p&gt;So that's just about it. To sum up, this post is intended to help with a workaround to the problems encountered by linux users wanting to stream A/V content using Discord. The problem is that discord does not have an internal solution enabling screen capture and streaming that includes application audio. The workaround provided here shows how to use &lt;em&gt;pavucontrol&lt;/em&gt; to redirect the sound source for WebRTC streaming (utilized by Discord) to the desired share application (albeit at the expense of losing the host mic during the share). &lt;/p&gt;
+&lt;h1&gt;Discussion&lt;/h1&gt;
+&lt;p&gt;So, it's a bit of a disappointment to me, that, as usual, linux adopters are treated as second class citizens when it comes to feature support for gaming systems. By that I mean that video game applications and applications supporting the industry seem to be developed for Windows first. This despite the overwhelmingly vast contributions made by the linux community of users to software engineering and computer science in general. The screen share feature on Discord is reported to support application A/V streams internally on Windows. But on linux, as you see here, not-so-much. So hopefully the workaround I've described here will help mitigate the problem -- at least for some users for some use-cases. In any event, it's prompted me to head down the path of a prototype implementation for peer-to-peer WebRTC applications on linux. Tune back in for future posts on that project.&lt;/p&gt;
+&lt;p&gt;One more point before leaving off. The elephant-in-the-room that I haven't mentioned in this post concerns copyright and copyright infringement. As more and more advancements are made facilitating the sharing and distribution of digital content it becomes increasingly easier and more tempting to violate copyright restrictions. A full discussion is beyond the scope of this post, but, for the moment suffice it to say that it is my strong opinion that copyright restriction on all content should be respected. As a content provider, I know as well as anyone that mechanisms must be in place, and respected, that allow content producers to make a living off their hard work. So support your local artists and compensate those whose content you use accordingly!&lt;/p&gt;
+&lt;h1&gt;Acknowledgments&lt;/h1&gt;
+&lt;p&gt;Special thanks to &lt;a href="https://www.facebook.com/lyraproductionsTN/"&gt;Luke Nagel&lt;/a&gt; for contributing time and effort to develop the workaround proposed in this post.&lt;/p&gt;
+&lt;h1&gt;Resources&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://support.discord.com/hc/en-us/articles/360040843952-Krisp-FAQ#:~:text=We've%20integrated%20Krisp%20to,while%20still%20transmitting%20your%20voice"&gt;Krisp in Discord&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://freedesktop.org/software/pulseaudio/pavucontrol/"&gt;pavucontrol&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.freedesktop.org/wiki/Software/PulseAudio/"&gt;PulseAudio&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Blog"></category><category term="linux"></category><category term="ubuntu"></category><category term="peer-to-peer"></category><category term="streaming"></category><category term="audio"></category><category term="video"></category><category term="screen share"></category></entry><entry><title>What does Looking at Imagery with text-based AI Tell us about Creativity?</title><link href="https://dr-nick-nagel.github.io/blog/creative-ai.html" rel="alternate"></link><published>2024-08-21T00:00:00-04:00</published><updated>2024-08-21T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-08-21:/blog/creative-ai.html</id><summary type="html">&lt;p&gt;Some thoughts as we start delving into general AI ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Backdrop&lt;/h1&gt;
 &lt;p&gt;So I had an interesting morning which involved working with AI and I'm kind of excited about it, so, figured it was "blog-worthy". First, a bit of background. I've had long-standing interests in many things, two of which include &lt;em&gt;scalable vector graphics&lt;/em&gt; (SVG) for illustration and, of course, &lt;em&gt;artificial intelligence&lt;/em&gt;. Lately, I've been working on my long neglected personal website which has been sorely in need of an update for many years, and using the hot new LLM's (Large Language Models) to flesh out some technical details. &lt;/p&gt;
 &lt;p&gt;The fascinating thing about LLM's is that the architectural principle on which they're built is exquisitely simple. Essentially it boils down to a probabilistic model that predicts possible continuations given a prompt-generated discourse context. Such systems appear to be exhibiting intelligent linguistic behavior based on nothing more than an "educated guess" as to how to continue the next sentence fragment of a discourse. The key to understanding how these systems work is that the output is not deterministic -- it's not generated by explicit rules expressed in program code. Instead, it's a stochastic process enabling the system to &lt;em&gt;learn&lt;/em&gt;. &lt;/p&gt;
 &lt;p&gt;Let's pause for a moment and consider just what this implies. I've had a long-standing interest in the nature of consciousness going back to my adolescence. In college I made it a formal study. But after reading Plato, Aristotle, Descartes and all the rest, and Dennett's &lt;em&gt;Consciousnesses Explained&lt;/em&gt;, I was left with the vague dissatisfaction that, really, very little in these works actually explain consciousness at all. It wasn't until I got to grad school and started working with the then nascent mathematics of neural networks that I really started to understand the implications of the building blocks of consciousnesses. &lt;/p&gt;

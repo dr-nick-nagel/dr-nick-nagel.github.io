@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - What Exactly is a *Convolution* Anyway?</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="math" />
+    <meta name="tags" content="convolution" />
+    <meta name="tags" content="operator" />
+    <meta name="tags" content="convolutional neural network" />
+    <meta name="tags" content="neural networks" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/drafts/convolution-operator.html" rel="bookmark"
+           title="Permalink to What Exactly is a *Convolution* Anyway?">What Exactly is a *Convolution* Anyway?</a></h2>
+      
+    </header>
+    <h1>Introduction</h1>
+<p>I have a confession to make. I've never been very good at "black box programming". The reason for this is my insatiable curiosity. In learning to code I've rarely been satisfied with lessons and instructions that hand me some code and say here, since you're trying to do <em>X</em> use this. Not only do I need to know the solution but I need to understand why and how the solution works. And this mindset has saved me a lot of trouble many times. Although complete understanding of every line of code you use absolutely requires more time and effort up front, it saves much more time and effort downstream when you're trying to debug and troubleshoot issues. Many times I've seen naive programmers, when faced with a bug or issue, start arbitrarily changing lines of code without complete understanding hoping their changes will fix the issue. As often as not such an approach will add more complexity and potential for error to the solution even if it may initially seem to address the problem. </p>
+<p>So I continue to maintain, when something you're trying to code doesn't behave as you expect, it pays to have a thorough and complete understanding of every line of code in your system. That's why, when I re-engaged neural network application development after many years of working on other things I wanted to revisit all the basics -- including the concept of <em>convolution</em>. </p>
+<p>Convolution lies at the heart of <em>much</em> of what we see today in applied artificial intelligence. But what exactly is the <em>convolution</em> in <em>convolutional neural networks</em> and how does it work. For me, the best way to understand concepts -- especially mathematical concepts -- is to roll up my sleeves, get my hands dirty and interactively achieve understanding. I used to tell my students that in order to achieve  deepest understanding you have to connect your <em>input</em> neurons to your <em>output</em> neurons. For me, especially when it comes to math, this means I have to do the exercises. I have to work with the formulas and equations rather than just read and memorize them. So this post is a result of such an exercise toward understanding. Yes, of course the convolution operation is already written into your machine learning libraries and frameworks. So, no, you don't have to worry about the math if you're really good at black-box programming. But if, like me, you crave a deep understanding of exactly what you're doing with your code, then it behooves you to do what it takes to deepen your understanding.</p>
+<h1>What is a Convolution?</h1>
+<p>Technically speaking, a convolution is a mathematical operation that can be applied to functions. The convolution operation is fundamental in many fields including signal processing, probability theory, and, by extension, machine learning. </p>
+<p>Mathematically, the operation can be defined as the <em>convolution integral</em>; the product of two functions [denoted (f * g)(t)] where one function is reversed and shifted[1]. </p>
+<p>$$
+(f \ast g)( t ) := \int_{-∞}^{\infty} f(x) g( t-x ) dx
+$$</p>
+<p>Where:</p>
+<ol>
+<li>
+<p><em>f</em> and <em>g</em> are the two functions undergoing convolution,</p>
+</li>
+<li>
+<p><em>t</em> is the independent variable of the convolution,</p>
+</li>
+<li>
+<p><em>x</em> is the integration variable, and</p>
+</li>
+<li>
+<p><em>g(t-x)</em> is the function, <em>g</em>, reversed and shifted by t units. </p>
+</li>
+</ol>
+<h1>Understanding the Operation</h1>
+<p>Intuitively I find it useful to conceptualize convolution as a "sliding window". One function is reversed and shifted across the other with corresponding values multiplied and -- for discrete cases -- summed to generate the convolution at a given point. </p>
+<p>Consider the following equation which expresses convolution as a discrete function:</p>
+<p>$$
+(a \ast b)[n] = \sum_{k=0}^{N-1} a[k] \cdot b[n-k]
+$$</p>
+<p>For the discrete operation (which is typically what's applied in machine learning) we can achieve deeper understanding by working through through a simple example. Suppose we have two lists:</p>
+<ol>
+<li>
+<p>[1, 2, 3], and</p>
+</li>
+<li>
+<p>[2, 3, 4]</p>
+</li>
+</ol>
+<p>Essentially, as defined above, convolving the lists simply means applying the operation to generate a new list given the two input lists. In other words we flip one operand and slide, or, shift it along the second to generate the output...</p>
+<div  >
+    <div style="background-color: #888; color: #ffe; padding:0.5em;" >
+
+<div class="highlight"><pre><span></span><code>    1 2 3
+4 3 2           1*2                2
+</code></pre></div>
+
+
+    </div>
+    <div style="background-color: #555; color: #ffe; padding:0.5em;" >
+
+<div class="highlight"><pre><span></span><code>    1 2 3
+  4 3 2         1*3 + 2*2          7
+</code></pre></div>
+
+
+    </div>
+    <div style="background-color: #888; color: #ffe; padding:0.5em;" >
+
+<div class="highlight"><pre><span></span><code>    1 2 3
+    4 3 2       1*4 + 2*3 + 3*2    16
+</code></pre></div>
+
+
+    </div>
+    <div style="background-color: #555; color: #ffe; padding:0.5em;" >
+
+<div class="highlight"><pre><span></span><code>    1 2 3
+      4 3 2     2*4 + 3*3          17
+</code></pre></div>
+
+
+    </div>
+    <div style="background-color: #888; color: #ffe; padding:0.5em;" >
+
+<div class="highlight"><pre><span></span><code>    1 2 3
+        4 3 2   3*4                12
+</code></pre></div>
+
+
+    </div>
+</div>
+
+<p>So the result of the convolution for this simple example is [ 2, 7, 16, 17, 12 ]</p>
+<p>To gain further insight into the operation (and practice with algorithms) you might consider implementing the algorithm in your favorite programming language. I've included my own naive python implementation as an appendix to this post. For further study you might even consider looking at the python numpy implementation, but you'll find that bit more complicated.</p>
+<h1>Applications</h1>
+<p>There are innumerable applications that rely on convolution. It is widely used in signal processing, probability theory, and image processing -- just to name a few broad fields -- and, of course, machine learning. </p>
+<p>In machine learning, for purposes of image processing, the inputs to convolution (i.e., the source matrix and <em>kernel</em>) are 2D matrices. Again, toward deeper understanding of the mathematics, it's worth working through a few examples by hand. </p>
+<h2>Example</h2>
+<p>Let's consider the following matrix and associated kernel ( also referred to as <em>filter</em> ). </p>
+<table>
+  <tr>
+    <td style="padding: 10px;"> 
+      <font color='#F00'>
+$$
+\begin{bmatrix}
+1 & 2 & 0 & 3 \\
+4 & 1 & 0 & 2 \\
+3 & 2 & 1 & 0 \\
+0 & 1 & 2 & 4
+\end{bmatrix}
+$$
+      </font>
+    </td>
+    <td style="padding: 10px;">
+      <font color='#0AF'>
+$$
+\begin{bmatrix}
+0 & 1 & 2 \\
+2 & 2 & 0 \\
+1 & 0 & 1
+\end{bmatrix}
+$$ 
+      </font>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding-left: 18px;">
+Input Matrix: $M$
+    </td>
+    <td style="padding-left: 18px;">
+Kernel: $K$
+    </td>
+  </tr>
+</table>
+
+<p>As we did for the simple one dimensional example above, we can obtain the convolution of the matrix and its kernel by sliding the kernel -- this time over the two dimensions. To keep things simple for this example, I'll consider just the positions where there is complete overlap between the kernel and its input (i.e., no padding). This case is technically reffered to as a <em>valid convolution</em>. A valid convolution will yield a smaller matrix (fewer rows and columns) than the input. If we wanted an output matrix with the same dimensions (shape) as the input we'd have to "pad" the edges.</p>
+<p>So, given $M$ and $K$ as defined above we want a valid convolution, $O$, of the two: $ O = M \ast K $ . What would that look like? Below I've illustrated the convolution steps highlighting the elements in $M$ contributing to the output at each step. The result of the convolution will be a 2 X 2 matrix. </p>
+<hr>
+<table>
+
+  <tr>
+    <td style="text-align:center">STEP 1</td>
+    <td style="text-align:center">STEP 2</td>
+    <td style="text-align:center">STEP 3</td>
+    <td style="text-align:center">STEP 4</td>
+  </tr>
+
+  <tr>
+    <td style="padding: 10px;"> 
+      <font color='#F00'>
+$$
+\begin{bmatrix}
+\color{#08F} 1 & \color{#08F} 2 & \color{#08F} 0 & 3 \\
+\color{#08F} 4 & \color{#08F} 1 & \color{#08F} 0 & 2 \\
+\color{#08F} 3 & \color{#08F} 2 & \color{#08F} 1 & 0 \\
+0 & 1 & 2 & 4
+\end{bmatrix}
+$$
+      </font>
+    </td>
+    <td style="padding: 10px;">
+      <font color='#F00'>
+$$
+\begin{bmatrix}
+1 & \color{#08F} 2 & \color{#08F} 0 & \color{#08F} 3 \\
+4 & \color{#08F} 1 & \color{#08F} 0 & \color{#08F} 2 \\
+3 & \color{#08F} 2 & \color{#08F} 1 & \color{#08F} 0 \\
+0 & 1 & 2 & 4
+\end{bmatrix}
+$$
+      </font>
+    </td>
+    <td style="padding: 10px;">
+      <font color='#F00'>
+$$
+\begin{bmatrix}
+1 & 2 & 0 & 3 \\
+\color{#08F} 4 & \color{#08F} 1 & \color{#08F} 0 & 2 \\
+\color{#08F} 3 & \color{#08F} 2 & \color{#08F} 1 & 0 \\
+\color{#08F} 0 & \color{#08F} 1 & \color{#08F} 2 & 4
+\end{bmatrix}
+$$
+      </font>
+    </td>
+    <td style="padding: 10px;">
+      <font color='#F00'>
+$$
+\begin{bmatrix}
+1 & 2 & 0 & 3 \\
+4 & \color{#08F} 1 & \color{#08F} 0 & \color{#08F} 2 \\
+3 & \color{#08F} 2 & \color{#08F} 1 & \color{#08F} 0 \\
+0 & \color{#08F} 1 & \color{#08F} 2 & \color{#08F} 4
+\end{bmatrix}
+$$
+      </font>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="text-align:center">$\odot$</td>
+    <td style="text-align:center">$\odot$</td>
+    <td style="text-align:center">$\odot$</td>
+    <td style="text-align:center">$\odot$</td>
+  </tr>
+
+  <tr>
+    <td>
+      <font color='#0AF'>
+$$
+\begin{bmatrix}
+1 & 0 & 1 \\
+0 & 2 & 2\\
+2 & 1 & 0
+\end{bmatrix}
+$$ 
+      </font>
+    </td>
+    <td>
+      <font color='#0AF'>
+$$
+\begin{bmatrix}
+1 & 0 & 1 \\
+0 & 2 & 2\\
+2 & 1 & 0
+\end{bmatrix}
+$$ 
+      </font>
+    </td>
+    <td>
+      <font color='#0AF'>
+$$
+\begin{bmatrix}
+1 & 0 & 1 \\
+0 & 2 & 2\\
+2 & 1 & 0
+\end{bmatrix}
+$$ 
+      </font>
+    </td>
+    <td>
+      <font color='#0AF'>
+$$
+\begin{bmatrix}
+1 & 0 & 1 \\
+0 & 2 & 2\\
+2 & 1 & 0
+\end{bmatrix}
+$$ 
+      </font>
+    </td>
+  </tr>
+</table>
+
+<hr>
+<p><strong>Figure:</strong> Illustrates the convolution of the matrix, $M$, with the kernel, $K$. At each step, the elements of the kernel are multiplied against the elements of the input matrix highlighted in blue. </p>
+<p>In general, the equation for a 2D convolution can be expressed as follows:</p>
+<p>$$
+O(i, j) = \sum_{m=0}^{h-1} \sum_{n=0}^{w-1} I(i+m, j+n) \cdot K(h-1-m, w-1-n)
+$$</p>
+<p>Where:</p>
+<ul>
+<li>$I(i+m, j+n)$ is the element of the input matrix at position $(i+m, j+n)$</li>
+<li>$K(h-1-m, w-1-n)$ is the corresponding element of the <em>flipped</em> kernel, and </li>
+<li>O(i, j) is the element of the output matrix at the position $(i, j)$.</li>
+</ul>
+<p>All this means is simply that the output matrix $O$ is obtained by flipping the kernel and sliding it over the input, performing element-wise multiplication at each step along the way. The convolution at each position $(i,j)$ of the output matrix is simply the sum of the element-wise products at each step.</p>
+<p>So for this example ...</p>
+<p><strong>Step 1.</strong> Flip the kernel by 180 degrees:</p>
+<table><tr><td>
+$$
+K_{180} =
+\begin{bmatrix}
+1 & 0 & 1 \\
+0 & 2 & 2\\
+2 & 1 & 0
+\end{bmatrix}
+$$
+</td></tr></table>
+
+<p><strong>Step 2.</strong>  Compute the matrix element value for each step in the convolution:</p>
+<ul>
+<li>
+<p>$O_{0,0} = (1\times1)+(0\times2)+(1\times0)+(0\times4)+(2\times1)+(2\times0)+(2\times3)+(1\times2)+(0\times1) = 11$</p>
+</li>
+<li>
+<p>$O_{0,1} = (1\times2)+(0\times0)+(1\times3)+(0\times1)+(2\times0)+(2\times2)+(2\times2)+(1\times1)+(0\times0) = 14$</p>
+</li>
+<li>
+<p>$O_{1,0} = (1\times4)+(0\times1)+(1\times0)+(0\times3)+(2\times2)+(2\times1)+(2\times0)+(1\times1)+(0\times2) = 11$</p>
+</li>
+<li>
+<p>$O_{1,1} = (1\times1)+(0\times0)+(1\times2)+(0\times2)+(2\times1)+(2\times0)+(2\times1)+(1\times2)+(0\times4) = 9$</p>
+</li>
+</ul>
+<p>And so therefore the result of the convolution is the output matrix:</p>
+<table><tr><td>
+$$
+O =
+\begin{bmatrix}
+11 & 14 \\
+11 &  9 
+\end{bmatrix}
+$$
+</td></tr></table>
+
+<p>And just to be sure, we can check the answer we obtained using python ...</p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">convolve2d</span>
+<span class="nb">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">],</span>
+<span class="w">    </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
+<span class="w">    </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span>
+<span class="w">    </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">]</span>
+<span class="p">]</span>
+
+<span class="n">kernel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span>
+<span class="w">    </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span>
+<span class="w">    </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">convolve2d</span><span class="p">(</span><span class="w"> </span><span class="nb">input</span><span class="p">,</span><span class="w"> </span><span class="n">kernel</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;valid&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="p">)</span>
+</code></pre></div>
+
+
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="k">[[11 14]</span>
+<span class="w"> </span><span class="k">[11  9]]</span>
+</code></pre></div>
+
+<p>Notice how we set the mode to valid. scipy uses padding by default for <code>convolve2d</code>.</p>
+<p><font color='red'>
+TODO: RESUME HERE</p>
+<p>https://chatgpt.com/c/67016968-201c-8010-9d06-0e078e777603</p>
+<p>DISCUSS WRT CNN's ...</p>
+<p>TRY TO WORK IN CONCEPTS OF 
+Filter / kernal
+2D matrices 
+CONVOLUTIONAL LAYERS IN NEURAL NETWORK ARCHITECTURE...
+</font></p>
+<h1>DISCUSSION</h1>
+<h1>Appendix 1: My Naive Pass at Convolution -- An Exercise in Algorithm Implementation</h1>
+<p>This is just a naive python implementation -- an exercise solely intended to get those synapses firing. But, again, my philosophy is that in the same way doing push-ups enables you to exercise your muscles implementing algorithms enables you to exercise your brain. </p>
+<div style="background-color: #555; color: #ffe; padding:0.5em;" >
+
+<div class="highlight"><pre><span></span><code><span class="n">def</span><span class="w"> </span><span class="n">nn_convolve</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="err">:</span>
+<span class="w">  </span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  My naive implementation of convolution ...</span>
+<span class="s1">  &#39;&#39;&#39;</span>
+<span class="w">  </span><span class="n">b_flipped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="n">flip</span><span class="p">(</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">)</span>
+<span class="w">  </span><span class="n">convolution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">[]</span>
+<span class="w">  </span><span class="k">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">  </span><span class="n">stop</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="err">:</span>
+<span class="w">    </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">j_range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="k">start</span><span class="p">,</span><span class="w"> </span><span class="n">stop</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="ow">in</span><span class="w">  </span><span class="n">j_range</span><span class="w">  </span><span class="err">:</span>
+<span class="w">      </span><span class="n">k</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n"> i - (len(b)-1) + j </span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b_flipped</span><span class="o">[</span><span class="n">j</span><span class="o">]</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">start</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">:</span>
+<span class="w">      </span><span class="k">start</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="err">:</span>
+<span class="w">      </span><span class="n">stop</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">convolution</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="k">array</span><span class="p">(</span><span class="w"> </span><span class="n">convolution</span><span class="w"> </span><span class="p">)</span>
+</code></pre></div>
+
+
+</div>
+
+<p>And some tests</p>
+<div style="background-color: #555; color: #ffe; padding:0.5em;" >
+
+<div class="highlight"><pre><span></span><code>a = np.array( [1, 2, 3] )
+b = np.array( [2, 3, 4] )
+print( nn_convolve ( a, b ) )
+a3 = np.array( [1, 2, 3, 4, 1, 2, 3, 4] )
+b2 = np.array( [0.1, 0.5] )
+print( nn_convolve ( a3, b2 ) )
+print( np.convolve ( a3, b2 ) )
+</code></pre></div>
+
+
+</div>
+
+<p>The key highlights regarding the solution are that it (1) flips the kernel and then computes the sum of element-wise multiplications as you slide the kernel across the signal (again, the essence of convolution).</p>
+<h1>Appendix 2: Exploring the numpy Implementation</h1>
+<p>For the truly intrepid, it may well be worth studying the python numpy implementation of the <a href="https://numpy.org/doc/2.0/reference/generated/numpy.convolve.html">convolve function</a>. The implementation is quite a bit more complex than our naive version, because (1) it is optimized for large arrays by using FFT to calculate the convolution, and (2) it is implemented in C for performance. At the time of this writing I determined that the implementation uses a python wrapper (<a href="https://github.com/numpy/numpy/blob/v2.0.0/numpy/_core/numeric.py#L782-L878">numeric.py</a>) and calls low-level C++ functions in the <a href="https://github.com/numpy/numpy/blob/v2.0.0/numpy/_core/src/multiarray/multiarraymodule.c">multiarray module</a> as illustrated in the following diagram.</p>
+<p><img src="/diagrams/numpy_convolve.drawio.svg" /></p>
+<p><font size="smaller"><strong>Figure:</strong> High level architecture of the numpy convolution implementation. Essentially, the 'convolve' function defined in <em>numeric.py</em> calls a low-level C implementation defined in <em>multiarraymodule.c</em>. Note: if you want to click directly into the source code try opening the diagram in a new tab. You should then be able to click the links...</font></p>
+<p>The heart of the algorithm's implementation lies in <code>_pyarray_correlate</code> since convolution is mathematically equivalent to cross-correlation (except for the reversal of the filter/kernel). Additional functionality (e.g., determining whether FFT optimization is warrented, flipping the kernel, checking for error conditions on function arguments) are added for <em>convolution</em>.</p>
+<h1>Resources</h1>
+<ol>
+<li>
+<p>My <a href="https://colab.research.google.com/drive/1oNRKatJ52ZvIRTdenCmny_oOWvF0hadw?usp=sharing">colab notebook</a> on this topic </p>
+</li>
+<li>
+<p><a href="https://colab.research.google.com/drive/1EFENFcoFKQVCALZ-RNqrxNUlL1DjFxUJ?usp=sharing">Code for checking example</a></p>
+</li>
+<li>
+<p><a href="https://numpy.org/doc/2.0/reference/generated/numpy.convolve.html">numpy.convolve</a> </p>
+</li>
+</ol>
+<p>And if you haven't watched it check out the gorgeous vizzez on Grant Sanderson's <a href="https://www.youtube.com/watch?v=KuXjwB4LzSA&amp;list=WL&amp;t=392s">3Blue1Brown</a></p>
+    <footer>
+      <p>Published: <time datetime="2024-09-30T00:00:00-04:00">
+        Mon 30 September 2024
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/math.html">math</a>
+            <a href="https://dr-nick-nagel.github.io/tag/convolution.html">convolution</a>
+            <a href="https://dr-nick-nagel.github.io/tag/operator.html">operator</a>
+            <a href="https://dr-nick-nagel.github.io/tag/convolutional-neural-network.html">convolutional neural network</a>
+            <a href="https://dr-nick-nagel.github.io/tag/neural-networks.html">neural networks</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
