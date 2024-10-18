@@ -1,0 +1,40 @@
+
+
+$$
+\begin{bmatrix}
+\color{#08F} 1 & \color{#08F} 2 & \color{#08F} 0 & 3 \\
+\color{#08F} 4 & \color{#08F} 1 & \color{#08F} 0 & 2 \\
+\color{#08F} 3 & \color{#08F} 2 & \color{#08F} 1 & 0 \\
+0 & 1 & 2 & 4
+\end{bmatrix}
+$$
+
+$$
+\begin{bmatrix}
+1 & \color{#08F} 2 & \color{#08F} 0 & \color{#08F} 3 \\
+4 & \color{#08F} 1 & \color{#08F} 0 & \color{#08F} 2 \\
+3 & \color{#08F} 2 & \color{#08F} 1 & \color{#08F} 0 \\
+0 & 1 & 2 & 4
+\end{bmatrix}
+$$
+
+$$
+\begin{bmatrix}
+1 & 2 & 0 & 3 \\
+color{#08F} 4 & \color{#08F} 1 & \color{#08F} 0 & 2 \\
+color{#08F} 3 & \color{#08F} 2 & \color{#08F} 1 & 0 \\
+color{#08F} 0 & \color{#08F} 1 & \color{#08F} 2 & 4
+\end{bmatrix}
+$$
+
+$$
+\begin{bmatrix}
+1 & 2 & 0 & 3 \\
+4 & \color{#08F} 1 & \color{#08F} 0 & \color{#08F} 2 \\
+3 & \color{#08F} 2 & \color{#08F} 1 & \color{#08F} 0 \\
+0 & \color{#08F} 1 & \color{#08F} 2 & \color{#08F} 4
+\end{bmatrix}
+$$
+
+
+
