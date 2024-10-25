@@ -1,5 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2024-10-10T00:00:00-04:00</updated><entry><title>Streaming over Discord on an Ubuntu System</title><link href="https://dr-nick-nagel.github.io/blog/discord-streaming.html" rel="alternate"></link><published>2024-10-10T00:00:00-04:00</published><updated>2024-10-10T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-10-10:/blog/discord-streaming.html</id><summary type="html">&lt;p&gt;How to stream video using discord on ubuntu...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2024-10-23T00:00:00-04:00</updated><entry><title>Graphical User Interfaces with Asynchronous Code in Python</title><link href="https://dr-nick-nagel.github.io/blog/gui-asynchronous.html" rel="alternate"></link><published>2024-10-23T00:00:00-04:00</published><updated>2024-10-23T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-10-23:/blog/gui-asynchronous.html</id><summary type="html">&lt;p&gt;A pattern for rapid prototyping asynchronous routines in python with tkinter...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;As a machine-learning scientist and engineer I often have a need for rapid prototyping. And often over the course of hammering out a concept proof the need for a graphical user interface arises. Now, I've had extensive experience in UI development in many languages including java, HTML5, and electron application development. But -- though similar in many ways to other systems -- UI development in python poses some unique issues. &lt;/p&gt;
+&lt;h1&gt;The Problem&lt;/h1&gt;
+&lt;p&gt;One of the issues I encountered recently stems from working with python asynchronous IO (&lt;code&gt;asyncio&lt;/code&gt;). Asynchronous programming is a means of developing routines that can execute independently without blocking the main thread of execution. It is provided as a more basic alternative to spinning off routines in multiple threads. One of the most common tasks suitable for asynchronous programming is IO. Python enables handling IO operations -- and other tasks -- asynchronously through various modules using the &lt;code&gt;await&lt;/code&gt; keyword. The problem I encountered was when I needed to spin up a quick prototype using &lt;code&gt;asyncio&lt;/code&gt;. The issue revolves around the &lt;em&gt;event-driven architecture&lt;/em&gt;. Event-driven architectures are frameworks provided for, among other things, asynchronous programming -- but also for development with graphical user interfaces.&lt;/p&gt;
+&lt;p&gt;When I need to spin up a GUI real quick I usually rely on the lightest weight option for whatever framework I'm working in. Sure, if I'm doing professional development I'll set up a fully functional interface supporting all the features demanded of modern real-world applications using a heavy-weight framework like &lt;em&gt;electron&lt;/em&gt; or &lt;em&gt;QT&lt;/em&gt;. But for a quick demo or rapid prototype I prefer something light-weight and fast. And for python that's &lt;code&gt;tkinter&lt;/code&gt;. The problem with using &lt;code&gt;tkinter&lt;/code&gt; (or any other python GUI-development- framework for that matter) alongside &lt;code&gt;asyncio&lt;/code&gt; is that both use independent &lt;em&gt;event loops&lt;/em&gt;. Surveying the 'net for solutions to my issues I noticed some confusion around the concept, so I figure it's worth delving into here. &lt;/p&gt;
+&lt;h2&gt;Event Loops&lt;/h2&gt;
+&lt;p&gt;Whenever you develop a GUI for a windowing system you typically kick off an event loop, which essentially &lt;em&gt;blocks the main thread&lt;/em&gt; and sits there waiting for various user-events to trigger callbacks. The other major responsibility of the GUI system is (re)painting itself periodically.&lt;/p&gt;
+&lt;div style='text-align:center'&gt;
+&lt;img alt='INSERT EVENT LOOP DIAGRAM'
+     src='/diagrams/event_loop_tk.drawio.svg' 
+     width='250px'/&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Figure 1&lt;/strong&gt;: The &lt;em&gt;TkInter&lt;/em&gt; event loop.&lt;/p&gt;
+&lt;p&gt;Figure 1 illustrates this concept for &lt;em&gt;tkinter&lt;/em&gt;. Running &lt;code&gt;root.mainloop()&lt;/code&gt; in tkinter kicks off an event loop, which then executes continuously -- waiting for user events which are accumulated on an event queue. On each loop cycle, &lt;code&gt;tkinter&lt;/code&gt; pops all the events and updates the GUI (repainting all the areas that may have changed over the course of the cycle). &lt;/p&gt;
+&lt;p&gt;That's all well-and-good for many use-cases but poses a problem for asynchronous programming in python. The problem is that asynchronous modules (e.g., &lt;code&gt;asyncio&lt;/code&gt;) require an independent event-loop of their own. Simply declaring a routine with the &lt;code&gt;async&lt;/code&gt; keyword and trying to bind it to a &lt;code&gt;tkinter&lt;/code&gt; widget isn't enough -- python just won't let you get away with that.&lt;/p&gt;
+&lt;h1&gt;Solutions&lt;/h1&gt;
+&lt;p&gt;So the purpose of this post is, first and foremost, to provide some solutions to the problem. Again, I saw a some confusion when surveying the 'net and reading the docs so I figure it's worth documenting a couple of patterns here.&lt;/p&gt;
+&lt;h2&gt;The Simplest Approach&lt;/h2&gt;
+&lt;p&gt;The simplest approach to the problem of using your async code in a tkinter application is to &lt;em&gt;run the async loop within the tkinter loop&lt;/em&gt;. Python's &lt;a href="https://docs.python.org/3/library/asyncio.html"&gt;&lt;code&gt;asyncio&lt;/code&gt; API&lt;/a&gt; allows you to run an &lt;code&gt;asyncio&lt;/code&gt; event loop within an existing loop as shown in the following bare-bones example.&lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;asyncio&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;tkinter&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;tk&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;aiortc&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;async&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;do_async&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;START ASYNC TASK&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;await&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;END ASYNC TASK&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;do_async_task&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;task&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# LAUNCH THE ASYNC TASK...&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;async_loop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run_until_complete&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;task&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;handle_click&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;#39;Tis but a scratch!&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Tk&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Test Harness&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;geometry&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;400x300&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;button_tk&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Button&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Click Me&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;handle_click&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;button_tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pack&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pady&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;button_async&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Button&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Do Async&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;do_async_task&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;do_async&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;button_async&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pack&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pady&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;#  asyncio.run( do_async_task )&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;async_loop&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;new_event_loop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mainloop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+
+&lt;p&gt;In this example I've defined two tasks; (1) &lt;code&gt;async def do_async ()&lt;/code&gt;, which simulates an asynchronous routine, and (2) &lt;code&gt;def handle_click ()&lt;/code&gt; which simulates a standard task that can execute within the tkinter loop. Notice that &lt;code&gt;do_async&lt;/code&gt; is marked with the &lt;code&gt;async&lt;/code&gt; keyword. This requires that when it is called it must be called with the keyword &lt;code&gt;await&lt;/code&gt;. The problem is that tkinter doesn't "know" how to do that and so it's not so easy to bind the function to a tkinter widget.&lt;/p&gt;
+&lt;p&gt;The simple solution here overcomes that problem by kicking off the async task in a new async loop. This done in 3 steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;First, I obtain a new, module-scoped &lt;code&gt;asyncio&lt;/code&gt; event loop: &lt;code&gt;async_loop = asyncio.new_event_loop()&lt;/code&gt; &lt;sup style="color:red"&gt;*&lt;/sup&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Next, I define a function to launch any async task using the new loop -- effectively "joining" the &lt;em&gt;async&lt;/em&gt; loop to the &lt;em&gt;tkinter&lt;/em&gt; loop: 
+    &lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+        &lt;pre&gt;
+    def do_async_task ( task ) : 
+        # LAUNCH THE ASYNC TASK...
+        &lt;font color='#F55'&gt;async_loop.run_until_complete( task() )&lt;/font&gt;
+        &lt;/pre&gt;
+    &lt;/div&gt;
+The function delegates the asynchronous execution of the task to any named async function using &lt;code&gt;run_until_complete&lt;/code&gt;. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Finally, since &lt;code&gt;do_async_task&lt;/code&gt; is not, itself, marked async it can be used in a &lt;em&gt;lambda&lt;/em&gt; to bind asynchronous functions to tkinter widgets. 
+    &lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+        &lt;pre&gt;
+        button_async = tk.Button(
+            root,
+            text="Do Async",
+            &lt;font color='#F55'&gt;command=lambda : do_async_task( do_async )&lt;/font&gt;
+        )
+        &lt;/pre&gt;
+    &lt;/div&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;sup  style="color:red"&gt;*&lt;/sup&gt; Note that I've used &lt;code&gt;new_event_loop&lt;/code&gt; here as opposed to &lt;code&gt;get_event_loop&lt;/code&gt; which was deprecated in Python 3.7. &lt;/p&gt;
+&lt;p&gt;The pattern embodied in this solution enables you to essentially launch any given async task from a tkinter GUI. However, by joining the async loop to the tkinter loop we defeat the purpose of the async module in the first place. The async loop will block the tkinter loop and the tkinter GUI will cease to be responsive until the asynchronous operation completes. That behavior may be OK for some use-cases but in order to take full-advantage of asynchronous functionality with tkinter you'll have to use threads. &lt;/p&gt;
+&lt;h2&gt;Threaded Solution&lt;/h2&gt;
+&lt;p&gt;To that end, I've extended the pattern developed so far to spin off the asynchronous tasks in new threads. In the next example, I keep the tkinter loop in the main thread of execution, and spin off a new thread to execute the async loop. Using this pattern, &lt;code&gt;asyncio&lt;/code&gt; routines can be controlled from tkinter GUIs using the python &lt;a href="https://docs.python.org/3/library/threading.html"&gt;threading API&lt;/a&gt; and/or methods from the asyncio API such as &lt;code&gt;call_soon_threadsafe&lt;/code&gt;. &lt;/p&gt;
+&lt;div style='text-align:center'&gt;
+&lt;img alt='INSERT EVENT LOOP DIAGRAM'
+     src='/diagrams/event_loops_threads.drawio.svg' 
+     width='250px'/&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Figure 2&lt;/strong&gt;: The python main thread running the &lt;code&gt;tkinter&lt;/code&gt; loop and a child thread running the async-loop.&lt;/p&gt;
+&lt;p&gt;The following barebones example embodies the extended pattern.&lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;asyncio&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;tkinter&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;tk&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;aiortc&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;threading&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Thread&lt;/span&gt;
+
+&lt;span class="k"&gt;async&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;do_async&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;START ASYNC TASK&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;await&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;END ASYNC TASK&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;do_async_task&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;task&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# LAUNCH TASK IN NEW THREAD...&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;task_thread&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Thread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;async_loop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run_until_complete&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;task&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;task_thread&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;handle_click&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;#39;Tis but a scratch!&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Tk&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Test Harness&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;geometry&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;400x300&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;button_tk&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Button&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Click Me&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;handle_click&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;button_tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pack&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pady&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;button_async&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Button&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Do Async&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;do_async_task&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;do_async&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;button_async&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pack&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pady&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;#  asyncio.run( do_async_task )&lt;/span&gt;
+&lt;span class="n"&gt;async_loop&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;new_event_loop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mainloop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;If you copy and execute this this example in your favorite python environment you should find that the GUI remains responsive even while the asynchronous operation is executing. &lt;em&gt;The pattern to achieve this is to extend the previous example by kicking off the async loop in a new child thread&lt;/em&gt;. You can see this in the updated function:&lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+    &lt;pre&gt;
+    def do_async_task ( task ) : 
+        # LAUNCH TASK IN NEW THREAD...
+        &lt;font color='#F88'&gt;task_thread = Thread( 
+            target=lambda :  async_loop.run_until_complete( task() )
+        )
+        task_thread.start()&lt;/font&gt;
+    &lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Here's how it works:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;A new thread is created with the constructor call targeting the asynchronous loop.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In this example, the 'run_loop_until_complete' function is invoked on the asynchronous task with the expectation that the task will run through its completion.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Meanwhile, control is returned to the main thread which can continue execution without blocking. In this case the &lt;code&gt;tkinter&lt;/code&gt; event loop returns to monitoring for more events.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Discussion&lt;/h1&gt;
+&lt;p&gt;The solution I've presented here solves the problem of using Python asynchronous modules with graphical user interface frameworks like tkinter. I've presented the solution in the form of patterns that can be applied toward the development of rapid prototypes and demos, and, yes, also to production code. The good news is that python provides a very powerful API for developing multi-threaded applications. However, as a wise man once said; "With great power comes great responsibility". &lt;/p&gt;
+&lt;p&gt;Working with threads opens up a Pandora's box of possible issues (well beyond the scope of this post to cover). But for simple asynchronous tasks (e.g., local I/O operations, implementing WebRTC protocols -- things of that nature) the pattern I've presented here should prove useful. &lt;/p&gt;
+&lt;p&gt;For more complex scenarios, the pattern could be elaborated with proper objects defined to handle responsibilities associated with thread-management within an application. Look for more posts on that topic in the not-too-distant future!&lt;/p&gt;
+&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;p&gt;This article presents python development patterns that may be employed to enable utilization of asynchronous modules with python graphical-user-interface development frameworks. In order to facilitate the use of these patterns, the nature of &lt;em&gt;event-driven architectures&lt;/em&gt; is discussed with focus on the operation of &lt;em&gt;event loops&lt;/em&gt;. Having explored the "big picture' considerations, I proceed with "bare-bones examples" showing how to apply the patterns to &lt;code&gt;tkinter&lt;/code&gt; with &lt;code&gt;asyncio&lt;/code&gt; applications. Finally, a multi-threaded approach to handling asynchronous routines is presented, with the caveat that appropriate measures will always have to be taken to insure thread safety.&lt;/p&gt;
+&lt;h1&gt;Resources&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://docs.python.org/3/library/asyncio-eventloop.html"&gt;AsyncIO Event Loops&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://docs.python.org/3/library/tk.html"&gt;Graphical User Interfaces with Tk&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://docs.python.org/3/library/tkinter.html#threading-model"&gt;The TkInter Threading Model&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://docs.python.org/3/library/threading.html"&gt;The Python Threading API&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://docs.python.org/3/library/threading.html#thread-objects"&gt;The Python Thread Object&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Blog"></category><category term="graphical user interface"></category><category term="python"></category><category term="tkinter"></category><category term="development"></category><category term="rapid prototype"></category><category term="threading"></category><category term="computer science"></category><category term="asynchronous"></category><category term="code"></category><category term="event loops"></category></entry><entry><title>Streaming over Discord on an Ubuntu System</title><link href="https://dr-nick-nagel.github.io/blog/discord-streaming.html" rel="alternate"></link><published>2024-10-10T00:00:00-04:00</published><updated>2024-10-10T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-10-10:/blog/discord-streaming.html</id><summary type="html">&lt;p&gt;How to stream video using discord on ubuntu...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;As a linux aficionado I've recently committed to a an Ubuntu system to meet the bulk of my laptop / workstation needs which include -- among many other things -- supporting distributed (i.e., remote) community engagement. I've had a long-standing interest in providing immersive on-line experiences using a wide range of media -- an interest which has often gone hand-in-hand with video gaming. So it should come as no surprise that, in order to satisfy numerous use-cases I decided to explore the possibility of hosting community meetings and events using &lt;em&gt;Discord&lt;/em&gt; on my Ubuntu system. &lt;/p&gt;
 &lt;p&gt;While it proved &lt;em&gt;very good&lt;/em&gt; at meeting many of my needs as a video-voice-chat server, Discord proved difficult in one mission-critical aspect; streaming video content using screen share. The problem is that &lt;em&gt;Discord on Linux cannot stream application audio during screen shares&lt;/em&gt;. &lt;/p&gt;
 &lt;h2&gt;The Problem&lt;/h2&gt;
@@ -142,7 +343,453 @@ sudo apt install pavucontrol
 &lt;li&gt;
 &lt;p&gt;&lt;a href="https://www.freedesktop.org/wiki/Software/PulseAudio/"&gt;PulseAudio&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;</content><category term="Blog"></category><category term="linux"></category><category term="ubuntu"></category><category term="peer-to-peer"></category><category term="streaming"></category><category term="audio"></category><category term="video"></category><category term="screen share"></category></entry><entry><title>What does Looking at Imagery with text-based AI Tell us about Creativity?</title><link href="https://dr-nick-nagel.github.io/blog/creative-ai.html" rel="alternate"></link><published>2024-08-21T00:00:00-04:00</published><updated>2024-08-21T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-08-21:/blog/creative-ai.html</id><summary type="html">&lt;p&gt;Some thoughts as we start delving into general AI ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Backdrop&lt;/h1&gt;
+&lt;/ol&gt;</content><category term="Blog"></category><category term="linux"></category><category term="ubuntu"></category><category term="peer-to-peer"></category><category term="streaming"></category><category term="audio"></category><category term="video"></category><category term="screen share"></category></entry><entry><title>What Exactly is a Convolution Anyway?</title><link href="https://dr-nick-nagel.github.io/blog/convolution-operator.html" rel="alternate"></link><published>2024-09-30T00:00:00-04:00</published><updated>2024-09-30T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-09-30:/blog/convolution-operator.html</id><summary type="html">&lt;p&gt;If you have an interest in machine learning and you want to get into it at some point you'll want to deepen your understanding of the mathematics of the convolutional operator.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;I have a confession to make. I've never been very good at "black box programming". The reason for this is my insatiable curiosity. In learning to code I've rarely been satisfied with lessons and instructions that hand me some code and say here, since you're trying to do &lt;em&gt;X&lt;/em&gt; use this. Not only do I need to know the solution but I need to understand why and how the solution works. And this mindset has saved me a lot of trouble many times. Although complete understanding of every line of code you use absolutely requires more time and effort up front, it saves much more time and effort downstream when you're trying to debug and troubleshoot issues. Many times I've seen naive programmers, when faced with a bug or issue, start arbitrarily changing lines of code without complete understanding hoping their changes will fix the issue. As often as not such an approach will add more complexity and potential for error to the solution even if it may initially seem to address the problem. &lt;/p&gt;
+&lt;p&gt;So I continue to maintain, when something you're trying to code doesn't behave as you expect, it pays to have a thorough and complete understanding of every line of code in your system. That's why, when I re-engaged neural network application development after many years of working on other things I wanted to revisit all the basics -- including the concept of &lt;em&gt;convolution&lt;/em&gt;. &lt;/p&gt;
+&lt;p&gt;Convolution lies at the heart of &lt;em&gt;much&lt;/em&gt; of what we see today in applied artificial intelligence. But what exactly is the &lt;em&gt;convolution&lt;/em&gt; in &lt;em&gt;convolutional neural networks&lt;/em&gt; and how does it work. For me, the best way to understand concepts -- especially mathematical concepts -- is to roll up my sleeves, get my hands dirty and interactively achieve understanding. I used to tell my students that in order to achieve  deepest understanding you have to connect your &lt;em&gt;input&lt;/em&gt; neurons to your &lt;em&gt;output&lt;/em&gt; neurons. For me, especially when it comes to math, this means I have to do the exercises. I have to work with the formulas and equations rather than just read and memorize them. So this post is a result of such an exercise toward understanding. Yes, of course the convolution operation is already written into your machine learning libraries and frameworks. So, no, you don't have to worry about the math if you're really good at black-box programming. But if, like me, you crave a deep understanding of exactly what you're doing with your code, then it behooves you to do what it takes to deepen your understanding.&lt;/p&gt;
+&lt;h1&gt;What is a Convolution?&lt;/h1&gt;
+&lt;p&gt;Technically speaking, a convolution is a mathematical operation that can be applied to functions. The convolution operation is fundamental in many fields including signal processing, probability theory, and, by extension, machine learning. &lt;/p&gt;
+&lt;p&gt;Mathematically, the operation can be defined as the &lt;em&gt;convolution integral&lt;/em&gt;; the product of two functions [denoted (f * g)(t)] where one function is reversed and shifted. &lt;/p&gt;
+&lt;p&gt;$$
+(f \ast g)( t ) := \int_{-∞}^{\infty} f(x) g( t-x ) dx
+$$&lt;/p&gt;
+&lt;p&gt;Where:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;f&lt;/em&gt; and &lt;em&gt;g&lt;/em&gt; are the two functions undergoing convolution,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;t&lt;/em&gt; is the independent variable of the convolution,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;x&lt;/em&gt; is the integration variable, and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;g(t-x)&lt;/em&gt; is the function, &lt;em&gt;g&lt;/em&gt;, reversed and shifted by t units. &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Understanding the Operation&lt;/h1&gt;
+&lt;p&gt;Intuitively I find it useful to conceptualize convolution as a "sliding window". One function is reversed and shifted across the other with corresponding values multiplied and -- for discrete cases -- summed to generate the convolution at a given point. &lt;/p&gt;
+&lt;p&gt;Consider the following equation which expresses convolution as a discrete function:&lt;/p&gt;
+&lt;p&gt;$$
+(a \ast b)[n] = \sum_{k=0}^{N-1} a[k] \cdot b[n-k]
+$$&lt;/p&gt;
+&lt;p&gt;For the discrete operation (which is what's actually applied in machine learning) we can achieve deeper understanding by working through through a simple example. Suppose we have two lists:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;[1, 2, 3], and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;[2, 3, 4]&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Essentially, as defined above, convolving the lists simply means applying the operation to generate a new list given the two input lists. In other words we flip one operand and slide, or, shift it along the second to generate the output...&lt;/p&gt;
+&lt;div  &gt;
+    &lt;div style="background-color: #888; color: #ffe; padding:0.5em;" &gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    1 2 3
+4 3 2           1*2                2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+    &lt;/div&gt;
+    &lt;div style="background-color: #555; color: #ffe; padding:0.5em;" &gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    1 2 3
+  4 3 2         1*3 + 2*2          7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+    &lt;/div&gt;
+    &lt;div style="background-color: #888; color: #ffe; padding:0.5em;" &gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    1 2 3
+    4 3 2       1*4 + 2*3 + 3*2    16
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+    &lt;/div&gt;
+    &lt;div style="background-color: #555; color: #ffe; padding:0.5em;" &gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    1 2 3
+      4 3 2     2*4 + 3*3          17
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+    &lt;/div&gt;
+    &lt;div style="background-color: #888; color: #ffe; padding:0.5em;" &gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    1 2 3
+        4 3 2   3*4                12
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;So the result of the convolution for this simple example is [ 2, 7, 16, 17, 12 ]&lt;/p&gt;
+&lt;p&gt;To gain further insight into the operation (and practice with algorithms) you might consider implementing the algorithm in your favorite programming language. I've included my own naive python implementation as an appendix to this post. For further study you might even consider looking at the python numpy implementation, but you'll find that bit more complicated.&lt;/p&gt;
+&lt;h1&gt;Applications&lt;/h1&gt;
+&lt;p&gt;There are innumerable applications that rely on convolution. It is widely used in signal processing, probability theory, and image processing -- just to name a few broad fields -- and, of course, machine learning. &lt;/p&gt;
+&lt;p&gt;In machine learning, for purposes of image processing, the inputs to convolution (i.e., the source matrix and &lt;em&gt;kernel&lt;/em&gt;) are 2D matrices. Again, toward deeper understanding of the mathematics, it's worth working through a few examples by hand. &lt;/p&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Let's consider the following matrix and associated kernel ( also referred to as &lt;em&gt;filter&lt;/em&gt; ). &lt;/p&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td style="padding: 10px;"&gt; 
+      &lt;font color='#F00'&gt;
+$$
+\begin{bmatrix}
+1 &amp; 2 &amp; 0 &amp; 3 \\
+4 &amp; 1 &amp; 0 &amp; 2 \\
+3 &amp; 2 &amp; 1 &amp; 0 \\
+0 &amp; 1 &amp; 2 &amp; 4
+\end{bmatrix}
+$$
+      &lt;/font&gt;
+    &lt;/td&gt;
+    &lt;td style="padding: 10px;"&gt;
+      &lt;font color='#0AF'&gt;
+$$
+\begin{bmatrix}
+0 &amp; 1 &amp; 2 \\
+2 &amp; 2 &amp; 0 \\
+1 &amp; 0 &amp; 1
+\end{bmatrix}
+$$ 
+      &lt;/font&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td style="padding-left: 18px;"&gt;
+Input Matrix: $M$
+    &lt;/td&gt;
+    &lt;td style="padding-left: 18px;"&gt;
+Kernel: $K$
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;As we did for the simple one dimensional example above, we can obtain the convolution of the matrix and its kernel by sliding the kernel -- this time over the two dimensions. To keep things simple for this example, I'll consider just the positions where there is complete overlap between the kernel and its input (i.e., no padding). This case is technically referred to as a &lt;em&gt;valid convolution&lt;/em&gt;. A valid convolution will yield a smaller matrix (fewer rows and columns) than the input. If we wanted an output matrix with the same dimensions (shape) as the input we'd have to "pad" the edges.&lt;/p&gt;
+&lt;p&gt;So, given $M$ and $K$ as defined above we want a valid convolution, $O$, of the two: $ O = M \ast K $ . What would that look like? Below I've illustrated the convolution steps highlighting the elements in $M$ contributing to the output at each step. The result of the convolution will be a 2 X 2 matrix. &lt;/p&gt;
+&lt;hr&gt;
+&lt;table&gt;
+
+  &lt;tr&gt;
+    &lt;td style="text-align:center"&gt;STEP 1&lt;/td&gt;
+    &lt;td style="text-align:center"&gt;STEP 2&lt;/td&gt;
+    &lt;td style="text-align:center"&gt;STEP 3&lt;/td&gt;
+    &lt;td style="text-align:center"&gt;STEP 4&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td style="padding: 10px;"&gt; 
+      &lt;font color='#F00'&gt;
+$$
+\begin{bmatrix}
+\color{#08F} 1 &amp; \color{#08F} 2 &amp; \color{#08F} 0 &amp; 3 \\
+\color{#08F} 4 &amp; \color{#08F} 1 &amp; \color{#08F} 0 &amp; 2 \\
+\color{#08F} 3 &amp; \color{#08F} 2 &amp; \color{#08F} 1 &amp; 0 \\
+0 &amp; 1 &amp; 2 &amp; 4
+\end{bmatrix}
+$$
+      &lt;/font&gt;
+    &lt;/td&gt;
+    &lt;td style="padding: 10px;"&gt;
+      &lt;font color='#F00'&gt;
+$$
+\begin{bmatrix}
+1 &amp; \color{#08F} 2 &amp; \color{#08F} 0 &amp; \color{#08F} 3 \\
+4 &amp; \color{#08F} 1 &amp; \color{#08F} 0 &amp; \color{#08F} 2 \\
+3 &amp; \color{#08F} 2 &amp; \color{#08F} 1 &amp; \color{#08F} 0 \\
+0 &amp; 1 &amp; 2 &amp; 4
+\end{bmatrix}
+$$
+      &lt;/font&gt;
+    &lt;/td&gt;
+    &lt;td style="padding: 10px;"&gt;
+      &lt;font color='#F00'&gt;
+$$
+\begin{bmatrix}
+1 &amp; 2 &amp; 0 &amp; 3 \\
+\color{#08F} 4 &amp; \color{#08F} 1 &amp; \color{#08F} 0 &amp; 2 \\
+\color{#08F} 3 &amp; \color{#08F} 2 &amp; \color{#08F} 1 &amp; 0 \\
+\color{#08F} 0 &amp; \color{#08F} 1 &amp; \color{#08F} 2 &amp; 4
+\end{bmatrix}
+$$
+      &lt;/font&gt;
+    &lt;/td&gt;
+    &lt;td style="padding: 10px;"&gt;
+      &lt;font color='#F00'&gt;
+$$
+\begin{bmatrix}
+1 &amp; 2 &amp; 0 &amp; 3 \\
+4 &amp; \color{#08F} 1 &amp; \color{#08F} 0 &amp; \color{#08F} 2 \\
+3 &amp; \color{#08F} 2 &amp; \color{#08F} 1 &amp; \color{#08F} 0 \\
+0 &amp; \color{#08F} 1 &amp; \color{#08F} 2 &amp; \color{#08F} 4
+\end{bmatrix}
+$$
+      &lt;/font&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td style="text-align:center"&gt;$\odot$&lt;/td&gt;
+    &lt;td style="text-align:center"&gt;$\odot$&lt;/td&gt;
+    &lt;td style="text-align:center"&gt;$\odot$&lt;/td&gt;
+    &lt;td style="text-align:center"&gt;$\odot$&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;
+    &lt;td&gt;
+      &lt;font color='#0AF'&gt;
+$$
+\begin{bmatrix}
+1 &amp; 0 &amp; 1 \\
+0 &amp; 2 &amp; 2\\
+2 &amp; 1 &amp; 0
+\end{bmatrix}
+$$ 
+      &lt;/font&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;font color='#0AF'&gt;
+$$
+\begin{bmatrix}
+1 &amp; 0 &amp; 1 \\
+0 &amp; 2 &amp; 2\\
+2 &amp; 1 &amp; 0
+\end{bmatrix}
+$$ 
+      &lt;/font&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;font color='#0AF'&gt;
+$$
+\begin{bmatrix}
+1 &amp; 0 &amp; 1 \\
+0 &amp; 2 &amp; 2\\
+2 &amp; 1 &amp; 0
+\end{bmatrix}
+$$ 
+      &lt;/font&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;font color='#0AF'&gt;
+$$
+\begin{bmatrix}
+1 &amp; 0 &amp; 1 \\
+0 &amp; 2 &amp; 2\\
+2 &amp; 1 &amp; 0
+\end{bmatrix}
+$$ 
+      &lt;/font&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Figure 1:&lt;/strong&gt; Illustrates the convolution of the matrix, $M$, with the kernel, $K$. At each step, the elements of the kernel are multiplied against the elements of the input matrix (highlighted in blue). &lt;/p&gt;
+&lt;p&gt;In general, the equation for a 2D convolution can be expressed as follows:&lt;/p&gt;
+&lt;p&gt;$$
+O(i, j) = \sum_{m=0}^{h-1} \sum_{n=0}^{w-1} I(i+m, j+n) \cdot K(h-1-m, w-1-n)
+$$&lt;/p&gt;
+&lt;p&gt;Where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$I(i+m, j+n)$ is the element of the input matrix at position $(i+m, j+n)$&lt;/li&gt;
+&lt;li&gt;$K(h-1-m, w-1-n)$ is the corresponding element of the &lt;em&gt;flipped&lt;/em&gt; kernel, and &lt;/li&gt;
+&lt;li&gt;O(i, j) is the element of the output matrix at the position $(i, j)$.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All this means is simply that the output matrix $O$ is obtained by flipping the kernel and sliding it over the input, performing element-wise multiplication at each step along the way. The convolution at each position $(i,j)$ of the output matrix is simply the sum of the element-wise products at each step.&lt;/p&gt;
+&lt;p&gt;So for this example ...&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 1.&lt;/strong&gt; Flip the kernel by 180 degrees:&lt;/p&gt;
+&lt;table&gt;&lt;tr&gt;&lt;td&gt;
+$$
+K_{180} =
+\begin{bmatrix}
+1 &amp; 0 &amp; 1 \\
+0 &amp; 2 &amp; 2\\
+2 &amp; 1 &amp; 0
+\end{bmatrix}
+$$
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;Step 2.&lt;/strong&gt;  Compute the matrix element value for each step in the convolution:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;$O_{0,0} = (1\times1)+(0\times2)+(1\times0)+(0\times4)+(2\times1)+(2\times0)+(2\times3)+(1\times2)+(0\times1) = 11$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$O_{0,1} = (1\times2)+(0\times0)+(1\times3)+(0\times1)+(2\times0)+(2\times2)+(2\times2)+(1\times1)+(0\times0) = 14$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$O_{1,0} = (1\times4)+(0\times1)+(1\times0)+(0\times3)+(2\times2)+(2\times1)+(2\times0)+(1\times1)+(0\times2) = 11$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$O_{1,1} = (1\times1)+(0\times0)+(1\times2)+(0\times2)+(2\times1)+(2\times0)+(2\times1)+(1\times2)+(0\times4) = 9$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And so therefore the result of the convolution is the output matrix:&lt;/p&gt;
+&lt;table&gt;&lt;tr&gt;&lt;td&gt;
+$$
+O =
+\begin{bmatrix}
+11 &amp; 14 \\
+11 &amp;  9 
+\end{bmatrix}
+$$
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;And just to be sure, we can check the answer we obtained using python ...&lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;numpy&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;scipy.signal&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;convolve2d&lt;/span&gt;
+&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;convolve2d&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;valid&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;[[11 14]&lt;/span&gt;
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;[11  9]]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Notice how we set the mode to &lt;em&gt;valid&lt;/em&gt;. scipy uses padding by default for &lt;code&gt;convolve2d&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;So, the above example walks through the convolution of a 2d matrix and a kernel -- an operation commonly applied in image processing. Next let's consider application of convolutions to machine learning -- let's draw the connection to CNN's, or, &lt;em&gt;convolutional neural networks&lt;/em&gt;.&lt;/p&gt;
+&lt;h1&gt;Convolutional Neural Networks&lt;/h1&gt;
+&lt;p&gt;So having done a bit of a deep dive into the mathematics of the convolution operation it's worth considering its application to machine learning. Again, convolution is ubiquitous in machine learning, but to launch into discussion here let's look at a very basic example from image processing. &lt;/p&gt;
+&lt;p&gt;Suppose we want a classification system that can learn to categorize images. Image classification systems are widely used -- consider for example medical imaging, object identification in satellite images, traffic control systems -- the possibilities are endless. But, again, at the heart of a wide range systems in use today lies the &lt;em&gt;convolutional neural network&lt;/em&gt;, or, CNN. &lt;/p&gt;
+&lt;h2&gt;The Models&lt;/h2&gt;
+&lt;p&gt;To better understand CNN's and the impact of the application of &lt;em&gt;convolutional layers&lt;/em&gt;  I created two models in order to make some comparisons; a &lt;em&gt;multi-layer peceptron&lt;/em&gt; and a convolutional variant of the model. A multi layer perceptron (MLP) is an artificial neural network that can be used to learn complex patterns in data. Here's some sample python code which defines an MLP using tensorflow:&lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;Define&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;a&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;simple&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;Multi&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;Layer&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;Perceptron&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;model&lt;/span&gt;
+&lt;span class="nx"&gt;model_mlp&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Sequential&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;layers&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Dense&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;activation&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nx"&gt;relu&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;input_shape&lt;/span&gt;&lt;span class="p"&gt;=(&lt;/span&gt;&lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="p"&gt;,)),&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;layers&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Dense&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;activation&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nx"&gt;softmax&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+
+&lt;p&gt;If you aren't familiar with tensorflow don't sweat it. For now, the point is that this code defines a neural network with three layers; an input layer (which is capable of processing 128 X 128 pixel images), a &lt;em&gt;hidden activation layer&lt;/em&gt;, and an output layer with 4 units (enabling classification into 4 categories). &lt;/p&gt;
+&lt;p&gt;MLP's can be enhanced through the addition of convolutional layers in the network architecture. Here's some code which enhances the basic MLP with a convolutional layer. &lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gh"&gt;#&lt;/span&gt; Define a CNN model
+model_cnn_4 = models.Sequential([
+    layers.Conv2D(32, (3, 3), activation=&amp;#39;relu&amp;#39;, input_shape=(128, 128, 1)),
+    layers.MaxPooling2D((2, 2)),
+    layers.Flatten(),
+    layers.Dense(128, activation=&amp;#39;relu&amp;#39;),
+    layers.Dense(4, activation=&amp;#39;softmax&amp;#39;)
+])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+
+&lt;p&gt;The convolutional layer is defined with set of 32 3 X 3 filters. The filters are convolved across the input to generate &lt;em&gt;feature maps&lt;/em&gt;. Randomly determined initially, the filter values are updated over the course of training (through &lt;em&gt;backpropagation&lt;/em&gt;) -- enabling the system to settle into a state that optimizes classification for the training set. In other words, convolutional layers enable the system to extract features from the input which can enhance learning analogous to the ways in which we as humans perceive and learn!&lt;/p&gt;
+&lt;h2&gt;Testing the Models&lt;/h2&gt;
+&lt;p&gt;In order to test the models I created a data set based on four classes (drawn from the four suits represented in decks of playing cards).&lt;/p&gt;
+&lt;p&gt;&lt;img src='/images/convolution/card_suit_exemplars.png' 
+     width='300px'
+/&gt;&lt;/p&gt;
+&lt;p&gt;To create the data set I took the four exemplars (shown above) and applied basic data augmentation techniques. I introduced variability using geometric rotations and translations, adding varying degrees of blur, and injecting random noise. Here are four examples (one from each class) drawn from a set of 80 items generated to train the model. &lt;/p&gt;
+&lt;p&gt;&lt;img src='/images/convolution/card_suit_examples.png' 
+     width='300px'
+/&gt;&lt;/p&gt;
+&lt;p&gt;The following graphs show the results of training and the training benefit obtained through convolution. &lt;/p&gt;
+&lt;p&gt;&lt;img src='/data/cnn_training_2.png' 
+     width='300px'
+/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Figure 2:&lt;/strong&gt; Model accuracy and loss obtained over twenty training epochs for the MLP and CNN models. &lt;/p&gt;
+&lt;p&gt;Figure 2 shows the training results obtained over 20 training epochs with the two models. The graphs represent model accuracy (left hand side) and loss (on the right). The model accuracy is a reflection of how accurate the model classification is across the data-set (i.e., the proportion of correct classifications). Loss is a representation of error. It's a measure of how far the model's predicted output deviates from the actual target output.&lt;/p&gt;
+&lt;p&gt;So what these learning curves show is how convolutional layers can enhance learning in neural networks. Both models learn the data set -- that is, both improve in accuracy over the course of training. But the convolutional model achieves much greater accuracy than the simpler MLP. Also, the convolutional layer allows the model to settle into an more optimal state more quickly as shown by the loss curves. So there you have it. The mechanics of the convolutional neural network.&lt;/p&gt;
+&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;p&gt;In this blog post I've explored the mathematics of convolution in order to better understand it's application to machine learning. Starting with its definition as a continuous integral applied to two functions and considering its discrete counterpart I worked through a simple example in order to understand the mathematical concept. I then extended the discussion to consider convolution applied to 2D matrices (used ubiquitously in image processing). Finally, I provided a very simple comparison between a multi-layer perceptron model and one augmented with convolutional layers in order to see the benefit of using convolution to define CNN's. Hopefully, this post will help to deepen understanding of the building blocks of neural networks and encourage further exploration.&lt;/p&gt;
+&lt;h1&gt;Appendix 1: My Naive Pass at Convolution -- An Exercise in Algorithm Implementation&lt;/h1&gt;
+&lt;p&gt;This is just a naive python implementation -- an exercise solely intended to get those synapses firing. But, again, my philosophy is that in the same way doing push-ups enables you to exercise your muscles implementing algorithms enables you to exercise your brain. &lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em;" &gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;nn_convolve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="s1"&gt;  My naive implementation of convolution ...&lt;/span&gt;
+&lt;span class="s1"&gt;  &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;b_flipped&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;convolution&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;[]&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;start&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;stop&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;j_range&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;range&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;start&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;stop&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;j_range&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt; i - (len(b)-1) + j &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;b_flipped&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;start&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="k"&gt;start&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;stop&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;convolution&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;convolution&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+
+&lt;p&gt;And some tests&lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em;" &gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;a = np.array( [1, 2, 3] )
+b = np.array( [2, 3, 4] )
+print( nn_convolve ( a, b ) )
+a3 = np.array( [1, 2, 3, 4, 1, 2, 3, 4] )
+b2 = np.array( [0.1, 0.5] )
+print( nn_convolve ( a3, b2 ) )
+print( np.convolve ( a3, b2 ) )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+
+&lt;p&gt;The key highlights regarding the solution are that it (1) flips the kernel and then computes the sum of element-wise multiplications as you slide the kernel across the signal (again, the essence of convolution).&lt;/p&gt;
+&lt;h1&gt;Appendix 2: Exploring the numpy Implementation&lt;/h1&gt;
+&lt;p&gt;For the truly intrepid, it may well be worth studying the python numpy implementation of the &lt;a href="https://numpy.org/doc/2.0/reference/generated/numpy.convolve.html"&gt;convolve function&lt;/a&gt;. The implementation is quite a bit more complex than our naive version, because (1) it is optimized for large arrays by using FFT to calculate the convolution, and (2) it is implemented in C for performance. At the time of this writing I determined that the implementation uses a python wrapper (&lt;a href="https://github.com/numpy/numpy/blob/v2.0.0/numpy/_core/numeric.py#L782-L878"&gt;numeric.py&lt;/a&gt;) and calls low-level C++ functions in the &lt;a href="https://github.com/numpy/numpy/blob/v2.0.0/numpy/_core/src/multiarray/multiarraymodule.c"&gt;multi-array module&lt;/a&gt; as illustrated in the following diagram.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/diagrams/numpy_convolve.drawio.svg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;font size="smaller"&gt;&lt;strong&gt;Figure 3:&lt;/strong&gt; High level architecture of the numpy convolution implementation. Essentially, the 'convolve' function defined in &lt;em&gt;numeric.py&lt;/em&gt; calls a low-level C implementation defined in &lt;em&gt;multiarraymodule.c&lt;/em&gt;. Note: if you want to click directly into the source code try opening the diagram in a new tab. You should then be able to click the links...&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;The heart of the algorithm's implementation lies in &lt;code&gt;_pyarray_correlate&lt;/code&gt; since convolution is mathematically equivalent to cross-correlation (except for the reversal of the filter/kernel). Additional functionality (e.g., determining whether FFT optimization is warranted, flipping the kernel, checking for error conditions on function arguments) are added for &lt;em&gt;convolution&lt;/em&gt;.&lt;/p&gt;
+&lt;h1&gt;Resources&lt;/h1&gt;
+&lt;h2&gt;Numpy&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://numpy.org/doc/2.0/reference/generated/numpy.convolve.html"&gt;numpy.convolve&lt;/a&gt; &lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Encyclopedic entries on neural networks&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Convolutional_neural_network"&gt;Convolutional Neural Network&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Multilayer_perceptron"&gt;Multi-Layer Perceptron&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Visualizing Convolution&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=KuXjwB4LzSA&amp;amp;list=WL&amp;amp;t=392s"&gt;3Blue1Brown&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Blog"></category><category term="math"></category><category term="convolution"></category><category term="operator"></category><category term="convolutional neural network"></category><category term="neural networks"></category></entry><entry><title>What does Looking at Imagery with text-based AI Tell us about Creativity?</title><link href="https://dr-nick-nagel.github.io/blog/creative-ai.html" rel="alternate"></link><published>2024-08-21T00:00:00-04:00</published><updated>2024-08-21T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-08-21:/blog/creative-ai.html</id><summary type="html">&lt;p&gt;Some thoughts as we start delving into general AI ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Backdrop&lt;/h1&gt;
 &lt;p&gt;So I had an interesting morning which involved working with AI and I'm kind of excited about it, so, figured it was "blog-worthy". First, a bit of background. I've had long-standing interests in many things, two of which include &lt;em&gt;scalable vector graphics&lt;/em&gt; (SVG) for illustration and, of course, &lt;em&gt;artificial intelligence&lt;/em&gt;. Lately, I've been working on my long neglected personal website which has been sorely in need of an update for many years, and using the hot new LLM's (Large Language Models) to flesh out some technical details. &lt;/p&gt;
 &lt;p&gt;The fascinating thing about LLM's is that the architectural principle on which they're built is exquisitely simple. Essentially it boils down to a probabilistic model that predicts possible continuations given a prompt-generated discourse context. Such systems appear to be exhibiting intelligent linguistic behavior based on nothing more than an "educated guess" as to how to continue the next sentence fragment of a discourse. The key to understanding how these systems work is that the output is not deterministic -- it's not generated by explicit rules expressed in program code. Instead, it's a stochastic process enabling the system to &lt;em&gt;learn&lt;/em&gt;. &lt;/p&gt;
 &lt;p&gt;Let's pause for a moment and consider just what this implies. I've had a long-standing interest in the nature of consciousness going back to my adolescence. In college I made it a formal study. But after reading Plato, Aristotle, Descartes and all the rest, and Dennett's &lt;em&gt;Consciousnesses Explained&lt;/em&gt;, I was left with the vague dissatisfaction that, really, very little in these works actually explain consciousness at all. It wasn't until I got to grad school and started working with the then nascent mathematics of neural networks that I really started to understand the implications of the building blocks of consciousnesses. &lt;/p&gt;

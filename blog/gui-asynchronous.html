@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Graphical User Interfaces with Asynchronous Code in Python</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="graphical user interface" />
+    <meta name="tags" content="python" />
+    <meta name="tags" content="tkinter" />
+    <meta name="tags" content="development" />
+    <meta name="tags" content="rapid prototype" />
+    <meta name="tags" content="threading" />
+    <meta name="tags" content="computer science" />
+    <meta name="tags" content="asynchronous" />
+    <meta name="tags" content="code" />
+    <meta name="tags" content="event loops" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/gui-asynchronous.html" rel="bookmark"
+           title="Permalink to Graphical User Interfaces with Asynchronous Code in Python">Graphical User Interfaces with Asynchronous Code in Python</a></h2>
+      
+    </header>
+    <h1>Introduction</h1>
+<p>As a machine-learning scientist and engineer I often have a need for rapid prototyping. And often over the course of hammering out a concept proof the need for a graphical user interface arises. Now, I've had extensive experience in UI development in many languages including java, HTML5, and electron application development. But -- though similar in many ways to other systems -- UI development in python poses some unique issues. </p>
+<h1>The Problem</h1>
+<p>One of the issues I encountered recently stems from working with python asynchronous IO (<code>asyncio</code>). Asynchronous programming is a means of developing routines that can execute independently without blocking the main thread of execution. It is provided as a more basic alternative to spinning off routines in multiple threads. One of the most common tasks suitable for asynchronous programming is IO. Python enables handling IO operations -- and other tasks -- asynchronously through various modules using the <code>await</code> keyword. The problem I encountered was when I needed to spin up a quick prototype using <code>asyncio</code>. The issue revolves around the <em>event-driven architecture</em>. Event-driven architectures are frameworks provided for, among other things, asynchronous programming -- but also for development with graphical user interfaces.</p>
+<p>When I need to spin up a GUI real quick I usually rely on the lightest weight option for whatever framework I'm working in. Sure, if I'm doing professional development I'll set up a fully functional interface supporting all the features demanded of modern real-world applications using a heavy-weight framework like <em>electron</em> or <em>QT</em>. But for a quick demo or rapid prototype I prefer something light-weight and fast. And for python that's <code>tkinter</code>. The problem with using <code>tkinter</code> (or any other python GUI-development- framework for that matter) alongside <code>asyncio</code> is that both use independent <em>event loops</em>. Surveying the 'net for solutions to my issues I noticed some confusion around the concept, so I figure it's worth delving into here. </p>
+<h2>Event Loops</h2>
+<p>Whenever you develop a GUI for a windowing system you typically kick off an event loop, which essentially <em>blocks the main thread</em> and sits there waiting for various user-events to trigger callbacks. The other major responsibility of the GUI system is (re)painting itself periodically.</p>
+<div style='text-align:center'>
+<img alt='INSERT EVENT LOOP DIAGRAM'
+     src='/diagrams/event_loop_tk.drawio.svg' 
+     width='250px'/>
+</div>
+<p><strong>Figure 1</strong>: The <em>TkInter</em> event loop.</p>
+<p>Figure 1 illustrates this concept for <em>tkinter</em>. Running <code>root.mainloop()</code> in tkinter kicks off an event loop, which then executes continuously -- waiting for user events which are accumulated on an event queue. On each loop cycle, <code>tkinter</code> pops all the events and updates the GUI (repainting all the areas that may have changed over the course of the cycle). </p>
+<p>That's all well-and-good for many use-cases but poses a problem for asynchronous programming in python. The problem is that asynchronous modules (e.g., <code>asyncio</code>) require an independent event-loop of their own. Simply declaring a routine with the <code>async</code> keyword and trying to bind it to a <code>tkinter</code> widget isn't enough -- python just won't let you get away with that.</p>
+<h1>Solutions</h1>
+<p>So the purpose of this post is, first and foremost, to provide some solutions to the problem. Again, I saw a some confusion when surveying the 'net and reading the docs so I figure it's worth documenting a couple of patterns here.</p>
+<h2>The Simplest Approach</h2>
+<p>The simplest approach to the problem of using your async code in a tkinter application is to <em>run the async loop within the tkinter loop</em>. Python's <a href="https://docs.python.org/3/library/asyncio.html"><code>asyncio</code> API</a> allows you to run an <code>asyncio</code> event loop within an existing loop as shown in the following bare-bones example.</p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="w">    </span><span class="kn">import</span><span class="w"> </span><span class="nn">tkinter</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tk</span>
+<span class="w">    </span><span class="kn">import</span><span class="w"> </span><span class="nn">aiortc</span>
+
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">do_async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">:</span>
+<span class="w">        </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;START ASYNC TASK&quot;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;END ASYNC TASK&quot;</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">do_async_task</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
+<span class="w">        </span><span class="c1"># LAUNCH THE ASYNC TASK...</span>
+<span class="w">        </span><span class="n">async_loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="w"> </span><span class="n">task</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
+
+
+<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">handle_click</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
+<span class="w">        </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;&#39;Tis but a scratch!&quot;</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+<span class="w">    </span><span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;Test Harness&quot;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;400x300&quot;</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">button_tk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+<span class="w">        </span><span class="n">root</span><span class="p">,</span>
+<span class="w">        </span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Click Me&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">command</span><span class="o">=</span><span class="n">handle_click</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="n">button_tk</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="w"> </span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">button_async</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+<span class="w">        </span><span class="n">root</span><span class="p">,</span>
+<span class="w">        </span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Do Async&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">do_async_task</span><span class="p">(</span><span class="w"> </span><span class="n">do_async</span><span class="w"> </span><span class="p">)</span><span class="w">  </span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="n">button_async</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="w"> </span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">#  asyncio.run( do_async_task )</span>
+<span class="w">    </span><span class="n">async_loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asyncio</span><span class="o">.</span><span class="n">new_event_loop</span><span class="p">()</span>
+
+<span class="w">    </span><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</code></pre></div>
+
+
+</div>
+
+<p>In this example I've defined two tasks; (1) <code>async def do_async ()</code>, which simulates an asynchronous routine, and (2) <code>def handle_click ()</code> which simulates a standard task that can execute within the tkinter loop. Notice that <code>do_async</code> is marked with the <code>async</code> keyword. This requires that when it is called it must be called with the keyword <code>await</code>. The problem is that tkinter doesn't "know" how to do that and so it's not so easy to bind the function to a tkinter widget.</p>
+<p>The simple solution here overcomes that problem by kicking off the async task in a new async loop. This done in 3 steps:</p>
+<ol>
+<li>
+<p>First, I obtain a new, module-scoped <code>asyncio</code> event loop: <code>async_loop = asyncio.new_event_loop()</code> <sup style="color:red">*</sup></p>
+</li>
+<li>
+<p>Next, I define a function to launch any async task using the new loop -- effectively "joining" the <em>async</em> loop to the <em>tkinter</em> loop: 
+    <div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+        <pre>
+    def do_async_task ( task ) : 
+        # LAUNCH THE ASYNC TASK...
+        <font color='#F55'>async_loop.run_until_complete( task() )</font>
+        </pre>
+    </div>
+The function delegates the asynchronous execution of the task to any named async function using <code>run_until_complete</code>. </p>
+</li>
+<li>
+<p>Finally, since <code>do_async_task</code> is not, itself, marked async it can be used in a <em>lambda</em> to bind asynchronous functions to tkinter widgets. 
+    <div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+        <pre>
+        button_async = tk.Button(
+            root,
+            text="Do Async",
+            <font color='#F55'>command=lambda : do_async_task( do_async )</font>
+        )
+        </pre>
+    </div></p>
+</li>
+</ol>
+<p><sup  style="color:red">*</sup> Note that I've used <code>new_event_loop</code> here as opposed to <code>get_event_loop</code> which was deprecated in Python 3.7. </p>
+<p>The pattern embodied in this solution enables you to essentially launch any given async task from a tkinter GUI. However, by joining the async loop to the tkinter loop we defeat the purpose of the async module in the first place. The async loop will block the tkinter loop and the tkinter GUI will cease to be responsive until the asynchronous operation completes. That behavior may be OK for some use-cases but in order to take full-advantage of asynchronous functionality with tkinter you'll have to use threads. </p>
+<h2>Threaded Solution</h2>
+<p>To that end, I've extended the pattern developed so far to spin off the asynchronous tasks in new threads. In the next example, I keep the tkinter loop in the main thread of execution, and spin off a new thread to execute the async loop. Using this pattern, <code>asyncio</code> routines can be controlled from tkinter GUIs using the python <a href="https://docs.python.org/3/library/threading.html">threading API</a> and/or methods from the asyncio API such as <code>call_soon_threadsafe</code>. </p>
+<div style='text-align:center'>
+<img alt='INSERT EVENT LOOP DIAGRAM'
+     src='/diagrams/event_loops_threads.drawio.svg' 
+     width='250px'/>
+</div>
+<p><strong>Figure 2</strong>: The python main thread running the <code>tkinter</code> loop and a child thread running the async-loop.</p>
+<p>The following barebones example embodies the extended pattern.</p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tkinter</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tk</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">aiortc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">threading</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">Thread</span>
+
+<span class="k">async</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">do_async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">:</span>
+<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;START ASYNC TASK&quot;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;END ASYNC TASK&quot;</span><span class="w"> </span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">do_async_task</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
+<span class="w">    </span><span class="c1"># LAUNCH TASK IN NEW THREAD...</span>
+<span class="w">    </span><span class="n">task_thread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="w"> </span>
+<span class="w">        </span><span class="n">target</span><span class="o">=</span><span class="k">lambda</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">async_loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="w"> </span><span class="n">task</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="n">task_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">handle_click</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
+<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;&#39;Tis but a scratch!&quot;</span><span class="w"> </span><span class="p">)</span>
+
+<span class="n">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+<span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;Test Harness&quot;</span><span class="w"> </span><span class="p">)</span>
+<span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;400x300&quot;</span><span class="w"> </span><span class="p">)</span>
+
+<span class="n">button_tk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+<span class="w">    </span><span class="n">root</span><span class="p">,</span>
+<span class="w">    </span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Click Me&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">command</span><span class="o">=</span><span class="n">handle_click</span>
+<span class="p">)</span>
+<span class="n">button_tk</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="w"> </span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="w"> </span><span class="p">)</span>
+
+<span class="n">button_async</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+<span class="w">    </span><span class="n">root</span><span class="p">,</span>
+<span class="w">    </span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Do Async&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">do_async_task</span><span class="p">(</span><span class="w"> </span><span class="n">do_async</span><span class="w"> </span><span class="p">)</span><span class="w">  </span>
+<span class="p">)</span>
+<span class="n">button_async</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="w"> </span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="w"> </span><span class="p">)</span>
+
+<span class="c1">#  asyncio.run( do_async_task )</span>
+<span class="n">async_loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asyncio</span><span class="o">.</span><span class="n">new_event_loop</span><span class="p">()</span>
+
+<span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</code></pre></div>
+
+
+</div>
+<p>If you copy and execute this this example in your favorite python environment you should find that the GUI remains responsive even while the asynchronous operation is executing. <em>The pattern to achieve this is to extend the previous example by kicking off the async loop in a new child thread</em>. You can see this in the updated function:</p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+    <pre>
+    def do_async_task ( task ) : 
+        # LAUNCH TASK IN NEW THREAD...
+        <font color='#F88'>task_thread = Thread( 
+            target=lambda :  async_loop.run_until_complete( task() )
+        )
+        task_thread.start()</font>
+    </pre>
+</div>
+
+<p>Here's how it works:</p>
+<ol>
+<li>
+<p>A new thread is created with the constructor call targeting the asynchronous loop.</p>
+</li>
+<li>
+<p>In this example, the 'run_loop_until_complete' function is invoked on the asynchronous task with the expectation that the task will run through its completion.</p>
+</li>
+<li>
+<p>Meanwhile, control is returned to the main thread which can continue execution without blocking. In this case the <code>tkinter</code> event loop returns to monitoring for more events.</p>
+</li>
+</ol>
+<h1>Discussion</h1>
+<p>The solution I've presented here solves the problem of using Python asynchronous modules with graphical user interface frameworks like tkinter. I've presented the solution in the form of patterns that can be applied toward the development of rapid prototypes and demos, and, yes, also to production code. The good news is that python provides a very powerful API for developing multi-threaded applications. However, as a wise man once said; "With great power comes great responsibility". </p>
+<p>Working with threads opens up a Pandora's box of possible issues (well beyond the scope of this post to cover). But for simple asynchronous tasks (e.g., local I/O operations, implementing WebRTC protocols -- things of that nature) the pattern I've presented here should prove useful. </p>
+<p>For more complex scenarios, the pattern could be elaborated with proper objects defined to handle responsibilities associated with thread-management within an application. Look for more posts on that topic in the not-too-distant future!</p>
+<h1>Summary</h1>
+<p>This article presents python development patterns that may be employed to enable utilization of asynchronous modules with python graphical-user-interface development frameworks. In order to facilitate the use of these patterns, the nature of <em>event-driven architectures</em> is discussed with focus on the operation of <em>event loops</em>. Having explored the "big picture' considerations, I proceed with "bare-bones examples" showing how to apply the patterns to <code>tkinter</code> with <code>asyncio</code> applications. Finally, a multi-threaded approach to handling asynchronous routines is presented, with the caveat that appropriate measures will always have to be taken to insure thread safety.</p>
+<h1>Resources</h1>
+<ol>
+<li>
+<p><a href="https://docs.python.org/3/library/asyncio-eventloop.html">AsyncIO Event Loops</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/tk.html">Graphical User Interfaces with Tk</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/tkinter.html#threading-model">The TkInter Threading Model</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/threading.html">The Python Threading API</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/threading.html#thread-objects">The Python Thread Object</a></p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2024-10-23T00:00:00-04:00">
+        Wed 23 October 2024
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/graphical-user-interface.html">graphical user interface</a>
+            <a href="https://dr-nick-nagel.github.io/tag/python.html">python</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tkinter.html">tkinter</a>
+            <a href="https://dr-nick-nagel.github.io/tag/development.html">development</a>
+            <a href="https://dr-nick-nagel.github.io/tag/rapid-prototype.html">rapid prototype</a>
+            <a href="https://dr-nick-nagel.github.io/tag/threading.html">threading</a>
+            <a href="https://dr-nick-nagel.github.io/tag/computer-science.html">computer science</a>
+            <a href="https://dr-nick-nagel.github.io/tag/asynchronous.html">asynchronous</a>
+            <a href="https://dr-nick-nagel.github.io/tag/code.html">code</a>
+            <a href="https://dr-nick-nagel.github.io/tag/event-loops.html">event loops</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
