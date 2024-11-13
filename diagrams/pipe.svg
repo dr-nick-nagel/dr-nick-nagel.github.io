@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="165"
+   height="50"
+   viewBox="0 0 43.656251 13.229167"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient8">
+      <stop
+         style="stop-color:#999999;stop-opacity:1;"
+         offset="0"
+         id="stop8" />
+      <stop
+         style="stop-color:#e6e6e6;stop-opacity:1"
+         offset="0.27737015"
+         id="stop10" />
+      <stop
+         style="stop-color:#999999;stop-opacity:1"
+         offset="1"
+         id="stop9" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient7">
+      <stop
+         style="stop-color:#000000;stop-opacity:1"
+         offset="0"
+         id="stop6" />
+      <stop
+         style="stop-color:#999999;stop-opacity:0;"
+         offset="1"
+         id="stop7" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4">
+      <stop
+         style="stop-color:#999999;stop-opacity:1;"
+         offset="0"
+         id="stop4" />
+      <stop
+         style="stop-color:#999999;stop-opacity:0;"
+         offset="1"
+         id="stop5" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient4"
+       id="linearGradient5"
+       x1="26.390455"
+       y1="6.5696049"
+       x2="45.486717"
+       y2="6.7369556"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       xlink:href="#linearGradient7"
+       id="linearGradient6"
+       x1="25.675917"
+       y1="6.8694654"
+       x2="50.036007"
+       y2="7.034184"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       xlink:href="#linearGradient8"
+       id="linearGradient9"
+       x1="27.415348"
+       y1="3.6578097"
+       x2="27.345537"
+       y2="9.6628494"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     id="layer1">
+    <g
+       id="g7"
+       transform="translate(5.9734777,-16.761399)">
+      <path
+         id="path3"
+         style="fill:url(#linearGradient6);fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 12.700517,2.4530803 c -1.023899,0.00185 -1.302246,0.2725125 -1.49965,0.4123779 -1.121395,0.6354241 1.01912,4.3263242 -3.9325767,7.8480998 l 0.1281576,0.145211 C 19.532403,10.511586 31.480602,9.7891477 44.230893,10.6717 l 0.0021,-0.221692 C 32.658045,9.6736989 20.128049,10.199696 7.6744671,10.621574 12.91486,9.1260324 11.867295,5.6408462 12.06283,2.6132772 22.690785,3.1945596 33.439061,3.5756824 44.308924,3.0850831 l 0.0031,-0.2759522 C 33.738851,3.4634083 23.216684,3.0238492 12.700517,2.4530803 Z" />
+      <path
+         style="display:inline;fill:url(#linearGradient5);fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 44.53494,3.0757431 C 33.588048,3.581956 22.764629,3.1983616 12.063021,2.6130509 11.867486,5.6406229 12.914712,9.1260718 7.6743142,10.621615 20.217436,10.196704 32.839221,9.6645222 44.483457,10.465369 Z"
+         id="path1" />
+      <path
+         style="fill:#4d4d4d;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 7.7596408,10.624433 C 13.091864,6.8320183 9.2362372,2.5048032 12.699499,2.5896635 18.609514,2.7372104 15.965397,10.917811 7.7596408,10.624433 Z"
+         id="path2" />
+    </g>
+    <g
+       id="g10"
+       transform="translate(-3.1355166,-0.22188804)">
+      <path
+         style="fill:url(#linearGradient9);fill-opacity:1;stroke:#000000;stroke-width:0.132292;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+         d="M 43.729683,9.9088271 7.5092237,9.7576816 9.6495002,3.5694044 43.769661,3.6032566"
+         id="path7" />
+      <ellipse
+         style="fill:#4d4d4d;fill-opacity:1;stroke:#1a1a1a;stroke-width:0.133617;stroke-dasharray:none"
+         id="path8"
+         cx="11.158521"
+         cy="-1.6991799"
+         rx="1.9231385"
+         ry="3.1840475"
+         transform="matrix(0.68533788,0.72822523,-0.50275042,0.86443161,0,0)" />
+    </g>
+  </g>
+</svg>

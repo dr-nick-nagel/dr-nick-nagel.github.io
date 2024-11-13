@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Process Managment in Python Part 2: Multi-threaded GUIs</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="graphical user interface" />
+    <meta name="tags" content="python" />
+    <meta name="tags" content="tkinter" />
+    <meta name="tags" content="development" />
+    <meta name="tags" content="threading" />
+    <meta name="tags" content="computer science" />
+    <meta name="tags" content="asynchronous" />
+    <meta name="tags" content="code" />
+    <meta name="tags" content="event loops" />
+    <meta name="tags" content="queues" />
+    <meta name="tags" content="inter process communication" />
+    <meta name="tags" content="I/O" />
+    <meta name="tags" content="STDOUT" />
+    <meta name="tags" content="processes" />
+    <meta name="tags" content="subprocess" />
+    <meta name="tags" content="pipes" />
+    <meta name="tags" content="STDIN" />
+    <meta name="tags" content="blocking" />
+    <meta name="tags" content="threads" />
+    <meta name="tags" content="thread safety" />
+    <meta name="tags" content="GUI" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/drafts/python_process_management_2.html" rel="bookmark"
+           title="Permalink to Process Managment in Python Part 2: Multi-threaded GUIs">Process Managment in Python Part 2: Multi-threaded GUIs</a></h2>
+      
+    </header>
+    <h1>Introduction</h1>
+<p>TBD</p>
+<h1>Process Management in Python Applications</h1>
+<h1>Background</h1>
+<p>Back in olden days, before <em>graphical user interfaces</em>, or, GUIs as we know them today became ubiquitous, programmers used to create applications using <em>command-line interfaces</em> (CLIs). Life seems to have been so much simpler back then compared to the exponentially increasing complexity that surrounds us today. But we are where we are only by virtue of standing (and building!) on the shoulders of giants, and so, perhaps ironically, in order to move forward one must look backward every now and then.</p>
+<h2>My Favorite Programming Tool: The Command Line</h2>
+<p>Of course I say all that "tongue-in-cheek". As any programmer must surely know, the CLI remains a very important tool to this day and many programs are produced requiring interaction with the command line. That said, the CLI can, at times, feel mysterious and arcane and in need of demystification. </p>
+<p>Part of the beauty of the command-line is lies in the simplicity of the interface. </p>
+<h1>Reading Subprocess Output with Threads</h1>
+<p>One of the problems with reading subprocess output is when the subprocess blocks (for example when awaiting input). For example, I encountered this when putting a GUI on top of a routine originally developed with a CLI. The interactions with the system were complex enough that it could be greatly enhanced with a GUI for analysis and debugging purposes &lt;--... TO DO: MOVE ALL THIS TO INTRODUCTION ...</p>
+<p>As a pythonista developing applications with GUIs you'll probably have to make use of threads at some point or other. I've seen many knee-jerk admonitions against using threads in python, but the fact is that for many efforts -- particularly those involving real-time information processing and user interaction -- the capability to use threads essential. </p>
+<h2>The Problem</h2>
+<p>The problem with routine execution using GUI is that GUIs are event driven. They execute in a continous loop that will block if it gets caught up in a lengthy routine or if the routine executed by the GUI blocks for some reason. [I've discussed GUI event loops and asynchronous development elsewhere] (TODO: LINK TO RELEVENT BLOG ...), so won't get into the details here. Instead let's extend the previous discussion with the problem at hand here; reading subprocess output from the main GUI thread.</p>
+<p>I am a visual thinker -- I like visualizing solutions and I'm big fan of a good diagram. So before jumping into the code I've created a visualization of the solution we're about to dig into. </p>
+<div style='text-align:center'>
+<img alt='INSERT THREADED UI DIAGRAM'
+     src='/diagrams/processes_and_threads.drawio.svg' 
+     width='400px'/>
+</div>
+<p><strong>Figure i</strong>: Reading subprocess output with threads.</p>
+<p>Figure i illustrates reading subprocess output with threads in a GUI driven application. Here's the analysis.</p>
+<ol>
+<li>
+<p>First, notice the illustration of the <strong>process pipe</strong> represented the sub-process <em>standard output</em>. I kind of like the pipe analogy, so much so that I've gone ahead and drawn a little valve on it. I did so to highlight the point that <em>this is what will block the GUI in an application that reads output from a sub-process</em>. If the subprocess reaches a point where it awaits input (obtained through another pipe -- namely <code>stdin</code>) Then it's <code>stdout</code> which will be blocked. The valve is a reminder that the pipe can be shut off at times. </p>
+</li>
+<li>
+<p>So if you want to interact with a long-running process from GUI, you'll want to <em>spin off the reading of that process's <code>stdout</code> pipe to a</em> <strong><em>dedicated thread</em></strong>. </p>
+</li>
+<li>
+<p>Under such conditions, the safest way to communicate information back to the main thread (here, the one executing the <em>tkinter loop</em>) is to use a <strong>queue</strong>. Recall that a queue is a data structure that encapsulates a "First-In-First-Out" (FIFO) data processing routine. The queue defines methods for retrieving data in the order it's entered. The good news is that python provides pre-defined queue-type data structures that are said to be "thread safe". Probably. (More on that topic to come in future posts). </p>
+</li>
+<li>
+<p>The thread reading the output (the <em>output reader</em>) executes a <em>read loop</em> wherein it simply; (1) reads a line at a time from the pipe, and (2) puts each line read into a shared queue. </p>
+</li>
+<li>
+<p>Meanwhile, the main thread sits there continuously executing the tkinter event loop. This is where we can tie in to periodically update tkinter GUI views using <code>await</code> to read new line items should they become available on the queue. </p>
+</li>
+</ol>
+<p>With this visualization in mind, let's look at a concrete example...</p>
+<p>CONTINUE T MAKE THE POINTS OUTLINED HERE</p>
+<p>https://www.google.com/search?q=how+do+threads+use+queues+to+communicate+in+python?&amp;mstk=AUtExfAjHJ5aOAOHHSOTX09jATpvPi_ApS2otxVoUFRlVhbPOM09o45xMdotyxEw-mBdXMick2GUbBGzk3xrX73ZjwbKsQj-WfQEu4hX8VT_FwiodCWyO3aqueXzKFm9FbcbSOZxmgGcNC5eK1yJJfgNTddq2G09GZ8EluVw56MaGJ2MAHcpr0u6XjTsTyhUBwzb5x-O0KAsRyeyCPPvp__AR7eFqmu726ipO_Bc0yPMm48orGitnQnWIfU4Uw6f-Rp-tdKn2K5yblt4FgVzkevFwFlJ&amp;csuir=3</p>
+<p>And also here...</p>
+<p>https://www.google.com/search?q=how+do+I+read+from+a+queue+in+tkinter+gui+on+update?&amp;mstk=AUtExfAhG78IQeGnmqAu6jk8kEJ90_hS3DsaHQRws-DnR9mFm13Xoy1dm_diEzy-N70m_xaPgk1tsaG2WXUQ_gw-hjBpFNMGfZI4ZkwKqqbAOqwep5NWJrH-3Gg0zIJEhVN3ngKKwoRWXSiGwv1eZ52hylEqUK0gP0u_Ml07UJU93rkFqNI&amp;csuir=3</p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">tkinter</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tk</span>
+<span class="o">...</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">threading</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">Thread</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">handle_click</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
+<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;&#39;Tis but a scratch!&quot;</span><span class="w"> </span><span class="p">)</span>
+
+<span class="n">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+<span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;Test Harness&quot;</span><span class="w"> </span><span class="p">)</span>
+
+
+<span class="n">button_tk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+<span class="w">    </span><span class="n">root</span><span class="p">,</span>
+<span class="w">    </span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Click Me&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">command</span><span class="o">=</span><span class="n">handle_click</span>
+<span class="p">)</span>
+<span class="n">button_tk</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="w"> </span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="w"> </span><span class="p">)</span>
+
+
+
+<span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</code></pre></div>
+
+
+</div>
+
+<p>[[INSERT CODE AND DESCRIPTON]]</p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+    <pre>
+    def do_async_task ( task ) : 
+        # LAUNCH TASK IN NEW THREAD...
+        <font color='#F88'>task_thread = Thread( 
+            target=lambda :  async_loop.run_until_complete( task() )
+        )
+        task_thread.start()</font>
+    </pre>
+</div>
+
+<p>Here's how it works:</p>
+<ol>
+<li>
+<p>TBD</p>
+</li>
+<li>
+<p>TBD</p>
+</li>
+<li>
+<p>TBD</p>
+</li>
+</ol>
+<h1>Discussion</h1>
+<p>TBD</p>
+<h1>Summary</h1>
+<p>TBD</p>
+<h1>Resources</h1>
+<ol>
+<li>
+<p><a href="https://docs.python.org/3/library/tk.html">Graphical User Interfaces with Tk</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/tkinter.html#threading-model">The TkInter Threading Model</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/threading.html">The Python Threading API</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/threading.html#thread-objects">The Python Thread Object</a></p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2024-11-09T00:00:00-05:00">
+        Sat 09 November 2024
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/blog.html">Blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="/tag/graphical-user-interface.html">graphical user interface</a>
+            <a href="/tag/python.html">python</a>
+            <a href="/tag/tkinter.html">tkinter</a>
+            <a href="/tag/development.html">development</a>
+            <a href="/tag/threading.html">threading</a>
+            <a href="/tag/computer-science.html">computer science</a>
+            <a href="/tag/asynchronous.html">asynchronous</a>
+            <a href="/tag/code.html">code</a>
+            <a href="/tag/event-loops.html">event loops</a>
+            <a href="/tag/queues.html">queues</a>
+            <a href="/tag/inter-process-communication.html">inter process communication</a>
+            <a href="/tag/io.html">I/O</a>
+            <a href="/tag/stdout.html">STDOUT</a>
+            <a href="/tag/processes.html">processes</a>
+            <a href="/tag/subprocess.html">subprocess</a>
+            <a href="/tag/pipes.html">pipes</a>
+            <a href="/tag/stdin.html">STDIN</a>
+            <a href="/tag/blocking.html">blocking</a>
+            <a href="/tag/threads.html">threads</a>
+            <a href="/tag/thread-safety.html">thread safety</a>
+            <a href="/tag/gui.html">GUI</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Process Managment in Python Part 1: The Process Mediator</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="graphical user interface" />
+    <meta name="tags" content="python" />
+    <meta name="tags" content="tkinter" />
+    <meta name="tags" content="development" />
+    <meta name="tags" content="threading" />
+    <meta name="tags" content="computer science" />
+    <meta name="tags" content="asynchronous" />
+    <meta name="tags" content="code" />
+    <meta name="tags" content="event loops" />
+    <meta name="tags" content="queues" />
+    <meta name="tags" content="inter process communication" />
+    <meta name="tags" content="I/O" />
+    <meta name="tags" content="STDOUT" />
+    <meta name="tags" content="processes" />
+    <meta name="tags" content="subprocess" />
+    <meta name="tags" content="pipes" />
+    <meta name="tags" content="STDIN" />
+    <meta name="tags" content="blocking" />
+    <meta name="tags" content="threads" />
+    <meta name="tags" content="thread safety" />
+    <meta name="tags" content="GUI" />
+    <meta name="tags" content="software architecture" />
+    <meta name="tags" content="design patterns" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/blog/python_process_management_1.html" rel="bookmark"
+           title="Permalink to Process Managment in Python Part 1: The Process Mediator">Process Managment in Python Part 1: The Process Mediator</a></h2>
+      
+    </header>
+    <h1>Introduction</h1>
+<p>This post is part 1 of a multi-part arc in which I intend to explore process management and multi-threaded application development in Python. The purpose in doing so is to share my experience and provide guidance and recommendations to python enthusiasts interested in inter-process communication and multi-threaded application development.</p>
+<h1>Background</h1>
+<p>Recently I've been working on application prototypes using python and have had the need to quickly create graphical user interfaces to facilitate research, development and testing. While some might expect such efforts to be pretty much straight-forward I found working through the docs to be a somewhat of an obtuse experience -- particularly with regard to process management. So I thought I'd try to clarify some things here and offer up some patterns for process management in GUI development for anyone who might be interested.</p>
+<h2>First, What Exactly are Processes?</h2>
+<p>In modern operating systems a <strong>process</strong> is a program in execution. A process is an <em>instance</em> of a program. As such, it comprises a <em>context</em> which includes a program stack and memory which holds data. A key aspect of a computer process (that seems easy to forget in the age of the graphical user interface) is that execution is always <em>sequential</em>. </p>
+<p>Over the course of execution, a process can enter into any of a number of states as illustrated below. </p>
+<div style='text-align:center'>
+    <img alt='INSERT INSTANCE DIAGRAM'
+         src='/diagrams/process_states.drawio.svg' 
+         width='350px'/>
+</div>
+
+<p>From process launch to completion, the states may be described as follows:</p>
+<ol>
+<li>
+<p><strong>new</strong> : The process is just being created.</p>
+</li>
+<li>
+<p><strong>running</strong> : The process is sequentially executing instructions.</p>
+</li>
+<li>
+<p><strong>waiting</strong> : The process is waiting for an event (e.g., I/O or receipt of a signal).</p>
+</li>
+<li>
+<p><strong>ready</strong> : The process is ready for some CPU time.</p>
+</li>
+<li>
+<p><strong>terminated</strong> : The process is done (with or without error).</p>
+</li>
+</ol>
+<p>The important thing to understand here is that <em>only one process can be running on a processor at any particular instant in time</em>. And depending on the requirements of the program associated processes may <em>block</em> or enter into a waiting state from which it may be released on the occurrence of an event or receipt of some signal.</p>
+<h2>Process Management in Python Applications</h2>
+<p>Python provides a number of modules intended to facilitate process management (and relatedly, multi-threaded application development) -- one of which is <a href="https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing">multiprocessing</a>. <em>Multiprocessing</em> is very useful for optimizing code intended for execution in multi-processor environments but is overkill for my current needs so it's out-of-scope for the present discussion. Instead, in this post I'm focusing on the <em><a href="https://docs.python.org/3/library/subprocess.html#module-subprocess">subprocess</a></em> module -- which provides a lower level API allowing you to spawn new processes and connect to their input/output/error pipes.</p>
+<p>Inter process communication is enabled through OS layer <em>pipes</em> <img src='/diagrams/pipe.svg' height='10px' /> . A pipe is essentially a queue of bytes shared between two processes. One process writes into the pipe and another reads from it. Unix and derivative operating systems (and possibly Windows) define three standard pipes; <em>standard output</em>, <em>standard input</em>, and <em>standard error</em> (termed <code>stdout</code>, <code>stdin</code> and <code>stderror</code>) respectively. In advanced python development often there is a need to create child processes and redirect these pipes to enable communication with the parent. </p>
+<h1>Mediating Inter process Communication</h1>
+<p>The problem with working with sub processes is that -- while they facilitate re-use -- creating multiple interconnections to enable communication adds complexity that quickly becomes hard to manage and difficult to maintain. Multiprocessing introduces <em>process dependencies</em> that often require coordination among participants. For example, consider the implementation of a network protocol which requires a number of inter process interactions to occur in a specific sequence. </p>
+<p>Many issues arising in these sorts of scenarios can be prevented and/or addressed through the use of a <em>mediator-type object</em>. </p>
+<p>The mediator should encapsulate the control and coordination of interactions among groups of processes vastly simplifying (among other things): </p>
+<ol>
+<li>
+<p>The management of shared resources, </p>
+</li>
+<li>
+<p>The tracking and enforcement of sequential dependencies, </p>
+</li>
+<li>
+<p>The proper disposition of allocated system resources over the life-cycle of the application. </p>
+</li>
+</ol>
+<p>The mediator facilitates inter process communication by <em>reducing the overall number of connections</em> among objects. Objects can communicate through the mediator obviating the need to maintain state in a distributed fashion across multiple process instances and define direct communication protocols. This, in turn, enables the development of more atomic functions lowering the potential for unwanted side-effects and eliminating whole classes of issues. </p>
+<p>The following instance diagram illustrates the relationships among objects with a sample mediator; <em>ProcessDirector</em>. </p>
+<div style='text-align:center'>
+    <img alt='INSERT INSTANCE DIAGRAM'
+         src='/diagrams/mediator_instance_diagram.drawio.svg' 
+         width='250px'/>
+</div>
+
+<p>Notice how the director object mediates communication between sub processes and client code. Processes communicate between each other and with clients only <em>indirectly</em> via the mediator. The client doesn't need to "know" any of the internal implementation details of the sub processes, nor do the processes need to maintain any state related to each other. This is all the responsibility of the director. With the responsibility of directing the behavior of its aggregates scoped to one specific class (and potentially sub classes) logic can be readily changed and/or replaced by extending or swapping out that singular implementation. </p>
+<p>The following class diagram highlights key collaborations and functionality in such a sub-system. </p>
+<div style='text-align:center'>
+    <img alt='INSERT CLASS DIAGRAM'
+         src='/diagrams/ProcessDirector_class_diagram.drawio.svg' 
+         width='400px'/>
+</div>
+
+<p>The diagram illustrates the aggregate relationship between the <code>ProcessDirector</code> class and it's <code>SubProcess</code> instances. The director class can define logic to properly launch and dispose of child processes executing python scripts and business logic to orchestrate sequential behavior. In addition, it serves as a composite whole maintaining any shared resources (e.g., pipes, queues, streams, etc.) to enable communication.</p>
+<h1>Implementation</h1>
+<p>The following code example highlights some of the implementation details. </p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+<pre>
+class ProcessDirector :
+    '''
+    Responsible for spawning and directing processes to execute python scripts. 
+    '''
+    def __init__ ( self ) : 
+        self.processes = [] 
+        self.t_queue = queue.Queue()
+
+    def launch_process( self, python_script, cmd_ln_args ) : 
+        <font color='#f88'>launch_sequence = [ sys.executable, python_script ] + cmd_ln_args
+        proc = subprocess.Popen(
+            launch_sequence,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1
+        )
+        self.processes.append( proc )</font>
+
+        t = Thread(
+            target=self.read_proc_output,
+            args=[proc.pid]
+        )
+        t.daemon = True
+        t.start()
+
+        return proc.pid
+
+    <font color='#f88'>def terminate_children( self ) : 
+        for i in range( len( self.processes ) - 1, -1, -1 ) : 
+            target = self.processes[i]
+            target.terminate()
+            target.wait()
+            if target.returncode is not None:
+                self.processes.pop( i )</font>
+
+    def read_proc_output( self, pid ) : 
+        '''
+        Read-loop target for read thread. Reads stdout of child process given
+
+        Arguments: 
+            pid: The pid (process id) of the process (should be obtained on launch...) 
+        '''
+        for process in self.processes :
+            if process.pid == pid :
+                proc = process
+        while True: 
+            # sleep. otherwise you work too hard and heat up the box...
+            time.sleep( 0.02 )
+
+            output = proc.stdout.readline()
+            if not output :
+                continue
+            self.t_queue.put( output )
+
+    def send_input(self, input_text):
+        '''
+        Send input to the process.
+        '''
+        proc = self.processes[0]
+        proc.stdin.write(input_text + '\n')
+        proc.stdin.flush()
+
+    def process_q ( self ) : 
+        output = ""
+        while not self.t_queue.empty () :
+            output += self.t_queue.get()
+        return output
+
+</pre>
+</div>
+
+<h2>Analysis</h2>
+<p>The key points for the present analysis revolve around the creation and disposition of sub processes and disposition of resources. Notice the <em>ProcessDirector</em> ...</p>
+<ol>
+<li>
+<p>Defines logic for <strong>launching and maintaining a list of sub processes</strong> given; (a) a <em>script name</em>, and (b) <em>command-line arguments</em> (which it marshals to create a 'launch sequence'),</p>
+</li>
+<li>
+<p>Provides a method to <strong>properly dispose of the sub processes</strong> it creates -- releasing any system resources and insuring that no orphan child processes should be left behind, and</p>
+</li>
+<li>
+<p>Implements <strong>business logic</strong> aimed at orchestrating communication between sub processes and exposing resultant information to client objects (for example GUI components).</p>
+</li>
+</ol>
+<p>Those details are the main focus of the present post. I'll provide more details around <em>inter process communication using threads</em> in the context of GUI development in subsequent additions to this arc.</p>
+<h1>Discussion</h1>
+<p>In this post I've explored the application of a <em>mediator</em> pattern to facilitate inter process communication in python. The approach involves the use of an object responsible for tracking process creation, disposition, and state over the life-cycle of an application. </p>
+<p>This approach centralizes the control of sub processes and facilitates the management of shared resources. It stands in contrast to federated approaches  requiring <em>dependency injection</em>. A full-blown comparison between the two approaches is out-of-scope for this post. But suffice it to say that based on my experience, systems that rely too heavily on dependency injection are very difficult to iteratively and incrementally develop and maintain. </p>
+<p>The <em>benefits</em> the centralized approach include:</p>
+<ol>
+<li>
+<p>simplification of <em>synchronization logic</em>,</p>
+</li>
+<li>
+<p>facilitation of the enforcement of <em>sequential dependencies</em>, and</p>
+</li>
+<li>
+<p><em>ease of maintenance and code re-use</em>.</p>
+</li>
+</ol>
+<p>The use-cases for the pattern are ubiquitous and include any application requiring task parallelization such as real-time data processing with end-user interaction, simulations, and any application requiring concurrent I/O operations. Similar patterns are used in python's <em>multiprocessing</em> module with its <em>manager</em> objects. Working through this "homegrown" example helps better understand the need for and application of these patterns.</p>
+<h1>Summary</h1>
+<p>This is the first part of a multi-post arc exploring multiprocess communication in python. In this post the focus was on the creation and management of sub-processes and communication between them using python's <em>subprocess</em> module. In a subsequent post I'll dig a bit deeper into GUI application development using sub processes and <em>threads</em>. </p>
+<h1>Resources</h1>
+<ol>
+<li>
+<p><a href="https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing">multiprocessing</a></p>
+</li>
+<li>
+<p><a href="http://euccas.github.io/blog/20161231/python-multiprocessing.html">Python Multiprocessing</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/subprocess.html#module-subprocess">subprocess</a></p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2024-11-08T00:00:00-05:00">
+        Fri 08 November 2024
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/blog.html">Blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="/tag/graphical-user-interface.html">graphical user interface</a>
+            <a href="/tag/python.html">python</a>
+            <a href="/tag/tkinter.html">tkinter</a>
+            <a href="/tag/development.html">development</a>
+            <a href="/tag/threading.html">threading</a>
+            <a href="/tag/computer-science.html">computer science</a>
+            <a href="/tag/asynchronous.html">asynchronous</a>
+            <a href="/tag/code.html">code</a>
+            <a href="/tag/event-loops.html">event loops</a>
+            <a href="/tag/queues.html">queues</a>
+            <a href="/tag/inter-process-communication.html">inter process communication</a>
+            <a href="/tag/io.html">I/O</a>
+            <a href="/tag/stdout.html">STDOUT</a>
+            <a href="/tag/processes.html">processes</a>
+            <a href="/tag/subprocess.html">subprocess</a>
+            <a href="/tag/pipes.html">pipes</a>
+            <a href="/tag/stdin.html">STDIN</a>
+            <a href="/tag/blocking.html">blocking</a>
+            <a href="/tag/threads.html">threads</a>
+            <a href="/tag/thread-safety.html">thread safety</a>
+            <a href="/tag/gui.html">GUI</a>
+            <a href="/tag/software-architecture.html">software architecture</a>
+            <a href="/tag/design-patterns.html">design patterns</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
