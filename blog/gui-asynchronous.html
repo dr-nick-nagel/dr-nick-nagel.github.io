@@ -19,7 +19,11 @@
         <link 
             rel="stylesheet" 
             type="text/css" 
-            href="/theme/css/styles.css" />
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
         <link 
             rel="stylesheet" 
             href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
@@ -48,19 +52,19 @@ Welcome to NickNagel.com
             <navbar class="navigation">
                 <div class='image_item' id="pallas-athena-container">
                     <img id="pallas-athena-image"
-                        src="/images/athena.svg" 
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
                         alt="Pallas Athena"
                     >
                 </div>
                 <ul>
                     <li>
-                        <a href="/pages/about-nick.html">About Nick</a>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
                     </li>
                     <li>
-                        <a href="/blog/index.html">Blog</a>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
                     </li>
                     <li>
-                        <a href="/pages/nn-cv.html">CV</a>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
                     </li>
                 </ul>
             </navbar>
@@ -68,7 +72,7 @@ Welcome to NickNagel.com
   <article>
     <header>
       <h2>
-        <a href="/blog/gui-asynchronous.html" rel="bookmark"
+        <a href="https://dr-nick-nagel.github.io/blog/gui-asynchronous.html" rel="bookmark"
            title="Permalink to Graphical User Interfaces with Asynchronous Code in Python">Graphical User Interfaces with Asynchronous Code in Python</a></h2>
       
     </header>
@@ -92,49 +96,47 @@ Welcome to NickNagel.com
 <h2>The Simplest Approach</h2>
 <p>The simplest approach to the problem of using your async code in a tkinter application is to <em>run the async loop within the tkinter loop</em>. Python's <a href="https://docs.python.org/3/library/asyncio.html"><code>asyncio</code> API</a> allows you to run an <code>asyncio</code> event loop within an existing loop as shown in the following bare-bones example.</p>
 <div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+```
+    import asyncio
+    import tkinter as tk
+    import aiortc
 
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
-<span class="w">    </span><span class="kn">import</span><span class="w"> </span><span class="nn">tkinter</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tk</span>
-<span class="w">    </span><span class="kn">import</span><span class="w"> </span><span class="nn">aiortc</span>
+    async def do_async () :
+        print( "START ASYNC TASK" )
+        await asyncio.sleep( 3 )
+        print( "END ASYNC TASK" )
 
-<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">do_async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">:</span>
-<span class="w">        </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;START ASYNC TASK&quot;</span><span class="w"> </span><span class="p">)</span>
-<span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">)</span>
-<span class="w">        </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;END ASYNC TASK&quot;</span><span class="w"> </span><span class="p">)</span>
-
-<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">do_async_task</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
-<span class="w">        </span><span class="c1"># LAUNCH THE ASYNC TASK...</span>
-<span class="w">        </span><span class="n">async_loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="w"> </span><span class="n">task</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
-
-
-<span class="w">    </span><span class="k">def</span><span class="w"> </span><span class="nf">handle_click</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
-<span class="w">        </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;&#39;Tis but a scratch!&quot;</span><span class="w"> </span><span class="p">)</span>
-
-<span class="w">    </span><span class="n">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
-<span class="w">    </span><span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;Test Harness&quot;</span><span class="w"> </span><span class="p">)</span>
-<span class="w">    </span><span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;400x300&quot;</span><span class="w"> </span><span class="p">)</span>
-
-<span class="w">    </span><span class="n">button_tk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
-<span class="w">        </span><span class="n">root</span><span class="p">,</span>
-<span class="w">        </span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Click Me&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="n">command</span><span class="o">=</span><span class="n">handle_click</span>
-<span class="w">    </span><span class="p">)</span>
-<span class="w">    </span><span class="n">button_tk</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="w"> </span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="w"> </span><span class="p">)</span>
-
-<span class="w">    </span><span class="n">button_async</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
-<span class="w">        </span><span class="n">root</span><span class="p">,</span>
-<span class="w">        </span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Do Async&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">do_async_task</span><span class="p">(</span><span class="w"> </span><span class="n">do_async</span><span class="w"> </span><span class="p">)</span><span class="w">  </span>
-<span class="w">    </span><span class="p">)</span>
-<span class="w">    </span><span class="n">button_async</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="w"> </span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="w"> </span><span class="p">)</span>
-
-<span class="w">    </span><span class="c1">#  asyncio.run( do_async_task )</span>
-<span class="w">    </span><span class="n">async_loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asyncio</span><span class="o">.</span><span class="n">new_event_loop</span><span class="p">()</span>
-
-<span class="w">    </span><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
-</code></pre></div>
+    def do_async_task ( task ) : 
+        # LAUNCH THE ASYNC TASK...
+        async_loop.run_until_complete( task() )
 
 
+    def handle_click () : 
+        print( "'Tis but a scratch!" )
+
+    root = tk.Tk()
+    root.title( "Test Harness" )
+    root.geometry( "400x300" )
+
+    button_tk = tk.Button(
+        root,
+        text="Click Me",
+        command=handle_click
+    )
+    button_tk.pack( pady=20 )
+
+    button_async = tk.Button(
+        root,
+        text="Do Async",
+        command=lambda : do_async_task( do_async )  
+    )
+    button_async.pack( pady=20 )
+
+    #  asyncio.run( do_async_task )
+    async_loop = asyncio.new_event_loop()
+
+    root.mainloop()
+```
 </div>
 
 <p>In this example I've defined two tasks; (1) <code>async def do_async ()</code>, which simulates an asynchronous routine, and (2) <code>def handle_click ()</code> which simulates a standard task that can execute within the tkinter loop. Notice that <code>do_async</code> is marked with the <code>async</code> keyword. This requires that when it is called it must be called with the keyword <code>await</code>. The problem is that tkinter doesn't "know" how to do that and so it's not so easy to bind the function to a tkinter widget.</p>
@@ -179,52 +181,51 @@ The function delegates the asynchronous execution of the task to any named async
 <p><strong>Figure 2</strong>: The python main thread running the <code>tkinter</code> loop and a child thread running the async-loop.</p>
 <p>The following barebones example embodies the extended pattern.</p>
 <div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+```
+import asyncio
+import tkinter as tk
+import aiortc
+from threading import Thread
 
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tkinter</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tk</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">aiortc</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">threading</span><span class="w"> </span><span class="kn">import</span><span class="w"> </span><span class="n">Thread</span>
+async def do_async () :
+    print( "START ASYNC TASK" )
+    await asyncio.sleep( 3 )
+    print( "END ASYNC TASK" )
 
-<span class="k">async</span><span class="w"> </span><span class="k">def</span><span class="w"> </span><span class="nf">do_async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">:</span>
-<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;START ASYNC TASK&quot;</span><span class="w"> </span><span class="p">)</span>
-<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">)</span>
-<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;END ASYNC TASK&quot;</span><span class="w"> </span><span class="p">)</span>
+def do_async_task ( task ) : 
+    # LAUNCH TASK IN NEW THREAD...
+    task_thread = Thread( 
+        target=lambda :  async_loop.run_until_complete( task() )
+    )
+    task_thread.start()
 
-<span class="k">def</span><span class="w"> </span><span class="nf">do_async_task</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
-<span class="w">    </span><span class="c1"># LAUNCH TASK IN NEW THREAD...</span>
-<span class="w">    </span><span class="n">task_thread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="w"> </span>
-<span class="w">        </span><span class="n">target</span><span class="o">=</span><span class="k">lambda</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">async_loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="w"> </span><span class="n">task</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span>
-<span class="w">    </span><span class="n">task_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+def handle_click () : 
+    print( "'Tis but a scratch!" )
 
-<span class="k">def</span><span class="w"> </span><span class="nf">handle_click</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
-<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;&#39;Tis but a scratch!&quot;</span><span class="w"> </span><span class="p">)</span>
+root = tk.Tk()
+root.title( "Test Harness" )
+root.geometry( "400x300" )
 
-<span class="n">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
-<span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;Test Harness&quot;</span><span class="w"> </span><span class="p">)</span>
-<span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="w"> </span><span class="s2">&quot;400x300&quot;</span><span class="w"> </span><span class="p">)</span>
+button_tk = tk.Button(
+    root,
+    text="Click Me",
+    command=handle_click
+)
+button_tk.pack( pady=20 )
 
-<span class="n">button_tk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
-<span class="w">    </span><span class="n">root</span><span class="p">,</span>
-<span class="w">    </span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Click Me&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">command</span><span class="o">=</span><span class="n">handle_click</span>
-<span class="p">)</span>
-<span class="n">button_tk</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="w"> </span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="w"> </span><span class="p">)</span>
+button_async = tk.Button(
+    root,
+    text="Do Async",
+    command=lambda : do_async_task( do_async )  
+)
+button_async.pack( pady=20 )
 
-<span class="n">button_async</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
-<span class="w">    </span><span class="n">root</span><span class="p">,</span>
-<span class="w">    </span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Do Async&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">do_async_task</span><span class="p">(</span><span class="w"> </span><span class="n">do_async</span><span class="w"> </span><span class="p">)</span><span class="w">  </span>
-<span class="p">)</span>
-<span class="n">button_async</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="w"> </span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="w"> </span><span class="p">)</span>
+#  asyncio.run( do_async_task )
+async_loop = asyncio.new_event_loop()
 
-<span class="c1">#  asyncio.run( do_async_task )</span>
-<span class="n">async_loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asyncio</span><span class="o">.</span><span class="n">new_event_loop</span><span class="p">()</span>
+root.mainloop()
 
-<span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
-</code></pre></div>
-
-
+```
 </div>
 <p>If you copy and execute this this example in your favorite python environment you should find that the GUI remains responsive even while the asynchronous operation is executing. <em>The pattern to achieve this is to extend the previous example by kicking off the async loop in a new child thread</em>. You can see this in the updated function:</p>
 <div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
@@ -279,23 +280,23 @@ The function delegates the asynchronous execution of the task to any named async
         Wed 23 October 2024
       </time></p>
         <address>
-          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
         </address>
         <p>
-          Category: <a href="/category/blog.html">Blog</a>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
         </p>
         <p>
           Tags:
-            <a href="/tag/graphical-user-interface.html">graphical user interface</a>
-            <a href="/tag/python.html">python</a>
-            <a href="/tag/tkinter.html">tkinter</a>
-            <a href="/tag/development.html">development</a>
-            <a href="/tag/rapid-prototype.html">rapid prototype</a>
-            <a href="/tag/threading.html">threading</a>
-            <a href="/tag/computer-science.html">computer science</a>
-            <a href="/tag/asynchronous.html">asynchronous</a>
-            <a href="/tag/code.html">code</a>
-            <a href="/tag/event-loops.html">event loops</a>
+            <a href="https://dr-nick-nagel.github.io/tag/graphical-user-interface.html">graphical user interface</a>
+            <a href="https://dr-nick-nagel.github.io/tag/python.html">python</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tkinter.html">tkinter</a>
+            <a href="https://dr-nick-nagel.github.io/tag/development.html">development</a>
+            <a href="https://dr-nick-nagel.github.io/tag/rapid-prototype.html">rapid prototype</a>
+            <a href="https://dr-nick-nagel.github.io/tag/threading.html">threading</a>
+            <a href="https://dr-nick-nagel.github.io/tag/computer-science.html">computer science</a>
+            <a href="https://dr-nick-nagel.github.io/tag/asynchronous.html">asynchronous</a>
+            <a href="https://dr-nick-nagel.github.io/tag/code.html">code</a>
+            <a href="https://dr-nick-nagel.github.io/tag/event-loops.html">event loops</a>
         </p>
     </footer>
   </article>

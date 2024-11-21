@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Process Managment in Python Part 2: Multi-threaded GUIs</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="graphical user interface" />
+    <meta name="tags" content="python" />
+    <meta name="tags" content="tkinter" />
+    <meta name="tags" content="development" />
+    <meta name="tags" content="threading" />
+    <meta name="tags" content="computer science" />
+    <meta name="tags" content="asynchronous" />
+    <meta name="tags" content="code" />
+    <meta name="tags" content="event loops" />
+    <meta name="tags" content="queues" />
+    <meta name="tags" content="inter process communication" />
+    <meta name="tags" content="I/O" />
+    <meta name="tags" content="STDOUT" />
+    <meta name="tags" content="processes" />
+    <meta name="tags" content="subprocess" />
+    <meta name="tags" content="pipes" />
+    <meta name="tags" content="STDIN" />
+    <meta name="tags" content="blocking" />
+    <meta name="tags" content="threads" />
+    <meta name="tags" content="thread safety" />
+    <meta name="tags" content="GUI" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/python_process_management_2.html" rel="bookmark"
+           title="Permalink to Process Managment in Python Part 2: Multi-threaded GUIs">Process Managment in Python Part 2: Multi-threaded GUIs</a></h2>
+      
+    </header>
+    <h1>Introduction</h1>
+<p>In a <a href="https://dr-nick-nagel.github.io/blog/python_process_management_1.html">previous post</a> I blogged about a <em>mediator</em> pattern, for python development to direct the instantiation, execution and management of subprocesses in an application. In that post I concluded with a promise that I'd have more to say about using processes and threads in the context of <em>Graphical User Interface Development</em>, and, well, here we are. My aim in this present piece is to tie together the concepts and patterns from those previous articles -- those revolving around using asynchronous python code, sub-processes and <em>threads</em> -- with a focus on applying them to GUI development.</p>
+<h1>Background</h1>
+<p>Back in olden days, before GUIs became ubiquitous, programmers used to create applications using <em>command-line interfaces</em> (CLIs). Life seems to have been so much simpler back then compared to the exponentially increasing complexity that surrounds us today. But we are where we are only by virtue of standing (and building!) on the shoulders of giants, and so, perhaps ironically, in order to move forward one must look backward every now and then.</p>
+<h2>My Favorite Programming Tool: The Command Line</h2>
+<p>Of course I say all that "tongue-in-cheek". As anyone with any interest in programming must surely know, the CLI remains a very important tool to this day and many programs are produced requiring interaction with the command line. That said, the CLI can, at times, feel mysterious, somewhat arcane, and in need of demystification. A big part of the beauty of the command-line lies in the simplicity of the interface. Interacting with a well-designed command-line tool or application can feel like having a conversation. You provide a command, the system might respond with some requests for information, and then it generates your results. </p>
+<h2>Enter the GUI</h2>
+<p>All that being said, as applications grow and become increasingly complex the need for a GUI to facilitate user-interaction becomes manifest. To make the discussion somewhat concrete, lately I've been working on implementing a networking protocol and needed a prototype to establish the basis for a distributed system. In order to conduct the analyses I needed to build the prototype, I reached a point where I needed to stand up a GUI as a sort of <em>harness</em> for development. In part, this series of posts documents some of the issues I encountered and some of the pain-points along the way.</p>
+<h1>Reading Subprocess Output with Threads</h1>
+<p>One of the problems I encountered revolved around the need to execute and coordinate subprocesses which had been previously defined as python console-applications. As noted and discussed in detail elsewhere, the problem with executing subprocesses -- and indeed any <em>asynchronous</em> code -- in a GUI app is that GUIs are event driven. They execute in a continuous loop that will <em>block</em> if it gets caught up in a lengthy routine or if a subprocess spawned by the GUI blocks for some reason. Again, <a href="https://dr-nick-nagel.github.io/blog/gui-asynchronous.html">I've discussed GUI event loops and asynchronous development elsewhere</a>, so won't get into the details of the event-loop here. Instead I'd like to extend the previous discussions with a focus on reading and writing to subprocesses using threads.</p>
+<div class="admonition warning">
+<p class="admonition-title">The Lost art of Multi-threaded Application Development</p>
+<p>Over the course of researching solutions to best meet my needs I came across many knee-jerk reactions against using threads in python development. Many developers are cautious about delving into multi-threaded applications due to the challenges posed by race conditions, dead-lock and the complexity of synchronizing on data structures. Instead, we are admonished to favor asynchronous approaches and non-blocking I/O with select API's. And all that is generally true. But, that being said, there are some use-cases where multi-threaded solutions work best and the capability to use threads becomes mission critical. In the example below I've simulated a use-case that blocks (awaiting user input) and an approach using <code>async</code> simply won't work.</p>
+</div>
+<h1>Visualizing the Solution</h1>
+<p>I am a visual thinker -- I like visualizing solutions and I'm big fan of a good diagram. So before jumping into the code I've created a visualization of the solution we're about to dig into. Please indulge me as I walk through it.</p>
+<div style='text-align:center'>
+<img alt='INSERT THREADED UI DIAGRAM'
+     src='/diagrams/processes_and_threads.drawio.svg' 
+     width='400px'/>
+</div>
+
+<p>Figure 1 illustrates reading subprocess output with threads in a GUI driven application. Here's the analysis.</p>
+<ol>
+<li>
+<p>First, notice the illustration of the <strong>process pipe</strong> representing the sub-process <em>standard output</em>. I kind of like the pipe analogy, so much so that I've gone ahead and drawn a little valve on it. I did so to highlight the point that <em>this is what will block the GUI in an application that reads output from a sub-process</em>. If the subprocess reaches a point where it awaits input (obtained through another pipe -- namely <code>stdin</code>) Then it's <code>stdout</code> which will be blocked. The valve is a reminder that the pipe can be shut off at times. </p>
+</li>
+<li>
+<p>So if you want to interact with a long-running process from a GUI, you'll want to <em>spin off the reading of that process's <code>stdout</code> pipe to a</em> <strong><em>dedicated thread</em></strong>. </p>
+</li>
+<li>
+<p>Under such conditions, the safest way to communicate information back to the main thread (here, the one executing the <em>tkinter loop</em>) is to use a <strong>queue</strong>. Recall that a queue is a data structure that encapsulates a "First-In-First-Out" (FIFO) data processing routine. The queue defines methods for retrieving data in the order it's entered. The good news is that python provides pre-defined queue-type data structures that are said to be "thread safe". Probably.</p>
+</li>
+<li>
+<p>The thread reading the output (the <em>output reader</em>) executes a <em>read loop</em> wherein it simply; (1) reads a line at a time from the pipe, and (2) puts each line read into a shared queue. </p>
+</li>
+<li>
+<p>Meanwhile, the main thread sits there continuously executing the tkinter event loop. This is where we can tie in to periodically update tkinter GUI views using <code>await</code> to read new line items should they become available on the queue. </p>
+</li>
+</ol>
+<p>In essence, what we have here is a classic <em>producer/consumer</em> use-case. The <em>output reader</em> is a producer who's role is to populate the process output queue with data as it becomes available over the course of the application life cycle. The main thread is the consumer, which periodically dequeues information and updates a view in the GUI. </p>
+<p>With this visualization in mind, let's look at a concrete example...</p>
+<h1>Example</h1>
+<h2>Listing 1</h2>
+<p>The first listing is a just some scaffolding I put up to test the process. It's just a simple python script that prints some output, asks for end-user input, and echos that input back to the end-user. All in all, pretty straightforward. The thing to notice though, is the part that gets user input using the python <code>input()</code> function (which I've highlighted in red). <code>input</code> causes the program to block and wait for the end-user to enter data. Normally, this is what we'd want since it enables interaction via the console through <code>stdin</code> (by default the keyboard in a console app). The problem is that if we run this script from a tkinter GUI app the GUI will freeze up when the script hits this part of the application.</p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+    <pre>
+import sys
+import argparse
+import asyncio
+
+def send_output ( text ) :
+    print( text )
+    sys.stdout.flush()
+
+<font color='#F89'>def get_input () : 
+    print( "Enter Text Input ... " )
+    test_in = input()
+    sys.stdout.flush(  )
+    return test_in</font>
+
+def echo_input( obtained_in ) : 
+    send_output( obtained_in )
+
+async def send_async_output (text) :
+    print( text ) 
+
+def test_send_async ( text ) :
+    loop.run_until_complete( send_async_output( text ) )
+
+if __name__ == "__main__" :
+    print( "----    START TEST    ----" )
+    parser = argparse.ArgumentParser (
+        prog = 'nn_testscript',
+        description = 'Test scaffolding for process mediator pattern',
+        epilog = '\u266B Always look on the bright side of life... '
+    )
+    parser.add_argument( 'instance_label' )
+    args = parser.parse_args()
+    print( sys.argv[0] )
+    instance_label = args.instance_label
+    print(f"Instance: {instance_label}")
+    loop = asyncio.new_event_loop()
+    send_output ( "Testing 1, 2, 3" )
+    <font color='#F89'>test_in = get_input()</font>
+    test_send_async( f"ECHO: {test_in}" )
+    print( "----    END TEST    ----" )
+    </pre>
+</div>
+
+<h2>Listing 2</h2>
+<p>Listing 2 (below) comprises a simple test-GUI (using <em>tkinter</em>) which I whipped up to demonstrate the process. The listing shows how the GUI code:</p>
+<ol>
+<li>
+<p>Launches the test script above using a <em>process mediator</em>, and</p>
+</li>
+<li>
+<p>Enables interaction through GUI controls.</p>
+</li>
+</ol>
+<p>In this case there are only a few widgets:</p>
+<ol>
+<li>
+<p>A <em>text area</em> to display the process output,</p>
+</li>
+<li>
+<p>An <em>entry field</em> to enable an end-user to enter data,</p>
+</li>
+<li>
+<p>A <em>launch</em> button to launch the subprocess (executing the test script), and</p>
+</li>
+<li>
+<p>A <em>send</em> button to send data to the process via its <code>stdin</code> pipe.</p>
+</li>
+</ol>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+    <pre>
+import tkinter as tk
+from process_mediator import ProcessDirector
+
+# Main application class with tkinter GUI
+class App:
+    def __init__( self, root ):
+        self.root = root
+        self.root.title("Read/Write Process Thread Example")
+        # Instantiate a 'process mediator'
+        self.process_mediator = ProcessDirector()
+        # Create GUI elements
+        self.text_output = tk.Text(root, wrap='word', height=20, width=40)
+        self.text_output.pack(pady=5)
+        self.entry_input = tk.Entry(root)
+        self.entry_input.pack(pady=5)
+
+        self.start_button1 = tk.Button( 
+            root, 
+            text="Launch Subprocess", 
+            command=lambda:self.start_process( TEST_SCRIPT )
+        )
+        self.start_button1.pack( side=tk.LEFT, padx=5 )
+
+        self.send_button1 = tk.Button(
+            root, 
+            text="Send Input", 
+            command=self.send_input
+        )
+        self.send_button1.pack(side=tk.LEFT, padx=5)
+
+        # Start updating output display
+        self.update_output()
+
+    def start_process(self, script_name):
+        """Start the specified process."""
+        self.subProcId = <font color='#F67'>self.process_mediator.launch_process( 
+            script_name, 
+            ["TEST_PROCESS"] 
+        )</font>
+
+    def send_input( self ):
+        """Send input to the selected process."""
+        input_text = self.entry_input.get()
+        <font color='#F67'>self.process_mediator.send_input( 
+            self.subProcId, input_text 
+        )</font> 
+        self.entry_input.delete(0, tk.END)
+
+    def update_output(self):
+        """Update output view(s)."""
+        if  hasattr( self, 'subProcId' ) :
+            output = <font color='#F67'><strong>self.process_mediator.process_q()</strong></font>
+            self.text_output.insert( tk.END, output )
+        self.root.after(100, self.update_output)  # Update every 100ms
+
+if __name__ == "__main__":
+    TEST_SCRIPT = "nn_testscript.py"
+    root = tk.Tk()
+    print( "====    START GUI TEST    ====" )
+    app = App(root)
+    root.mainloop()
+    print( "====    END GUI TEST    ====" )
+    </pre>
+</div>
+
+<p>Notice that the GUI is <em>very thin</em>. It doesn't 'know' or 'care' how to orchestrate communication with the sub-process. All that is the responsibility of the <em>process mediator</em> (<code>ProcessDirector</code>). To get script output to update the relevant view all the client code has to worry about is calling: <font color='#F67'><strong><code>self.process_mediator.process_q()</code></strong></font></p>
+<h2>Listing 3: The Process Mediator</h2>
+<p>The next listing contains selected portions of the class <code>ProcessDirector</code>. I've provided a full listing of the class as an appendix but here I've in-lined those parts most relevent to the present discussion for convenience. </p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+    <pre>
+import queue
+import subprocess
+import time
+...
+from threading import Thread
+
+class ProcessDirector :
+
+    def __init__ ( self ) : 
+        self.processes = [] 
+        self.t_queue = queue.Queue()
+
+    def launch_process( self, python_script, cmd_ln_args ) : 
+        launch_sequence = [ sys.executable, python_script ] + cmd_ln_args
+        <font color='#F56'>proc = subprocess.Popen(
+            launch_sequence,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1
+        )</font>
+        self.processes.append( proc )
+        <font color='#F56'>t = Thread(
+            target=self.read_proc_output,
+            args=[proc.pid]
+        )
+        t.daemon = True
+        t.start()</font>
+        return proc.pid
+
+    ...
+
+    def read_proc_output( self, pid ) : 
+        for process in self.processes :
+            if process.pid == pid :
+                proc = process
+        <font color='#F56'>while True: 
+            # sleep. otherwise you work too hard and heat up the box...
+            time.sleep( 0.02 )
+
+            output = proc.stdout.readline()
+            if not output :
+                continue
+            self.t_queue.put( output )</font>
+
+    ...
+
+    <font color='#F56'>def process_q ( self ) : 
+        output = ""
+        while not self.t_queue.empty () :
+            output += self.t_queue.get()
+        return output</font>
+
+    ...
+
+    </pre>
+</div>
+
+<p>Notice: </p>
+<ol>
+<li>
+<p>The <code>ProcessDirector</code> is responsible for launching subprocesses and orchestrating process interactions. It launches subprocesses in the <code>launch_process</code> method using <code>subprocess.Popen</code>. Notice further that the process director obtains handles to the standard process pipes; <code>stdout</code>, <code>stdin</code>, and <code>stderror</code>. The <code>buffsize=1</code> argument sets the buffer to a line.</p>
+</li>
+<li>
+<p>Next, it spins off a thread targeting the <code>read_proc_output</code> method. <code>read_proc_output</code> defines the read-loop that reads from the subprocess stdout pipe and populates the <em>process output queue</em> (owned by the process director) a line at a time. It's this read operation that has the potential to block (and freeze up) the GUI so this is the part that gets spun off to its own thread.</p>
+</li>
+<li>
+<p>Finally -- notice the <code>process_q</code> method. This is the method of concern for <code>ProcessDirector</code> client code that wants to update views associated with the process output. Client code would call this method to dequeue output for display.</p>
+</li>
+</ol>
+<p>And that's it. Taken as a whole the code we've walked through here is a basic implementation of a pattern that enables subprocess management and the integration of asynchronous code in Python GUI driven applications. The following screenshot shows the GUI displaying the output of the test script following an interactive session. </p>
+<div style='text-align:center'>
+<img alt='INSERT GUI SCREEN'
+     src='/images/thread_gui/Thread_GUI_Example.png' 
+     width='250px'/>
+</div>
+
+<h1>Discussion</h1>
+<p>The code that I've provided for this blog post is pretty bare-bones. It's intended to serve as reference material and also to provide a basis for further development. The <code>ProcessDirector</code> class is a first-pass implementation of what I've described as a <em>mediator</em> pattern for subprocess management. The GUI code is simple enough that it should be readily adaptable to other use-cases or to play with the <em>process mediator</em>. </p>
+<h2>The <em>Process Mediator</em> Pattern</h2>
+<p>The main considerations in adapting the process mediator are that it owns relevant data structures and manages the life-cycle of subprocesses tailored to execute specific sub-routines. The example we walked through here uses a <em>queue</em> to manage process output and defines a public method intended to enable client code to process the queue from a "consumer" thread (in the present case the main tkinter loop). </p>
+<div class="admonition hint">
+<p class="admonition-title">Is Python Queue 'Thread Safe'?</p>
+<p>It's well worth noting that the python <a href="https://docs.python.org/3/library/queue.html">Queue</a> used here is "thread safe". What this means is that the <em>queue</em> module internally handles synchronization. It manages the locks required to prevent conflicts when threads are adding or removing items from the queue thus ensuring that operations are atomic and that data integrity is maintained.</p>
+<p>That said, if you are adding items to your queue in a manner that requires atomicity outside the scope of the python queue <code>put</code> and <code>get</code> methods you'll need to use additional synchronization mechanisms.</p>
+</div>
+<h2>Additional Considerations</h2>
+<p>Another issue that came up for me concerns the subprocess output. Handling output from subprocesses can sometimes be a bit tricky. Python buffers standard output which can lead to issues with subprocesses that use <code>print</code> statements to write to standard output. So if you're working with subprocesses and encounter unexpected issues like missing output, process blocking, or race conditions consider the following. </p>
+<ol>
+<li>
+<p>Python <code>print</code> statements are usually line buffered. But when redirected to a pipe the system may switch to <em>block buffering</em>. So it is important to ensure that the buffer gets flushed in in the subprocess. </p>
+</li>
+<li>
+<p>You can do this on print statements with: <code>print( "ipsum lorum ... ", flush=True )</code> .</p>
+</li>
+<li>
+<p>You can also flush the buffer from the subprocess with <code>sys.stdout.flush()</code> .</p>
+</li>
+<li>
+<p>If you cannot modify your subprocess script you ca try the workaround of running the process with the environment variable:  <code>PYTHONUNBUFFERED=1</code> .</p>
+</li>
+</ol>
+<p>And as a final consideration, here are some useful linux commands if you find yourself working with subprocess and need to troubleshoot issues.</p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+    <pre>
+$ ps aux | grep [[PATTERN]]
+
+$ kill [[ pid ]]
+    </pre>
+</div>
+
+<ol>
+<li>
+<p>The first command will get you a list of processes on your system. You can grep on the script name if you want to see instances of script processes launched from your application. Use this if you need to get process IDs.</p>
+</li>
+<li>
+<p>The second command can be used to kill a process given the <em>pid</em>. Use <code>kill -9</code> to force termination if its gone unresponsive. </p>
+</li>
+</ol>
+<h1>Summary</h1>
+<p>This post concludes a series of blog entries revolving around python GUI development with subprocesses, asynchronous routines, and multi-threaded process I/O. The present article provided a rationale and discussion for using threads to prevent UI blocking in tkinter application development. A number of code listings are provide for reference and potentially to bootstrap development.</p>
+<h1>Appendix 1: The Process Mediator</h1>
+<p>Below is a complete listing of the class <em>ProcessDirector</em> along with a bit of associated test scaffolding. <em>ProcessDirector</em> is an implementation of a <em>mediator</em> pattern which I've described in an <a href="https://dr-nick-nagel.github.io/blog/python_process_management_1.html">earlier entry to this blog series</a>. </p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+    <pre>
+import queue
+import subprocess
+import time
+import sys
+import os
+from threading import Thread
+
+class ProcessDirector :
+    '''
+    Responsible for spawning and directing processes to 
+    execute python scripts. 
+    '''
+    def __init__ ( self ) : 
+        self.processes = [] 
+        self.t_queue = queue.Queue()
+
+    def launch_process( self, python_script, cmd_ln_args ) : 
+        '''
+        Launch a process and add it to your list given...
+
+        arguments: 
+            python_script: name of script to launch
+            cmd_lin_args: a sequence of command line 
+            arguments...
+
+        returns: the new process id. The client should hold onto it.
+        '''
+        launch_sequence = [ sys.executable, python_script ] + cmd_ln_args
+
+        proc = subprocess.Popen(
+            launch_sequence,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1
+        )
+
+        self.processes.append( proc )
+
+        t = Thread(
+            target=self.read_proc_output,
+            args=[proc.pid]
+        )
+        t.daemon = True
+        t.start()
+
+        return proc.pid
+
+    def terminate_children( self ) : 
+        '''
+        Dispose of all spawned child processes
+        '''
+        for i in range( len( self.processes ) - 1, -1, -1 ) : 
+            target = self.processes[i]
+            target.terminate()
+            target.wait()
+            if target.returncode is not None:
+                self.processes.pop( i )
+
+    def read_proc_output( self, pid ) : 
+        '''
+        Read-loop target for read thread. Reads stdout of child 
+        process given the process ID. Note: The pid enables the
+        director to determine which pipe to read...
+
+        Arguments: 
+            pid: The pid (process id) of the process 
+            (should be obtained on launch...) 
+        '''
+        for process in self.processes :
+            if process.pid == pid :
+                proc = process
+        while True: 
+            # sleep. otherwise you work too hard and heat up the box...
+            time.sleep( 0.02 )
+
+            output = proc.stdout.readline()
+            if not output :
+                continue
+            self.t_queue.put( output )
+
+    def send_input(self, pid, input_text):
+        '''
+        Send input to the specified process.
+
+        Arguments:
+          pid: Process id to send to
+          input_text: text to send
+        '''
+        for process in self.processes :
+            if process.pid == pid :
+                proc = process
+        proc.stdin.write(input_text + '\n')
+        # proc.stdin.write(input_text)
+        proc.stdin.flush()
+
+    def process_q ( self ) : 
+        '''
+        This is the function clients should call to get data
+        from the `process mediator`. The queue is expected to
+        hold data accumulated since the last dequeue operation...
+        '''
+        output = ""
+        while not self.t_queue.empty () :
+            output += self.t_queue.get()
+        return output
+
+    def terminate( self, pid ) :
+        '''
+        Kill the specified process given ...
+
+        Arguments: 
+            pid : process id (obtained at launch)
+        '''
+        for i, process in enumerate( self.processes ) :
+            if process.pid == pid :
+                target = process
+                target_idx = i
+                break
+        if not target :
+            return
+        target.terminate()
+        target.wait()
+        if target.returncode is not None:
+            self.processes.pop( target_idx )
+
+
+if __name__ == "__main__" : 
+    print( "----    START TEST     ----" )
+    CWD = os.getcwd()
+    TEST_SCRIPT_NAME = CWD + <font color='#F66'>"/path/to/your/python_script.py"</font>
+    pd = ProcessDirector()
+    test_proc_1_pid = pd.launch_process( TEST_SCRIPT_NAME, [] )
+    test_proc_2_pid = pd.launch_process( TEST_SCRIPT_NAME, [] )
+
+    print("TESTING. WAITA MINNIT...")
+    time.sleep( 5 )
+    print( f"Q SIZE PRE: {pd.t_queue.qsize()}" )
+    test_output = pd.process_q()
+    print( test_output )
+    print( f"Q SIZE POST: {pd.t_queue.qsize()}" )
+
+    pd.terminate_children()
+    print( "----    END   TEST     ----" )
+    </pre>
+</div>
+
+<h1>Resources</h1>
+<ol>
+<li>
+<p><a href="https://docs.python.org/3/library/tk.html">Graphical User Interfaces with Tk</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/tkinter.html#threading-model">The TkInter Threading Model</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/threading.html">The Python Threading API</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/threading.html#thread-objects">The Python Thread Object</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/queue.html">queue -- A synchronized queue class</a></p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/subprocess.html">Python Subprocess Management</a></p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2024-11-16T00:00:00-05:00">
+        Sat 16 November 2024
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/graphical-user-interface.html">graphical user interface</a>
+            <a href="https://dr-nick-nagel.github.io/tag/python.html">python</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tkinter.html">tkinter</a>
+            <a href="https://dr-nick-nagel.github.io/tag/development.html">development</a>
+            <a href="https://dr-nick-nagel.github.io/tag/threading.html">threading</a>
+            <a href="https://dr-nick-nagel.github.io/tag/computer-science.html">computer science</a>
+            <a href="https://dr-nick-nagel.github.io/tag/asynchronous.html">asynchronous</a>
+            <a href="https://dr-nick-nagel.github.io/tag/code.html">code</a>
+            <a href="https://dr-nick-nagel.github.io/tag/event-loops.html">event loops</a>
+            <a href="https://dr-nick-nagel.github.io/tag/queues.html">queues</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inter-process-communication.html">inter process communication</a>
+            <a href="https://dr-nick-nagel.github.io/tag/io.html">I/O</a>
+            <a href="https://dr-nick-nagel.github.io/tag/stdout.html">STDOUT</a>
+            <a href="https://dr-nick-nagel.github.io/tag/processes.html">processes</a>
+            <a href="https://dr-nick-nagel.github.io/tag/subprocess.html">subprocess</a>
+            <a href="https://dr-nick-nagel.github.io/tag/pipes.html">pipes</a>
+            <a href="https://dr-nick-nagel.github.io/tag/stdin.html">STDIN</a>
+            <a href="https://dr-nick-nagel.github.io/tag/blocking.html">blocking</a>
+            <a href="https://dr-nick-nagel.github.io/tag/threads.html">threads</a>
+            <a href="https://dr-nick-nagel.github.io/tag/thread-safety.html">thread safety</a>
+            <a href="https://dr-nick-nagel.github.io/tag/gui.html">GUI</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

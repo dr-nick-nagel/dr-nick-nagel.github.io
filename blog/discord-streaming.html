@@ -19,7 +19,11 @@
         <link 
             rel="stylesheet" 
             type="text/css" 
-            href="/theme/css/styles.css" />
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
         <link 
             rel="stylesheet" 
             href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
@@ -45,19 +49,19 @@ Welcome to NickNagel.com
             <navbar class="navigation">
                 <div class='image_item' id="pallas-athena-container">
                     <img id="pallas-athena-image"
-                        src="/images/athena.svg" 
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
                         alt="Pallas Athena"
                     >
                 </div>
                 <ul>
                     <li>
-                        <a href="/pages/about-nick.html">About Nick</a>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
                     </li>
                     <li>
-                        <a href="/blog/index.html">Blog</a>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
                     </li>
                     <li>
-                        <a href="/pages/nn-cv.html">CV</a>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
                     </li>
                 </ul>
             </navbar>
@@ -65,7 +69,7 @@ Welcome to NickNagel.com
   <article>
     <header>
       <h2>
-        <a href="/blog/discord-streaming.html" rel="bookmark"
+        <a href="https://dr-nick-nagel.github.io/blog/discord-streaming.html" rel="bookmark"
            title="Permalink to Streaming over Discord on an Ubuntu System">Streaming over Discord on an Ubuntu System</a></h2>
       
     </header>
@@ -106,28 +110,20 @@ Welcome to NickNagel.com
 <ol>
 <li>Verify that PulseAudio is available on your system (it will usually be installed and operating on linux distros).</li>
 </ol>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>pulseaudio<span class="w"> </span>--version
-</code></pre></div>
-
+<p><code>$ pulseaudio --version</code>
+2. PulseAudio should be running as a process which can be verified with:
+<code>$ ps aux | grep pulseaudio</code></p>
 <ol>
-<li>PulseAudio should be running as a process which can be verified with:</li>
+<li>
+<p>Install <em>pavucontrol</em>
+<code>sudo apt update
+sudo apt install pavucontrol</code></p>
+</li>
+<li>
+<p>And, of course, it's assumed you have Discord installed on your system (the easiest way as of this writing is with snap since it doesn't seem to be registered as a APT repository)...
+<code>sudo snap install discord</code></p>
+</li>
 </ol>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>pulseaudio
-</code></pre></div>
-
-<ol>
-<li>Install <em>pavucontrol</em></li>
-</ol>
-<div class="highlight"><pre><span></span><code>sudo apt update
-sudo apt install pavucontrol
-</code></pre></div>
-
-<ol>
-<li>And, of course, it's assumed you have Discord installed on your system (the easiest way as of this writing is with snap since it doesn't seem to be registered as a APT repository)...</li>
-</ol>
-<div class="highlight"><pre><span></span><code>sudo snap install discord
-</code></pre></div>
-
 <h3>Routine Use</h3>
 <p>Once you've completed the initial setup, you can use the following procedure to stream audio and video through discord as desired. My use-case that prompted this post concerns streaming video in a browser but I'm guessing it will generalize to other application windows.</p>
 <ol>
@@ -218,20 +214,20 @@ sudo apt install pavucontrol
         Thu 10 October 2024
       </time></p>
         <address>
-          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
         </address>
         <p>
-          Category: <a href="/category/blog.html">Blog</a>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
         </p>
         <p>
           Tags:
-            <a href="/tag/linux.html">linux</a>
-            <a href="/tag/ubuntu.html">ubuntu</a>
-            <a href="/tag/peer-to-peer.html">peer-to-peer</a>
-            <a href="/tag/streaming.html">streaming</a>
-            <a href="/tag/audio.html">audio</a>
-            <a href="/tag/video.html">video</a>
-            <a href="/tag/screen-share.html">screen share</a>
+            <a href="https://dr-nick-nagel.github.io/tag/linux.html">linux</a>
+            <a href="https://dr-nick-nagel.github.io/tag/ubuntu.html">ubuntu</a>
+            <a href="https://dr-nick-nagel.github.io/tag/peer-to-peer.html">peer-to-peer</a>
+            <a href="https://dr-nick-nagel.github.io/tag/streaming.html">streaming</a>
+            <a href="https://dr-nick-nagel.github.io/tag/audio.html">audio</a>
+            <a href="https://dr-nick-nagel.github.io/tag/video.html">video</a>
+            <a href="https://dr-nick-nagel.github.io/tag/screen-share.html">screen share</a>
         </p>
     </footer>
   </article>

@@ -164,4 +164,24 @@ a:hover
 
 
 
+/*
+  -------------------------------------
+     ADMONITIONS MARKDOWN EXT CSS
+
+.admonition {
+    border: 2px solid #ccc;
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.admonition.danger {
+    border-color: darkred;
+    background-color: #ffe6e6;
+    color: darkred;
+}
+
+  -------------------------------------
+*/
+
 
