@@ -397,7 +397,7 @@ $ kill [[ pid ]]
 <h1>Summary</h1>
 <p>This post concludes a series of blog entries revolving around python GUI development with subprocesses, asynchronous routines, and multi-threaded process I/O. The present article provided a rationale and discussion for using threads to prevent UI blocking in tkinter application development. A number of code listings are provide for reference and potentially to bootstrap development.</p>
 <h1>Appendix 1: The Process Mediator</h1>
-<p>Below is a complete listing of the class <em>ProcessDirector</em> along with a bit of associated test scaffolding. <em>ProcessDirector</em> is an implementation of a <em>mediator</em> pattern which I've described in an <a href="https://dr-nick-nagel.github.io/blog/python_process_management_1.html">earlier entry to this blog series</a>. </p>
+<p>Below is a complete listing of the class <em>ProcessDirector</em> along with a bit of associated test scaffolding. <em>ProcessDirector</em> is an implementation of a <em>mediator</em> pattern which I've described in an <a href="https://dr-nick-nagel.github.io/blog/python_process_management_1.html">earlier entry to this blog series</a>. I've also made the <code>ProcessDirector</code> source file and the test GUI described in this and prior articles <a href="https://github.com/dr-nick-nagel/process-mediator/">available on github</a>.</p>
 <div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
     <pre>
 import queue
@@ -567,6 +567,9 @@ if __name__ == "__main__" :
 </li>
 <li>
 <p><a href="https://docs.python.org/3/library/subprocess.html">Python Subprocess Management</a></p>
+</li>
+<li>
+<p><a href="https://github.com/dr-nick-nagel/process-mediator/"><code>process-mediator</code> on github</a></p>
 </li>
 </ol>
     <footer>
