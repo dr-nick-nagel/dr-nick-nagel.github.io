@@ -78,38 +78,184 @@ Welcome to NickNagel.com
     </header>
     <h1>Introduction</h1>
 <p>If there's one thing I've learned over the years it's all about the importance of standards ...</p>
-<p>Over the course of researching my needs for a WebRTC project I'm presently working on I came across a post with a bit of annoying misinformation which I do want to take the opportunity to clarify. The author asserted that WebRTC is not a protocol but rather that it is a "project" and they went on to claim further that this "project" is owned by Google[1]. I apologize here but I pride myself on writing with accuracy to the greatest extent possible -- especially where technical matters are concerned -- and these kinds of false assertions do make me bristle a bit. So please indulge me while I do my best to clarify. </p>
-<p>WebRTC comprises a standard (a <em>set</em> of standards actually) which use a <em>number</em> of protocols and Application Programmer Interfaces (API's) intended to facilitate communication across a wide range of devices and support a wide range of use-cases. The standards adopted by WebRTC are <em>open standards</em> meaning that they are not "owned" by any one individual or company. WebRTC protocols and definitions may be adopted by anyone anwhere who is willing and able to provide a compliant implementation -- and indeed the purpose of this post is to explore and facilitate the use of one particular implementation provided for the python programming language. Which is open source. And free.</p>
+<p>TODO: ELABORATE...</p>
+<p>Play the who's ever heard of Tim Berners Lee game ... </p>
+<p>see Gemini chat: 
+https://gemini.google.com/app/074addf634dc082e</p>
+<p>TODO: RE-WRITE to get the scope narrowed to SDP</p>
+<p>As I noted in introducing this post, I'm not going to cover all these standards here. This is the first post in a series I'm planning in order to explore WebRTC in python development over the course of developing a reference application. This post, the first part of the series, will be limited in scope to discussing <em>Session Description Protocol</em> (SDP). In subsequent articles I'll further explore WebRTC using python to set up multi-media streaming between interconnected peers.</p>
+<p><strong><em> SIDEBAR </em></strong>
+Over the course of researching my needs for a WebRTC project I'm presently working on I came across a post with a bit of annoying misinformation which I do want to take the opportunity to clarify. The author asserted that WebRTC is not a protocol but rather that it is a "project" and they went on to claim further that this "project" is owned by Google[1]. I apologize here but I pride myself on writing with accuracy to the greatest extent possible -- especially where technical matters are concerned -- and these kinds of false assertions do make me bristle a bit. So please indulge me while I do my best to clarify. </p>
+<hr />
+<hr />
+<p>intended to facilitate communication across a wide range of devices and support a wide range of use-cases. The standards adopted by WebRTC are <em>open standards</em> meaning that they are not "owned" by any one individual or company. WebRTC protocols and definitions may be adopted by anyone anwhere who is willing and able to provide a compliant implementation -- and indeed the purpose of this post is to explore and facilitate the use of one particular implementation provided for the python programming language. Which is open source. And free.</p>
+<hr />
+<p><strong><em>* SIDEBAR </em></strong>*
+What is an API -- Application Programmer Interfaces (API's) </p>
+<hr />
 <hr />
 <p>Footnotes</p>
 <p>[1] The misleading assertions referred to above were made in a <a href="https://www.digitalsamba.com/blog/webrtc-market-trends-predictions-for-2023">blog post</a> purporting to discuss "WebRTC trends". </p>
-<hr />
-<h2>Session Description Protocol</h2>
-<p>SDP is intended to enable sharing arbitrary data between peers. Data can be anything from simple messages exchanged across the <em>Internet of Things</em> to video streams, multiplayer game objects and more. SDP is just one part of WebRTC, but it serves the critcal role of facilitating the exchange of information necessary to enable the exchange of data.</p>
-<p>Personally, I am a visual thinker and so I like to create visualizations to better understand the technologies I work with. The diagram below is intended to illustrate the protocol.</p>
+<h1>Web Real-Time Communcations</h1>
+<h2>Overview</h2>
+<p>Web Real-Time Communcations (WebRTC) is not just one but rather a <em>set</em> of open standards, protocols and APIs that transcends any one product or platform. Its purpose is to enable Internet connected users to communicate in real-time by defining protocols for steaming data among interconnected <em>peers</em> (P2P communications). </p>
+<div style='text-align:center'>
+<img alt='P2P Illustrated'
+     src='/diagrams/P2P_illustrated.png' 
+     width='300px'/>
+</div>
+
+<div style="max-width: 60%; margin: 0 auto; font-size:smaller"><span style="font-weight:bold">Figure 1.</span> The P2P network architecture enabled by WebRTC.</div>
+
+<p><em>Figure 1</em> illustrates the P2P network communications architecture enabled by WebRTC. Network connected devices can communicate as <em>peers</em> over the WWW with protocols designed to enable Network Address Translation (NAT) and firewall traversal using specialized relay servers where necessary. This architecture supports a vast range of use-cases from simple messaging across the <em>Internet of Things</em> to streaming video, screen share, real-time collaboration tools, multi-player gaming ~~ the possibilities are endless.</p>
+<p>Officially standardized in 2021 through efforts conducted under the auspices of the World Wide Web Consortium (W3C) and the Internet Engineering Task Force (IETF), WebRTC is now supported by most major browsers and communications platforms vastly facilitating development efforts revolving around network communications. </p>
+<h2>WebRTC Protocols and Standards</h2>
+<p>Among others, core WebRTC protocols include:</p>
+<ul>
+<li>
+<p><strong>SDP (Session Description Protocol):</strong> used to exchange information about the media streams (audio, video, data) being transmitted, including codecs, bitrates, and encryption parameters,</p>
+</li>
+<li>
+<p><strong>ICE (Interactive Connectivity Establishment):</strong> a framework enabling WebRTC peers to discover and connect with each other, even when they are behind different types of NAT devices or firewalls,</p>
+</li>
+<li>
+<p><strong>STUN (Session Traversal Utilities for NAT):</strong> helps peers determine public IP addresses and ports enabling the establishment of direct channels for communication, and</p>
+</li>
+<li>
+<p><strong>TURN (Traversal Using Relays around NAT):</strong> which provides a standardized means to create relay servers that can be used as a fallback option when direct connections are not possible due to strict NAT configurations.</p>
+</li>
+</ul>
+<p>Additional standards include: </p>
+<ul>
+<li>
+<p><strong>RTP (Real-time Transport Protocol):</strong> the underlying protocol for transmitting media over the Internet, along with </p>
+</li>
+<li>
+<p><strong>VP8, VP9 and Opus:</strong> audio and video codecs used for encoding and decoding a/v streams.</p>
+</li>
+</ul>
+<p>That's a lot of protocols and standards! But taken together they support and facilitate the development of a vast range of application use-cases!</p>
+<h1>Session Description Protocol</h1>
+<p>As promised, in this post I'll narrow the focus of the discussion to <em>SDP</em>. SDP is fundemental to <em>any</em> WebRTC application inasmuch as that it paves the way for any sort of P2P data transmission over the Internet. In that sense SDP defines a <em>handshake</em>; the procedure enabling devices to negotiate the parameters of the transmission.</p>
+<p>Personally, I'm a visual thinker and so I like to create visualizations to better understand the technologies I work with. The diagram below illustrates the way the SDP handshake works.</p>
 <div style='text-align:center'>
     <img alt='INSERT THREADED UI DIAGRAM'
          src='/diagrams/webrtc_signalling.drawio.svg' 
          width='400px'/>
 </div>
 
-<p>Figure i. Session Description Protocol (SDP).</p>
-<p>A WebRTC session begins with SDP. Agents in the exchange (which I'll refer to here as <em>sender</em> and <em>receiver</em>) exchange metadata necessary for communication between the participants to take place. The WebRTC abstraction to handle the information exchange is defined by the <a href="TBD">RtcPeerConnection interface</a>. The interface defines local and remote session description attributes which hold information participating agents need to enable transmission. At a high level the SDP exchange (part of the <em>signalling</em> process) proceeds as follows.  </p>
+<p>Let's call the peers participating in the exchange <em>senders</em> and <em>receivers</em>. The WebRTC session begins with the exchange of information between the peers in the form of SDP <em>offers</em> and <em>answers</em>. These structured text documents contain all the meta-information about a multimedia session, such as the media types, codecs, transport protocols, and other relevant parameters. </p>
+<p>As we'll see when we get into the code, the WebRTC abstraction to handle the information exchange is defined by the <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection">RtcPeerConnection interface</a>. The interface defines <em>local</em> and <em>remote</em> <em>session description</em> attributes which hold information that the participating agents need to enable transmission. At a high level the diagram above illustrates the SDP exchange (referred to as <em>signalling</em>). </p>
 <ol>
 <li>
-<p>The <em>sender</em> creates an <em>offer</em> which includes information the <em>receiver</em> will need in order to receive the transmission and sets it as its <em>local description</em>. </p>
+<p>The <strong>sender</strong> creates an <em>offer</em> which includes information the receiver will need to receive the transmission. The sender sets the offer as its <em>local description</em> and then sends it to the <em>receiver</em>. </p>
 </li>
 <li>
-<p>The <em>receiver</em>, on receiving the offer, sets it as its <em>remote description</em> and generates an <em>answer</em> which it sets as its local description and sends back to the sender. </p>
+<p>On receiving the offer, the <strong>receiver</strong> sets it as its <em>remote description</em> and generates an <em>answer</em> which it sets as its <em>local description</em>. </p>
 </li>
 <li>
-<p>On receiving the <em>answer</em> the sender sets it as its remote description.</p>
+<p>Then The receiver sends the answer to the sender which sets it as its remote description.</p>
 </li>
 </ol>
-<p>TODO: EXPLAIN SESSION DESCRIPTION ... 
-RTCSessionDescription
-https://developer.mozilla.org/en-US/docs/Web/API/RTCSessionDescription</p>
-<p>Over the course of the SDP exchange the peer connection objects enter into a number of states as illustrated below.</p>
+<p>With this in mind we can start looking at a series of python code examples embodying these concepts.</p>
+<h1>Coding WebRTC Applications in Python Example 1: Signalling</h1>
+<p>In the past I've created WebRTC applications primarily in javascript working on distributed applications using Electron[1] and browser based UI's. My main purpose in the <em>present post</em>, however, is to explore WebRTC development in <em>python</em>. To that end I put together a python (<em>tkinter</em>) graphical-user interface in order to: (1) bootstrap up development, and (2) facilitate the developoment and testing of abstractions (i.e., python classes and methods) useful for signalling. In this article I'll leverage the GUI as a "harness" to foster deeper understanding of the SDP protocol and coding WebRTC applications in python.</p>
+<h2>The Harness GUI</h2>
+<p>Below is a screenshot of the GUI I created to explore and troubleshoot WebRTC signalling in python. </p>
+<p>TODO: PROVIDE COMPLETE LISTING AS APPENDIX (AND ADD TO GIT) ... </p>
+<div style='text-align:center'>
+<img alt='INSERT THREADED UI DIAGRAM'
+     src='/images/web-rtc/sdp_GUI.png' 
+     width='400px'/>
+</div>
+
+<p>As decribed above, SDP defines the WebRTC "handshake" used to prepare participating agents for data transmission over the Internet. In particular, SDP defines the format of the structured text comprising the <em>offer</em> and the <em>answer</em>. But SDP has nothing to say about <em>how</em> the offer is initially provided to the receiver. So, to achieve an initial iteration for development and examine the SDP documents in isolation for now, we can rely on a bit of "cut and paste" to get things rolling.</p>
+<p>TODO: ELABORATE HERE TO CONNECT THE DOTS TO CREATING THE ABSTRACTIONS NEED TO INTRODUCE AIO RTC SOMEWHERE ABOVE (IN THE INTRO) ...</p>
+<p>At a high level, one abstraction I find useful are python classes encapsulating sender and receiver attributes and methods. Both sender and receiver objects will hold RTCPeerConnection references from the AioRTC package. To start things off I defined two classes; <code>DataSender</code> and <code>DataReceiver</code> for simple data transmission over a <em>data channel</em>. Later in this series I'll do a deep dive into transmission involving streaming media.</p>
+<h2>The DataSender Class</h2>
+<p>The following sample code includes fragments from the <code>DataSender</code> class relevant to the present discussion. </p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+    <pre>
+class DataSender : 
+    '''
+    This class encapsulates signalling associated with a 
+    WebRTC 'sender' (i.e., the object associated with 
+    transmitting data from *producer* to *consumer*). 
+    '''
+
+    def __init__ ( self ) :
+        self.pc = RTCPeerConnection()
+        <font color='#8f8'># continue initialization ...</font>
+
+    async def handle_offer_request ( self ) : 
+        self.data_channel = self.pc.createDataChannel( "nn channel 1" )
+        <font color='#f88'>offer = await self.pc.createOffer()
+        await self.pc.setLocalDescription( offer )
+        offer_desc = self.pc.localDescription</font>
+        return offer_desc
+
+    async def handle_answer( self, answer_description ) :
+        <font color='#f88'>await self.pc.setRemoteDescription( answer_description )</font>
+
+    <font color='#8f8'># Continue DataSender custom methods...</font>
+
+    </pre>
+</div>
+
+<p>As described above, WebRTC signaling starts with an 'offer' from a <em>sender</em> (this object). But even before that you need a request for the offer. So this method assumes some sort of entity (for now let's just call it a 'broker' for the sake of argument) will issue a request for an <em>offer</em> to initiate signalling. To start things off, <code>DataSender</code> handles the request by:</p>
+<ol>
+<li>Generating an <em>offer</em> using the <code>RTCPeerConnection</code>, and</li>
+<li>Setting the offer description as the connection object's <code>localDescription</code> attribute.</li>
+</ol>
+<p>Notice how <code>handle_offer_request</code> returns an <code>RTCSessionDescription</code> encapsulating the  <em>offer</em> .</p>
+<h2>The DataReceiver Class</h2>
+<p>Next we have the <code>DataReceiver</code> class.</p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+    <pre>
+class DataReceiver : 
+    '''
+    This class encapsulates signalling associated with a 
+    WebRTC 'receiver' (i.e., the object associated with 
+    consuming data from a producer). 
+    '''
+    def __init__ ( self ) :
+        self.pc = RTCPeerConnection()
+        <font color='#8f8'># continue initialization ...</font>
+
+    async def handle_offer ( self, offer_description ) : 
+        <font color='#f88'>await self.pc.setRemoteDescription( offer_description )
+        answer = await self.pc.createAnswer()
+        await self.pc.setLocalDescription( answer )
+        answer_desc = self.pc.localDescription</font>
+        return answer_desc
+
+    <font color='#8f8'># Continue DataReceiver custom methods...</font>
+
+    </pre>
+</div>
+
+<p>Here we handle the sender object's <em>offer</em> by:</p>
+<ol>
+<li>
+<p>Setting the offer as the <em>receiver object peer connection's</em> <code>localDescription</code>, </p>
+</li>
+<li>
+<p>Generating an answer and </p>
+</li>
+<li>
+<p>Returning the <em>answer</em> so that it can be sent back to the sender.</p>
+</li>
+</ol>
+<p>!!!!
+Importantly, all this implies there will be containing application - level that will orchestrate 
+!!!!</p>
+<p>TODO RESUME HERE</p>
+<p>What are the possible states of RtcPeerConnections ?
+What is the ready state?
+How is that reflected on the RtcPeerConnections</p>
+<p>https://chatgpt.com/c/674b9954-0b80-8010-91ce-9fd8d9b35172</p>
+<h1>State Changes</h1>
+<p>As we'll see in a bit, over the course of the SDP exchange the <em>RtcPeerConnection</em> objects on each side change state to reflect readiness for the data transmission. Here are the states into which the objects can enter. It'll be important to keep this in mind for purposes of troubleshooting over the course of development. </p>
 <p>new --&gt; connecting --&gt; connected ...</p>
 <p>The initial state is <em>new</em>. During the offer / answer exchange peer connection objects enter into the <em>connecting</em> state. Once both objects have processed both offer and answer (by setting the local and remote session description object attributes) the PC's enter into the <em>connected</em> state and are ready for transmission.</p>
 <p>TODO: DISCUSS the connectionStateChange event and pinpoint just exactly what triggers it!</p>
@@ -117,10 +263,8 @@ https://developer.mozilla.org/en-US/docs/Web/API/RTCSessionDescription</p>
 RTCPeerConnection: connectionstatechange event
 https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/connectionstatechange_event
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
-<p>TODO RESUME HERE</p>
-<p>What are the possible states of RtcPeerConnections ?
-What is the ready state?
-How is that reflected on the RtcPeerConnections</p>
+<p>GET INTO THE CODE</p>
+<p>SHOW ALSO SCREENSHOTS AND DESCRIBE SDP</p>
 <p>========</p>
 <p>SEE </p>
 <p>https://gemini.google.com/app/a537fc349d571faa</p>
@@ -132,51 +276,61 @@ https://webrtc.github.io/samples/</p>
 https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API#:~:text=The%20set%20of%20standards%20that,requiring%20that%20the%20user%20install</p>
 <p>RTCPeerConnection
 https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection</p>
+<h1>End Notes</h1>
+<p>[1] Electron is ...</p>
 <hr />
-<h1>Appendix i</h1>
+<h1>Appendix i: GUI Instructions</h1>
+<p>The following examples comprise <em>offer</em> and <em>answer</em> documents obtained using the GUI harness. Notice that that documents include: </p>
+<p>INSERT APPENDIX WITH INSTRUX ON GUI</p>
+<hr />
+<h1>Appendix i: Sample SDP Documents</h1>
+<p>TODO: Provide analysis. Here's a GEM
+https://gemini.google.com/app/3ac8feb018ace681</p>
 <p>Sample SDP Specimen</p>
-<p>TODO: This specimen is from a dummy data channel. Update with media track offer specimen</p>
-<hr />
-<p>Generated SDP Offer:</p>
-<p>v=0
-o=- 3939379460 3939379460 IN IP4 0.0.0.0
+<pre>
+{"sdp": "v=0
+o=- 3939468060 3939468060 IN IP4 0.0.0.0
 s=-
 t=0 0
 a=group:BUNDLE 0
 a=msid-semantic:WMS *
-m=application 36400 DTLS/SCTP 5000
+m=application 47419 DTLS/SCTP 5000
 c=IN IP4 192.168.1.158
 a=mid:0
 a=sctpmap:5000 webrtc-datachannel 65535
 a=max-message-size:65536
-a=candidate:92f48e2b25b0cf96833e74c0e6d4b612 1 udp 2130706431 192.168.1.158 36400 typ host
-a=candidate:0d0b6cc018d79c453c3f8b96c8c6a899 1 udp 1694498815 71.184.100.169 36400 typ srflx raddr 192.168.1.158 rport 36400
+a=candidate:92f48e2b25b0cf96833e74c0e6d4b612 1 udp 2130706431 192.168.1.158 47419 typ host
+a=candidate:0d0b6cc018d79c453c3f8b96c8c6a899 1 udp 1694498815 71.184.100.169 47419 typ srflx raddr 192.168.1.158 rport 47419
 a=end-of-candidates
-a=ice-ufrag:Yy7Y
-a=ice-pwd:CjiWrhf0JWmOpoXm3X1sUF
-a=fingerprint:sha-256 2E:98:99:18:57:DC:3B:C5:5C:2F:70:AE:3D:69:EE:C2:38:A1:35:2F:4C:7D:EB:55:60:36:CB:ED:34:0B:5F:39
-a=setup:actpass</p>
-<hr />
-<p>Generated SDP ANSWER:</p>
-<p>v=0
-o=- 3939379462 3939379462 IN IP4 0.0.0.0
+a=ice-ufrag:WnTS
+a=ice-pwd:TNMCpvqGZ4terU2c1tbn6w
+a=fingerprint:sha-256 AB:FA:49:9D:BD:DA:63:82:E6:C4:CA:D2:06:8C:15:6D:A5:2D:B6:3D:32:6A:F7:B0:EE:FF:82:5D:3A:9B:B0:88
+a=setup:actpass
+", "type": "offer"}
+</pre>
+
+<pre>
+{"sdp": "v=0
+o=- 3939468330 3939468330 IN IP4 0.0.0.0
 s=-
 t=0 0
 a=group:BUNDLE 0
 a=msid-semantic:WMS *
-m=application 54489 DTLS/SCTP 5000
+m=application 38013 DTLS/SCTP 5000
 c=IN IP4 192.168.1.158
 a=mid:0
 a=sctpmap:5000 webrtc-datachannel 65535
 a=max-message-size:65536
-a=candidate:92f48e2b25b0cf96833e74c0e6d4b612 1 udp 2130706431 192.168.1.158 54489 typ host
-a=candidate:0d0b6cc018d79c453c3f8b96c8c6a899 1 udp 1694498815 71.184.100.169 54489 typ srflx raddr 192.168.1.158 rport 54489
+a=candidate:92f48e2b25b0cf96833e74c0e6d4b612 1 udp 2130706431 192.168.1.158 38013 typ host
+a=candidate:0d0b6cc018d79c453c3f8b96c8c6a899 1 udp 1694498815 71.184.100.169 38013 typ srflx raddr 192.168.1.158 rport 38013
 a=end-of-candidates
-a=ice-ufrag:3yQt
-a=ice-pwd:EqxScjy8TW29THzRaGjMix
-a=fingerprint:sha-256 0D:7E:B2:7A:25:85:60:5C:27:6A:12:24:EC:F3:EA:63:72:44:75:47:CF:3C:28:D1:21:42:88:C2:6B:76:32:EE
-a=setup:active</p>
-<hr />
+a=ice-ufrag:FnQn
+a=ice-pwd:sdHCgcYx1HQh292yZkrHbx
+a=fingerprint:sha-256 16:AE:54:AB:73:5B:02:13:4E:C6:94:B9:FC:3E:AF:A7:FD:AF:26:B9:B9:2C:E4:D2:56:02:EF:2B:B2:D6:EB:30
+a=setup:active
+", "type": "answer"}
+</pre>
+
 <h1>Resources</h1>
 <ol>
 <li>
