@@ -1,5 +1,339 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2024-11-16T00:00:00-05:00</updated><entry><title>Process Managment in Python Part 2: Multi-threaded GUIs</title><link href="https://dr-nick-nagel.github.io/blog/python_process_management_2.html" rel="alternate"></link><published>2024-11-16T00:00:00-05:00</published><updated>2024-11-16T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-11-16:/blog/python_process_management_2.html</id><summary type="html">&lt;p&gt;Patterns for process management and threading in python with graphical user interfaces.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2024-12-20T00:00:00-05:00</updated><entry><title>Implementing WebRTC Applications in Python Part I: Session Description Protocol</title><link href="https://dr-nick-nagel.github.io/blog/python_web_rtc_1.html" rel="alternate"></link><published>2024-12-20T00:00:00-05:00</published><updated>2024-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-12-20:/blog/python_web_rtc_1.html</id><summary type="html">&lt;p&gt;First is a series of blog posts exploring WebRTC application development in python.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Objective&lt;/h1&gt;
+&lt;p&gt;The purpose of this article is to introduce a series blog-posts I'm writing on Web Real-Time Communications (known as WebRTC). WebRTC embodies a set of free and open  standards that enable devices connected over the Internet to communicate in real time. Taken together, WebRTC standards and protocols enable voice and video calls, live streaming, file sharing and much, much more.&lt;/p&gt;
+&lt;p&gt;A detailed discussion of all the standards used in WebRTC would be quite an undertaking -- definitely too much to cover in a single blog post. So I'm carving out the coverage of this large topic into a series in which I'll explore implementations of these standards in the context of developing a streaming-media reference-application using python. &lt;/p&gt;
+&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;If there's one thing I've learned over the years, it's the importance of standards. This became strikingly clear to me in the early '90s as the Internet and World Wide Web exploded into mainstream awareness. Back then, web pages were still in their infancy, and few people outside of universities or research institutions even knew about email. Then, almost overnight, the World Wide Web became "the next big thing," unleashing world-shaking disruptions and economic transformations.&lt;/p&gt;
+&lt;p&gt;If I were to ask, "Who invented the Internet?" I'd likely get a range of answers, with few people today remembering a specific name. Back when I used to teach my course, &lt;em&gt;Exploring Internet Development&lt;/em&gt;, at Boston College, I would conduct an informal experiment. At the start of each semester I'd ask my students: "Who here has heard of O.J. Simpson?" Nearly every hand would go up. Then I'd follow with: "Who's ever heard of Tim Berners-Lee?" The room would fall silent.&lt;/p&gt;
+&lt;p&gt;And yet, Berners-Lee's contribution to humanity is arguably on par with Gutenberg's invention of the printing press. By introducing HTML (a groundbreaking standard for text-based markup), and creating the first web browser, Berners-Lee revolutionized how the world accesses and consumes information. Unlike Gutenberg's printing press though, Berners-Lee's invention wasn't a patentable mechanical device but rather a set of &lt;em&gt;standards&lt;/em&gt;. &lt;em&gt;Open&lt;/em&gt; standards to be precise. These standards became the foundation of an interconnected world and helped propel the Information Age to unprecedented heights.&lt;/p&gt;
+&lt;p&gt;Through the development of these standards Berners Lee and many others paved the way for the emergence of the World Wide Web and the world-wide adoption and further development of the Internet. The world simply would not be where it is today without the wide-spread adoption of standards. &lt;/p&gt;
+&lt;p&gt;Much more recently, the importance of standards was brought back home to me when I undertook the architecture and implementation of a system enabling peer-to-peer (P2P) communcations for a company building security devices Interconnected over the Internet. While I'm not at liberty to get into the specifics, suffice it to say that an effort that might have taken months to complete took merely a handful of days thanks to the recent development and application of a relatively new set of WWW standards -- those revolving around Web Real-Time Communcations, or, &lt;em&gt;WebRTC&lt;/em&gt;. &lt;/p&gt;
+&lt;h1&gt;WebRTC: Emerging Standards for Peer-to-Peer Communications&lt;/h1&gt;
+&lt;p&gt;&lt;span id='note_1'&gt;So, what exactly is WebRTC?&lt;sup&gt;&lt;a href="#endnote_1"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/span&gt; &lt;strong&gt;WebRTC (Web Real-Time Communications)&lt;/strong&gt; is not just one but rather a &lt;em&gt;set&lt;/em&gt; of open standards, protocols and APIs that transcends any one particular product or platform. Its purpose is to enable Internet connected users to communicate in real-time by defining protocols for steaming data among interconnected &lt;em&gt;peers&lt;/em&gt; (P2P communications). &lt;/p&gt;
+&lt;div style='text-align:center;width:350px;margin:auto'&gt;
+
+    &lt;img alt='P2P Illustrated'
+         src='/diagrams/P2P_illustrated.png' 
+         width='300px'/&gt;
+
+    &lt;div style="font-size:smaller"&gt;&lt;span style="font-weight:bold"&gt;Figure 1.&lt;/span&gt; The P2P network architecture enabled by WebRTC.&lt;/div&gt;  
+
+&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 1&lt;/em&gt; illustrates the P2P network communications architecture enabled by WebRTC. Network connected devices can communicate as &lt;em&gt;peers&lt;/em&gt; over the WWW with protocols designed to enable Network Address Translation (NAT) and firewall traversal using specialized relay servers where necessary. WebRTC supports a vast range of use-cases from simple messaging across the &lt;em&gt;Internet of Things&lt;/em&gt; to streaming video, screen-share, real-time collaboration tools, multi-player gaming ~~ the possibilities are endless.&lt;/p&gt;
+&lt;p&gt;Officially standardized in 2021 through efforts conducted under the auspices of the &lt;em&gt;World Wide Web Consortium&lt;/em&gt; (W3C) and the &lt;em&gt;Internet Engineering Task Force&lt;/em&gt; (IETF), WebRTC is now supported by most major browsers and communications platforms vastly facilitating development efforts revolving around network communications. &lt;/p&gt;
+&lt;h2&gt;WebRTC Protocols and Standards&lt;/h2&gt;
+&lt;p&gt;Among others, core WebRTC protocols include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;SDP (Session Description Protocol):&lt;/strong&gt; used to exchange information about the media streams (audio, video, data) being transmitted, including codecs, bitrates, and encryption parameters,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;ICE (Interactive Connectivity Establishment):&lt;/strong&gt; a framework enabling WebRTC peers to discover and connect with each other, even when they are behind different types of NAT devices or firewalls,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;STUN (Session Traversal Utilities for NAT):&lt;/strong&gt; helps peers determine public IP addresses and ports enabling the establishment of direct channels for communication, and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;TURN (Traversal Using Relays around NAT):&lt;/strong&gt; which provides a standardized means to create relay servers that can be used as a fallback option when direct connections are not possible due to strict NAT configurations.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Additional standards include: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;RTP (Real-time Transport Protocol):&lt;/strong&gt; the underlying protocol for transmitting media over the Internet, along with &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;VP8, VP9 and Opus:&lt;/strong&gt; audio and video codecs used for encoding and decoding a/v streams.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;That's a lot of protocols! But, taken together, they support and facilitate the development of a vast range of application use-cases!&lt;/p&gt;
+&lt;h2&gt;Session Description Protocol&lt;/h2&gt;
+&lt;p&gt;Again, a comprehensive discussion of all the standards associated with WebRTC is too much for a single blog post and instead I'll cover a number of standards over the course of this series. &lt;span id="note_2"&gt;But to kick things off, I'll open up the discussion with an exploration of SDP&lt;sup&gt;&lt;a href="#endnote_2"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/span&gt; which is fundamental to &lt;em&gt;all&lt;/em&gt; WebRTC applications.&lt;/p&gt;
+&lt;div class="admonition hint"&gt;
+&lt;p class="admonition-title"&gt;Session Description Protocol&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Session Description Protocol (SDP)&lt;/strong&gt; is a well-defined format for conveying sufficient information to discover and participate in a multimedia session.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;SDP is fundamental inasmuch as that it paves the way for any sort of P2P data transmission over the Internet. SDP defines a &lt;em&gt;handshake&lt;/em&gt;; the procedure enabling devices to negotiate the parameters of the transmission. I'm a visual thinker and so to better understand the protocol I've created a diagram to illustrate the way the SDP handshake works.&lt;/p&gt;
+&lt;div style='text-align:center;font-size:smaller;width:400px;margin:auto'&gt;
+    &lt;img alt='INSERT THREADED UI DIAGRAM'
+         src='/diagrams/webrtc_signalling.drawio.svg' 
+         width='400px'/&gt;
+    &lt;div&gt;&lt;span style='font-weight:bold'&gt;Figure 2.&lt;/span&gt; Illustration of the SDP &lt;em&gt;signalling&lt;/em&gt; protocol.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Let's call the peers participating in the exchange &lt;em&gt;senders&lt;/em&gt; and &lt;em&gt;receivers&lt;/em&gt;. The WebRTC session begins with the exchange of information between the peers (referred to as &lt;em&gt;signaling&lt;/em&gt;) in the form of SDP &lt;em&gt;offers&lt;/em&gt; and &lt;em&gt;answers&lt;/em&gt;. These structured text documents contain all the meta-information about a multimedia session, such as the media types, codecs, transport protocols, and other relevant parameters. If you're curious about the format, have a look at a couple of sample documents which I've captured using a python test GUI I whipped up for this effort. &lt;span id="append_2"&gt;I've added the samples as an &lt;a href="#appendix_2"&gt;appendix&lt;/a&gt;&lt;/span&gt;. &lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Figure 2&lt;/em&gt; illustrates the protocol.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;strong&gt;sender&lt;/strong&gt; creates an &lt;em&gt;offer&lt;/em&gt; which includes information the receiver will need to receive the transmission. The sender sets the offer as its &lt;em&gt;local description&lt;/em&gt; and then sends it to the &lt;em&gt;receiver&lt;/em&gt;. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;On receiving the offer, the &lt;strong&gt;receiver&lt;/strong&gt; sets it as its &lt;em&gt;remote description&lt;/em&gt; and generates an &lt;em&gt;answer&lt;/em&gt; which it sets as its &lt;em&gt;local description&lt;/em&gt;. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then The receiver sends the answer to the sender which sets it as its remote description.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;With this in mind we can start looking at a series of python code examples embodying these concepts.&lt;/p&gt;
+&lt;h1&gt;Coding WebRTC Applications in Python Example 1: Signaling&lt;/h1&gt;
+&lt;p&gt;WebRTC signaling objects and methods are defined on the &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection"&gt;RTCPeerConnection interface&lt;/a&gt;. The interface defines &lt;em&gt;local&lt;/em&gt; and &lt;em&gt;remote&lt;/em&gt; &lt;em&gt;session description&lt;/em&gt; attributes (encapsulated in the offer and answer documents). &lt;/p&gt;
+&lt;p&gt;A python implementation of the &lt;em&gt;RTCPeerConnection&lt;/em&gt; interface is available in the &lt;em&gt;aiortc&lt;/em&gt; package. &lt;a href="https://github.com/aiortc/aiortc"&gt;aiortc&lt;/a&gt; is a python library that provides WebRTC functionality using the &lt;em&gt;asyncio&lt;/em&gt; framework. It allows for asynchronous management of WebRTC connections, handling signaling, and managing media streams. I'll be relying on this package over the course of this blog series. &lt;/p&gt;
+&lt;p&gt;The first set of abstractions I find useful in using &lt;code&gt;aiortc&lt;/code&gt; are python classes encapsulating &lt;em&gt;sender&lt;/em&gt; and &lt;em&gt;receiver&lt;/em&gt; attributes and methods. Both sender and receiver objects will hold &lt;code&gt;RTCPeerConnection&lt;/code&gt; references. To start things off, I defined two classes; &lt;code&gt;DataSender&lt;/code&gt; and &lt;code&gt;DataReceiver&lt;/code&gt; for simple data transmission over a &lt;em&gt;data channel&lt;/em&gt;. Later in this series I'll do a deep dive into transmission involving streaming media.&lt;/p&gt;
+&lt;h2&gt;The DataSender Class&lt;/h2&gt;
+&lt;p&gt;The following sample code includes fragments from the &lt;code&gt;DataSender&lt;/code&gt; class relevant to the present discussion. &lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+    &lt;pre&gt;
+class DataSender : 
+    '''
+    This class encapsulates signalling associated with a 
+    WebRTC 'sender' (i.e., the object associated with 
+    transmitting data from *producer* to *consumer*). 
+    '''
+
+    def __init__ ( self ) :
+        &lt;font color='#f88'&gt;self.pc = RTCPeerConnection()&lt;/font&gt;
+        &lt;font color='#8f8'&gt;# continue initialization ...&lt;/font&gt;
+
+    async def handle_offer_request ( self ) : 
+        self.data_channel = self.pc.createDataChannel( "nn channel 1" )
+        &lt;font color='#f88'&gt;offer = await self.pc.createOffer()
+        await self.pc.setLocalDescription( offer )
+        offer_desc = self.pc.localDescription&lt;/font&gt;
+        return offer_desc
+
+    async def handle_answer( self, answer_description ) :
+        &lt;font color='#f88'&gt;await self.pc.setRemoteDescription( answer_description )&lt;/font&gt;
+
+    &lt;font color='#8f8'&gt;# Continue DataSender custom methods...&lt;/font&gt;
+
+    &lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;As illustrated in Figure 2 WebRTC signaling starts with an 'offer' from the &lt;em&gt;sender&lt;/em&gt;. In this implementation, the &lt;code&gt;DataSender&lt;/code&gt; class is responsible for handling "sender side" signaling events. The relevant methods are &lt;code&gt;handle_offer_request&lt;/code&gt; and &lt;code&gt;handle_answer&lt;/code&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="note_4"&gt;&lt;code&gt;handle_offer_request&lt;/code&gt; assumes it will receive a request from some entity for an offer describing the nature of the transmission it is prepared to send &lt;sup&gt;&lt;a href="#endnote_4"&gt;4&lt;/a&gt;&lt;/sup&gt; &lt;/span&gt;. &lt;code&gt;DataSender&lt;/code&gt; handles the request by: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;generating an &lt;em&gt;offer&lt;/em&gt; using its instance of &lt;code&gt;RTCPeerConnection&lt;/code&gt;, and &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;setting the returned offer description object as the &lt;code&gt;RTCPeerConnection&lt;/code&gt;'s  &lt;code&gt;localDescription&lt;/code&gt; attribute.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="admonition important"&gt;
+&lt;p class="admonition-title"&gt;Important&lt;/p&gt;
+&lt;p&gt;Notice how &lt;code&gt;handle_offer_request&lt;/code&gt; returns the offer encapsulated in an aiortc &lt;code&gt;RTCSessionDescription&lt;/code&gt; object. The offer will be used later by the receiver class to generate an SDP answer.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;handle_answer&lt;/code&gt;. Once the offer is sent off to the receiver object it will generate an answer which will be sent back to &lt;code&gt;DataSender&lt;/code&gt;. &lt;code&gt;handle_answer&lt;/code&gt; completes the SDP exchange by setting the answer description as its &lt;em&gt;remote description&lt;/em&gt; for the session.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The above fragments encapsulate a basic signaling example from the sender side of the exchange. Next let's look at the receiver side.&lt;/p&gt;
+&lt;div class="admonition tip"&gt;
+&lt;p class="admonition-title"&gt;Tip&lt;/p&gt;
+&lt;p&gt;The reader may have noticed that this simplified example has only one RTCPeerConnection instance to participate in an exchange. The example can be readily extended to handle multiple recipients by adding additional &lt;code&gt;RtcPeerConnection&lt;/code&gt; instances. In other words, the cardinality on &lt;code&gt;RtcPeerConnection&lt;/code&gt;'s for sender to recipients is &lt;strong&gt;1:N&lt;/strong&gt; .&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2&gt;The DataReceiver Class&lt;/h2&gt;
+&lt;p&gt;Next we have the &lt;code&gt;DataReceiver&lt;/code&gt; class.&lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+    &lt;pre&gt;
+class DataReceiver : 
+    '''
+    This class encapsulates signalling associated with a 
+    WebRTC 'receiver' (i.e., the object associated with 
+    consuming data from a producer). 
+    '''
+    def __init__ ( self ) :
+        &lt;font color='#f88'&gt;self.pc = RTCPeerConnection()&lt;/font&gt;
+        &lt;font color='#8f8'&gt;# continue initialization ...&lt;/font&gt;
+
+    async def handle_offer ( self, offer_description ) : 
+        &lt;font color='#f88'&gt;await self.pc.setRemoteDescription( offer_description )
+        answer = await self.pc.createAnswer()
+        await self.pc.setLocalDescription( answer )
+        answer_desc = self.pc.localDescription&lt;/font&gt;
+        return answer_desc
+
+    &lt;font color='#8f8'&gt;# Continue DataReceiver custom methods...&lt;/font&gt;
+
+    &lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Again we use an &lt;code&gt;RTCPeerConnection&lt;/code&gt; to handle the SDP. Here, we handle the sender's  &lt;em&gt;offer&lt;/em&gt; by:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Setting it as the receiver &lt;code&gt;RTCPeerConnection&lt;/code&gt;'s &lt;code&gt;localDescription&lt;/code&gt;, &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Generating an &lt;em&gt;answer&lt;/em&gt;, and &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Returning the &lt;em&gt;answer&lt;/em&gt; encapsulated in an &lt;code&gt;RTCSessionDescription&lt;/code&gt; object so that it can be sent back to the sender.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;So the receiver class encapsulates handling an SDP exchange on the receiver side of the transmission.&lt;/p&gt;
+&lt;h1&gt;Discussion&lt;/h1&gt;
+&lt;p&gt;In the above examples, we see a very basic implementation of an SDP exchange defined using aiortc &lt;code&gt;RTCPeerConnection&lt;/code&gt;'s on python &lt;em&gt;sender&lt;/em&gt; and &lt;em&gt;receiver&lt;/em&gt; classes. If you're new to WebRTC and especially if you're new to networking concepts in general that may seem like a lot to take in! But as the examples show aiortc provides nice implementations to handle a lot of the low-level details required to generate the offer/answer session descriptions. You just have to know how to use them and what to expect when you do so!&lt;/p&gt;
+&lt;p&gt;Since it may be a lot to digest I'll leave off for now and pick up from here in subsequent posts where I'll get into STUN, NAT traversal using TURN, and ultimately streaming media. But before leaving off, it's well worth saying a few words about &lt;em&gt;RTCPeerConnection state&lt;/em&gt;.&lt;/p&gt;
+&lt;h2&gt;RTCPeerConnection State Changes&lt;/h2&gt;
+&lt;p&gt;WebRTC peers transition through many states over the life cycle of a connection. It's very important to understand these states and associated state-transition triggers. The &lt;em&gt;RTCPeerConnection&lt;/em&gt; interface defines a high-level read-only property, &lt;code&gt;connectionState&lt;/code&gt;, which can be used to inspect the state of a peer connection over the course of its life cycle for purposes of development, error-handling and trouble shooting. The following diagram illustrates the possible states reflected by this property. &lt;/p&gt;
+&lt;div style='font-size:smaller;width:300px;margin:auto'&gt;
+    &lt;img alt='RtcPeerConnection States'
+         src='/diagrams/rtc_peer_conn_states.svg' 
+         width='300px' 
+         style='width:300px; margin:auto;margin-bottom: 1em'
+         /&gt;
+     &lt;div&gt;&lt;span style='font-weight:bold'&gt;Figure i:&lt;/span&gt; RTCPeerConnection object states.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;new&lt;/strong&gt;: The connection object has been created but there is not yet any network activity associated with it.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;connecting&lt;/strong&gt;: Participating WebRTC peers are negotiating transmission parameters.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;connected&lt;/strong&gt;: A connection between peers has been successfully negotiated and is operational. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;failed&lt;/strong&gt;: The connection could not be established.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;disconnected&lt;/strong&gt;: The connection is temporarily disconnected due to network issues.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;closed&lt;/strong&gt;: The connection is closed.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When a change in connection state is triggered a &lt;code&gt;connectionstatechange&lt;/code&gt; event is dispatched to the &lt;code&gt;RTCPeerConnection&lt;/code&gt; object owning the connection. The following code fragment shows how to handle the event using an &lt;code&gt;aiortc.RTCPeerConnection&lt;/code&gt; instance.&lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+    &lt;pre&gt;
+&lt;font color='#afa'&gt;# Given an RTCPeerConnection instance, pc, define a callback 
+# to handle connection-state transitions ...&lt;/font&gt;
+
+@pc.on("connectionstatechange")
+async def on_connection_state_change():
+    print(f"Connection state changed: {pc.connectionState}")
+    if pc.connectionState == "connected":
+        &lt;font color='#afa'&gt;# handle transition to connected state...&lt;/font&gt;
+    elif pc.connectionState == "failed":
+        &lt;font color='#afa'&gt;# handle transition to failed state...&lt;/font&gt;
+        await pc.close()
+    elif pc.connectionState == "disconnected":
+        &lt;font color='#afa'&gt;# handle transition to disconnected state...&lt;/font&gt;
+    elif pc.connectionState == "closed":
+        &lt;font color='#afa'&gt;# handle transition to closed state (may required 
+        # release of allocated resources...)&lt;/font&gt;
+    &lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Notice how "cleanup" should be performed on transition of the connection to 'closed' state ensuring robust handling of transitions while preventing resource leaks.&lt;/p&gt;
+&lt;h1&gt;Summary and Next Steps&lt;/h1&gt;
+&lt;p&gt;In summary, this blog-post is the first in a series exploring WebRTC application development in python. The scope of this post was limited to covering SDP -- arguably the most fundamental protocol in WebRTC since it sets the stage for many types of data transmission between peers. In this post we saw:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;A high-level description of the SDP protocol,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Sample python code implementing SDP signaling using aiortc, and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A discussion of RTCPeerConnection states over the life cycle of a WebRTC session.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Subsequent articles in this series will explore network traversal (using STUN and TURN), media streaming, and real-time integration of machine learning in python WebRTC applications.&lt;/p&gt;
+&lt;h1&gt;End notes&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;p id="endnote_1"&gt;Over the course of researching my needs for a WebRTC project (in which I'm engaged at the time of this writing) I came across a &lt;a href="https://www.digitalsamba.com/blog/webrtc-market-trends-predictions-for-2023"&gt;"blog post"&lt;/a&gt; purporting to explain &lt;em&gt;WebRTC&lt;/em&gt;. The problem is the post contains a lot of misinformation -- information which has the potential to mislead decision makers and impact progress on the development and adoption of standards and supporting technologies. Consequently, I feel the need here to "set the record straight" regarding some key points.&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;The blog post in question asserts that WebRTC is "...not a protocol" instead it is a "project". Actually, half the point of the present post is that WebRTC is a &lt;em&gt;set&lt;/em&gt; of protocols and standards, &lt;em&gt;open&lt;/em&gt; standards, designed to support the development of &lt;em&gt;de&lt;/em&gt;centralized (P2P) web-based communications. The article goes on to assert that the &lt;em&gt;WebRTC&lt;/em&gt; "project" is owned by Google. The fact that WebRTC standards are &lt;em&gt;open&lt;/em&gt; means that they are not "owned" by any one individual or company. WebRTC standards and protocols may be adopted by anyone anywhere who is willing and able to provide standards-compliant implementations. Implying otherwise insults the invaluable effort and work of individuals and organizations who contribute to open standards and the development of open software systems from which all companies across the board benefit. &lt;a href="#note_1"&gt;&amp;uarr;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;p id="endnote_2"&gt;&lt;a href="https://datatracker.ietf.org/doc/html/rfc4566"&gt;SDP: Session Description Protocol&lt;/a&gt; . &lt;a href="#note_2"&gt;&amp;uarr;&lt;/a&gt;&lt;/p&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;p id="endnote_3"&gt;&lt;a href="https://www.electronjs.org/"&gt;Electron&lt;/a&gt; is a framework for building beautiful cross-platform desktop applications using HTML, JavaScript and CSS. &lt;a href="#note_3"&gt;&amp;uarr;&lt;/a&gt;&lt;/p&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;p id="endnote_4"&gt;SDP in-and-of-itself does not specify a mechanism for requesting an offer. A framework for doing so is defined in &lt;a href="https://www.ietf.org/rfc/rfc3264.txt"&gt;RFC3264&lt;/a&gt; (commonly referred to as the &lt;em&gt;offer/answer model&lt;/em&gt;). For present purposes assume an external entity issues an offer request. Later in the series I'll be covering cases where the external entity is a user device (e.g., a desktop computer). &lt;a href="#note_4"&gt;&amp;uarr;&lt;/a&gt;&lt;/p&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;&lt;span id="appendix_2"&gt;Appendix 1: Sample SDP Documents &lt;a href="#append_2"&gt;&amp;uarr;&lt;/a&gt;&lt;/span&gt;&lt;/h1&gt;
+&lt;p&gt;This appendix provides a sample SDP document in order to help gain better understanding of the SDP format. The document comprises an offer defining parameters for information exchange using a WebRTC &lt;em&gt;datachannel&lt;/em&gt;.&lt;/p&gt;
+&lt;h3&gt;Sample SDP Offer&lt;/h3&gt;
+&lt;pre style='font-size: smaller'&gt;
+v=0
+o=- 3939468060 3939468060 IN IP4 0.0.0.0
+s=-
+t=0 0
+a=group:BUNDLE 0
+a=msid-semantic:WMS *
+m=application 47419 DTLS/SCTP 5000
+c=IN IP4 192.168.1.158
+a=mid:0
+a=sctpmap:5000 webrtc-datachannel 65535
+a=max-message-size:65536
+a=candidate:92f48e2b25b0cf96833e74c0e6d4b612 1 udp 2130706431 192.168.1.158 47419 typ host
+a=candidate:0d0b6cc018d79c453c3f8b96c8c6a899 1 udp 1694498815 71.184.100.169 47419 typ srflx raddr 192.168.1.158 rport 47419
+a=end-of-candidates
+a=ice-ufrag:WnTS
+a=ice-pwd:TNMCpvqGZ4terU2c1tbn6w
+a=fingerprint:sha-256 AB:FA:49:9D:BD:DA:63:82:E6:C4:CA:D2:06:8C:15:6D:A5:2D:B6:3D:32:6A:F7:B0:EE:FF:82:5D:3A:9B:B0:88
+a=setup:actpass
+&lt;/pre&gt;
+
+&lt;h3&gt;Analysis&lt;/h3&gt;
+&lt;p&gt;SDP documents are a text-based machine-readable format defined so as to provide sufficient information for network data transmission of a range of media types. Without getting too deep into the details, cursory examination of the specimen reveals some &lt;em&gt;key properties&lt;/em&gt; of the format:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Media Type:&lt;/strong&gt; The media type offered in the transmission (in this sample &lt;em&gt;webrtc-datachannel&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;IP Address and Port:&lt;/strong&gt; Key for transmission over the internet, participating peers must provide IP and port addressing.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Transport Protocols:&lt;/strong&gt; Required to set up media transport mechanisms.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;ICE (Interactive Connectivity Establishment) Candidates:&lt;/strong&gt; Used for network traversal.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;DTLS Fingerprints:&lt;/strong&gt; SHA-256 fingerprints provided for DTLS authentication.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In summary, this sample SDP offer describes a WebRTC data channel. It specifies the network parameters, security mechanisms, and data channel capabilities required for the transfer. The offeror is proposing to establish a secure data channel using DTLS and SCTP protocols. The ICE parameters facilitate network traversal to establish the connection.&lt;/p&gt;
+&lt;p&gt;This type of SDP offer is commonly used in WebRTC applications for various purposes, including:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;file transfer&lt;/strong&gt; &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;real-time messaging:&lt;/strong&gt;, and&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;custom protocol implementation&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h1&gt;Resources&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://w3c.github.io/webrtc-pc/"&gt;W3C WebRTC Specification&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://datatracker.ietf.org/doc/html/rfc8866"&gt;Session Description Protocol&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.ietf.org/rfc/rfc3264.txt"&gt;RFC3264: An Offer/Answer Model with the Session Description Protocol (SDP)&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://github.com/aiortc/aiortc"&gt;aiortc&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://w3c.github.io/webrtc-pc/#dom-rtcpeerconnection"&gt;RTCPeerConnection interface&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/connectionState"&gt;RTCPeerConnection: connectionState property&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Blog"></category><category term="python"></category><category term="computer science"></category><category term="asynchronous"></category><category term="code"></category><category term="inter process communication"></category><category term="I/O"></category><category term="WebRTC"></category><category term="networking"></category><category term="streaming"></category><category term="media"></category><category term="standards"></category><category term="SDP"></category><category term="session description protocol"></category></entry><entry><title>Process Managment in Python Part 2: Multi-threaded GUIs</title><link href="https://dr-nick-nagel.github.io/blog/python_process_management_2.html" rel="alternate"></link><published>2024-11-16T00:00:00-05:00</published><updated>2024-11-16T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-11-16:/blog/python_process_management_2.html</id><summary type="html">&lt;p&gt;Patterns for process management and threading in python with graphical user interfaces.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;In a &lt;a href="https://dr-nick-nagel.github.io/blog/python_process_management_1.html"&gt;previous post&lt;/a&gt; I blogged about a &lt;em&gt;mediator&lt;/em&gt; pattern, for python development to direct the instantiation, execution and management of subprocesses in an application. In that post I concluded with a promise that I'd have more to say about using processes and threads in the context of &lt;em&gt;Graphical User Interface Development&lt;/em&gt;, and, well, here we are. My aim in this present piece is to tie together the concepts and patterns from those previous articles -- those revolving around using asynchronous python code, sub-processes and &lt;em&gt;threads&lt;/em&gt; -- with a focus on applying them to GUI development.&lt;/p&gt;
 &lt;h1&gt;Background&lt;/h1&gt;
 &lt;p&gt;Back in olden days, before GUIs became ubiquitous, programmers used to create applications using &lt;em&gt;command-line interfaces&lt;/em&gt; (CLIs). Life seems to have been so much simpler back then compared to the exponentially increasing complexity that surrounds us today. But we are where we are only by virtue of standing (and building!) on the shoulders of giants, and so, perhaps ironically, in order to move forward one must look backward every now and then.&lt;/p&gt;
