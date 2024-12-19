@@ -1,0 +1,46 @@
+Kung Fu Mo' Cap Vids 
+
+This is a list of the Kung Fu mo cap vids from Eyes Japan. 
+
+Note: In order to get cross origin embeddable IFRAME code:
+1. Open YouTube
+2. Find Share --> Embed
+
+SEE: 
+
+1. ChatGPT: https://chatgpt.com/c/67633eb0-d928-8010-8d7e-47b54fe06c55
+
+Also, it's worth noting you can convert YouTube blobs to MPEG using FFMPEG
+(at least according to Gemini ...) 
+
+TODO: SEE IF THESE CAN BE RETRIEVED FOR MY ARCHIVES...
+
+2. Gem:     https://gemini.google.com/app/102053ef132b8dc7
+
+____
+
+http://www.youtube.com/v/0YXxwUQdcKw&hl=en_US&fs=1&
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0YXxwUQdcKw?si=fO6BFht90PwSfbni" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+____
+<!--
+http://www.youtube.com/v/8A9r576AmM4&hl=en_US&fs=1&
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8A9r576AmM4?si=V2tYsIWTbrvMMcur" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+____
+http://www.youtube.com/v/tUnsxu-qDH0&hl=en_US&fs=1&
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tUnsxu-qDH0?si=jXMfqcueQoQyeo61" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+____
+http://www.youtube.com/v/vBZnRE4TtZM&hl=en_US&fs=1&
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vBZnRE4TtZM?si=HrAq7lK-2XjF0tPm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+____
+http://www.youtube.com/v/_5-N0r8pU9E&hl=en_US&fs=1&
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_5-N0r8pU9E?si=p-OMnlqhLzmoeHKU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+____
+http://www.youtube.com/v/UVTzhLqAbqY&hl=en_US&fs=1&
+<iframe width="560" height="315" src="https://www.youtube.com/embed/UVTzhLqAbqY?si=eR2roArGKv4792YQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+____
+http://www.youtube.com/v/jsLFA7zqKDI&hl=en_US&fs=1&
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jsLFA7zqKDI?si=MxPgCiTA6xfftfuK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+
