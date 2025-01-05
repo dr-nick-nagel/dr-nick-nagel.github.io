@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Finding Stuff on Linux Systems</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="linux" />
+    <meta name="tags" content="unix" />
+    <meta name="tags" content="find" />
+    <meta name="tags" content="grep" />
+    <meta name="tags" content="regular" />
+    <meta name="tags" content="expressions" />
+    <meta name="tags" content="regex" />
+    <meta name="tags" content="locate" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/find-linux.html" rel="bookmark"
+           title="Permalink to Finding Stuff on Linux Systems">Finding Stuff on Linux Systems</a></h2>
+      
+    </header>
+    <h1>How to Find Stuff on Linux</h1>
+<p>This is a placeholder for a future linux article. The article is sketched out and published as "hidden" for now to make it accessable...</p>
+<p>There are a number of ways to find things on <em>linux</em>, including; <em>locate</em>, <em>find</em>, and <em>grep</em>.</p>
+<h2><code>locate</code></h2>
+<p>'used to quickly find files by their name. </p>
+<ul>
+<li>... 'relies on a database that contains a snapshot of all files and directories on your system (updated roughly daily by chron-job).</li>
+</ul>
+<h3>Usage</h3>
+<p><code>locate myfile.txt</code>
+<code>-r</code> Use regex.</p>
+<h2><code>find</code></h2>
+<p>Find files within a specified directory and its subdirectories based on various criteria.</p>
+<h3>Usage</h3>
+<p><code>find [path] [expression]</code></p>
+<h3>Examples</h3>
+<p><code>find . -name "*texture*"</code></p>
+<h2><code>grep</code></h2>
+<p><code>grep</code> is a VASTLY powerful command-line utility in Linux and Unix-like systems used to search for patterns within text data. </p>
+<h3>Usage</h3>
+<p><code>grep [options] pattern [file(s)]</code></p>
+<h3>Examples</h3>
+<p>Can be used to find files <em>containing</em> target patters. For example, find files containing the word 'texture' ...</p>
+<p><code>1. grep -E -r ".*[Tt]exture\s*" .</code></p>
+<p><code>2. grep -Erl ".*[Tt]exture\s*" . | xargs grep -l ".*[Nn]oise\s*"</code></p>
+<p>Where <code>-E</code> flags the use of <em>extended</em> regular expressions. </p>
+<p>To be cont'd ... </p>
+    <footer>
+      <p>Published: <time datetime="2025-01-05T00:00:00-05:00">
+        Sun 05 January 2025
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/linux.html">linux</a>
+            <a href="https://dr-nick-nagel.github.io/tag/unix.html">unix</a>
+            <a href="https://dr-nick-nagel.github.io/tag/find.html">find</a>
+            <a href="https://dr-nick-nagel.github.io/tag/grep.html">grep</a>
+            <a href="https://dr-nick-nagel.github.io/tag/regular.html">regular</a>
+            <a href="https://dr-nick-nagel.github.io/tag/expressions.html">expressions</a>
+            <a href="https://dr-nick-nagel.github.io/tag/regex.html">regex</a>
+            <a href="https://dr-nick-nagel.github.io/tag/locate.html">locate</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
