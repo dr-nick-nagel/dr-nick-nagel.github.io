@@ -1,5 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2024-12-20T00:00:00-05:00</updated><entry><title>Implementing WebRTC Applications in Python Part I: Session Description Protocol</title><link href="https://dr-nick-nagel.github.io/blog/python_web_rtc_1.html" rel="alternate"></link><published>2024-12-20T00:00:00-05:00</published><updated>2024-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-12-20:/blog/python_web_rtc_1.html</id><summary type="html">&lt;p&gt;First is a series of blog posts exploring WebRTC application development in python.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Objective&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-01-23T00:00:00-05:00</updated><entry><title>Cultivate your Web Presence: Improve Visibility through Search Engine Optimization</title><link href="https://dr-nick-nagel.github.io/blog/seo.html" rel="alternate"></link><published>2025-01-23T00:00:00-05:00</published><updated>2025-01-23T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-01-23:/blog/seo.html</id><summary type="html">&lt;p&gt;Tips and technical practices to improve visibility on the WWW.&lt;/p&gt;</summary><content type="html">&lt;p&gt;As an information systems architect and engineer with decades of experience in WWW development I'm often concerned with Internet visibility. Everybody wants their website to be highly visible, especially if they're using the Web to promote their business. Since the dawn of the WWW and the rise of search engines individuals and organizations have tried various ways to ensure their website rises to the top of the list in Internet searches. I personally have seen numerous techniques employed -- many legitimate but many not-so-much -- applied to improve search engine rankings. Some attempts to game the system have been drastic enough that search algorithms now have features to penalize bad actors. It should be kept in mind that there's no magical panacea that can guarantee website visibility. Simply standing up a site is no guarantee that world will beat a path to your door. Once it's up, promoting your website and your business is up to you and your customers. That said, three decades out from the inception of the World Wide Web, an Internet presence is a &lt;em&gt;must-have&lt;/em&gt; for nearly any successful business. And good visibility goes a long way toward building a thriving business. To help folks create and improve a Web presence, this article provides some technical recommendations to ensure visibility. I don't intend it as a comprehensive work on search engine optimization (SEO), or, SEO, but rather as a short-list of tips, techniques and practices with a focus on technical strategies to improve Website visibility.&lt;/p&gt;
+&lt;h1&gt;Number One: Verify Indexing&lt;/h1&gt;
+&lt;p&gt;Search engines work by indexing websites. Programs called &lt;em&gt;web crawlers&lt;/em&gt; scour the Internet daily discovering and indexing hyperlinks to web-sites to create a sort of catalog. Content is indexed by keywords which then can be used to retrieve information. "Googling" -- using key words to search for and retrieve information on the Internet has become a fundamental skill here at the dawn of the new millennium. So the first thing you want to do to make sure your site comes up in a search is verify that it has been indexed. The easiest way to do that is use the &lt;code&gt;site:&lt;/code&gt; operator the Google search bar (or pick the search engine of your choice). &lt;/p&gt;
+&lt;p&gt;For example, enter: &lt;/p&gt;
+&lt;p&gt;&lt;code&gt;site:mywebsite.com&lt;/code&gt;
+And you should see a list of pages that the search engine has indexed from your site.&lt;/p&gt;
+&lt;h1&gt;Number Two: Submit Your Site to Google&lt;/h1&gt;
+&lt;p&gt;If you're not sure whether your site or some specific set of "pages" on your site have been indexed you can submit them for indexing using &lt;a href="https://search.google.com/search-console/about"&gt;Google Search Console&lt;/a&gt;. In general, GSC us a great tool to know about since you can get a lot of information about your site indexes, statistics related to visits, inbound hyperlinks, etc..&lt;/p&gt;
+&lt;h1&gt;Three: Get External Links to your Site&lt;/h1&gt;
+&lt;p&gt;Indeed, inbound links is another factor in the search ranking algorithm that can help your site percolate its way up to the top of the list. You'll want to promote your website with hyperlinks which you can get in a number of ways (through social media like &lt;em&gt;Facebook&lt;/em&gt; and &lt;em&gt;Linked In&lt;/em&gt;, for example).&lt;/p&gt;
+&lt;div class="admonition hint"&gt;
+&lt;p class="admonition-title"&gt;Use the Yellow Pages&lt;/p&gt;
+&lt;p&gt;If your business operates locally, you should look into getting listed in the modern equivalent of a phone directory. Get listed on the Yellow Pages where you can provide links to your website, and get on other local resource directories (e.g., yelp) as well.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h1&gt;Tip Four: Optimize your HTML for Search&lt;/h1&gt;
+&lt;p&gt;While using techniques like "keyword stuffing" (i.e., repeating certain keywords over and over to boost your ranking) is bad practice (indeed, this tactic will actually &lt;em&gt;lower&lt;/em&gt; your ranking) there are a number of legitimate techniques to boost your ranking using HTML. Here are a few to get you started:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Add Metadata: Ensure each page and post has a unique title, meta description, and relevant keywords.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Structure your content: Use Headings (H1, H2, etc.). Use clear headings and subheadings.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use &lt;em&gt;Alt Text&lt;/em&gt; for Images: Include descriptive alt attributes for all images.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Improve Content Quality&lt;/h1&gt;
+&lt;p&gt;Write good descriptive content that clearly sets out what you have to offer. Use keywords naturally throughout your text. But don't try to stuff your text -- that will just sound clumsy and make your attempts to manipulate the system obvious.&lt;/p&gt;
+&lt;h1&gt;Technical Improvements&lt;/h1&gt;
+&lt;p&gt;There are also legitimate documents you can create that are actually &lt;em&gt;intended&lt;/em&gt; to help search engines index your site. &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create a &lt;a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview"&gt;sitemap.xml file and submit it to Google Search Console&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Ensure your &lt;a href="https://developers.google.com/search/docs/crawling-indexing/robots/intro"&gt;robots.txt&lt;/a&gt; file doesn't block search engines.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use &lt;a href="https://developers.google.com/search/docs/crawling-indexing/canonicalization"&gt;canonical URLs&lt;/a&gt; to indicate the preferred URL for each page within your site, avoiding duplicate content issues.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Make sure you’re not using &lt;meta name="robots" content="noindex"&gt; in your HTML.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;p&gt;So, there you have it. As promised, this was not a comprehensive work on SEO for web development. Instead, it's a shortlist of tips and techniques to improve your web presence and Internet visibility. I suggested ways to verify your site is indexed, checking some aspects of your HTML to help with ranking and some technical files you ensure are present to help with indexing. Also, I recommended one or two bad practices to avoid. But at the end of the day what matters most is the value of the content you provide. It's really up to you to promote your work and provide top quality products and services to build your reputation. &lt;/p&gt;</content><category term="Blog"></category><category term="search engine optimization"></category><category term="web site"></category><category term="visibility"></category><category term="business"></category><category term="improve"></category><category term="optimize"></category><category term="search"></category><category term="indexing"></category><category term="web crawlers"></category><category term="search engines"></category><category term="SEO"></category></entry><entry><title>Implementing WebRTC Applications in Python Part I: Session Description Protocol</title><link href="https://dr-nick-nagel.github.io/blog/python_web_rtc_1.html" rel="alternate"></link><published>2024-12-20T00:00:00-05:00</published><updated>2024-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-12-20:/blog/python_web_rtc_1.html</id><summary type="html">&lt;p&gt;First is a series of blog posts exploring WebRTC application development in python.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Objective&lt;/h1&gt;
 &lt;p&gt;The purpose of this article is to introduce a series blog-posts I'm writing on Web Real-Time Communications (known as WebRTC). WebRTC embodies a set of free and open  standards that enable devices connected over the Internet to communicate in real time. Taken together, WebRTC standards and protocols enable voice and video calls, live streaming, file sharing and much, much more.&lt;/p&gt;
 &lt;p&gt;A detailed discussion of all the standards used in WebRTC would be quite an undertaking -- definitely too much to cover in a single blog post. So I'm carving out the coverage of this large topic into a series in which I'll explore implementations of these standards in the context of developing a streaming-media reference-application using python. &lt;/p&gt;
 &lt;h1&gt;Introduction&lt;/h1&gt;
@@ -1840,7 +1886,30 @@ And while I completely acknowledge the need to get ahead of the eight-ball with 
 &lt;/ol&gt;
 &lt;p&gt;$$
 \sigma \left( \sum a_i w_{ij} + b_j \right)
-$$&lt;/p&gt;</content><category term="Blog"></category><category term="math"></category><category term="LaTeX"></category><category term="equations"></category></entry><entry><title>Wah Lum Tam Tui Kung Fu</title><link href="https://dr-nick-nagel.github.io/blog/kung_fu.html" rel="alternate"></link><published>2010-12-20T00:00:00-05:00</published><updated>2010-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2010-12-20:/blog/kung_fu.html</id><summary type="html">&lt;p&gt;Kung fu motion capture.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Kung Fu Moves&lt;/h1&gt;
+$$&lt;/p&gt;
+&lt;p&gt;Update &lt;/p&gt;
+&lt;p&gt;Ran into an issue with latex rendering using alignment. Often I need to align around the equal sign as in:&lt;/p&gt;
+&lt;pre&gt;
+$$
+\begin{align}
+P ( Hyp | Event ) &amp;= \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) } \\
+                  &amp;= \frac {0.99 \times 0.25 } { 0.50 } \\
+                  &amp;= 0.495
+\end{align}
+$$
+&lt;/pre&gt;
+&lt;p&gt;'Problem is, in  such cases Pelican will perform entity substitution on the the '&amp;amp;' (i.e., '&amp;amp;' --&amp;gt; &amp;amp;amp;)  causing the alignment to fail. To work around the issue, wrap the latex in a div like so...&lt;/p&gt;
+&lt;pre&gt;
+&amp;lt;div&gt;
+$$
+\begin{align}
+P ( Hyp | Event ) &amp;= \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) } \\
+                  &amp;= \frac {0.99 \times 0.25 } { 0.50 } \\
+                  &amp;= 0.495
+\end{align}
+$$
+&amp;lt;/div&gt;
+&lt;/pre&gt;</content><category term="Blog"></category><category term="math"></category><category term="LaTeX"></category><category term="equations"></category></entry><entry><title>Wah Lum Tam Tui Kung Fu</title><link href="https://dr-nick-nagel.github.io/blog/kung_fu.html" rel="alternate"></link><published>2010-12-20T00:00:00-05:00</published><updated>2010-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2010-12-20:/blog/kung_fu.html</id><summary type="html">&lt;p&gt;Kung fu motion capture.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Kung Fu Moves&lt;/h1&gt;
 &lt;p&gt;Back when I was visiting Aizuwakamatsu Japan (会津若松市) I had the good fortune to be invited to participate in a motion capture session with &lt;a href="https://www.nowhere.co.jp/en"&gt;Eyes Japan&lt;/a&gt;. Don't get me wrong -- my kung fu is not something to brag about. But what I loved about the session was the &lt;em&gt;concept&lt;/em&gt; of capturing kung fu moves in general-- for posterity. That is, by it's very nature, kung fu is not something that can be easily recorded in a book. There's no standard, easy way to transcribe the movements. When one makes a study of kung fu it has to be passed down through direct observation. In that sense it's kind of like an oral tradition -- you have to hear and learn the stories to hand them forward from one generation to the next. &lt;/p&gt;
 &lt;p&gt;What I liked about the mo' cap was that I had a sense that the kung fu moves could be recorded for posterity. The tradition I study is &lt;a href="https://www.wahlum.com/history/"&gt;Wah Lum Tam Tui&lt;/a&gt; (northern mantis style) kung fu. Kung Fu itself has a long history going back a thousand years. I've been studying it myself for more years than I care to count. I engage in kung fu for the physical exercise, but also for  mental and spiritual discipline. Kung fu exercises not just body but also mind. &lt;/p&gt;
 &lt;p&gt;The motion capture effort was quite valuable to me inasmuch as that it serves as a sort of record -- a visual log or diary -- of a long standing and beautiful cultural tradition. &lt;/p&gt;

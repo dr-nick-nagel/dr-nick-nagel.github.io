@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - On the Probability of Conceptualizing Bayes's Theorem</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="math" />
+    <meta name="tags" content="Bayes Theorem" />
+    <meta name="tags" content="probability" />
+    <meta name="tags" content="statistics" />
+    <meta name="tags" content="neural networks" />
+    <meta name="tags" content="machine learning" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/drafts/baysean-statistics.html" rel="bookmark"
+           title="Permalink to On the Probability of Conceptualizing Bayes's Theorem">On the Probability of Conceptualizing Bayes's Theorem</a></h2>
+      
+    </header>
+    <h1>Introduction</h1>
+<p>If you know me well enough you've probably heard me say, at one time or another, "I love math. Why? Because I believe math is truth! Unless it's statistics ...". Just kidding (LOL). But not really.</p>
+<p>EXPAND THE INTRO ... </p>
+<h1>Bayes Theorem</h1>
+<p>Mathematically, Bayes Theorem can be expressed in terms of probabilities. Given that Bayes theorem is all about <em>belief</em> I like to express it terms of <em>events</em> and <em>hypotheses</em>.</p>
+<p>$$
+P ( Hyp | Event ) = \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) }
+$$</p>
+<p><strong>Where:</strong></p>
+<ul>
+<li>
+<p><strong>P(Hyp | Event)</strong> represents the probability of a hypothesis being true given that an event has occurred. This is the <strong>posterior probability</strong>.</p>
+</li>
+<li>
+<p><strong>P(Event | Hyp)</strong> represents the probability of the event occurring given that the hypothesis is true (which may be referred to as the <strong>likelihood</strong>).</p>
+</li>
+<li>
+<p><strong>P(Hyp)</strong> represents the <em>prior</em> probability of the hypothesis <em>irrespective of the event</em>.</p>
+</li>
+<li>
+<p><strong>P(Event)</strong> represents the probability of the event irrespective of the hypothesis. It may be considered as the <em>marginal</em> likelihood of the event. </p>
+</li>
+</ul>
+<h2>Examples</h2>
+<h3>Forecasting the Weather</h3>
+<p>With anything math I always like examples. Being a New Englander and an avid outdoorsperson (also given that my father was a meteorologist) I often worry about the weather. Since, as I write this, it's January and quite cloudy outside my window, let's consider, in Bayesian terms, whether I should be concerned about snow. </p>
+<ul>
+<li>
+<p>Let's assume the probability that it will snow in my location on the given day in January ( $P(Hyp)$ ) to be 25% (based on historical data). </p>
+</li>
+<li>
+<p>The probability that it will snow is the <em>prior</em> probability. But I've also observed an event that should impact the prior: It's cloudy. The probability of an overcast day occurring on a January day in New England is $P(E) = 50\%$</p>
+</li>
+<li>
+<p>But in Bayesean terms that's not the whole story. Whether I should be concerned with snow given that it's cloudy is <em>also</em> impacted by the likelihood it will be overcast if it's snowing. Given snow, it may be cloudy 99% of the time but on rare occaisions I've seen snow when it's not completely overcast. So let $P( Event | Hyp  ) = 99\%$</p>
+</li>
+</ul>
+<p>Now let's do the math. <em>Calculate the probability of snow in Boston on January 9th</em> (the hypothesis) <em>given that it's overcast in the morning</em> (the event)...</p>
+<div class='latex_align'>
+<!--NOTE: Pelican causes &amp; substitution so need to wrap in div to preempt...-->
+$$
+\begin{align}
+P ( Hyp | Event ) &= \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) } \\
+                  &= \frac {0.99 \times 0.25 } { 0.50 } \\
+                  &= 0.495
+\end{align}
+$$
+</div>
+
+<p>So, Bayesean analysis enables us to add information to the determination of a probability, often greatly enhancing the estimate. In the weather example, adding observational information to the equation raised the odds of snow from the baseline (prior) probality significantly. 'Still might as well flip a coin though, right?</p>
+<h3>Medical Diagnostics</h3>
+<p>Just for fun let's work through a slightly more complex example. Imagine a scenario where you want to determine the probabiliy of a patient presenting with a particular rare condition. The condition can be detected by a test which has 99% accuracy. In other words, if the condition is present the probability that the test is positive is 99% (there is a 1% chance of a <em>false negative</em>). If the condition is <em>not</em> present the test will be positive 1% of the time (a false <em>positive</em>). </p>
+<ul>
+<li>
+<p>Let's say the condition occurs in 1% of the population ($P(Cond) = 0.01$) . </p>
+</li>
+<li>
+<p>We know the test is 99% accurate. </p>
+<ul>
+<li>If the condition is present the test is positive 99% of the time ( $P(Pos|Cond) = 0.99$ ).</li>
+<li>If the condition is <em>not</em> present the test is negative 99% of the time ( $P( Pos | \neg Cond) = 0.01$ ).</li>
+</ul>
+</li>
+</ul>
+<p>Let's say we have a case where a patient tests positive for the condition. The question is; what are the odds that the patient <em>actually has the condition</em>. In Bayesean terms we ask; "What is the probability that the patient has the condition given the <em>evidence</em> of a positive test result?" </p>
+<p>At this point we have all the information we need to apply Bayes' Theorem, but not quite in the form given above. That is, we don't have a number for $P( Pos )$ (the probability of getting a positive test result <em>irrespective of the condition</em>). But we can detemine that probability and expand the theorem to address our question. </p>
+<p>We can obtain $P(Pos)$ by collapsing conditions across the entire population:</p>
+<p>$$
+P( Pos ) = P( Pos | Cond ) \times P( Cond ) + P( Pos | \neg Cond ) \times P( \neg Cond ) 
+$$</p>
+<p>Given that we can expand our original formulation of Bayes' Theorem. If the hypothesis (Hyp) put to the test is that the patient has the condition, and the event (Event) is testing positive then:</p>
+<p>$$
+P ( Hyp | Event ) = \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P( Event | Hyp ) \times P( Hyp ) + P( Event | \neg Hyp ) \times P( \neg Hyp ) }
+$$</p>
+<p>Now the calculation boils down to simple arithmetic:</p>
+<div class='latex_align'>
+$$
+\begin{align}
+P ( Cond | Pos ) &= \frac { 0.99 \times 0.01 } {(0.99)(0.01) + (0.01)(0.99)}  \\
+                 &= 0.50
+\end{align}
+$$
+</div>
+
+<p>So, with this example, we see that it's not enough to just consider the test accuracy in gauging the probability of a correct diagnosis. Over and above that we need to consider the frequency of the condition with respect to the population writ large. This example demonstrates a crucial point about Bayesian probability; the <em>prior</em> probability (the prevalence of the condition in the population) greatly influences the <em>posterior</em> probability (the probability of having the condition <em>given</em> a positive test result). The failure to bring the prior probability to bear on the assessment (referred to as <em>base-rate neglect</em>) is an example of a well-known fallacy in statistical reasoning -- a form of cognitive bias that can lead to errors in judgement that depend on estimating probabilities associated with uncertain events.</p>
+<h1>Understanding Bayesean Statistics</h1>
+<p>Fallacy of thinking about statistics without regard to a POPULATION.
+See philosophical discussion ...
+https://gemini.google.com/app/22cd3a3cef87136e</p>
+<p>Statistics <em>guides</em> decisions, it doesn't describe facts </p>
+<p>There's something that bothers me that I can't quite put my finger on or bring to top of mind here...</p>
+<p><strong>Key Concepts:</strong></p>
+<ul>
+<li><strong>Prior Probability:</strong> Our initial belief in the hypothesis before observing any evidence.</li>
+<li><strong>Likelihood:</strong> How likely the observed evidence is if the hypothesis is true.</li>
+<li><strong>Posterior Probability:</strong> Our updated belief in the hypothesis after considering the evidence.</li>
+</ul>
+<p>TODO: ADD AN INSIGHT RE: THE GENERALIZED THEORY</p>
+<p><strong>In simpler terms:</strong></p>
+<p>Bayes' Theorem helps us update our belief in a hypothesis based on new evidence. It allows us to calculate the probability of a hypothesis given the observed evidence.</p>
+<h1>Discussion</h1>
+<p>Falacies</p>
+<p>The wrong way to think about statistics</p>
+<p>the right way to think about statistics</p>
+<p>with examples ...</p>
+<p>Diagnosing Disease and false positives</p>
+<p>epistemology</p>
+<p>conflation of statistics with facts, when, in fact, statistics is all about belief. Think about it. You can say "I believe it is going to snow tomorrow" and associate that statement with some degree of certainty. But you cannot say "it is a fact that it will snow tomorrow" -- it just doen't make sense.</p>
+<p>BAYESEAN VS. FREQUENTIST VIEWS DISCUSS...</p>
+<h1>Resources</h1>
+<h2>Books</h2>
+<ol>
+<li>
+<p><a href="https://greenteapress.com/wp/think-bayes/"> Think Bayes </a> </p>
+</li>
+<li>
+<p><a href="https://allendowney.github.io/ThinkBayes2/"> Think Bays on Github </a></p>
+</li>
+</ol>
+<h2>Encyclopedic</h2>
+<ol>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes' Theorem</a></p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Multilayer_perceptron">Multi-Layer Perceptron</a></p>
+</li>
+</ol>
+<h2>Visualizing Bayes' Theorem</h2>
+<ol>
+<li><a href="https://www.youtube.com/watch?v=HZGCoVF3YvM">3Blue1Brown</a></li>
+</ol>
+<hr />
+<p>RESUME HERE:</p>
+<p>FINISH UP THIS NONSENSE!!</p>
+<p>https://chatgpt.com/c/677ec2bc-06a0-8010-bc01-2d08fef8888a
+https://gemini.google.com/app/630232f2976ca734</p>
+<p>https://en.wikipedia.org/wiki/Base_rate_fallacy
+False Positive Paradox: Face Recognition Example
+https://gemini.google.com/app/d855ab417d0723df</p>
+<p>====
+FOR BLOG 
+Understanding the Differences Between Bayesian and Frequentist Statistics
+https://www.redjournal.org/article/S0360-3016(21)03256-9/fulltext</p>
+<p>https://chatgpt.com/c/67816bff-ffd4-8010-af2b-251cc130f155</p>
+<p>====
+AI's </p>
+<p>https://chatgpt.com/c/677ec2bc-06a0-8010-bc01-2d08fef8888a
+https://chatgpt.com/c/678169b5-5430-8010-9d11-85b7bc09daf3
+https://gemini.google.com/app/5c14fec36cd64182</p>
+    <footer>
+      <p>Published: <time datetime="2025-01-08T00:00:00-05:00">
+        Wed 08 January 2025
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/math.html">math</a>
+            <a href="https://dr-nick-nagel.github.io/tag/bayes-theorem.html">Bayes Theorem</a>
+            <a href="https://dr-nick-nagel.github.io/tag/probability.html">probability</a>
+            <a href="https://dr-nick-nagel.github.io/tag/statistics.html">statistics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/neural-networks.html">neural networks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/machine-learning.html">machine learning</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

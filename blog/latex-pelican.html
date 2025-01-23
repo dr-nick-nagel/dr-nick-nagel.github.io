@@ -87,6 +87,29 @@ Welcome to NickNagel.com
 <p>$$
 \sigma \left( \sum a_i w_{ij} + b_j \right)
 $$</p>
+<p>Update </p>
+<p>Ran into an issue with latex rendering using alignment. Often I need to align around the equal sign as in:</p>
+<pre>
+$$
+\begin{align}
+P ( Hyp | Event ) &= \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) } \\
+                  &= \frac {0.99 \times 0.25 } { 0.50 } \\
+                  &= 0.495
+\end{align}
+$$
+</pre>
+<p>'Problem is, in  such cases Pelican will perform entity substitution on the the '&amp;' (i.e., '&amp;' --&gt; &amp;amp;)  causing the alignment to fail. To work around the issue, wrap the latex in a div like so...</p>
+<pre>
+&lt;div>
+$$
+\begin{align}
+P ( Hyp | Event ) &= \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) } \\
+                  &= \frac {0.99 \times 0.25 } { 0.50 } \\
+                  &= 0.495
+\end{align}
+$$
+&lt;/div>
+</pre>
     <footer>
       <p>Published: <time datetime="2024-07-25T00:00:00-04:00">
         Thu 25 July 2024
