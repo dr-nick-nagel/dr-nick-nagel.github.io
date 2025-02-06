@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Working with SVG</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        
+          <script src='/scripts/svg_artworks_v0.1.js'></script>
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="javascript" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="motion" />
+    <meta name="tags" content="cartoon" />
+    <meta name="tags" content="physics" />
+    <meta name="tags" content="HTML5" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="framework" />
+    <meta name="tags" content="Inkscape" />
+    <meta name="tags" content="Illustrator" />
+    <meta name="tags" content="Adobe" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/blog/trans-matrix.html" rel="bookmark"
+           title="Permalink to Working with SVG">Working with SVG</a></h2>
+      
+    </header>
+    <h1>Introduction</h1>
+<p>Over the course of developing animation components in my SVG Artworks Framework I quickly discovered the need to understand transformation matrices. This post is for those interested in SVG illustration using NN SVG Artworks Framework and, more generally anyone who wants to deepen their understanding of SVG.</p>
+<p>Artists
+Designers
+Programmers
+Math</p>
+<h1>The Transformation Matrix</h1>
+<p>https://chatgpt.com/c/67a0fefd-46d0-8010-ac39-e381a73f5d3c</p>
+<p>In SVG, you can use the .getBBox(), .getCTM(), or .getScreenCTM() methods to get the coordinates of a shape relative to different reference points:</p>
+<pre><code>getBBox(): Returns the bounding box of the shape in local coordinate space (before transformations). It does not account for transformations applied to the element.
+</code></pre>
+<p>let bbox = shape.getBBox();
+console.log(bbox.x, bbox.y, bbox.width, bbox.height);</p>
+<p>getCTM() (Current Transformation Matrix): Returns the transformation matrix of the shape relative to its nearest SVG viewport.</p>
+<p>let ctm = shape.getCTM();
+console.log(ctm.e, ctm.f); // Transformed X, Y coordinates</p>
+<p>getScreenCTM(): Returns the transformation matrix relative to the entire screen.</p>
+<p>let screenCTM = shape.getScreenCTM();
+console.log(screenCTM.e, screenCTM.f); // Screen-space coordinates</p>
+<h1>A Javascript Example</h1>
+<h1>SVG Artworks in Action!</h1>
+<p>Here is an example.</p>
+<p>USE THE GORGON HEAD AT THE TEMPLE ... </p>
+<div id="viewport-container">
+    <svg id="viewport" 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="500" 
+        height="250" 
+        style="background-color: rgb(143, 202, 206);">
+        <!--INSERT SVG CONTENT-->
+    </svg>
+</div>
+<div class='Panel'>
+    <button id='start_anim'>Start</button>
+    <button id='stop_anim'>Stop</button>
+    <span id='frame_rate'
+        style="display:inline-block;width: 200px">0</span>
+    <span id='mouse_coords'
+        style="display:inline-block;width: 200px">mouse: 0, 0</span>
+</div>
+
+<p>As you can see, it's aliiiiive!</p>
+<h1>Discussion</h1>
+<h1>Conclusion</h1>
+<h1>Resources</h1>
+    <footer>
+      <p>Published: <time datetime="2025-02-07T00:00:00-05:00">
+        Fri 07 February 2025
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/draft.html">Draft</a>
+        </p>
+        <p>
+          Tags:
+            <a href="/tag/javascript.html">javascript</a>
+            <a href="/tag/animation.html">animation</a>
+            <a href="/tag/svg.html">svg</a>
+            <a href="/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="/tag/art.html">art</a>
+            <a href="/tag/artwork.html">artwork</a>
+            <a href="/tag/motion.html">motion</a>
+            <a href="/tag/cartoon.html">cartoon</a>
+            <a href="/tag/physics.html">physics</a>
+            <a href="/tag/html5.html">HTML5</a>
+            <a href="/tag/artworks.html">artworks</a>
+            <a href="/tag/framework.html">framework</a>
+            <a href="/tag/inkscape.html">Inkscape</a>
+            <a href="/tag/illustrator.html">Illustrator</a>
+            <a href="/tag/adobe.html">Adobe</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
