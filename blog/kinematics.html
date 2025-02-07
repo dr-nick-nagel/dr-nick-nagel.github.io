@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - SVG with a dash of Kinematics</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        
+          <script src='/scripts/svg_artworks_v0.1.js'></script>
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="javascript" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="motion" />
+    <meta name="tags" content="cartoon" />
+    <meta name="tags" content="physics" />
+    <meta name="tags" content="HTML5" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="framework" />
+    <meta name="tags" content="Inkscape" />
+    <meta name="tags" content="Illustrator" />
+    <meta name="tags" content="Adobe" />
+    <meta name="tags" content="kinematics" />
+    <meta name="tags" content="kinetics" />
+    <meta name="tags" content="vectors" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/kinematics.html" rel="bookmark"
+           title="Permalink to SVG with a dash of Kinematics">SVG with a dash of Kinematics</a></h2>
+      
+    </header>
+    <h1>Introduction</h1>
+<p>I've always had a love of cartoon physics. Who can stop but to laugh out loud watching a <em>Tom 'n' Jerry cartoon</em> or a <em>Road Runner</em> short with <em>Wile E. Coyote</em>? But when I started working with computer graphics and simulations over the course of  developing a flight simulator subsystem for US Air force pilot training I quickly needed to ground myself in real-world physics. </p>
+<p>More recently I've had some time to re-engage in a long-standing passion project of mine and found myself revisiting the fundamentals of <em>kinematics</em>. The project revolves around a Framework (watch for forthcoming announcements!) I'm developing to support SVG artworks. But, ahead of formally announcing the framework, I'm writing this post for artistic types who might have a general interest in kinematics. Before you can control and bend them to your will in your artworks you need to understand the basic laws of motion. So the purpose of this post is to quickly review basic kinetic principles in order to apply them to good effect in the creation of SVG art for simulations, games, sequential art any any other applications that may be inspired by the muse. </p>
+<h1>Elementary Kinematics</h1>
+<h2>What is Kinematics?</h2>
+<p><em>Kinematics</em> is the study of motion without worrying about the forces that cause it. The focus is on <em>position</em>, <em>velocity</em> and <em>acceleration</em> and how these aspects of motion change over time. Basic kinematic principles have been well-known since Newton. It is my view that understanding basic kinematics will help vector graphics artists be more creative in their artistic endeavors.</p>
+<h2>Position, Velocity and Acceleration</h2>
+<p>You don't have to be an expert in physics to produce good game art or illustrations. But I personally have found that a basic understanding of the relations between three aspects of motion can take you a looong way to creating a wide range of assets. Those aspects are <em>position</em>, <em>velocity</em> and acceleration. </p>
+<ol>
+<li>
+<p><strong>Position.</strong> <em>Position</em> represents the location of an object in space relative to a reference point. Since SVG art is described in 2 dimensions I'll limit the scope of this post to a 2D coordinate system<sup>*</sup>. But the principles we'll examine can be readily extended to 3D.</p>
+<p>&lt;&lt; INSERT IMAGE &gt;&gt;</p>
+<p><sup>*</sup> In order to be consisent with 2D rendering in web browsers I'll be treating positive $y$ as down in the 2D space. </p>
+</li>
+<li>
+<p><strong>Velocity.</strong> <em>Velocity</em> is the <em>rate of change</em> of position with respect to time. In physics velocity represents both speed <em>and</em> direction and so is conveniently represented as a <em>vector</em> with <em>orientation</em> and <em>magnitude</em>. </p>
+<p>Mathematically, velocity is the first derivative of position. </p>
+<p>$$
+v = \frac{dx}{dt}
+$$</p>
+<p>If you <em>integrate</em> an object's velocity you get its position.</p>
+</li>
+<li>
+<p><strong>Acceleration.</strong> <em>Acceleration</em> if the rate of change in velocity over time. </p>
+<p>Acceleration is the first derivative of velocity and the second derviative of position. </p>
+<p>$$
+a = \frac{dv}{dt} = \frac{d^2x}{dt^2}
+$$</p>
+<p>If you integrate an object's acceleration you get its velocity, and as I just observed if you integrate that you get position.</p>
+</li>
+</ol>
+<h2>Representing Motion</h2>
+<p>To keep things simple I like to work by way of example. Suppose we have an object in motion starting at position $x=0$ with an initial velocity $v_0$ of $5 m/s$ and a constant acceleration, $a$, of $2 m/s^2$ . Using the definitions above we can represent its motion as:</p>
+<ol>
+<li>
+<p><strong>Velocity over time:</strong>
+    $$
+    v(t) = v_0 + at
+    $$</p>
+</li>
+<li>
+<p><strong>Position over time:</strong>
+    $$
+    p(t) = x_0 + v_0t + \frac{1}{2}at^2
+    $$</p>
+</li>
+</ol>
+<p>Let's look at the object's motion over the course of a 3 second interval. Where is the object located after 3 seconds? </p>
+<div>
+$$
+\begin{align}
+p(3) &= 0 + (5 \times 3) + \frac{1}{2}(2 \times 3^2) \\
+     &= (15) + \frac{1}{2}(2 \times 9) \\
+     &= 15 + 9 \\
+     &= 24m 
+\end{align}
+$$
+</div>
+<p>So, after a 3 second interval we see the object has moved 24 meters. </p>
+<div class="admonition hint">
+<p class="admonition-title">An Important Note on Units</p>
+<p>In going over these computations you'll notice I've been using <em>meters</em>  as the unit of measure. And this brings up an important point. If you're working on efforts concerning simulations, games, etc., you have to keep your units in mind when working out computations necessary to simulate forces acting on your objects. For example, in creating a particle effect if I want to simulate forces like gravity and drag I can apply real-world formulas but will have to translate real-world units associated with those formulas to my artworks space. </p>
+</div>
+<h2>A Javascript Implementation</h2>
+<p>With this in mind we can consider a programmatic implemenation of these formulas in Javascript. The forthcoming framework I'm developing represents movable objects (namely <em>sprites</em>) using a base class that encapsulates the math.</p>
+<div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
+    <pre>
+/**
+  * Base class for movable entities in my forthcoming SVG Artworks 
+  * Framework. The Moveble base class encapsulates the math necessary
+  * to move objects around the 2D SVG canvas applying the basic 
+  * kinematic principles relating position to velocity and acceleration
+  * over time. This class facilitates the creation of a wide variety of
+  * animations and simulations.
+  */
+class Movable {
+    constructor(svg_id, x, y, vx = 0, vy = 0, ax = 0, ay = 0) {
+        this.id = svg_id;
+        this.svg_group = document.getElementById( svg_id );
+        this.px = x;
+        this.py = y;
+        this.vx = vx;
+        this.vy = vy;
+        this.ax = ax;
+        this.ay = ay;
+    }
+
+    move(deltaTime) {
+        // Update velocity based on acceleration
+        this.vx += this.ax * deltaTime;
+        this.vy += this.ay * deltaTime;
+
+        // Update position based on velocity
+        this.px += this.vx * deltaTime;
+        this.py += this.vy * deltaTime;
+    }
+
+    render() {
+        this.svg_group.setAttribute( 
+            'transform',
+            `translate( ${this.px}, ${this.py} )`
+        );
+     }
+    ...
+}
+    </pre>
+</div>
+
+<h1>SVG Artworks in Action!</h1>
+<p>And here's an example of the application of the principles in action. Below you should see a demo in the form of something between a toy and a game illustrating the basic kinematics application with the classic example of projectile motion. The example illustrates a cannon ball shot and in playing with it you can observe the iconic parabolic trajectory of an object subjected to forces of gravity and drag represented in velocity and acceleration over time.</p>
+<div id="viewport-container">
+    <svg id="viewport" 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="500" 
+        height="250" 
+        style="background-color: rgb(143, 202, 206);">
+    </svg>
+</div>
+<div class='Panel'>
+    <button id='start_anim'>Fire</button>
+    <button id='stop_anim'>Stop</button>
+    <button id='reset_anim'>Reload</button>
+    <span id='frame_rate'
+        style="display:inline-block;min-width: 180px; width: 180px">Frame Rate: 0 (Interval: 0)</span>
+    <span id='mouse_coords'
+        style="display:inline-block;min-width: 150px; width: 130px">mouse x=0, y=0</span>
+    <input type='text' id='vx' value='193'
+        style="display:inline-block;width: 30px" />
+    <input type='text' id='vy' value='-52'
+        style="display:inline-block;width: 30px" />
+</div>
+
+<p>Note: you can modify the cannon ball's trajectory by changing the x and y values associated with its velocity. Back in the olden days, the only way to adjust your aim was to to change the cannon's orientation and/or add more gunpowder to increase its explosive force.</p>
+<h1>Conclusion</h1>
+<p>So that's it for now. Inspired by work on my forthcoming SVG Artworks Framework the purpose of this post is merely to share observations on the fundamentals of kinematics as applied to illustration with 2D vector graphics. We looked at the basic math describing motion as a function of position, velocity and acceleration over time and played a bit with toy developed through applying these basic equations. Understanding kinematics can take you a long way to developing a wide range of applications in game art, simulations, educational materials, and much much more. Stay tuned for more SVG artwork support coming soon!</p>
+    <footer>
+      <p>Published: <time datetime="2025-02-07T00:00:00-05:00">
+        Fri 07 February 2025
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/javascript.html">javascript</a>
+            <a href="https://dr-nick-nagel.github.io/tag/animation.html">animation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
+            <a href="https://dr-nick-nagel.github.io/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/art.html">art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artwork.html">artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/motion.html">motion</a>
+            <a href="https://dr-nick-nagel.github.io/tag/cartoon.html">cartoon</a>
+            <a href="https://dr-nick-nagel.github.io/tag/physics.html">physics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/html5.html">HTML5</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/framework.html">framework</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape.html">Inkscape</a>
+            <a href="https://dr-nick-nagel.github.io/tag/illustrator.html">Illustrator</a>
+            <a href="https://dr-nick-nagel.github.io/tag/adobe.html">Adobe</a>
+            <a href="https://dr-nick-nagel.github.io/tag/kinematics.html">kinematics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/kinetics.html">kinetics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/vectors.html">vectors</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

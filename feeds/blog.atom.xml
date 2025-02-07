@@ -1,40 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-01-30T00:00:00-05:00</updated><entry><title>Time-Based Animation in Javascript using RequestAnimationFrame</title><link href="https://dr-nick-nagel.github.io/blog/raf-time.html" rel="alternate"></link><published>2025-01-30T00:00:00-05:00</published><updated>2025-01-30T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-01-30:/blog/raf-time.html</id><summary type="html">&lt;p&gt;How to use javascript RAF for time-based animation...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;In this article I'll discuss key aspects of web-based animation with javascript. In particular, I'll be focusing on time-dependent animation with &lt;a href="TBD"&gt;RequestAnimationFrame&lt;/a&gt;. &lt;/p&gt;
-&lt;p&gt;TODO: Expand a bit. Discuss the upcoming SVG Artworks Framework...&lt;/p&gt;
-&lt;h1&gt;The Animation Loop&lt;/h1&gt;
-&lt;p&gt;All animation occurs wihin a very basic loop. This was true from the inception of animated artworks from the early days of film with handrawn images to modern day computer-based systems. &lt;/p&gt;
-&lt;p&gt;[[ INSERT IMAGE ANIMATION LOOP ]]
-1. update
-2. render
-3. wait&lt;/p&gt;
-&lt;p&gt;All animation involves rendering a scene, waiting for an interval to pass, updating the scene and rendering the updated imagery over and over again. &lt;/p&gt;
-&lt;p&gt;TODO: ELABORATE A BIT&lt;/p&gt;
-&lt;h1&gt;Request Animation Frame&lt;/h1&gt;
-&lt;p&gt;Web-based animation has been around since the inception of the WWW. Today, web-based animation is achieved using HTML5, CSS and Javascript. There are a few ways in which animation can be acheived in Javascript. This article focuses on the use of &lt;code&gt;RequestAnimationFrame&lt;/code&gt;. &lt;/p&gt;
-&lt;p&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame"&gt;Documentation&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;For basic animation, using RAF may be simple enough. But for serious animations (think complex artworks) you need time-based animations. &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-02-07T00:00:00-05:00</updated><entry><title>SVG with a dash of Kinematics</title><link href="https://dr-nick-nagel.github.io/blog/kinematics.html" rel="alternate"></link><published>2025-02-07T00:00:00-05:00</published><updated>2025-02-07T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-07:/blog/kinematics.html</id><summary type="html">&lt;p&gt;Applying kinematics to animation with SVG ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;I've always had a love of cartoon physics. Who can stop but to laugh out loud watching a &lt;em&gt;Tom 'n' Jerry cartoon&lt;/em&gt; or a &lt;em&gt;Road Runner&lt;/em&gt; short with &lt;em&gt;Wile E. Coyote&lt;/em&gt;? But when I started working with computer graphics and simulations over the course of  developing a flight simulator subsystem for US Air force pilot training I quickly needed to ground myself in real-world physics. &lt;/p&gt;
+&lt;p&gt;More recently I've had some time to re-engage in a long-standing passion project of mine and found myself revisiting the fundamentals of &lt;em&gt;kinematics&lt;/em&gt;. The project revolves around a Framework (watch for forthcoming announcements!) I'm developing to support SVG artworks. But, ahead of formally announcing the framework, I'm writing this post for artistic types who might have a general interest in kinematics. Before you can control and bend them to your will in your artworks you need to understand the basic laws of motion. So the purpose of this post is to quickly review basic kinetic principles in order to apply them to good effect in the creation of SVG art for simulations, games, sequential art any any other applications that may be inspired by the muse. &lt;/p&gt;
 &lt;h1&gt;Elementary Kinematics&lt;/h1&gt;
-&lt;p&gt;I've always had a love of cartoon physics. Who can stop but to laugh out loud watching a &lt;em&gt;Tom 'n' Jerry cartoon&lt;/em&gt; or a &lt;em&gt;Road Runner&lt;/em&gt; short with Wile E. Coyote? But when I started working with computer graphics and simulations I quickly needed to ground myself in real-world physics. Before you can control and bend them to your will in your artworks you need to understand the basic laws of motion. So the purpose of this section is to quickly review basic kenetic principles in order to apply them to good effect in the context of the SVG framework. &lt;/p&gt;
 &lt;h2&gt;What is Kinematics?&lt;/h2&gt;
-&lt;p&gt;&lt;em&gt;Kinematics&lt;/em&gt; is the study of motion without worrying about the forces that cause it. The focus is on &lt;em&gt;position&lt;/em&gt;, &lt;em&gt;velocity&lt;/em&gt; and &lt;em&gt;acceleration&lt;/em&gt; and how these aspects of motion change over time. Basic kinematic principles have been well-known since Newton. &lt;/p&gt;
-&lt;h3&gt;Position, Velocity and Accelaration&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Kinematics&lt;/em&gt; is the study of motion without worrying about the forces that cause it. The focus is on &lt;em&gt;position&lt;/em&gt;, &lt;em&gt;velocity&lt;/em&gt; and &lt;em&gt;acceleration&lt;/em&gt; and how these aspects of motion change over time. Basic kinematic principles have been well-known since Newton. It is my view that understanding basic kinematics will help vector graphics artists be more creative in their artistic endeavors.&lt;/p&gt;
+&lt;h2&gt;Position, Velocity and Acceleration&lt;/h2&gt;
+&lt;p&gt;You don't have to be an expert in physics to produce good game art or illustrations. But I personally have found that a basic understanding of the relations between three aspects of motion can take you a looong way to creating a wide range of assets. Those aspects are &lt;em&gt;position&lt;/em&gt;, &lt;em&gt;velocity&lt;/em&gt; and acceleration. &lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Position.&lt;/strong&gt; &lt;em&gt;Position&lt;/em&gt; represents the location of an object in space relative to a reference point. Since the SVG Artworks Framework is mainly 2D we'll consider 2D descriptions in Cartesian coordinates. Position is represented as a &lt;em&gt;vector&lt;/em&gt;, $\vec v$, with coordinates $x$ and $y$ (horizontal and vertical).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Position.&lt;/strong&gt; &lt;em&gt;Position&lt;/em&gt; represents the location of an object in space relative to a reference point. Since SVG art is described in 2 dimensions I'll limit the scope of this post to a 2D coordinate system&lt;sup&gt;*&lt;/sup&gt;. But the principles we'll examine can be readily extended to 3D.&lt;/p&gt;
 &lt;p&gt;&amp;lt;&amp;lt; INSERT IMAGE &amp;gt;&amp;gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; In order to be consisent with 2D rendering in web browsers this discussion treats positive y as down in the 2D space. &lt;/p&gt;
+&lt;p&gt;&lt;sup&gt;*&lt;/sup&gt; In order to be consisent with 2D rendering in web browsers I'll be treating positive $y$ as down in the 2D space. &lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Velocity.&lt;/strong&gt; &lt;em&gt;Velocity&lt;/em&gt; is the &lt;em&gt;rate of change&lt;/em&gt; of position with respect to time. In physics velocity represents both &lt;em&gt;speed&lt;/em&gt; and &lt;em&gt;direction&lt;/em&gt; (represented as a vector with &lt;em&gt;orientation&lt;/em&gt; and &lt;em&gt;magnitude&lt;/em&gt;). &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Velocity.&lt;/strong&gt; &lt;em&gt;Velocity&lt;/em&gt; is the &lt;em&gt;rate of change&lt;/em&gt; of position with respect to time. In physics velocity represents both speed &lt;em&gt;and&lt;/em&gt; direction and so is conveniently represented as a &lt;em&gt;vector&lt;/em&gt; with &lt;em&gt;orientation&lt;/em&gt; and &lt;em&gt;magnitude&lt;/em&gt;. &lt;/p&gt;
 &lt;p&gt;Mathematically, velocity is the first derivative of position. &lt;/p&gt;
 &lt;p&gt;$$
 v = \frac{dx}{dt}
 $$&lt;/p&gt;
-&lt;p&gt;If you integrate an object's velocity you get its position.&lt;/p&gt;
+&lt;p&gt;If you &lt;em&gt;integrate&lt;/em&gt; an object's velocity you get its position.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Acceleration.&lt;/strong&gt; &lt;em&gt;Acceleration&lt;/em&gt; if the rate of change in &lt;em&gt;velocity&lt;/em&gt; over time. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Acceleration.&lt;/strong&gt; &lt;em&gt;Acceleration&lt;/em&gt; if the rate of change in velocity over time. &lt;/p&gt;
 &lt;p&gt;Acceleration is the first derivative of velocity and the second derviative of position. &lt;/p&gt;
 &lt;p&gt;$$
 a = \frac{dv}{dt} = \frac{d^2x}{dt^2}
@@ -42,8 +30,8 @@ $$&lt;/p&gt;
 &lt;p&gt;If you integrate an object's acceleration you get its velocity, and as I just observed if you integrate that you get position.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3&gt;Example&lt;/h3&gt;
-&lt;p&gt;Let's look at a simple example. Suppose we have an object in motion starting at position $x=0$ with an initial velocity $v_0$ of $5 m/s$ and a constant acceleration, $a$, of $2 m/s^2$ . Using the definitions above we can represent its motion as:&lt;/p&gt;
+&lt;h2&gt;Representing Motion&lt;/h2&gt;
+&lt;p&gt;To keep things simple I like to work by way of example. Suppose we have an object in motion starting at position $x=0$ with an initial velocity $v_0$ of $5 m/s$ and a constant acceleration, $a$, of $2 m/s^2$ . Using the definitions above we can represent its motion as:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Velocity over time:&lt;/strong&gt;
@@ -72,30 +60,61 @@ $$
 &lt;p&gt;So, after a 3 second interval we see the object has moved 24 meters. &lt;/p&gt;
 &lt;div class="admonition hint"&gt;
 &lt;p class="admonition-title"&gt;An Important Note on Units&lt;/p&gt;
-&lt;p&gt;In going over these computations you'll notice I've been using &lt;em&gt;meters&lt;/em&gt;  as the unit of measure. And this brings up an important point. If you're working on efforts concerning simulations, games, etc., you have to keep your units in mind when working out computations necessary to simulate forces acting on your objects. For example, in creating a particle effect if I want to simulate forces like gravity and drag I can apply real-world formulas but will have to translate real-world units associated with those formulas to my artworks space. Since the SVG Artworks Framework is mainly concerned with rendering SVG graphics I'll typically consider pixels as units.  &lt;strong&gt;TODO: make this better. Look for units discussion in UNREAL?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In going over these computations you'll notice I've been using &lt;em&gt;meters&lt;/em&gt;  as the unit of measure. And this brings up an important point. If you're working on efforts concerning simulations, games, etc., you have to keep your units in mind when working out computations necessary to simulate forces acting on your objects. For example, in creating a particle effect if I want to simulate forces like gravity and drag I can apply real-world formulas but will have to translate real-world units associated with those formulas to my artworks space. &lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;RESUME HERE...&lt;/p&gt;
-&lt;div style="display:none"&gt;
-SEE: 
+&lt;h2&gt;A Javascript Implementation&lt;/h2&gt;
+&lt;p&gt;With this in mind we can consider a programmatic implemenation of these formulas in Javascript. The forthcoming framework I'm developing represents movable objects (namely &lt;em&gt;sprites&lt;/em&gt;) using a base class that encapsulates the math.&lt;/p&gt;
+&lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
+    &lt;pre&gt;
+/**
+  * Base class for movable entities in my forthcoming SVG Artworks 
+  * Framework. The Moveble base class encapsulates the math necessary
+  * to move objects around the 2D SVG canvas applying the basic 
+  * kinematic principles relating position to velocity and acceleration
+  * over time. This class facilitates the creation of a wide variety of
+  * animations and simulations.
+  */
+class Movable {
+    constructor(svg_id, x, y, vx = 0, vy = 0, ax = 0, ay = 0) {
+        this.id = svg_id;
+        this.svg_group = document.getElementById( svg_id );
+        this.px = x;
+        this.py = y;
+        this.vx = vx;
+        this.vy = vy;
+        this.ax = ax;
+        this.ay = ay;
+    }
 
-https://chatgpt.com/c/679bb3f6-8dc4-8010-9865-4cbac92ccaad
-https://chatgpt.com/c/6793b6c3-e21c-8010-b70c-f7f3dcb972be
-https://gemini.google.com/app/caa89c6776f23682
-https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
+    move(deltaTime) {
+        // Update velocity based on acceleration
+        this.vx += this.ax * deltaTime;
+        this.vy += this.ay * deltaTime;
 
+        // Update position based on velocity
+        this.px += this.vx * deltaTime;
+        this.py += this.vy * deltaTime;
+    }
+
+    render() {
+        this.svg_group.setAttribute( 
+            'transform',
+            `translate( ${this.px}, ${this.py} )`
+        );
+     }
+    ...
+}
+    &lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h1&gt;A Javascript Example&lt;/h1&gt;
-&lt;p&gt;INSERT JAVASCRIPT IMPLEMENTATIONS&lt;/p&gt;
 &lt;h1&gt;SVG Artworks in Action!&lt;/h1&gt;
-&lt;p&gt;This demo of the NN SVG ARTWORKS FRAMEWORK illustrates the application of the kinematic expressions described in this artical to simulate gravitational forces and resistance acting on an object's velocity. Somewhere between a toy and a game... &lt;/p&gt;
+&lt;p&gt;And here's an example of the application of the principles in action. Below you should see a demo in the form of something between a toy and a game illustrating the basic kinematics application with the classic example of projectile motion. The example illustrates a cannon ball shot and in playing with it you can observe the iconic parabolic trajectory of an object subjected to forces of gravity and drag represented in velocity and acceleration over time.&lt;/p&gt;
 &lt;div id="viewport-container"&gt;
     &lt;svg id="viewport" 
         xmlns="http://www.w3.org/2000/svg" 
         width="500" 
         height="250" 
         style="background-color: rgb(143, 202, 206);"&gt;
-        &lt;!--INSERT SVG CONTENT--&gt;
     &lt;/svg&gt;
 &lt;/div&gt;
 &lt;div class='Panel'&gt;
@@ -103,21 +122,18 @@ https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
     &lt;button id='stop_anim'&gt;Stop&lt;/button&gt;
     &lt;button id='reset_anim'&gt;Reload&lt;/button&gt;
     &lt;span id='frame_rate'
-        style="display:inline-block;max-width: 180px; width: 180px"&gt;0&lt;/span&gt;
+        style="display:inline-block;min-width: 180px; width: 180px"&gt;Frame Rate: 0 (Interval: 0)&lt;/span&gt;
     &lt;span id='mouse_coords'
-        style="display:inline-block;max-width: 150px; width: 150px"&gt;mouse: 0, 0&lt;/span&gt;
-
+        style="display:inline-block;min-width: 150px; width: 130px"&gt;mouse x=0, y=0&lt;/span&gt;
     &lt;input type='text' id='vx' value='193'
-        style="display:inline-block;width: 30px"&gt;&lt;/input&gt;
+        style="display:inline-block;width: 30px" /&gt;
     &lt;input type='text' id='vy' value='-52'
-        style="display:inline-block;width: 30px"&gt;&lt;/input&gt;
-
+        style="display:inline-block;width: 30px" /&gt;
 &lt;/div&gt;
 
-&lt;h1&gt;Discussion&lt;/h1&gt;
-&lt;p&gt;Hint: 300, -20 might work...&lt;/p&gt;
+&lt;p&gt;Note: you can modify the cannon ball's trajectory by changing the x and y values associated with its velocity. Back in the olden days, the only way to adjust your aim was to to change the cannon's orientation and/or add more gunpowder to increase its explosive force.&lt;/p&gt;
 &lt;h1&gt;Conclusion&lt;/h1&gt;
-&lt;h1&gt;Resources&lt;/h1&gt;</content><category term="Blog"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="motion"></category><category term="cartoon"></category><category term="physics"></category><category term="HTML5"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Cultivate your Web Presence: Improve Visibility through Search Engine Optimization</title><link href="https://dr-nick-nagel.github.io/blog/seo.html" rel="alternate"></link><published>2025-01-23T00:00:00-05:00</published><updated>2025-01-23T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-01-23:/blog/seo.html</id><summary type="html">&lt;p&gt;Tips and technical practices to improve visibility on the WWW.&lt;/p&gt;</summary><content type="html">&lt;p&gt;As an information systems architect and engineer with decades of experience in WWW development I'm often concerned with Internet visibility. Everybody wants their website to be highly visible, especially if they're using the Web to promote their business. Since the dawn of the WWW and the rise of search engines individuals and organizations have tried various ways to ensure their website rises to the top of the list in Internet searches. I personally have seen numerous techniques employed -- many legitimate but many not-so-much -- applied to improve search engine rankings. Some attempts to game the system have been drastic enough that search algorithms now have features to penalize bad actors. It should be kept in mind that there's no magical panacea that can guarantee website visibility. Simply standing up a site is no guarantee that world will beat a path to your door. Once it's up, promoting your website and your business is up to you and your customers. That said, three decades out from the inception of the World Wide Web, an Internet presence is a &lt;em&gt;must-have&lt;/em&gt; for nearly any successful business. And good visibility goes a long way toward building a thriving business. To help folks create and improve a Web presence, this article provides some technical recommendations to ensure visibility. I don't intend it as a comprehensive work on search engine optimization (SEO), or, SEO, but rather as a short-list of tips, techniques and practices with a focus on technical strategies to improve Website visibility.&lt;/p&gt;
+&lt;p&gt;So that's it for now. Inspired by work on my forthcoming SVG Artworks Framework the purpose of this post is merely to share observations on the fundamentals of kinematics as applied to illustration with 2D vector graphics. We looked at the basic math describing motion as a function of position, velocity and acceleration over time and played a bit with toy developed through applying these basic equations. Understanding kinematics can take you a long way to developing a wide range of applications in game art, simulations, educational materials, and much much more. Stay tuned for more SVG artwork support coming soon!&lt;/p&gt;</content><category term="Blog"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="motion"></category><category term="cartoon"></category><category term="physics"></category><category term="HTML5"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category><category term="kinematics"></category><category term="kinetics"></category><category term="vectors"></category></entry><entry><title>Cultivate your Web Presence: Improve Visibility through Search Engine Optimization</title><link href="https://dr-nick-nagel.github.io/blog/seo.html" rel="alternate"></link><published>2025-01-23T00:00:00-05:00</published><updated>2025-01-23T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-01-23:/blog/seo.html</id><summary type="html">&lt;p&gt;Tips and technical practices to improve visibility on the WWW.&lt;/p&gt;</summary><content type="html">&lt;p&gt;As an information systems architect and engineer with decades of experience in WWW development I'm often concerned with Internet visibility. Everybody wants their website to be highly visible, especially if they're using the Web to promote their business. Since the dawn of the WWW and the rise of search engines individuals and organizations have tried various ways to ensure their website rises to the top of the list in Internet searches. I personally have seen numerous techniques employed -- many legitimate but many not-so-much -- applied to improve search engine rankings. Some attempts to game the system have been drastic enough that search algorithms now have features to penalize bad actors. It should be kept in mind that there's no magical panacea that can guarantee website visibility. Simply standing up a site is no guarantee that world will beat a path to your door. Once it's up, promoting your website and your business is up to you and your customers. That said, three decades out from the inception of the World Wide Web, an Internet presence is a &lt;em&gt;must-have&lt;/em&gt; for nearly any successful business. And good visibility goes a long way toward building a thriving business. To help folks create and improve a Web presence, this article provides some technical recommendations to ensure visibility. I don't intend it as a comprehensive work on search engine optimization (SEO), or, SEO, but rather as a short-list of tips, techniques and practices with a focus on technical strategies to improve Website visibility.&lt;/p&gt;
 &lt;h1&gt;Number One: Verify Indexing&lt;/h1&gt;
 &lt;p&gt;Search engines work by indexing websites. Programs called &lt;em&gt;web crawlers&lt;/em&gt; scour the Internet daily discovering and indexing hyperlinks to web-sites to create a sort of catalog. Content is indexed by keywords which then can be used to retrieve information. "Googling" -- using key words to search for and retrieve information on the Internet has become a fundamental skill here at the dawn of the new millennium. So the first thing you want to do to make sure your site comes up in a search is verify that it has been indexed. The easiest way to do that is use the &lt;code&gt;site:&lt;/code&gt; operator the Google search bar (or pick the search engine of your choice). &lt;/p&gt;
 &lt;p&gt;For example, enter: &lt;/p&gt;

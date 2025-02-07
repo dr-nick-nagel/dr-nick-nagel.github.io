@@ -431,13 +431,25 @@ const checkCollisions = () => {
     }
 }
 
-// TODO:
-// DOCUMENTATION
-// https://chatgpt.com/c/67a4f220-4f20-8010-9806-a5bfb273f889
+/**
+ * Function for handling collisions. Controller coordinates colliding
+ * objects then delegates details of the collision to the objects 
+ * themselves who "know how to collide with one another...".
+ * 
+ * Notice the mechanisms implemented to handle the collision exactly once:
+ * 
+ * 1. A SET is used to load colliding instance and check each frame
+ *    so that handlers don't get called repeatedly, and
+ * 
+ * 2. Relevant objects in colliding state are tagged with a boolean 
+ *    marker...
+ *  
+ * @param {*} mObj1 
+ * @param {*} mObj2 
+ */
 const handleCollision = ( mObj1, mObj2 ) => {
     const key = `${mObj1.id}-${mObj2.id}`;
     if ( !activeCollisions.has(key) ) {
-        // TODO: REMOVE POST DEBUGGING...
         nlg(`Handling collision ONCE between ${mObj1.id} and ${mObj2.id}`);
         activeCollisions.add( key );
         mObj1.isColliding = true;
@@ -447,7 +459,9 @@ const handleCollision = ( mObj1, mObj2 ) => {
     }
 }
 
-// Reset collisions that are no longer valid
+/**
+ * Clean up as objects exit colliding state...
+ */
 const cleanupCollisions = () => {
     activeCollisions.forEach(key => {
         const [id1, id2] = key.split('-');
@@ -466,19 +480,25 @@ const cleanupCollisions = () => {
 };
 
 const reset = () => {
+    const tfx = document.getElementById('vx');
+    const tfy = document.getElementById('vy');
     stopAnimation();
     const CBID = "cannon_ball_1";
     const shot = movables.find(m => m.id === CBID);
     shot.px = 72;
     shot.py = 168;
-    shot.vx=  Number( document.getElementById('vx').value );
-    shot.vy=  Number( document.getElementById('vy').value );
+    shot.vx = Number(tfx.value) ;
+    // Limit vx to three hundred just to make it interesting...
+    if( shot.vx > 300 ) {
+        shot.vx = 300;
+        tfx.value = 300;
+    }
+    shot.vy=  Number( tfy.value );
     shot.ax = -5;
     shot.ay = 20;
     shot.render();
     nlg( `New Velocity ${shot.vx}, ${shot.vy}` );
 }
-
 
 
 /**
@@ -514,6 +534,32 @@ async function loadSVG(url, targetElementId) {
     return loadedSVG;
 }
 
+/**
+ * Last minute effect using SVG animation to fire the gun!
+ *
+ */
+function fireCannon() {
+    let explosion = document.getElementById("cannon_explosion");
+
+    // 1. Make the explosion visible:
+    explosion.setAttribute("visibility", "visible");
+
+    // 2. Trigger the animations (Important!):
+    const flash = explosion.querySelector("#flash");
+    const smoke1 = explosion.querySelector("#smoke1");
+    const smoke2 = explosion.querySelector("#smoke2");
+
+    flash.querySelectorAll("animate").forEach(anim => anim.beginElement());
+    smoke1.querySelectorAll("animate").forEach(anim => anim.beginElement());
+    smoke2.querySelectorAll("animate").forEach(anim => anim.beginElement());
+
+
+    // 3. Hide the explosion *after* the longest animation completes:
+    const longestDuration = 600; // Matches the longest animation (0.6s)
+    setTimeout(() => {
+        explosion.setAttribute("visibility", "hidden");
+    }, longestDuration);
+}
 
 
 // ---- GLOBALS ------------
@@ -548,7 +594,10 @@ const initHandlers = () => {
     const button_start = document.getElementById( 'start_anim' );
     button_start.addEventListener(
         'click',
-        startAnimation
+        () => {
+            startAnimation();
+            fireCannon();
+        }
     );
 
     const button_stop  = document.getElementById( 'stop_anim' );
@@ -566,22 +615,14 @@ const initHandlers = () => {
     frame_rate_span = document.getElementById( 'frame_rate' );
 };
 
-
-const INIT_COORDS =  Vector2D.fromPolar( 200, Math.PI/12);
-nlg( INIT_COORDS );
-
+// scaffolding to figure out some vectors...
+// const INIT_COORDS =  Vector2D.fromPolar( 200, Math.PI/12);
+// nlg( INIT_COORDS );
 
 document.addEventListener( 
     "DOMContentLoaded",
     async () => {
         // load DEMO SVG 
-
-        /*
-          TODO: WRITE THIS DOWN! THE SVG IN INKSCAPE
-          MUST BE CREATED WITH 1:1 DIMENSIONS TO VIEWPORT DIMENSIONS.
-          MESS AROUND THE FORUMS TO FIGURE THIS OUT...
-        */
-
         const SVG_URL = "/svg/trajectory_3.svg";
         const TARGET_SVG_REPLACE_NODE_ID = "viewport";
         const spritesSvg = await loadSVG(
@@ -617,40 +658,18 @@ document.addEventListener(
         const init_x = 72;
         const init_y = 168; 
         const moveableCannonBall = new Movable( CBID, init_x, init_y );
-
         // moveableCannonBall.vx=300;
         // moveableCannonBall.vy=-20;
         moveableCannonBall.vx=193;
         moveableCannonBall.vy=-52;
-
         moveableCannonBall.ax = -5;
         moveableCannonBall.ay = 20;
         movables.push( moveableCannonBall );
         moveableCannonBall.render();
-
         const BALL_BB  = getTransformedBBox( BALL_G );
-        // const SHOT_BOX = drawBox( spritesSvg, BALL_BB ) ;
-        
-        // NEXT STEPS
-        // MUST HAVE: 
-
-        // DONE . ACCELERATION DUE TO GRAVITY AND DRAG...
-        // 1. SEE ALSO FOR GAMIFICATION FACTORS :
-        // https://gemini.google.com/app/b165264a775c442a
-        // MOVEABLE LEVERS: (1) BARREL ANGLE, (2) GUN POWDER ^ VELOCITY
-        // 2. MOVE CANNON ( NICE TO HAVE BUT IF FUCKING PAINFUL DROP IT )
-        // 3. reset button
-        // DONE  . bounding box
-        // DONE  . target hit re-orientation
-        // SEE ALSO: 
-        // https://gemini.google.com/app/4574d2fa7452fb9c
-        // 6. Use translation matrix for movement
-
         nlg( "____\nInitialized" );
         nlg(`NUM MOVABLES: ${movables.length}`);
-
         initHandlers();
-
     }
 
 );
