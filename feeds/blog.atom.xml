@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-02-07T00:00:00-05:00</updated><entry><title>SVG with a dash of Kinematics</title><link href="https://dr-nick-nagel.github.io/blog/kinematics.html" rel="alternate"></link><published>2025-02-07T00:00:00-05:00</published><updated>2025-02-07T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-07:/blog/kinematics.html</id><summary type="html">&lt;p&gt;Applying kinematics to animation with SVG ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-02-08T00:00:00-05:00</updated><entry><title>Our Encounter with the Gorgon!</title><link href="https://dr-nick-nagel.github.io/blog/paestum.html" rel="alternate"></link><published>2025-02-08T00:00:00-05:00</published><updated>2025-02-08T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-08:/blog/paestum.html</id><summary type="html">&lt;p&gt;Encounter the Gorgon!&lt;/p&gt;</summary><content type="html">&lt;p&gt;Even though I do a lot of technical blogging I've also always liked to blog a bit about my travels. This past summer I had the good fortune to visit my long time friend in Italy. While there we visited Paestum -- a major ancient Greek city on the coast of the Tyrrhenian Sea where we encountered the Gorgon!...&lt;/p&gt;
+&lt;p&gt;&amp;lt;&amp;lt; INSERT MAP &amp;gt;&amp;gt;&lt;/p&gt;
+&lt;style &gt;
+.image-container {
+    background: rgb(200, 200, 200);
+    background-image: url('/images/gorgon/temple_alessandro_v2.0.png');
+    background-size: contain; /* cover or 'contain' depending on your needs */
+    position: relative;
+    width: 400px; /* adjust to the size of your image */
+    height: 533px; /* example height, adjust as necessary */
+    border: inset 4px rgb(255 200 235)
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/**
+ * ONE OFF CONFIGUATION FOR THIS BLOG POST.
+ * TARGET FOR THIS CONFIG IS MY SVG ARTWORKS 
+ * FRAMEWORK...
+ */
+const svgConfig = {
+    SPRITES_FILE: "medusa_sprites_plain.svg",
+    SVG_PATH: "/svg/",
+    SVG_CANVAS_NODE_ID: 'svg_canvas_blank'
+}
+&lt;/script&gt;
+
+&lt;div class="image-container"&gt;
+    &lt;svg id="svg_canvas_blank" 
+        xmlns="http://www.w3.org/2000/svg"&gt;
+    &lt;/svg&gt;
+&lt;/div&gt;
+
+&lt;div class='Panel'&gt;
+    &lt;span id='mouse_coords'
+        style="display:inline-block;min-width: 150px; width: 130px"&gt;mouse x=0, y=0&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!--
+&lt;div class='Panel'&gt;
+    &lt;button id='start_anim'&gt;Fire&lt;/button&gt;
+    &lt;button id='stop_anim'&gt;Stop&lt;/button&gt;
+    &lt;button id='reset_anim'&gt;Reload&lt;/button&gt;
+    &lt;span id='frame_rate'
+        style="display:inline-block;min-width: 180px; width: 180px"&gt;Frame Rate: 0 (Interval: 0)&lt;/span&gt;
+    &lt;span id='mouse_coords'
+        style="display:inline-block;min-width: 150px; width: 130px"&gt;mouse x=0, y=0&lt;/span&gt;
+    &lt;input type='text' id='vx' value='193'
+        style="display:inline-block;width: 30px" /&gt;
+    &lt;input type='text' id='vy' value='-52'
+        style="display:inline-block;width: 30px" /&gt;
+
+&lt;/div&gt;
+
+--&gt;</content><category term="Blog"></category><category term="ancient"></category><category term="Paestum"></category><category term="Rome"></category><category term="Salerno"></category><category term="Greece"></category><category term="Athena"></category><category term="Hera"></category><category term="Poseidon"></category><category term="Neptune"></category><category term="Juno"></category></entry><entry><title>SVG with a dash of Kinematics</title><link href="https://dr-nick-nagel.github.io/blog/kinematics.html" rel="alternate"></link><published>2025-02-07T00:00:00-05:00</published><updated>2025-02-07T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-07:/blog/kinematics.html</id><summary type="html">&lt;p&gt;Applying kinematics to animation with SVG ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;I've always had a love of cartoon physics. Who can stop but to laugh out loud watching a &lt;em&gt;Tom 'n' Jerry cartoon&lt;/em&gt; or a &lt;em&gt;Road Runner&lt;/em&gt; short with &lt;em&gt;Wile E. Coyote&lt;/em&gt;? But when I started working with computer graphics and simulations over the course of  developing a flight simulator subsystem for US Air force pilot training I quickly needed to ground myself in real-world physics. &lt;/p&gt;
 &lt;p&gt;More recently I've had some time to re-engage in a long-standing passion project of mine and found myself revisiting the fundamentals of &lt;em&gt;kinematics&lt;/em&gt;. The project revolves around a Framework (watch for forthcoming announcements!) I'm developing to support SVG artworks. But, ahead of formally announcing the framework, I'm writing this post for artistic types who might have a general interest in kinematics. Before you can control and bend them to your will in your artworks you need to understand the basic laws of motion. So the purpose of this post is to quickly review basic kinetic principles in order to apply them to good effect in the creation of SVG art for simulations, games, sequential art any any other applications that may be inspired by the muse. &lt;/p&gt;
 &lt;h1&gt;Elementary Kinematics&lt;/h1&gt;

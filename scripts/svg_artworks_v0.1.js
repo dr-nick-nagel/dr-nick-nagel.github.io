@@ -374,6 +374,43 @@ class TargetSprite extends Movable {
     }
 }
 
+
+class GorgonSvgArtwork {
+
+    constructor(svgId) {
+        this.svgId   = svgId;
+        this.svgRoot = document.getElementById(svgId);
+
+        // Use an object to store the sprites by their IDs
+        this.sprites = {};  
+    }
+
+    /**
+     * Creates a mapping of sprite IDs to corresponding SVG group elements.
+     * 
+     * @param {Array} spritesList - Array of sprite group element IDs
+     */
+    initSprites(spritesList) {
+        for (let spriteId of spritesList) {
+            const spriteElement = this.svgRoot.querySelector(`#${spriteId}`);
+            if (spriteElement) {
+                this.sprites[spriteId] = spriteElement;
+            } else {
+                console.warn(`Sprite with ID ${spriteId} not found in the SVG.`);
+            }
+        }
+    }
+
+
+    render() {
+        // Placeholder for rendering the SVG artwork, e.g., moving sprites, animations, etc.
+        // You can update or animate sprites here.
+
+    }
+}
+
+
+
 // ----  Animation Controller  ------------------------
 const movables = []; // Array to hold moving objects
 let previousTimestamp = 0;
@@ -619,13 +656,14 @@ const initHandlers = () => {
 // const INIT_COORDS =  Vector2D.fromPolar( 200, Math.PI/12);
 // nlg( INIT_COORDS );
 
-document.addEventListener( 
-    "DOMContentLoaded",
-    async () => {
-        // load DEMO SVG 
+
+// ------------   LOAD SVGS   -------------------------------
+const initKinematics = async () => {
+        let spritesSvg = null;
+        let BOUNDS     = {};
         const SVG_URL = "/svg/trajectory_3.svg";
         const TARGET_SVG_REPLACE_NODE_ID = "viewport";
-        const spritesSvg = await loadSVG(
+        spritesSvg = await loadSVG(
             SVG_URL,
             TARGET_SVG_REPLACE_NODE_ID
         );
@@ -634,7 +672,6 @@ document.addEventListener(
         // get bounds...
         BOUNDS.height = spritesSvg.getAttribute( "height" );
         BOUNDS.width  = spritesSvg.getAttribute( "width" );
-
         // create movables...
         // ----    CANNON INFO    ----------------------------
         const CANNON_ID = "nn_cannon_1";
@@ -670,6 +707,63 @@ document.addEventListener(
         nlg( "____\nInitialized" );
         nlg(`NUM MOVABLES: ${movables.length}`);
         initHandlers();
+}
+
+const initGorgon = async () => {
+    console.log( "____ NN SVG FRAMEWORK CONFIGURATION ____" );
+    nlg( `PATH: ${svgConfig.SVG_PATH}` );
+    nlg( `FILE: ${svgConfig.SPRITES_FILE}` );
+    const svg_root = await loadSVG( 
+        svgConfig.SVG_PATH + svgConfig.SPRITES_FILE,
+        svgConfig.SVG_CANVAS_NODE_ID
+    );
+    console.log( "Loaded: " + svgConfig.SVG_PATH + svgConfig.SPRITES_FILE );
+    const gArt = new GorgonSvgArtwork( "gorgon_svg" );
+    const spriteList = [
+        "gorgon",
+        "sword"
+    ];
+    gArt.initSprites( spriteList );
+
+    nlg(gArt.sprites);
+
+    //////////////////////////////////////////////////////
+    const mouse_span = document.getElementById('mouse_coords');
+    svg_root.addEventListener(
+        'mousemove', 
+        (evt) => {
+            //const svg = viewport.querySelector('svg'); 
+            const p = svg_root.createSVGPoint(); 
+            p.x = evt.clientX;
+            p.y = evt.clientY;
+            const matrix = svg_root.getScreenCTM().inverse();
+            const cursor =  p.matrixTransform(matrix);
+            mouse_span.innerText = `mouse x=${cursor.x.toFixed(0)}, y=${cursor.y.toFixed(0)}`;
+        });
+
+        const gorgon = document.getElementById("gorgon");
+
+        gorgon.addEventListener("click", function () {
+            document.getElementById("gorgon-rotate").beginElement();
+            document.getElementById("gorgon-scale").beginElement();
+            document.getElementById("gorgon-move").beginElement();
+        });
+
+
+    ////////////////////////////////////////////////////
+
+
+}
+
+document.addEventListener( 
+    "DOMContentLoaded",
+    async () => {
+        // load SVG
+        if( typeof svgConfig !== 'undefined' && svgConfig !== null ) {
+            await initGorgon();
+        } else {
+            await initKinematics();
+        }
     }
 
 );
