@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - SVG Animation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="alice" />
+    <meta name="tags" content="wonderland" />
+    <meta name="tags" content="cartoon" />
+    <meta name="tags" content="chesire cat" />
+    <meta name="tags" content="smil" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="framework" />
+    <meta name="tags" content="Inkscape" />
+    <meta name="tags" content="Illustrator" />
+    <meta name="tags" content="Adobe" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/svg-anim.html" rel="bookmark"
+           title="Permalink to SVG Animation">SVG Animation</a></h2>
+      
+    </header>
+    <style>
+  #cheshire-container {
+      position: fixed;
+      /* width: 20vw; */
+      /* max-width: 172px; */
+      /* height: auto; */
+      z-index: 1000;
+      transition: top 0.3s ease-out, left 0.3s ease-out; /* Smooth transition on resize */
+  }
+</style>
+
+<script src="/svg/loadsvg.js"></script>
+
+<script>
+  const URL = "/svg/ChesireCat_Anim.svg";
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+      fetch(URL)  // Adjust the path if needed
+          .then(response => response.text())
+          .then(svgText => {
+              let parser = new DOMParser();
+              let svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+              let svgElement = svgDoc.documentElement;
+
+              // Create a floating container div
+              let container = document.createElement("div");
+              container.id = "cheshire-container";
+              container.appendChild(svgElement);
+              document.body.appendChild(container); // Append to <body> so it's fixed
+
+              function positionCat() {
+                  let contentBox = document.querySelector("main.content");
+                  if (!contentBox) return;
+
+                  let rect = contentBox.getBoundingClientRect();
+                  let padding = 10; // Offset from the edge
+
+                  container.style.top = `${(rect.top-105) + window.scrollY + padding}px`;
+                  container.style.left = `${(rect.right+40) + window.scrollX - container.offsetWidth - padding}px`;
+              }
+
+              positionCat(); // Position initially
+              window.addEventListener("resize", positionCat); // Update on resize
+          })
+          .catch(error => console.error("Error loading Cheshire Cat SVG:", error));
+
+          loadSvg( "/svg/my_N.svg", "my_n" );
+  });
+</script>
+
+<style>
+#n_wrap {
+    width:  120px;
+    height: 160px;
+    border: inset 4px rgb(200, 200, 200);
+    margin-left: auto;
+    margin-right: auto
+}
+</style>
+
+<div id="n_wrap">
+  <svg id="my_n"
+    width="120px"
+    height="160px"
+  ></svg>
+</div>
+
+<h1>Overview</h1>
+<p>If you are reading this page then you may have noticed the grinning cat on the upper corner of the content box. On the surface the drawing may seem nothing special -- yet another borrowing from Lewis Carroll's ubiquitously famous <em>Alice in Wonderland</em>. But go ahead and try moving your mouse cursor over the creature and you'll see it perform its famous magic. But what's interesting about this little web-graphic is what lies beneath the surface -- the technology I used to create it -- namely SVG. </p>
+<p>SVG (for Scalable Vector Graphics) is perhaps one of the most underrated standards available for WWW development today. Let me explain what I mean. First, what exactly is SVG? SVG is a markup language (derived from XML) for representing vector graphics. As such, it is a text-based format for describing images that can be rendered cleanly because the underlying representation is not a bitmap, but instead is a mathematical description of the features composited to form the image. As an open Web standard SVG can be used in conjunction with other web standards including HTML, CSS, and javascript to create beautiful and engaging user experiences. </p>
+<p>By now, many readers of this blog are likely familiar with web standards like HTML, CSS, and javascript. But surprisingly (to me anyway) far fewer folks are familiar with SVG. To my delight, however, I expect that will soon change. The reasons are that: </p>
+<ol>
+<li>
+<p>Quality browsers are increasingly providing greater support for the SVG standard, and</p>
+</li>
+<li>
+<p>Quality low cost (even free) tools are presently emerging geared specifically toward SVG content creation.</p>
+</li>
+</ol>
+<p>So while SVG has been neglected for a long time, it will soon be blossoming and coming into its own as a valuable addition to browser-based presentation languages. So, with that in mind, the purpose of this post is to explore one particularly cool and interesting aspect of SVG -- animating content.</p>
+<h1>Why the Cheshire Cat?</h1>
+<p>I'm presenting this little trick here for folks getting their feet wet and exploring some of what the rich SVG standard has to offer. The techniques used to create the fading cat illusrate some  key points:</p>
+<ol>
+<li>
+<p>SVG, used in concert with HTML, CSS and Javascript raises web-based presentation to new heights. Imagine doing curves in pure, standards compliant mark-up (as opposed to using kludgy ugly workarounds like blending images with text and substituting images for parsable text).</p>
+</li>
+<li>
+<p>SVG can be directly and easily woven into xHTML documents using XML namespaces (a truly beautiful concept).</p>
+</li>
+<li>
+<p>And given one and two above, SVG nicely completes pure, standards-based graphics design for the WWW with:</p>
+<ul>
+<li>
+<p>the capability to specify shapes and curves using WWW standards (thus rounding out CSS), and </p>
+</li>
+<li>
+<p>the capability to provide animated content without the need for non-standard plug-ins.</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1>Technique</h1>
+<p>OK enough of the pre-amble. Let's get to the meat of it; how does Cheshire do his trick?</p>
+<h2>Creating the Art</h2>
+<p>First, we have to draw him. Although simple shapes and objects could, in principle, be handcrafted in SVG, to do any reasonably complex art you really need a good tool. As of this writing, the best SVG tool out there is <a href="http://www.inkscape.org">Inkscape</a>. And as it turns out Inkscape is open-source and available for free. So there's no excuse for you not to download your own executable and start drawing today ...</p>
+<p id='note_1'>When you draw Ches (or whatever other image you want to apply the fade effect to) make sure to divide him up into layers <sup><a href="#en_1">1</a></sup>. In this case, I have two separate layers; one for the grin, and one for everything else. You'll see why in a bit.</p>
+
+<p id='note_2'>Once you have the image, you'll have to do a bit of tweaking to get the animation<sup><a href="#en_2">2</a></sup>. So, *after* you've worked all the kinks out of your drawing comes the next stage in the workflow: adding the animation.</p>
+
+<p>To add the animation, you'll need to manually edit the SVG XML. Inkscape has it's own on-board XML editor, but I prefer to close out of Inkscape and just do the manual editing in a good text editor. I like <a href="http://www.textpad.com/">Text-pad</a> on Windows but, of course, any text editor will work just fine.</p>
+<h2>Creating the Effect</h2>
+<p>There a different ways to animate SVG. One is to use javascript to access and manipulate SVG DOM elements. But here I'm going to focus on techniques built into the SVG specification itself. Specifically, I'll be looking SVG (SMIL) animation elements. That is, SVG includes a number of animation tags from the SMIL standard. A full exposition is beyond the scope of this article, but you can see the <a href="http://www.w3.org/TR/SVG11/animate.html">spec itself</a> for the complete set (and as an added benefit it's great bed-side reading -- if you suffer from insomnia!). </p>
+<p>Short of going through the exhaustive list, getting started with the elements is really easy. A lot can be accomplished simply by applying the <code>animate</code> tag like so:</p>
+<ol>
+<li>
+<p>Add the x-link namespace. SVG decouples animation instructions from
+    their targets. To link the instructions to their target you'll use
+    <code>xlink:href</code> attributes, hence the need of the namespace. Inkscape
+    doesn't include the namespace by default (as of version 0.46
+    anyway) so you'll have to add it to the Inkscape generated SVG. Add
+    it to the SVG root element as illustrated below:</p>
+<pre><code>&lt;svg
+   ...
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   ...
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="172"
+   height="102"
+   id="svg2"
+   ...
+&gt;
+</code></pre>
+<p>The above code fragment shows the SVG root element with the xlink
+namespace attribute I added. </p>
+</li>
+<li>
+<p>Next, you'll have to tweak the Inkscape generated code a bit.
+    Locate the 'g' element (the SVG "layer") that will be the target
+    of the animation. Change it to a 'symbol' element.</p>
+<pre><code>&lt;symbol
+   inkscape:groupmode="layer"
+   id="layer4"
+   inkscape:label="body"
+   style="display:inline"
+   sodipodi:insensitive="true"
+   opacity="1"&gt;
+</code></pre>
+<p>Also, add the opacity attribute as shown above. This is the
+parameter you'll manipulate to achieve the animation.</p>
+</li>
+<li>
+<p>Finally, add the animation instructions. Insert the animation tags
+    right after the 'symbol' as follows:</p>
+<pre><code>&lt;use xlink:href="#layer4" &gt;
+  &lt;animate attributeName="opacity"
+           begin="mouseover"
+           restart="whenNotActive"
+           dur="4s"
+           values="1; 0; 1" /&gt;
+&lt;/use&gt;
+</code></pre>
+<p>The 'use' element specifies the target of the animation using the
+xlink href attribute. The 'animate' tag holds a number of
+attributes representing animation parameters. 'attributeName' is
+the parameter to modify and can be used to move, rotate, and scale
+objects and, in this case, affect transparency. 'begin' specifies
+an event to trigger the animation (and can specify a time as well).
+'restart' tells the browser only to start the animation under
+specific conditions. The 'duration' is a timeline for the
+animation, and the 'values' are the parametric values of the
+animation target over that duration.</p>
+</li>
+</ol>
+<h1>Conclusion</h1>
+<p id='note_3'>It's encouraging to me to see browsers ramping up support for SVG. As of the time of this writing any modern Web browsers worth their salt<sup><a href="#en_3">3</a></sup> provide at least some support for rendering SVG.</p>
+<p>Hopefully, the little trick I've presented here is enough to pique folks' interest and curiosity in SVG as a viable addition to web content development.</p>
+<div class="admonition note">
+<p class="admonition-title">Update 2025</p>
+<p>When I wrote this blog post waaay back in 2010 the web-development landscape was a lot different than it is today. At the time, web devs were constantly doing 3X the work necessary to create presentation code in order to support web browsers that failed to support WWW standards. Since then, things have changed and bucking the standards has become the exception to the rule, not the norm. </p>
+<p>Meanwhile support for SVG has grown continually to the point that it has indeed become integral to WWW content development. Not just to create icons and simple graphics but to create beautiful and inspired works of art. </p>
+<p>The approach to SVG animation I originally took here -- using SMIL tags to create effects -- has been debated off an on in recent times (with some arguing for the use of CSS3 over SMIL). But the fact is SMIL tags remain part of the SVG standard and are supported in nearly all modern <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/animate#browser_compatibility">standards-compliant browsers</a>. And I was simply delighted when I went to integrate this post with my newly updated blog environment. All I had to do was grab one file and everything worked fine out of the box. That's the real magic of SMIL 15 years later. Untouched, and it still works. No worrying about JavaScript frameworks breaking, no outdated dependencies, just pure SVG doing its thing. That's the kind of robustness you can build an artistic legacy on! </p>
+<p>So for me, the bottom line is this. For simple animations I favor SMIL elements which can be used to accomplish numerous effects. For more complex simulations, game development and creating dynamic SVG artworks I'll employ javascript. As a passionate SVG evangelist returning to work with this powerful standard I remain very excited! </p>
+</div>
+<h1>Resources</h1>
+<ol>
+<li>
+<p><a href="http://www.w3.org/TR/SVG11/animate.html">The SVG Specification</a></p>
+</li>
+<li>
+<p><a href="http://inkscape.org">Inkscape</a></p>
+</li>
+</ol>
+<h1>Endnotes</h1>
+<ol>
+<li>
+<p><p id="en_1"> SVG doesn't have the concept of layers per se but Inkscape implements graphics layers by mapping the concept onto SVG <em>groups</em> (i.e., <code>g</code> elements). <a href="#note_1">&uarr;</a></p></p>
+</li>
+<li>
+<p><p id="en_2"> As of this writing Inkscape does not support SVG animation. But what do you want for free, eh? Send them some money (developers have to eat too you know) and then you can complain ... <a href="#note_2">&uarr;</a></p></p>
+</li>
+<li>
+<p><p id="en_3"> As of this writing the latest version of Firefox (3.6) supports only a subset of SVG features. So while you may see the SVG graphic, you may not see the animated fade effect if you are using Firefox. You can see the full effect using Google Chrome. I.E. and Safari are another story...<a href="#note_3">&uarr;</a></p></p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2010-01-20T00:00:00-05:00">
+        Wed 20 January 2010
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/animation.html">animation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
+            <a href="https://dr-nick-nagel.github.io/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/art.html">art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artwork.html">artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/alice.html">alice</a>
+            <a href="https://dr-nick-nagel.github.io/tag/wonderland.html">wonderland</a>
+            <a href="https://dr-nick-nagel.github.io/tag/cartoon.html">cartoon</a>
+            <a href="https://dr-nick-nagel.github.io/tag/chesire-cat.html">chesire cat</a>
+            <a href="https://dr-nick-nagel.github.io/tag/smil.html">smil</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/framework.html">framework</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape.html">Inkscape</a>
+            <a href="https://dr-nick-nagel.github.io/tag/illustrator.html">Illustrator</a>
+            <a href="https://dr-nick-nagel.github.io/tag/adobe.html">Adobe</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

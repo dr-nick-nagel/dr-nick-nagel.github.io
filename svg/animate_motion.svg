@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="400"
+   height="180"
+   viewBox="0 0 400 180"
+   version="1.1"
+   id="svg_1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   sodipodi:docname="animate_motion.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient1"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#e5d224;stop-opacity:1;"
+         offset="0"
+         id="stop1" />
+      <stop
+         style="stop-color:#e59b23;stop-opacity:1;"
+         offset="0.24980961"
+         id="stop4" />
+      <stop
+         style="stop-color:#e6d223;stop-opacity:1;"
+         offset="0.76799279"
+         id="stop3" />
+      <stop
+         style="stop-color:#e24e61;stop-opacity:1;"
+         offset="1"
+         id="stop2" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1"
+       id="linearGradient2"
+       x1="0.088323951"
+       y1="0.13158517"
+       x2="6.0899196"
+       y2="56.68"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="8.6054895"
+     inkscape:cx="13.189256"
+     inkscape:cy="27.366253"
+     inkscape:window-width="1452"
+     inkscape:window-height="773"
+     inkscape:window-x="238"
+     inkscape:window-y="194"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg_1" />
+  <g
+     id="background"
+     transform="scale(1,0.6)">
+    <rect
+       x="0"
+       y="0"
+       width="400"
+       height="300"
+       fill="#c8c8c8"
+       id="rect1" />
+  </g>
+  <g
+     id="layer1">
+    <path
+       id="motionPath"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 125.23765,80.614719 c -1.20336,-87.43376 154.43569,93.695191 153.19211,5.01191 -1.3363,-95.295119 -151.84477,92.883701 -153.19211,-5.01191 z" />
+    <g
+       id="pen_group">
+      <path
+         id="pen"
+         d="M 0.00839747,0.23278618 3.0105816,15.186377 C 4.326791,17.213465 12.130189,39.466466 7.0027407,53.39792 L 3.5546808,53.8645 -0.45611761,48.14018 C 0.88336227,38.242753 -0.91573258,30.755281 -1.9460214,18.505163 L 0.71986829,15.15155 0.26094921,7.763958 -0.5752178,5.3710227 Z"
+         style="fill:url(#linearGradient2);stroke:none;stroke-width:1px;fill-opacity:1"
+         sodipodi:nodetypes="cccccccccc">
+        <!--
+               rotate="auto"
+                      "auto-reverse"
+               rotate="200" <~~~~| Constant? angle of rotation. Can this be changed over the course?
+           -->
+        <!---->
+        <animateMotion
+           dur="3s"
+           repeatCount="indefinite"
+           rotate="200"
+           style="fill-opacity:1;fill:url(#linearGradient2)">
+          <mpath
+             href="#motionPath"
+             style="fill-opacity:1;fill:url(#linearGradient2)" />
+        </animateMotion>
+      </path>
+    </g>
+  </g>
+  <!--
+https://css-tricks.com/guide-svg-animations-smil/#animating-along-arbitrary-paths-the-element
+-->
+</svg>

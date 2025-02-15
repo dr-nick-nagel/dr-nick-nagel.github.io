@@ -1,0 +1,9 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 50 150 L 50 50 L 150 150 L 150 50"
+        stroke="black" stroke-width="4" fill="black"
+        stroke-dasharray="300" stroke-dashoffset="300">
+    <animate attributeName="stroke-dashoffset" from="300" to="0" dur="2s" fill="freeze"/>
+    <animate attributeName="fill-opacity" from="0" to="1" begin="2s" dur="1s" fill="freeze"/>
+  </path>
+</svg>
+

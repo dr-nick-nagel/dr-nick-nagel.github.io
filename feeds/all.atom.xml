@@ -726,7 +726,29 @@ a=setup:actpass
 &lt;li&gt;
 &lt;p&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/connectionState"&gt;RTCPeerConnection: connectionState property&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;</content><category term="Blog"></category><category term="python"></category><category term="computer science"></category><category term="asynchronous"></category><category term="code"></category><category term="inter process communication"></category><category term="I/O"></category><category term="WebRTC"></category><category term="networking"></category><category term="streaming"></category><category term="media"></category><category term="standards"></category><category term="SDP"></category><category term="session description protocol"></category></entry><entry><title>Process Managment in Python Part 2: Multi-threaded GUIs</title><link href="https://dr-nick-nagel.github.io/blog/python_process_management_2.html" rel="alternate"></link><published>2024-11-16T00:00:00-05:00</published><updated>2024-11-16T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-11-16:/blog/python_process_management_2.html</id><summary type="html">&lt;p&gt;Patterns for process management and threading in python with graphical user interfaces.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;/ol&gt;</content><category term="Blog"></category><category term="python"></category><category term="computer science"></category><category term="asynchronous"></category><category term="code"></category><category term="inter process communication"></category><category term="I/O"></category><category term="WebRTC"></category><category term="networking"></category><category term="streaming"></category><category term="media"></category><category term="standards"></category><category term="SDP"></category><category term="session description protocol"></category></entry><entry><title>Thin Veil Project</title><link href="https://dr-nick-nagel.github.io/blog/thin-veil.html" rel="alternate"></link><published>2024-12-08T00:00:00-05:00</published><updated>2024-12-08T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-12-08:/blog/thin-veil.html</id><summary type="html">&lt;p&gt;Sketchwork and prototypes for the thin veil project...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Notes on the Thin Veil&lt;/h1&gt;
+&lt;p&gt;Sketchwork and prototypes for the thin veil.&lt;/p&gt;
+&lt;h1&gt;Dunkirk&lt;/h1&gt;
+&lt;p&gt;This is a &lt;em&gt;very&lt;/em&gt; preliminary sketch for Dunkirk.&lt;/p&gt;
+&lt;div style='text-align:center'&gt;
+    &lt;img alt='INSERT Crowley type character desgin'
+         src='/svg/dunkirk_wip_plain.svg'
+         width='600px'/&gt;
+    &lt;div&gt;Dunkirk...&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Early experiments with SVG effects like flame and billowing smoke...&lt;/p&gt;
+&lt;h1&gt;Crowley Char Type&lt;/h1&gt;
+&lt;div style='text-align:center'&gt;
+    &lt;img alt='INSERT Crowley type character desgin'
+         src='/images/crowley/crowley.svg'
+         width='400px'/&gt;
+    &lt;div&gt;Aleister Crowley type character.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is a prototype for an "Aleister Crowley like" character as it might appear in a web-based graphic novel -- think "web comic". &lt;/p&gt;
+&lt;p&gt;Keep in mind -- this is just a very rough early stage prototype for brain-storming. The purpose is just to break the ice and get some character sheets going...&lt;/p&gt;
+&lt;p&gt;As a reference point, someone has published a literal &lt;a href="https://www.amazon.com/Aleister-Adolf-Douglas-Rushkoff/dp/1506701043"&gt;Aleister Crowley graphic novel&lt;/a&gt; ...&lt;/p&gt;</content><category term="Blog"></category><category term="svg"></category><category term="illustration"></category><category term="graphic novel"></category><category term="web-based"></category><category term="sequential"></category><category term="art"></category></entry><entry><title>Process Managment in Python Part 2: Multi-threaded GUIs</title><link href="https://dr-nick-nagel.github.io/blog/python_process_management_2.html" rel="alternate"></link><published>2024-11-16T00:00:00-05:00</published><updated>2024-11-16T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-11-16:/blog/python_process_management_2.html</id><summary type="html">&lt;p&gt;Patterns for process management and threading in python with graphical user interfaces.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;In a &lt;a href="https://dr-nick-nagel.github.io/blog/python_process_management_1.html"&gt;previous post&lt;/a&gt; I blogged about a &lt;em&gt;mediator&lt;/em&gt; pattern, for python development to direct the instantiation, execution and management of subprocesses in an application. In that post I concluded with a promise that I'd have more to say about using processes and threads in the context of &lt;em&gt;Graphical User Interface Development&lt;/em&gt;, and, well, here we are. My aim in this present piece is to tie together the concepts and patterns from those previous articles -- those revolving around using asynchronous python code, sub-processes and &lt;em&gt;threads&lt;/em&gt; -- with a focus on applying them to GUI development.&lt;/p&gt;
 &lt;h1&gt;Background&lt;/h1&gt;
 &lt;p&gt;Back in olden days, before GUIs became ubiquitous, programmers used to create applications using &lt;em&gt;command-line interfaces&lt;/em&gt; (CLIs). Life seems to have been so much simpler back then compared to the exponentially increasing complexity that surrounds us today. But we are where we are only by virtue of standing (and building!) on the shoulders of giants, and so, perhaps ironically, in order to move forward one must look backward every now and then.&lt;/p&gt;
@@ -2365,4 +2387,210 @@ $$
         allowfullscreen
     &gt;&lt;/iframe&gt;
     &lt;div&gt;Pole Dance&lt;/div&gt;
-&lt;/div&gt;</content><category term="Blog"></category><category term="kung fu"></category><category term="wah lum tam tui"></category><category term="northern"></category><category term="mantis"></category><category term="style"></category><category term="martial arts"></category><category term="pole dance"></category></entry></feed>
+&lt;/div&gt;</content><category term="Blog"></category><category term="kung fu"></category><category term="wah lum tam tui"></category><category term="northern"></category><category term="mantis"></category><category term="style"></category><category term="martial arts"></category><category term="pole dance"></category></entry><entry><title>SVG Animation</title><link href="https://dr-nick-nagel.github.io/blog/svg-anim.html" rel="alternate"></link><published>2010-01-20T00:00:00-05:00</published><updated>2010-01-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2010-01-20:/blog/svg-anim.html</id><summary type="html">&lt;p&gt;Animating SVG&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+  #cheshire-container {
+      position: fixed;
+      /* width: 20vw; */
+      /* max-width: 172px; */
+      /* height: auto; */
+      z-index: 1000;
+      transition: top 0.3s ease-out, left 0.3s ease-out; /* Smooth transition on resize */
+  }
+&lt;/style&gt;
+
+&lt;script src="/svg/loadsvg.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  const URL = "/svg/ChesireCat_Anim.svg";
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+      fetch(URL)  // Adjust the path if needed
+          .then(response =&gt; response.text())
+          .then(svgText =&gt; {
+              let parser = new DOMParser();
+              let svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+              let svgElement = svgDoc.documentElement;
+
+              // Create a floating container div
+              let container = document.createElement("div");
+              container.id = "cheshire-container";
+              container.appendChild(svgElement);
+              document.body.appendChild(container); // Append to &lt;body&gt; so it's fixed
+
+              function positionCat() {
+                  let contentBox = document.querySelector("main.content");
+                  if (!contentBox) return;
+
+                  let rect = contentBox.getBoundingClientRect();
+                  let padding = 10; // Offset from the edge
+
+                  container.style.top = `${(rect.top-105) + window.scrollY + padding}px`;
+                  container.style.left = `${(rect.right+40) + window.scrollX - container.offsetWidth - padding}px`;
+              }
+
+              positionCat(); // Position initially
+              window.addEventListener("resize", positionCat); // Update on resize
+          })
+          .catch(error =&gt; console.error("Error loading Cheshire Cat SVG:", error));
+
+          loadSvg( "/svg/my_N.svg", "my_n" );
+  });
+&lt;/script&gt;
+
+&lt;style&gt;
+#n_wrap {
+    width:  120px;
+    height: 160px;
+    border: inset 4px rgb(200, 200, 200);
+    margin-left: auto;
+    margin-right: auto
+}
+&lt;/style&gt;
+
+&lt;div id="n_wrap"&gt;
+  &lt;svg id="my_n"
+    width="120px"
+    height="160px"
+  &gt;&lt;/svg&gt;
+&lt;/div&gt;
+
+&lt;h1&gt;Overview&lt;/h1&gt;
+&lt;p&gt;If you are reading this page then you may have noticed the grinning cat on the upper corner of the content box. On the surface the drawing may seem nothing special -- yet another borrowing from Lewis Carroll's ubiquitously famous &lt;em&gt;Alice in Wonderland&lt;/em&gt;. But go ahead and try moving your mouse cursor over the creature and you'll see it perform its famous magic. But what's interesting about this little web-graphic is what lies beneath the surface -- the technology I used to create it -- namely SVG. &lt;/p&gt;
+&lt;p&gt;SVG (for Scalable Vector Graphics) is perhaps one of the most underrated standards available for WWW development today. Let me explain what I mean. First, what exactly is SVG? SVG is a markup language (derived from XML) for representing vector graphics. As such, it is a text-based format for describing images that can be rendered cleanly because the underlying representation is not a bitmap, but instead is a mathematical description of the features composited to form the image. As an open Web standard SVG can be used in conjunction with other web standards including HTML, CSS, and javascript to create beautiful and engaging user experiences. &lt;/p&gt;
+&lt;p&gt;By now, many readers of this blog are likely familiar with web standards like HTML, CSS, and javascript. But surprisingly (to me anyway) far fewer folks are familiar with SVG. To my delight, however, I expect that will soon change. The reasons are that: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Quality browsers are increasingly providing greater support for the SVG standard, and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Quality low cost (even free) tools are presently emerging geared specifically toward SVG content creation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;So while SVG has been neglected for a long time, it will soon be blossoming and coming into its own as a valuable addition to browser-based presentation languages. So, with that in mind, the purpose of this post is to explore one particularly cool and interesting aspect of SVG -- animating content.&lt;/p&gt;
+&lt;h1&gt;Why the Cheshire Cat?&lt;/h1&gt;
+&lt;p&gt;I'm presenting this little trick here for folks getting their feet wet and exploring some of what the rich SVG standard has to offer. The techniques used to create the fading cat illusrate some  key points:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;SVG, used in concert with HTML, CSS and Javascript raises web-based presentation to new heights. Imagine doing curves in pure, standards compliant mark-up (as opposed to using kludgy ugly workarounds like blending images with text and substituting images for parsable text).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SVG can be directly and easily woven into xHTML documents using XML namespaces (a truly beautiful concept).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;And given one and two above, SVG nicely completes pure, standards-based graphics design for the WWW with:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;the capability to specify shapes and curves using WWW standards (thus rounding out CSS), and &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;the capability to provide animated content without the need for non-standard plug-ins.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Technique&lt;/h1&gt;
+&lt;p&gt;OK enough of the pre-amble. Let's get to the meat of it; how does Cheshire do his trick?&lt;/p&gt;
+&lt;h2&gt;Creating the Art&lt;/h2&gt;
+&lt;p&gt;First, we have to draw him. Although simple shapes and objects could, in principle, be handcrafted in SVG, to do any reasonably complex art you really need a good tool. As of this writing, the best SVG tool out there is &lt;a href="http://www.inkscape.org"&gt;Inkscape&lt;/a&gt;. And as it turns out Inkscape is open-source and available for free. So there's no excuse for you not to download your own executable and start drawing today ...&lt;/p&gt;
+&lt;p id='note_1'&gt;When you draw Ches (or whatever other image you want to apply the fade effect to) make sure to divide him up into layers &lt;sup&gt;&lt;a href="#en_1"&gt;1&lt;/a&gt;&lt;/sup&gt;. In this case, I have two separate layers; one for the grin, and one for everything else. You'll see why in a bit.&lt;/p&gt;
+
+&lt;p id='note_2'&gt;Once you have the image, you'll have to do a bit of tweaking to get the animation&lt;sup&gt;&lt;a href="#en_2"&gt;2&lt;/a&gt;&lt;/sup&gt;. So, *after* you've worked all the kinks out of your drawing comes the next stage in the workflow: adding the animation.&lt;/p&gt;
+
+&lt;p&gt;To add the animation, you'll need to manually edit the SVG XML. Inkscape has it's own on-board XML editor, but I prefer to close out of Inkscape and just do the manual editing in a good text editor. I like &lt;a href="http://www.textpad.com/"&gt;Text-pad&lt;/a&gt; on Windows but, of course, any text editor will work just fine.&lt;/p&gt;
+&lt;h2&gt;Creating the Effect&lt;/h2&gt;
+&lt;p&gt;There a different ways to animate SVG. One is to use javascript to access and manipulate SVG DOM elements. But here I'm going to focus on techniques built into the SVG specification itself. Specifically, I'll be looking SVG (SMIL) animation elements. That is, SVG includes a number of animation tags from the SMIL standard. A full exposition is beyond the scope of this article, but you can see the &lt;a href="http://www.w3.org/TR/SVG11/animate.html"&gt;spec itself&lt;/a&gt; for the complete set (and as an added benefit it's great bed-side reading -- if you suffer from insomnia!). &lt;/p&gt;
+&lt;p&gt;Short of going through the exhaustive list, getting started with the elements is really easy. A lot can be accomplished simply by applying the &lt;code&gt;animate&lt;/code&gt; tag like so:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Add the x-link namespace. SVG decouples animation instructions from
+    their targets. To link the instructions to their target you'll use
+    &lt;code&gt;xlink:href&lt;/code&gt; attributes, hence the need of the namespace. Inkscape
+    doesn't include the namespace by default (as of version 0.46
+    anyway) so you'll have to add it to the Inkscape generated SVG. Add
+    it to the SVG root element as illustrated below:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;svg
+   ...
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   ...
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="172"
+   height="102"
+   id="svg2"
+   ...
+&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The above code fragment shows the SVG root element with the xlink
+namespace attribute I added. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Next, you'll have to tweak the Inkscape generated code a bit.
+    Locate the 'g' element (the SVG "layer") that will be the target
+    of the animation. Change it to a 'symbol' element.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;symbol
+   inkscape:groupmode="layer"
+   id="layer4"
+   inkscape:label="body"
+   style="display:inline"
+   sodipodi:insensitive="true"
+   opacity="1"&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Also, add the opacity attribute as shown above. This is the
+parameter you'll manipulate to achieve the animation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Finally, add the animation instructions. Insert the animation tags
+    right after the 'symbol' as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;use xlink:href="#layer4" &amp;gt;
+  &amp;lt;animate attributeName="opacity"
+           begin="mouseover"
+           restart="whenNotActive"
+           dur="4s"
+           values="1; 0; 1" /&amp;gt;
+&amp;lt;/use&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The 'use' element specifies the target of the animation using the
+xlink href attribute. The 'animate' tag holds a number of
+attributes representing animation parameters. 'attributeName' is
+the parameter to modify and can be used to move, rotate, and scale
+objects and, in this case, affect transparency. 'begin' specifies
+an event to trigger the animation (and can specify a time as well).
+'restart' tells the browser only to start the animation under
+specific conditions. The 'duration' is a timeline for the
+animation, and the 'values' are the parametric values of the
+animation target over that duration.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Conclusion&lt;/h1&gt;
+&lt;p id='note_3'&gt;It's encouraging to me to see browsers ramping up support for SVG. As of the time of this writing any modern Web browsers worth their salt&lt;sup&gt;&lt;a href="#en_3"&gt;3&lt;/a&gt;&lt;/sup&gt; provide at least some support for rendering SVG.&lt;/p&gt;
+&lt;p&gt;Hopefully, the little trick I've presented here is enough to pique folks' interest and curiosity in SVG as a viable addition to web content development.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Update 2025&lt;/p&gt;
+&lt;p&gt;When I wrote this blog post waaay back in 2010 the web-development landscape was a lot different than it is today. At the time, web devs were constantly doing 3X the work necessary to create presentation code in order to support web browsers that failed to support WWW standards. Since then, things have changed and bucking the standards has become the exception to the rule, not the norm. &lt;/p&gt;
+&lt;p&gt;Meanwhile support for SVG has grown continually to the point that it has indeed become integral to WWW content development. Not just to create icons and simple graphics but to create beautiful and inspired works of art. &lt;/p&gt;
+&lt;p&gt;The approach to SVG animation I originally took here -- using SMIL tags to create effects -- has been debated off an on in recent times (with some arguing for the use of CSS3 over SMIL). But the fact is SMIL tags remain part of the SVG standard and are supported in nearly all modern &lt;a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/animate#browser_compatibility"&gt;standards-compliant browsers&lt;/a&gt;. And I was simply delighted when I went to integrate this post with my newly updated blog environment. All I had to do was grab one file and everything worked fine out of the box. That's the real magic of SMIL 15 years later. Untouched, and it still works. No worrying about JavaScript frameworks breaking, no outdated dependencies, just pure SVG doing its thing. That's the kind of robustness you can build an artistic legacy on! &lt;/p&gt;
+&lt;p&gt;So for me, the bottom line is this. For simple animations I favor SMIL elements which can be used to accomplish numerous effects. For more complex simulations, game development and creating dynamic SVG artworks I'll employ javascript. As a passionate SVG evangelist returning to work with this powerful standard I remain very excited! &lt;/p&gt;
+&lt;/div&gt;
+&lt;h1&gt;Resources&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://www.w3.org/TR/SVG11/animate.html"&gt;The SVG Specification&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://inkscape.org"&gt;Inkscape&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Endnotes&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;p id="en_1"&gt; SVG doesn't have the concept of layers per se but Inkscape implements graphics layers by mapping the concept onto SVG &lt;em&gt;groups&lt;/em&gt; (i.e., &lt;code&gt;g&lt;/code&gt; elements). &lt;a href="#note_1"&gt;&amp;uarr;&lt;/a&gt;&lt;/p&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;p id="en_2"&gt; As of this writing Inkscape does not support SVG animation. But what do you want for free, eh? Send them some money (developers have to eat too you know) and then you can complain ... &lt;a href="#note_2"&gt;&amp;uarr;&lt;/a&gt;&lt;/p&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;p id="en_3"&gt; As of this writing the latest version of Firefox (3.6) supports only a subset of SVG features. So while you may see the SVG graphic, you may not see the animated fade effect if you are using Firefox. You can see the full effect using Google Chrome. I.E. and Safari are another story...&lt;a href="#note_3"&gt;&amp;uarr;&lt;/a&gt;&lt;/p&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="alice"></category><category term="wonderland"></category><category term="cartoon"></category><category term="chesire cat"></category><category term="smil"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry></feed>

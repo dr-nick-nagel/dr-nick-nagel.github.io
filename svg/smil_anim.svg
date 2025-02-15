@@ -1,0 +1,35 @@
+<svg width="172" height="102" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+    <!-- Cat Group -->
+    <g id="cheshire-cat" transform="translate(-200, 50)">
+        <!-- Body -->
+        <ellipse cx="100" cy="80" rx="40" ry="25" fill="purple">
+            <animateTransform attributeName="transform" type="translate"
+                from="-200,50" to="0,50" dur="2s" fill="freeze" />
+        </ellipse>
+
+        <!-- Tail -->
+        <path d="M 140 80 Q 160 70, 150 50 Q 140 30, 130 50 Q 120 70, 140 80" stroke="purple" stroke-width="4" fill="none">
+            <animateTransform attributeName="transform" type="rotate" from="0 140 80" to="10 140 80"
+                begin="2s" dur="0.5s" repeatCount="2" fill="freeze" />
+        </path>
+
+        <!-- Head -->
+        <circle cx="100" cy="50" r="20" fill="purple">
+            <animateTransform attributeName="transform" type="translate"
+                from="0,0" to="0,-10" dur="0.3s" begin="1.5s" fill="freeze" />
+            <animateTransform attributeName="transform" type="translate"
+                from="0,-10" to="0,0" dur="0.3s" begin="1.8s" fill="freeze" />
+        </circle>
+
+        <!-- Eyes -->
+        <circle cx="92" cy="45" r="5" fill="yellow">
+            <animate attributeName="r" from="5" to="1" dur="0.2s" begin="3s" fill="freeze" />
+            <animate attributeName="r" from="1" to="5" dur="0.2s" begin="3.2s" fill="freeze" />
+        </circle>
+        <circle cx="108" cy="45" r="5" fill="yellow">
+            <animate attributeName="r" from="5" to="1" dur="0.2s" begin="3s" fill="freeze" />
+            <animate attributeName="r" from="1" to="5" dur="0.2s" begin="3.2s" fill="freeze" />
+        </circle>
+    </g>
+</svg>
+

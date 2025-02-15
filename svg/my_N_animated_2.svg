@@ -1,0 +1,61 @@
+<svg
+   width="600"
+   height="800"
+   viewBox="0 0 600 800"
+   version="1.1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="linearGradient1">
+      <stop style="stop-color:#ae891d;stop-opacity:1;" offset="0"/>
+      <stop style="stop-color:#ffda54;stop-opacity:1;" offset="0.51293963"/>
+      <stop style="stop-color:#a38519;stop-opacity:1;" offset="1"/>
+    </linearGradient>
+    <linearGradient xlink:href="#linearGradient1" id="linearGradient2"
+      x1="182.37302" y1="251.96497" x2="442.40146" y2="397.43665"
+      gradientUnits="userSpaceOnUse"/>
+    <style>
+      @keyframes draw {
+        from {
+          stroke-dashoffset: 100%;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      .write {
+        stroke-dasharray: 100;
+        stroke-dashoffset: 100;
+        animation: draw 3s linear forwards;
+      }
+    </style>
+  </defs>
+
+  <g id="layer1">
+    <rect width="600" height="800" fill="black"/>
+  </g>
+  
+  <g id="layer2">
+    <path
+      style="fill:none;stroke:url(#linearGradient2);stroke-width:50;"
+      d="M 135.34322,551.25436 133.60078,129.57338 465.34564,504.45677 464.24133,89.173996"/>
+  </g>
+
+  <g id="layer3" transform="translate(-149.062,-25.5324)">
+    <g transform="translate(260.007,712.245)">
+      <!-- Example path for 'n' in nicknagel.com -->
+      <path
+         class="write"
+         d="M 220,441 V 0"
+         style="fill:none;stroke:#d7ab26;stroke-width:5;stroke-linecap:square;stroke-linejoin:miter;stroke-opacity:1"/>
+      
+      <path
+         class="write"
+         d="M 536,441 220,126"
+         style="fill:none;stroke:#d7ab26;stroke-width:5;stroke-linecap:square;stroke-linejoin:miter;stroke-opacity:1"/>
+      
+      <!-- Add similar paths for the remaining characters -->
+    </g>
+  </g>
+</svg>
+
