@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-02-08T00:00:00-05:00</updated><entry><title>Our Encounter with the Gorgon!</title><link href="https://dr-nick-nagel.github.io/blog/paestum.html" rel="alternate"></link><published>2025-02-08T00:00:00-05:00</published><updated>2025-02-08T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-08:/blog/paestum.html</id><summary type="html">&lt;p&gt;Encounter the Gorgon!&lt;/p&gt;</summary><content type="html">&lt;p&gt;Even though I do a lot of technical blogging I've also always liked to blog a bit about my travels. This past summer I had the good fortune to visit my long time friend in Italy. While there we visited Paestum -- a major ancient Greek city on the coast of the Tyrrhenian Sea where we encountered the Gorgon!...&lt;/p&gt;
-&lt;p&gt;&amp;lt;&amp;lt; INSERT MAP &amp;gt;&amp;gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-02-08T00:00:00-05:00</updated><entry><title>Our Encounter with the Gorgon!</title><link href="https://dr-nick-nagel.github.io/blog/paestum.html" rel="alternate"></link><published>2025-02-08T00:00:00-05:00</published><updated>2025-02-08T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-08:/blog/paestum.html</id><summary type="html">&lt;p&gt;Encounter the Gorgon!&lt;/p&gt;</summary><content type="html">&lt;p&gt;Even though I do a lot of technical blogging I've also always liked to blog a bit about my travels. This past summer I had the good fortune to visit my long time friend in Italy. While there we visited Paestum -- a major ancient Greek city on the coast of the Tyrrhenian Sea. It was there where we encountered the fearsome Gorgon!...&lt;/p&gt;
 &lt;style &gt;
 .image-container {
     background: rgb(200, 200, 200);
@@ -9,7 +8,9 @@
     position: relative;
     width: 400px; /* adjust to the size of your image */
     height: 533px; /* example height, adjust as necessary */
-    border: inset 4px rgb(255 200 235)
+    border: inset 4px rgb(255 200 235);
+    margin-left: auto;
+    margin-right: auto;
 }
 &lt;/style&gt;
 
@@ -32,12 +33,13 @@ const svgConfig = {
     &lt;/svg&gt;
 &lt;/div&gt;
 
+&lt;!--
 &lt;div class='Panel'&gt;
     &lt;span id='mouse_coords'
         style="display:inline-block;min-width: 150px; width: 130px"&gt;mouse x=0, y=0&lt;/span&gt;
 &lt;/div&gt;
 
-&lt;!--
+
 &lt;div class='Panel'&gt;
     &lt;button id='start_anim'&gt;Fire&lt;/button&gt;
     &lt;button id='stop_anim'&gt;Stop&lt;/button&gt;
@@ -53,7 +55,39 @@ const svgConfig = {
 
 &lt;/div&gt;
 
---&gt;</content><category term="Blog"></category><category term="ancient"></category><category term="Paestum"></category><category term="Rome"></category><category term="Salerno"></category><category term="Greece"></category><category term="Athena"></category><category term="Hera"></category><category term="Poseidon"></category><category term="Neptune"></category><category term="Juno"></category></entry><entry><title>SVG with a dash of Kinematics</title><link href="https://dr-nick-nagel.github.io/blog/kinematics.html" rel="alternate"></link><published>2025-02-07T00:00:00-05:00</published><updated>2025-02-07T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-07:/blog/kinematics.html</id><summary type="html">&lt;p&gt;Applying kinematics to animation with SVG ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+--&gt;
+
+&lt;h1&gt;Paestum&lt;/h1&gt;
+&lt;p&gt;Paestum was a major ancient Greek city on the coast of the Tyrrhenian Sea, in Magna Graecia.&lt;/p&gt;
+&lt;style &gt;
+.map-container {
+    width: 400px; 
+    height: 450px; 
+    border: inset 4px rgb(200 200 200);
+    margin-left:auto;
+    margin-right:auto;
+}
+&lt;/style&gt;
+
+&lt;div class="map-container"&gt;
+    &lt;iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d564800.6600191377!2d14.456165690980129!3d40.55729097809587!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133bfd0d8e6681c5%3A0xd20cf732fa251d53!2s84047%20Paestum%20SA%2C%20Italy!5e0!3m2!1sen!2sus!4v1739727769303!5m2!1sen!2sus" width="400" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The ruins of Paestum are famous for their three ancient Greek temples in the Doric order dating from about 550 to 450 BC that are in an excellent state of preservation. The temples were in honor of Athena, Poseidon and Hera. We encountered the Gorgon at the temple of Poseidon. &lt;/p&gt;
+&lt;style&gt;
+.fox-container {
+    width:100px;
+    height: 120px;
+    border: solid 1px rgb(200 200 200);
+    margin-left:auto;
+    margin-right:auto;
+    overflow:hidden;
+}
+&lt;/style&gt;
+
+&lt;div class="fox-container"&gt;
+    &lt;img src="/svg/foxy_plain.svg" width=100px&gt;&lt;/img&gt;
+&lt;/div&gt;</content><category term="Blog"></category><category term="ancient"></category><category term="Paestum"></category><category term="Rome"></category><category term="Salerno"></category><category term="Greece"></category><category term="Athena"></category><category term="Hera"></category><category term="Poseidon"></category><category term="Neptune"></category><category term="Juno"></category></entry><entry><title>SVG with a dash of Kinematics</title><link href="https://dr-nick-nagel.github.io/blog/kinematics.html" rel="alternate"></link><published>2025-02-07T00:00:00-05:00</published><updated>2025-02-07T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-07:/blog/kinematics.html</id><summary type="html">&lt;p&gt;Applying kinematics to animation with SVG ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;I've always had a love of cartoon physics. Who can stop but to laugh out loud watching a &lt;em&gt;Tom 'n' Jerry cartoon&lt;/em&gt; or a &lt;em&gt;Road Runner&lt;/em&gt; short with &lt;em&gt;Wile E. Coyote&lt;/em&gt;? But when I started working with computer graphics and simulations over the course of  developing a flight simulator subsystem for US Air force pilot training I quickly needed to ground myself in real-world physics. &lt;/p&gt;
 &lt;p&gt;More recently I've had some time to re-engage in a long-standing passion project of mine and found myself revisiting the fundamentals of &lt;em&gt;kinematics&lt;/em&gt;. The project revolves around a Framework (watch for forthcoming announcements!) I'm developing to support SVG artworks. But, ahead of formally announcing the framework, I'm writing this post for artistic types who might have a general interest in kinematics. Before you can control and bend them to your will in your artworks you need to understand the basic laws of motion. So the purpose of this post is to quickly review basic kinetic principles in order to apply them to good effect in the creation of SVG art for simulations, games, sequential art any any other applications that may be inspired by the muse. &lt;/p&gt;
 &lt;h1&gt;Elementary Kinematics&lt;/h1&gt;
@@ -572,13 +606,22 @@ a=setup:actpass
 &lt;h1&gt;Dunkirk&lt;/h1&gt;
 &lt;p&gt;This is a &lt;em&gt;very&lt;/em&gt; preliminary sketch for Dunkirk.&lt;/p&gt;
 &lt;div style='text-align:center'&gt;
-    &lt;img alt='INSERT Crowley type character desgin'
+    &lt;img alt='INSERT Dunkirk'
          src='/svg/dunkirk_wip_plain.svg'
          width='600px'/&gt;
     &lt;div&gt;Dunkirk...&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;Early experiments with SVG effects like flame and billowing smoke...&lt;/p&gt;
+&lt;h1&gt;Princess of Cups&lt;/h1&gt;
+&lt;div style='text-align:center'&gt;
+    &lt;img alt='INSERT Princess of Cups'
+         src='/svg/wave_effect_0.2.svg'
+         width='200px'/&gt;
+    &lt;div&gt;Princess of Cups ...&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Towards a billowing effect ...&lt;/p&gt;
 &lt;h1&gt;Crowley Char Type&lt;/h1&gt;
 &lt;div style='text-align:center'&gt;
     &lt;img alt='INSERT Crowley type character desgin'

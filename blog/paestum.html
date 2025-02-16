@@ -80,8 +80,7 @@ Welcome to NickNagel.com
            title="Permalink to Our Encounter with the Gorgon!">Our Encounter with the Gorgon!</a></h2>
       
     </header>
-    <p>Even though I do a lot of technical blogging I've also always liked to blog a bit about my travels. This past summer I had the good fortune to visit my long time friend in Italy. While there we visited Paestum -- a major ancient Greek city on the coast of the Tyrrhenian Sea where we encountered the Gorgon!...</p>
-<p>&lt;&lt; INSERT MAP &gt;&gt;</p>
+    <p>Even though I do a lot of technical blogging I've also always liked to blog a bit about my travels. This past summer I had the good fortune to visit my long time friend in Italy. While there we visited Paestum -- a major ancient Greek city on the coast of the Tyrrhenian Sea. It was there where we encountered the fearsome Gorgon!...</p>
 <style >
 .image-container {
     background: rgb(200, 200, 200);
@@ -90,7 +89,9 @@ Welcome to NickNagel.com
     position: relative;
     width: 400px; /* adjust to the size of your image */
     height: 533px; /* example height, adjust as necessary */
-    border: inset 4px rgb(255 200 235)
+    border: inset 4px rgb(255 200 235);
+    margin-left: auto;
+    margin-right: auto;
 }
 </style>
 
@@ -113,12 +114,13 @@ const svgConfig = {
     </svg>
 </div>
 
+<!--
 <div class='Panel'>
     <span id='mouse_coords'
         style="display:inline-block;min-width: 150px; width: 130px">mouse x=0, y=0</span>
 </div>
 
-<!--
+
 <div class='Panel'>
     <button id='start_anim'>Fire</button>
     <button id='stop_anim'>Stop</button>
@@ -135,6 +137,38 @@ const svgConfig = {
 </div>
 
 -->
+
+<h1>Paestum</h1>
+<p>Paestum was a major ancient Greek city on the coast of the Tyrrhenian Sea, in Magna Graecia.</p>
+<style >
+.map-container {
+    width: 400px; 
+    height: 450px; 
+    border: inset 4px rgb(200 200 200);
+    margin-left:auto;
+    margin-right:auto;
+}
+</style>
+
+<div class="map-container">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d564800.6600191377!2d14.456165690980129!3d40.55729097809587!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133bfd0d8e6681c5%3A0xd20cf732fa251d53!2s84047%20Paestum%20SA%2C%20Italy!5e0!3m2!1sen!2sus!4v1739727769303!5m2!1sen!2sus" width="400" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+
+<p>The ruins of Paestum are famous for their three ancient Greek temples in the Doric order dating from about 550 to 450 BC that are in an excellent state of preservation. The temples were in honor of Athena, Poseidon and Hera. We encountered the Gorgon at the temple of Poseidon. </p>
+<style>
+.fox-container {
+    width:100px;
+    height: 120px;
+    border: solid 1px rgb(200 200 200);
+    margin-left:auto;
+    margin-right:auto;
+    overflow:hidden;
+}
+</style>
+
+<div class="fox-container">
+    <img src="/svg/foxy_plain.svg" width=100px></img>
+</div>
     <footer>
       <p>Published: <time datetime="2025-02-08T00:00:00-05:00">
         Sat 08 February 2025

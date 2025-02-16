@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="400"
+   height="600"
+   viewBox="0 0 400 600"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+
+  <g
+     id="background">
+    <rect
+       style="fill:#b3b3b3;fill-opacity:0.990907;stroke-width:5;stroke-linecap:square"
+       id="rect1"
+       width="400"
+       height="600"
+       x="0"
+       y="0" />
+  </g>
+  <g
+     id="gown_layer">
+    <path
+       id="gown_shape_path"
+       style="fill:#6f6f91;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 135.25391,155.22266 c 6.71995,9.80792 6.04992,20.60487 -0.94757,32.24864 -15.85858,8.17165 -31.98461,-2.36704 -48.028996,-7.19396 6.512081,20.89183 39.249636,43.89168 46.300856,89.21689 2.00057,13.01805 -4.50817,30.13023 -1.8742,41.67793 19.33258,84.75671 -57.330211,150.762 -56.779566,231.57387 17.866619,-41.06986 51.111096,-6.55373 72.533226,-36.08923 12.54722,-17.29934 82.35529,27.41232 97.6662,-7.19167 17.05937,-38.55565 59.21326,-10.20669 61.51647,-49.12198 3.60666,-60.93823 47.48503,-59.04595 58.10678,-24.58555 4.36784,-48.04667 -140.16102,-77.03799 -202.97032,-176.65428 -9.25182,-8.5612 -9.44603,-25.13744 -13.51659,-47.9269 -2.47927,-13.88042 19.92118,-20.99096 -12.00629,-45.95376 z" />
+  </g>
+  
+     
+<script>
+
+<![CDATA[
+
+// document.addEventListener("DOMContentLoaded", function () {
+
+document.addEventListener("click", function () {
+
+    const path = document.getElementById("gown_shape_path");
+    let t = 0;  // Time variable for animation
+    
+    function animateWave() {
+        let newPath = "M50,150 ";
+        let freq = 0.02;  // Adjust wave frequency
+        let amp = 15;  // Adjust wave amplitude
+        
+        for (let x = 100; x <= 350; x += 50) {
+            let y = 150 + Math.sin((x + t) * freq) * amp;
+            newPath += `Q${x - 25},${y - 20} ${x},${y} `;
+        }
+        
+        path.setAttribute("d", newPath);
+        t += 1;  // Increment time for continuous motion
+        requestAnimationFrame(animateWave);
+    }
+    
+    animateWave();
+});
+
+
+]]>
+
+</script>
+        
+</svg>
+
+
+
