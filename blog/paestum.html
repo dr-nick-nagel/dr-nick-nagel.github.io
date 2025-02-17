@@ -103,7 +103,7 @@ Welcome to NickNagel.com
  */
 const svgConfig = {
     SPRITES_FILE: "medusa_sprites_plain.svg",
-    SVG_PATH: "/svg/",
+    SVG_PATH: "/svg/gorgon/",
     SVG_CANVAS_NODE_ID: 'svg_canvas_blank'
 }
 </script>
@@ -119,23 +119,6 @@ const svgConfig = {
     <span id='mouse_coords'
         style="display:inline-block;min-width: 150px; width: 130px">mouse x=0, y=0</span>
 </div>
-
-
-<div class='Panel'>
-    <button id='start_anim'>Fire</button>
-    <button id='stop_anim'>Stop</button>
-    <button id='reset_anim'>Reload</button>
-    <span id='frame_rate'
-        style="display:inline-block;min-width: 180px; width: 180px">Frame Rate: 0 (Interval: 0)</span>
-    <span id='mouse_coords'
-        style="display:inline-block;min-width: 150px; width: 130px">mouse x=0, y=0</span>
-    <input type='text' id='vx' value='193'
-        style="display:inline-block;width: 30px" />
-    <input type='text' id='vy' value='-52'
-        style="display:inline-block;width: 30px" />
-
-</div>
-
 -->
 
 <h1>Paestum</h1>
@@ -158,16 +141,19 @@ const svgConfig = {
 <style>
 .fox-container {
     width:100px;
-    height: 120px;
-    border: solid 1px rgb(200 200 200);
+    /* height: 120px; */
+    /* border: solid 1px rgb(200 200 200); */
     margin-left:auto;
     margin-right:auto;
     overflow:hidden;
+    font-size: 8px;
+    text-align:center;
 }
 </style>
 
 <div class="fox-container">
     <img src="/svg/foxy_plain.svg" width=100px></img>
+    <div>Character Design by Alessandro Gasparini</div>
 </div>
     <footer>
       <p>Published: <time datetime="2025-02-08T00:00:00-05:00">

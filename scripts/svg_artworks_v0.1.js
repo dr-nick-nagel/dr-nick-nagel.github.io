@@ -729,29 +729,30 @@ const initGorgon = async () => {
 
     //////////////////////////////////////////////////////
     const mouse_span = document.getElementById('mouse_coords');
-    svg_root.addEventListener(
-        'mousemove', 
-        (evt) => {
-            //const svg = viewport.querySelector('svg'); 
-            const p = svg_root.createSVGPoint(); 
-            p.x = evt.clientX;
-            p.y = evt.clientY;
-            const matrix = svg_root.getScreenCTM().inverse();
-            const cursor =  p.matrixTransform(matrix);
-            mouse_span.innerText = `mouse x=${cursor.x.toFixed(0)}, y=${cursor.y.toFixed(0)}`;
-        });
 
-        const gorgon = document.getElementById("gorgon");
+    if( mouse_span && mouse_span!==null ) {
+        svg_root.addEventListener(
+            'mousemove', 
+            (evt) => {
+                //const svg = viewport.querySelector('svg'); 
+                const p = svg_root.createSVGPoint(); 
+                p.x = evt.clientX;
+                p.y = evt.clientY;
+                const matrix = svg_root.getScreenCTM().inverse();
+                const cursor =  p.matrixTransform(matrix);
+                mouse_span.innerText = `mouse x=${cursor.x.toFixed(0)}, y=${cursor.y.toFixed(0)}`;
+            }
+        );
+    }
 
-        gorgon.addEventListener("click", function () {
-            document.getElementById("gorgon-rotate").beginElement();
-            document.getElementById("gorgon-scale").beginElement();
-            document.getElementById("gorgon-move").beginElement();
-        });
+    const gorgon = document.getElementById("gorgon");
 
-
+    gorgon.addEventListener("click", function () {
+        document.getElementById("gorgon-rotate").beginElement();
+        document.getElementById("gorgon-scale").beginElement();
+        document.getElementById("gorgon-move").beginElement();
+    });
     ////////////////////////////////////////////////////
-
 
 }
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-          <title>NickNagel.com - Working with SVG</title>
+          <title>NickNagel.com - Working with the SVG Transformation Matrix</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script>
@@ -82,17 +82,43 @@ Welcome to NickNagel.com
     <header>
       <h2>
         <a href="https://dr-nick-nagel.github.io/blog/trans-matrix.html" rel="bookmark"
-           title="Permalink to Working with SVG">Working with SVG</a></h2>
+           title="Permalink to Working with the SVG Transformation Matrix">Working with the SVG Transformation Matrix</a></h2>
       
     </header>
     <h1>Introduction</h1>
-<p>Over the course of developing animation components in my SVG Artworks Framework I quickly discovered the need to understand transformation matrices. This post is for those interested in SVG illustration using NN SVG Artworks Framework and, more generally anyone who wants to deepen their understanding of SVG.</p>
-<p>Artists
-Designers
-Programmers
-Math</p>
+<p>Having recently re-engaged in a passion project of mine -- building an SVG/javascript <em>artworks framework</em> -- I found myself needing to make use of <em>SVG transforms</em>.  Transforms are a very powerful feature of SVG that can be used to create and position shapes, move and deform elements, and modify paths to create amazing and beautiful effects and animations. But, in order to exploit this feature to its utmost potential, programmers and artists must make the effort to fully understant how transforms work!</p>
+<h1>The SVG <code>transform</code> Attribute</h1>
+<p>The SVG <code>transform</code> attribute defines a list of transform defininitions that are applied to an element and  all of its contained descendants. </p>
+<h3><font color='RED'>RESUME HERE GO THROUGH EXAMPLES USING FUNCTIONS AND THE TRANSFORMATION MATRIX </font></h3>
+<h3>PLAY WITH THE COORIDINATE SYSTEMS AND USE THEM TO ILLUSTRATE THE MATRIX MATH CONCEPT BASIS</h3>
+<h3>DIVIDE THE ARTICLE INTO BASICS AND ADVANCED SECTIONS</h3>
+<h1>Example</h1>
+<div id="viewport-container">
+    <svg id="canvas_1"
+        xmlns="http://www.w3.org/2000/svg" 
+        width="400"
+        height="400" 
+    >
+        <!--INSERT SVG CONTENT-->
+    </svg>
+</div>
+<div class='Panel'>
+    <button id='start_anim'>Start</button>
+    <button id='stop_anim'>Stop</button>
+    <span id='frame_rate'
+        style="display:inline-block;width: 200px">0</span>
+    <span id='mouse_coords'
+        style="display:inline-block;width: 200px">mouse: 0, 0</span>
+</div>
+
+<script src="/svg/loadsvg.js"></script>
+<script>
+loadSvg( "/svg/tx_matrix/tx_matrix_plain_1_trans.svg", "canvas_1" );
+</script>
+
 <h1>The Transformation Matrix</h1>
-<p>https://chatgpt.com/c/67a0fefd-46d0-8010-ac39-e381a73f5d3c</p>
+<p>https://chatgpt.com/c/67a0fefd-46d0-8010-ac39-e381a73f5d3c
+https://gemini.google.com/app/4574d2fa7452fb9c</p>
 <p>In SVG, you can use the .getBBox(), .getCTM(), or .getScreenCTM() methods to get the coordinates of a shape relative to different reference points:</p>
 <pre><code>getBBox(): Returns the bounding box of the shape in local coordinate space (before transformations). It does not account for transformations applied to the element.
 </code></pre>
@@ -131,8 +157,8 @@ console.log(screenCTM.e, screenCTM.f); // Screen-space coordinates</p>
 <h1>Conclusion</h1>
 <h1>Resources</h1>
     <footer>
-      <p>Published: <time datetime="2025-02-07T00:00:00-05:00">
-        Fri 07 February 2025
+      <p>Published: <time datetime="2025-02-17T00:00:00-05:00">
+        Mon 17 February 2025
       </time></p>
         <address>
           By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>

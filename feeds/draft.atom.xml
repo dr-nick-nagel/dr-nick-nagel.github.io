@@ -1,5 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - draft</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/draft.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-02-10T00:00:00-05:00</updated><entry><title>Time-Based Animation in Javascript using RequestAnimationFrame</title><link href="https://dr-nick-nagel.github.io/blog/raf-time.html" rel="alternate"></link><published>2025-02-10T00:00:00-05:00</published><updated>2025-02-10T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-10:/blog/raf-time.html</id><summary type="html">&lt;p&gt;How to use javascript RAF for time-based animation...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Draft</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/draft.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-02-17T00:00:00-05:00</updated><entry><title>Working with the SVG Transformation Matrix</title><link href="https://dr-nick-nagel.github.io/blog/trans-matrix.html" rel="alternate"></link><published>2025-02-17T00:00:00-05:00</published><updated>2025-02-17T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-17:/blog/trans-matrix.html</id><summary type="html">&lt;p&gt;How to work with SVG transformation matrices...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Having recently re-engaged in a passion project of mine -- building an SVG/javascript &lt;em&gt;artworks framework&lt;/em&gt; -- I found myself needing to make use of &lt;em&gt;SVG transforms&lt;/em&gt;.  Transforms are a very powerful feature of SVG that can be used to create and position shapes, move and deform elements, and modify paths to create amazing and beautiful effects and animations. But, in order to exploit this feature to its utmost potential, programmers and artists must make the effort to fully understant how transforms work!&lt;/p&gt;
+&lt;h1&gt;The SVG &lt;code&gt;transform&lt;/code&gt; Attribute&lt;/h1&gt;
+&lt;p&gt;The SVG &lt;code&gt;transform&lt;/code&gt; attribute defines a list of transform defininitions that are applied to an element and  all of its contained descendants. &lt;/p&gt;
+&lt;h3&gt;&lt;font color='RED'&gt;RESUME HERE GO THROUGH EXAMPLES USING FUNCTIONS AND THE TRANSFORMATION MATRIX &lt;/font&gt;&lt;/h3&gt;
+&lt;h3&gt;PLAY WITH THE COORIDINATE SYSTEMS AND USE THEM TO ILLUSTRATE THE MATRIX MATH CONCEPT BASIS&lt;/h3&gt;
+&lt;h3&gt;DIVIDE THE ARTICLE INTO BASICS AND ADVANCED SECTIONS&lt;/h3&gt;
+&lt;h1&gt;Example&lt;/h1&gt;
+&lt;div id="viewport-container"&gt;
+    &lt;svg id="canvas_1"
+        xmlns="http://www.w3.org/2000/svg" 
+        width="400"
+        height="400" 
+    &gt;
+        &lt;!--INSERT SVG CONTENT--&gt;
+    &lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class='Panel'&gt;
+    &lt;button id='start_anim'&gt;Start&lt;/button&gt;
+    &lt;button id='stop_anim'&gt;Stop&lt;/button&gt;
+    &lt;span id='frame_rate'
+        style="display:inline-block;width: 200px"&gt;0&lt;/span&gt;
+    &lt;span id='mouse_coords'
+        style="display:inline-block;width: 200px"&gt;mouse: 0, 0&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;script src="/svg/loadsvg.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+loadSvg( "/svg/tx_matrix/tx_matrix_plain_1_trans.svg", "canvas_1" );
+&lt;/script&gt;
+
+&lt;h1&gt;The Transformation Matrix&lt;/h1&gt;
+&lt;p&gt;https://chatgpt.com/c/67a0fefd-46d0-8010-ac39-e381a73f5d3c
+https://gemini.google.com/app/4574d2fa7452fb9c&lt;/p&gt;
+&lt;p&gt;In SVG, you can use the .getBBox(), .getCTM(), or .getScreenCTM() methods to get the coordinates of a shape relative to different reference points:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;getBBox(): Returns the bounding box of the shape in local coordinate space (before transformations). It does not account for transformations applied to the element.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;let bbox = shape.getBBox();
+console.log(bbox.x, bbox.y, bbox.width, bbox.height);&lt;/p&gt;
+&lt;p&gt;getCTM() (Current Transformation Matrix): Returns the transformation matrix of the shape relative to its nearest SVG viewport.&lt;/p&gt;
+&lt;p&gt;let ctm = shape.getCTM();
+console.log(ctm.e, ctm.f); // Transformed X, Y coordinates&lt;/p&gt;
+&lt;p&gt;getScreenCTM(): Returns the transformation matrix relative to the entire screen.&lt;/p&gt;
+&lt;p&gt;let screenCTM = shape.getScreenCTM();
+console.log(screenCTM.e, screenCTM.f); // Screen-space coordinates&lt;/p&gt;
+&lt;h1&gt;A Javascript Example&lt;/h1&gt;
+&lt;h1&gt;SVG Artworks in Action!&lt;/h1&gt;
+&lt;p&gt;Here is an example.&lt;/p&gt;
+&lt;p&gt;USE THE GORGON HEAD AT THE TEMPLE ... &lt;/p&gt;
+&lt;div id="viewport-container"&gt;
+    &lt;svg id="viewport" 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="500" 
+        height="250" 
+        style="background-color: rgb(143, 202, 206);"&gt;
+        &lt;!--INSERT SVG CONTENT--&gt;
+    &lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class='Panel'&gt;
+    &lt;button id='start_anim'&gt;Start&lt;/button&gt;
+    &lt;button id='stop_anim'&gt;Stop&lt;/button&gt;
+    &lt;span id='frame_rate'
+        style="display:inline-block;width: 200px"&gt;0&lt;/span&gt;
+    &lt;span id='mouse_coords'
+        style="display:inline-block;width: 200px"&gt;mouse: 0, 0&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;p&gt;As you can see, it's aliiiiive!&lt;/p&gt;
+&lt;h1&gt;Discussion&lt;/h1&gt;
+&lt;h1&gt;Conclusion&lt;/h1&gt;
+&lt;h1&gt;Resources&lt;/h1&gt;</content><category term="Draft"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="motion"></category><category term="cartoon"></category><category term="physics"></category><category term="HTML5"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Time-Based Animation in Javascript using RequestAnimationFrame</title><link href="https://dr-nick-nagel.github.io/blog/raf-time.html" rel="alternate"></link><published>2025-02-10T00:00:00-05:00</published><updated>2025-02-10T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-10:/blog/raf-time.html</id><summary type="html">&lt;p&gt;How to use javascript RAF for time-based animation...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;In this article I'll discuss key aspects of web-based animation with javascript. In particular, I'll be focusing on time-dependent animation with &lt;a href="TBD"&gt;RequestAnimationFrame&lt;/a&gt;. &lt;/p&gt;
 &lt;p&gt;TODO: Expand a bit. Discuss the upcoming SVG Artworks Framework...&lt;/p&gt;
 &lt;h1&gt;The Animation Loop&lt;/h1&gt;
@@ -114,48 +184,4 @@ https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
 &lt;h1&gt;Discussion&lt;/h1&gt;
 &lt;p&gt;Hint: 300, -20 might work...&lt;/p&gt;
 &lt;h1&gt;Conclusion&lt;/h1&gt;
-&lt;h1&gt;Resources&lt;/h1&gt;</content><category term="draft"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="motion"></category><category term="cartoon"></category><category term="physics"></category><category term="HTML5"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Working with SVG</title><link href="https://dr-nick-nagel.github.io/blog/trans-matrix.html" rel="alternate"></link><published>2025-02-07T00:00:00-05:00</published><updated>2025-02-07T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-07:/blog/trans-matrix.html</id><summary type="html">&lt;p&gt;How to work with SVG transformation matrices...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;Over the course of developing animation components in my SVG Artworks Framework I quickly discovered the need to understand transformation matrices. This post is for those interested in SVG illustration using NN SVG Artworks Framework and, more generally anyone who wants to deepen their understanding of SVG.&lt;/p&gt;
-&lt;p&gt;Artists
-Designers
-Programmers
-Math&lt;/p&gt;
-&lt;h1&gt;The Transformation Matrix&lt;/h1&gt;
-&lt;p&gt;https://chatgpt.com/c/67a0fefd-46d0-8010-ac39-e381a73f5d3c&lt;/p&gt;
-&lt;p&gt;In SVG, you can use the .getBBox(), .getCTM(), or .getScreenCTM() methods to get the coordinates of a shape relative to different reference points:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;getBBox(): Returns the bounding box of the shape in local coordinate space (before transformations). It does not account for transformations applied to the element.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;let bbox = shape.getBBox();
-console.log(bbox.x, bbox.y, bbox.width, bbox.height);&lt;/p&gt;
-&lt;p&gt;getCTM() (Current Transformation Matrix): Returns the transformation matrix of the shape relative to its nearest SVG viewport.&lt;/p&gt;
-&lt;p&gt;let ctm = shape.getCTM();
-console.log(ctm.e, ctm.f); // Transformed X, Y coordinates&lt;/p&gt;
-&lt;p&gt;getScreenCTM(): Returns the transformation matrix relative to the entire screen.&lt;/p&gt;
-&lt;p&gt;let screenCTM = shape.getScreenCTM();
-console.log(screenCTM.e, screenCTM.f); // Screen-space coordinates&lt;/p&gt;
-&lt;h1&gt;A Javascript Example&lt;/h1&gt;
-&lt;h1&gt;SVG Artworks in Action!&lt;/h1&gt;
-&lt;p&gt;Here is an example.&lt;/p&gt;
-&lt;p&gt;USE THE GORGON HEAD AT THE TEMPLE ... &lt;/p&gt;
-&lt;div id="viewport-container"&gt;
-    &lt;svg id="viewport" 
-        xmlns="http://www.w3.org/2000/svg" 
-        width="500" 
-        height="250" 
-        style="background-color: rgb(143, 202, 206);"&gt;
-        &lt;!--INSERT SVG CONTENT--&gt;
-    &lt;/svg&gt;
-&lt;/div&gt;
-&lt;div class='Panel'&gt;
-    &lt;button id='start_anim'&gt;Start&lt;/button&gt;
-    &lt;button id='stop_anim'&gt;Stop&lt;/button&gt;
-    &lt;span id='frame_rate'
-        style="display:inline-block;width: 200px"&gt;0&lt;/span&gt;
-    &lt;span id='mouse_coords'
-        style="display:inline-block;width: 200px"&gt;mouse: 0, 0&lt;/span&gt;
-&lt;/div&gt;
-
-&lt;p&gt;As you can see, it's aliiiiive!&lt;/p&gt;
-&lt;h1&gt;Discussion&lt;/h1&gt;
-&lt;h1&gt;Conclusion&lt;/h1&gt;
-&lt;h1&gt;Resources&lt;/h1&gt;</content><category term="Draft"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="motion"></category><category term="cartoon"></category><category term="physics"></category><category term="HTML5"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry></feed>
+&lt;h1&gt;Resources&lt;/h1&gt;</content><category term="draft"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="motion"></category><category term="cartoon"></category><category term="physics"></category><category term="HTML5"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry></feed>
