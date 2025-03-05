@@ -1,0 +1,124 @@
+
+<svg id="svg_01_viewport" 
+     width="300" 
+     height="300" 
+     viewBox="0 0 300 300" 
+     fill="none" 
+     xmlns="http://www.w3.org/2000/svg">
+  <g id='base' >
+    <rect id='background' width="300" height="300" fill="#EEEEEE"/>  
+    <rect id='client_viewport' 
+            x="20" y="20" 
+            width="200" 
+            height="250" 
+            fill="#FFF" 
+            stroke="#888888" 
+            stroke-width="0.5" 
+    /> 
+    <rect id='menu_bar' 
+            x="20" y="20" 
+            width="200" 
+            height="30" 
+            fill="#999" 
+            stroke="none" 
+    />
+    <rect id='svg_viewport' 
+            x="40" y="120" 
+            width="160" 
+            height="60" 
+            fill="black" 
+            stroke="none" 
+    />
+  </g>
+  <g id='overlay' >
+
+    <text x="30" y="60" 
+        text-anchor="left" 
+        dominant-baseline="hanging" 
+        font-size="12"
+        font-family='sans-serif'
+        fill='rgb( 100 150 220)'
+        >Client Viewport</text>
+
+    <text x="45" y="125" 
+        text-anchor="left" 
+        dominant-baseline="hanging" 
+        font-size="12"
+        font-family='sans-serif'
+        fill='red'
+        >SVG Viewport</text>
+
+    <line x1="250" y1="20" x2="250" y2="270" 
+          stroke="black" stroke-width="0.25" />
+    <line x1="230" y1="20" x2="250" y2="20" 
+          stroke="black" stroke-width="0.25" />
+    <line x1="230" y1="270" x2="250" y2="270" 
+          stroke="black" stroke-width="0.25" />
+
+    <rect x="245" y="100" 
+         width="10" 
+         height="85" 
+         fill="#EEE" 
+         stroke="none" />
+
+    <text x="250" y="150" 
+        text-anchor="middle" 
+        transform="rotate( 90, 260, 150 )"
+        dominant-baseline="hanging" 
+        font-size="10"
+        font-family='sans-serif'
+        fill='grey'
+        >Webpage</text>
+
+    <!-- Right Curly Brace -->
+    <!-- <g id="r_brace" 
+       transform="translate(220, 20) scale( 1, 3.6 )">
+        <path d="M 0,0
+             Q 10,0 10,10
+             Q 10,25 20,35
+             Q 10,45 10,60
+             Q 10,70 0,70"
+          stroke="blue" fill="none" stroke-width="0.5"/>
+    </g> -->
+
+<!-- Top Curly Brace 
+    <path d="M 40,122
+        Q 45,112 60,112
+        Q 110,112 120,102
+        Q 145,112 180,112
+        Q 200,112 200,122"
+    fill="none" stroke="red" stroke-width="0.5"/>
+-->
+
+      <!-- Coordinate Display -->
+    <text id="mouse-coords" 
+          x="150" y="290" 
+          font-size="10" 
+          fill="red">SVG x: 0, SVG y: 0</text>
+
+    <text id="client-coords" 
+          x="10" y="290" 
+          font-size="10" 
+          fill="rgb(100, 180, 220)">Client x: 0, Client y: 0</text>
+
+  </g>
+
+    <script type="text/javascript">
+        <![CDATA[
+        (function() {
+            let svg = document.documentElement;
+            let textElem = document.getElementById("mouse-coords");
+
+            function getSVGCoords(evt) {
+                let pt = svg.createSVGPoint();
+                pt.x = evt.clientX;
+                pt.y = evt.clientY;
+                let transformed = pt.matrixTransform(svg.getScreenCTM().inverse());
+                textElem.textContent = `x: ${transformed.x.toFixed(2)}, y: ${transformed.y.toFixed(2)}`;
+            }
+            svg.addEventListener("mousemove", getSVGCoords);
+        })();
+        ]]>
+    </script>
+
+</svg>

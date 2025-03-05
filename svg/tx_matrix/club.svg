@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="300"
+   height="100"
+   viewBox="0 0 600 200"
+   version="1.1"
+   id="svg_club"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+
+  <g id="card">
+
+    <rect id="back"
+       x="20"
+       y="0"
+       width="160"
+       height="200"
+       fill="rgb(200, 200, 200)"
+       stroke="black"
+        />
+
+    <path id="club"
+       style="display:inline;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 100,30 A 30,30 0 0 0 70,60 30,30 0 0 0 79.103516,81.421875 30,30 0 0 0 70,80 30,30 0 0 0 40,110 30,30 0 0 0 70,140 30,30 0 0 0 92.957031,129.26562 c 21.501699,17.33179 4.458343,27.13382 -22.373047,41.39258 l 47.578126,-0.52929 c 4.97163,-9.57796 -11.21606,-30.44679 -9.62695,-39.27539 A 30,30 0 0 0 130,140 30,30 0 0 0 160,110 30,30 0 0 0 130,80 30,30 0 0 0 120.83789,81.480469 30,30 0 0 0 130,60 30,30 0 0 0 100,30 Z" />
+  
+  </g>
+
+  <g id="card_sheared" 
+     transform="translate( 200 0 ) skewX( 30 )"
+  >
+    <rect id="back"
+       x="20"
+       y="0"
+       width="160"
+       height="200"
+       fill="rgb(200, 200, 200)"
+       stroke="black"
+        />
+
+    <path id="club"
+       style="display:inline;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 100,30 A 30,30 0 0 0 70,60 30,30 0 0 0 79.103516,81.421875 30,30 0 0 0 70,80 30,30 0 0 0 40,110 30,30 0 0 0 70,140 30,30 0 0 0 92.957031,129.26562 c 21.501699,17.33179 4.458343,27.13382 -22.373047,41.39258 l 47.578126,-0.52929 c 4.97163,-9.57796 -11.21606,-30.44679 -9.62695,-39.27539 A 30,30 0 0 0 130,140 30,30 0 0 0 160,110 30,30 0 0 0 130,80 30,30 0 0 0 120.83789,81.480469 30,30 0 0 0 130,60 30,30 0 0 0 100,30 Z" />
+  
+  </g>
+
+</svg>

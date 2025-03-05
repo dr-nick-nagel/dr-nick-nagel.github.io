@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-          <title>NickNagel.com - Working with the SVG Transformation Matrix</title>
+          <title>NickNagel.com - Working with SVG Transformations</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script>
@@ -82,38 +82,550 @@ Welcome to NickNagel.com
     <header>
       <h2>
         <a href="https://dr-nick-nagel.github.io/blog/trans-matrix.html" rel="bookmark"
-           title="Permalink to Working with the SVG Transformation Matrix">Working with the SVG Transformation Matrix</a></h2>
+           title="Permalink to Working with SVG Transformations">Working with SVG Transformations</a></h2>
       
     </header>
     <h1>Introduction</h1>
-<p>Having recently re-engaged in a passion project of mine -- building an SVG/javascript <em>artworks framework</em> -- I found myself needing to make use of <em>SVG transforms</em>.  Transforms are a very powerful feature of SVG that can be used to create and position shapes, move and deform elements, and modify paths to create amazing and beautiful effects and animations. But, in order to exploit this feature to its utmost potential, programmers and artists must make the effort to fully understant how transforms work!</p>
-<h1>The SVG <code>transform</code> Attribute</h1>
-<p>The SVG <code>transform</code> attribute defines a list of transform defininitions that are applied to an element and  all of its contained descendants. </p>
-<h3><font color='RED'>RESUME HERE GO THROUGH EXAMPLES USING FUNCTIONS AND THE TRANSFORMATION MATRIX </font></h3>
-<h3>PLAY WITH THE COORIDINATE SYSTEMS AND USE THEM TO ILLUSTRATE THE MATRIX MATH CONCEPT BASIS</h3>
-<h3>DIVIDE THE ARTICLE INTO BASICS AND ADVANCED SECTIONS</h3>
-<h1>Example</h1>
+<p>Having recently re-engaged in a passion project of mine -- building an SVG/javascript <em>artworks framework</em> -- I found myself needing to make use of <em>SVG transforms</em>.  Transforms are a <em>very</em> powerful feature of SVG that can be used to create and position shapes, move and deform elements, and modify paths to create amazing and beautiful effects and animations. But, in order to exploit this feature to its utmost potential, programmers and artists must make the effort to fully understand SVG coordinate systems and how transforms work!</p>
+<h1>Coordinate Systems in SVG</h1>
+<p>SVG was created to define images in terms of mathematical abstractions as opposed to bitmap representations. In so doing it opens up a whole new universe of possibilities for creative types to produce artworks -- art that can be beautifully rendered with full fidelity without concern for information loss due to resolution. Conceptually, as a creator you're still working with a canvas. But to produce your art you're manipulating lines and shapes in ways that, to me, feels more like sculpting than like painting. </p>
+<p>In any case, to best make use of the features offered by the SVG format (especially transformations), we need to understand the constructs used by the system. Let's start with the SVG <em>canvas</em> and associated concepts; the <em>viewport</em> and the <code>viewBox</code> attribute. </p>
+<ol>
+<li>
+<p>The SVG <strong>canvas</strong> is an infinite, abstract coordinate space where all SVG content theoretically exists. Think of it as a conceptual drawing surface that extends indefinitely in all directions.</p>
+</li>
+<li>
+<p>The SVG <strong>viewport</strong> is the visible region where the SVG is rendered. The viewport determines how much of the canvas is displayed on the screen. The viewport's coordinate system has its origin at (0,0), with $x$ increasing to the right and $y$ increasing downward (consistent with most computer graphics systems).</p>
+</li>
+<li>
+<p>The <code>viewBox</code> <em>attribute</em> maps a specific region of the SVG viewport to a display area in an SVG <em>client</em> (a device rendering the artwork).</p>
+</li>
+</ol>
+<p>Visual thinker that I am, I've drawn an SVG illustration to try to illustrate these important conceptual elements...</p>
+<style>
+#img_cont_01 {
+    width: 300px;
+}
+</style>
+<div id="img_cont_01">
+    <img alt="INSERT SVG ILLUSTING CANVAS HERE..." 
+        src="/svg/tx_matrix/coord_systems_plain.svg"
+        width="350px"
+    />
+</div>
+
+<p>The renderable region of the canvas is defined by <code>width</code> and <code>height</code> attributes on the <code>svg</code> <em>document element</em> as shown in the following snippit. </p>
+<p><code>&lt;svg id='example_1'
+   width="300"
+   height="400"
+   viewBox="0 0 300 400"&gt;
+   ...
+&lt;/svg&gt;</code></p>
+<p>The <code>viewBox</code> attribute defines a coordinate system as a basis for transforming SVG canvas coordinates to fit a specific display area. The syntax is <em>minX minY width</em> and <em>height</em>. The SVG elements in the defined region will be mapped to the client display area. If the width and height values are the same for the canvas and viewBox the mapping is 1:1. If the values differ between the two the client will translate and scale the canvas elements to fit the viewBox coordinate system. For example, if the <code>viewBox</code> values above were changed to 0, 0, 600, 800 the SVG elements would be scaled down by half. If they were changed to 0, 0, 150, 200 they'd be scaled up by a factor of 2.</p>
+<h1>Client and SVG Viewports</h1>
+<p>Understanding these concepts becomes even more important when you embed your SVG in HTML Web Pages and other applications. In such cases you have to worry about not just your SVG but also the <strong>client viewport</strong>. Here I've created an illustration depicting an SVG viewport embedded in a client webpage. </p>
+<style>
+#viewport-container {
+    display: inline-block;
+    width:  300px;
+    height: 300px;
+}
+</style>
 <div id="viewport-container">
-    <svg id="canvas_1"
+    <svg id="svg_2"
         xmlns="http://www.w3.org/2000/svg" 
-        width="400"
-        height="400" 
+        width="300"
+        height="300" 
     >
         <!--INSERT SVG CONTENT-->
     </svg>
 </div>
-<div class='Panel'>
-    <button id='start_anim'>Start</button>
-    <button id='stop_anim'>Stop</button>
-    <span id='frame_rate'
-        style="display:inline-block;width: 200px">0</span>
-    <span id='mouse_coords'
-        style="display:inline-block;width: 200px">mouse: 0, 0</span>
+
+<p>If you happen to be reading this on computer and move your mouse around the illustration you can get a feel for the two coordinate systems. The dynamic display should update both the client and SVG coordinates for the model.</p>
+<h1>Key Takeaways</h1>
+<p>So the key takeaways from all this is that in working with SVG it's important to understand the conceptual relationships between the <em>canvas</em>, the <em>viewbox</em> and the SVG and client <em>viewport coordinate systems</em>.  </p>
+<p>Here's another way to think about these things:</p>
+<ul>
+<li>
+<p>The <em>SVG canvas</em> is like a <em>World Coordinate System</em>. Imagine an abstract, infinite coordinate plane on which you get to draw. This is where the SVG exists conceptually.</p>
+</li>
+<li>
+<p>The <em>User Coordinate System</em> is defined by your SVG document. The <code>&lt;svg&gt;</code> element defines a view into your world. This is the <em>user coordinate system</em>.</p>
+</li>
+<li>
+<p>The <em>Viewport Coordinate System</em> creates a basis for a Transformed View. As we'll see shortly a big part of the magic of SVG is that transforms can be applied to elements to create new shapes effects and animations. But the <code>&lt;svg&gt;</code> element <em>itself</em> undergoes a transformation determined by it's viewBox. This transform modifies how the user coordinate system is mapped to the actual display area (the viewport).</p>
+</li>
+</ul>
+<p>Why doe all this matter? I've seen folks working with software like Illustrator and other vector arts creation tools get bogged down when trying to export their content for display in other clients (think web browsers, phones and even physical media). Without a deep understanding of the concepts covered here it's easy to get puzzled when you're working with with extensive tool chains. </p>
+<div class="admonition important">
+<p class="admonition-title">Tip</p>
+<p>For illustration I primarily work with <em>Inkscape</em> (a very powerful open source tool for creating vector graphics). In using Inkscape as part of a tool-chain (e.g., for Web development or working with the soon-to-be revealed SVG Artworks Framework) you'll generally want to insure a 1:1 mapping between your SVG canvas and viewbox settings. In other words, make sure your viewbox settings are 0, 0, width and height with width and height corresponding to your root SVG. </p>
+</div>
+<h1>SVG Transformations</h1>
+<style>
+#needle_cont {
+    display: inline-block;
+    float: right;
+    margin: 20px;
+    width: 50px;
+    height:100px;
+}
+
+.left_float {
+    float: left;
+    margin: 20px;
+}
+
+.right_float {
+    float: right;
+    margin: 20px;
+}
+
+</style>
+
+<div id="needle_cont">
+  <img alt='INSERT NEEDLE' 
+       src='/svg/tx_matrix/compass.svg' 
+  />
+</div>
+
+<p>Armed with our thorough and comprehensive understanding of SVG coordinate systems we're ready to apply our knowledge to <em>SVG transformations</em>. Transformations can be applied to SVG elements and groups to compose objects, create effects and enable animations. Transformations are acheived using the <code>transform</code> attribute in combination with built in SVG functions for <em>translation</em>, <em>rotation</em>, <em>scale</em> and <em>skew</em>.  I'll illustrate each of these functions in turn using this compass needle I created to the right.</p>
+<h1>Translation</h1>
+<p>Translation moves an elment or group <em>relative to it's origin</em> in the SVG viewport coordinate space. You can translate elements or groups using the <code>translate( x, y )</code> function as a value for the transorm property.   </p>
+<div>
+    <img 
+        alt='INSERT NEEDLE' 
+        src='/svg/tx_matrix/tx_1_trans.svg' 
+    />
+</div>
+
+<p>To demonstrate this I've translated the needle by 200 pixels in both the x and y directions using the following code:</p>
+<p><code>&lt;g  id="needle"
+        transform="translate(200, 200)"
+    &gt;
+    &lt;!-- SVG CODE DEFINING THE NEEDLE --&gt;
+    &lt;/g&gt;</code></p>
+<h3>Important!</h3>
+<blockquote>
+<p>It's important to note that <strong>when a transform is applied to an element in SVG technically it's applied to the element's <em>local coordinate system</em></strong>. </p>
+</blockquote>
+<p>To illustrate the point, I've drawn the needle's local coordinate axes in green. So in addition to the <em>viewport coordinate system</em> all objects on the canvas have their own <em>local coordinate systems</em> affecting their transformations. </p>
+<h1>Rotation</h1>
+<p>Next let's look at rotating objects. In the same way we used the SVG built-in function <code>translate</code> to move our needle we can use the <code>rotate</code> function to rotate it around a point. Here I'll rotate the needle 45&#x00B0;.  <code>&lt;g
+        id="needle"
+        transform="rotate(45)"
+    &gt;...&lt;/g&gt;</code></p>
+<div class="left_float">
+    <img 
+        alt='INSERT ROTATION' 
+        src='/svg/tx_matrix/tx_2_rotation.svg' 
+    />
+</div>
+
+<p>This works as expected because I defined the compass needle with its local coordinate system origin to be the same as the viewport origin. In other words, <em>the center of the needle is at $P = (0,0)$ by design</em>.  But what if I have an object that is not centered at the canvas origin?</p>
+<p>In the next example I've created a windfarm sprite with a <em>propeller group</em> centered at $(100, 100)$. Notice what happens when I try rotating the group by 15&#x00B0;. The group is rotated 15&#x00B0; about the <em>viewport origin</em>. And this is not exactly what I might want here. The reason is that the propeller-group local coordinate system starts out the same as the viewport coordinate system both centered at $(0, 0)$ on the canvas. The propeller components (the blades and center) are defined by points that are offset from the origin and when I apply <code>rotate</code> the group is rotated as a whole by 15&#x00B0; about the origin (I've tried to show the rotation with a green arc).</p>
+<table style="border-spacing: 20px">
+  <tr>
+    <td >
+        <div>
+            <img 
+                alt='INSERT ROTATION' 
+                src='/svg/tx_matrix/tx_3_rotation_a.svg' 
+            />
+            <div>Propeller at <br />(100, 100)</div>
+        </div>
+    </td>
+    <td>
+        <div>
+            <img 
+                alt='INSERT ROTATION' 
+                src='/svg/tx_matrix/tx_3_rotation_b.svg' 
+            />
+            <div>Rotated 15&#x00B0; about viewport<br> origin: <span style='font-family:monospace;color:red;font-size:smaller'>rotate(15)</span></div>
+        </div>
+    </td>
+  </tr>
+</table>
+
+<div class="right_float">
+    <img 
+        alt='INSERT ROTATION' 
+        src='/svg/tx_matrix/tx_3_rotation_c.svg' 
+    />
+</div>
+
+<p>For this reason -- the <code>rotate</code> function permits additional arguments to specify the $x$ and $y$ coordinates about which to rotate a target like so:</p>
+<pre style="margin-top:20px">
+
+&lt;g id="propeller"
+  <span style="color:red" >transform="rotate(45 100 100)"</span>
+>
+...
+&lt;/g>
+</pre>
+
+<p>The arguments to <span style="color:red"><code>rotate</code></span> are:
+1. The <em>angle of rotation</em>, followed by 
+2. The $x$, and $y$ coordinates of the <em>pivot point</em>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you are an artist making SVG sprites design them to be centered at the SVG canvas origin (0, 0). Otherwise users of your artworks may have to calculate corrections depending on their transformation needs. </p>
+</div>
+<h2>Bonus: Animation Preview</h2>
+<p>It's worth noting here that a similar effect can be achieved using the <code>transform-origin</code> attribute. <code>transform-origin</code> can be applied to the target of a transform or an animation involving a transform. In this example, I've applied the attribute to the propeller group on the windmill. The effect is the same as above -- it specifies a pivot point for the transformation at (100, 100).</p>
+<style>
+.markup {
+    border: solid black 1px;
+    background-color: rgb( 50, 50, 50 );
+    color: rgb( 200, 200, 180 );
+    padding: 5px;
+}
+</style>
+<pre class="markup">
+&lt;g  id="propeller"
+    <span style="color:red" >transform-origin="100 100"</span>
+    ...
+    >
+  ...
+&lt;/g>
+</pre>
+
+<p>This is particularly useful for animation (which I'll be covering extensively in forthcoming blog series revolving around my <strong>SVG Artworks Framework</strong>). But -- to forshadow -- a quick and easy way to achieve basic animation is using SVG tags (technically <a href="https://www.w3.org/TR/SMIL3/">SMIL</a>). To animate this example is as easy as adding an <code>animateTransform</code> tag to the SVG.</p>
+<pre class="markup">
+&lt;g  id="propeller"
+    <span style="color:red" >transform-origin="100 100"</span>
+    ...
+>
+    &lt;!-- Animate Rotation -->
+    <span style="color:red" >&lt;animateTransform 
+        attributeName="transform" 
+        type="rotate"
+        from="0" to="360" 
+        dur="2s" 
+        repeatCount="indefinite"/></span>
+  ...
+&lt;/g>
+</pre>
+
+<p>And voil&#xE0;! Rotation at work for us. Since XML is human readible I'll leave it to you, the reader, to parse the attributes. In this case they're pretty obvious.</p>
+<div>
+    <img 
+        alt='INSERT ROTATION' 
+        src='/svg/tx_matrix/tx_3_rotation_d.svg' 
+    />
+</div>
+
+<h1>Scale</h1>
+<div class="right_float">
+   <img alt='INSERT favicon' width='16' src='/svg/tx_matrix/favicon.svg' />
+</div>
+
+<p>Next let's look at <em>scale</em>. Scale puts the 'S' in SVG. Again, a large part of the beauty of Scalable Vector Graphics is that lines and shapes can be scaled to any size for presentation without loss of information. To illustrate this point consider the SVG graphic that I created as an icon for my blog (shown on the right). I use it as a "favicon" -- an image which browsers display in tabs holding the blog pages. Below I've scaled up the graphic to 10 times it's original dimensions. To the naked eye the scaling operation reveals greater detail associated with the image than can be observed in it's usual scale. Down and to the right I've applied the same scaling operation to the image in rastor format (png). The result presents with a classic case of pixellation typical of changing the resolution of bitmap images. </p>
+<table style="border-spacing: 20px">
+  <tr>
+    <td >
+        <div>
+            <img alt='INSERT favicon' 
+                 width='90' 
+                 src='/svg/tx_matrix/favicon.svg' />
+            <div>SVG favicon scaled by 10x</div>
+        </div>
+    </td>
+    <td>
+        <div>
+            <img alt='INSERT favicon bitmap scaled' 
+                 width='90' 
+                 src='/svg/tx_matrix/favicon_rastor.png' />
+            <div>Same icon in PNG format when scaled.</div>
+        </div>
+    </td>
+  </tr>
+</table>
+
+<p>Historically, this aspect of the SVG format was extremely significant for web-development (and, indeed, was part of the impetus behind the effort). Before browser support for the SVG standard became available web designers had to spend considerable effort creating graphics icons used across their websites. The problem was compounded as more Internet capable devices emerged. For any given graphic multiple versions had to be created and managed to support varying resolutions. But with SVG support now ubiquitous across graphics rendering systems designers no longer have that problem.</p>
+<p>Using SVG, scaling objects is as simple as using the <code>scale</code> function in  a transform. In the next example I've scaled the compass needle we used earlier to three times it's size. For comparison, I'm showing it side by side against the original size in the same SVG file.</p>
+<div>
+    <img 
+        alt='INSERT NEEDLE SCALED' 
+        src='/svg/tx_matrix/tx_4_scale.svg' 
+    />
+</div>
+
+<p>Here's the code (just a one liner) ... </p>
+<pre class="markup">
+&lt;g  id="needle_scaled"
+  transform="translate(300, 200) <span style="color:red" >scale(2)</span>"
+>
+  ...
+&lt;/g>
+</pre>
+
+<p>There are a couple of important things to notice here. First and formost, if you look closely you'll see I've applied not just one but two functions in the transform attribute; <code>scale</code> of course but also <code>translate</code>. I did that in order to show the original and scaled needles side-by-side. But I also wanted to make the point that the <code>transform</code> attribute actually takes a <em>list</em> of functions and will apply them in the order given.</p>
+<p>And that brings us to the second major point here; <em>order matters</em>. Remember, that the transform functions are applied to the <em>coordinate systems</em> of the targets. So in this case we (1) <em>translate</em> the object and then (2) <em>scale</em> it.That's different than applying <code>scale</code> and <em>then</em> translating the object. </p>
+<pre class="markup">
+&lt;g  id="needle_scaled"
+  transform="<span style="color:red" >scale(2)</span> translate(300, 200)"
+>
+  ...
+&lt;/g>
+</pre>
+
+<p>In the latter case we first scale the cooridinate system of the needle, and then translate it by the scaled coorinates effectively moveing it outside the original SVG viewport (which I can show by playing with the viewBox) ...</p>
+<div>
+    <img 
+        alt='INSERT NEEDLE SCALED' 
+        src='/svg/tx_matrix/tx_4_scale_b.svg' 
+    />
+</div>
+
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>So try to keep in mind that all these transforms apply to the targets' coordinate systems. And the order of operations counts! Applying the functions in the wrong order can lead to unexpected results.</p>
+</div>
+<h2>The Story so Far...</h2>
+<p>At this point it's probably worth summing up what we've covered so far. </p>
+<ul>
+<li>
+<p>We started with a discussion of SVG and client coordinate systems and saw how the canvas sets the basis for moving stuff around in SVG.</p>
+</li>
+<li>
+<p>Next we explored some of the main SVG transform functions; <em>translate</em>, <em>rotate</em> and <em>scale</em> and saw how these functions can be applied to primitive shapes and groups using the <code>transfom</code> attribute.</p>
+</li>
+<li>
+<p>As we just saw, these functions can be applied in series. Remember, order counts!</p>
+</li>
+<li>
+<p>And a more subtle point to keep in mind, all these functions are applied to the <em>local coordinate systems</em> of the transform targets (and we briefly went into the implications of that fact).</p>
+</li>
+<li>
+<p>And as an added bonus we got a bit of a preview to another topic I'll cover in greater depth elsewhere; <em>animating SVG</em>. </p>
+</li>
+</ul>
+<p>All that being said and done, we still have a few more topics to cover to round out SVG transforms. </p>
+<h1>Skew</h1>
+<p>The final SVG transform attribute function we can look at is <strong>skew</strong>.  A <em>skew</em> transform in SVG distorts an object by slanting it along the x-axis, the y-axis, or both. In geometry that would be referred to as a <em>shear</em> transformation. To apply shear use the <code>skew</code> function in the <code>transform</code> attribute as shown in the following card examples...</p>
+<div>
+    <img alt='INSERT skew x' 
+        src='/svg/tx_matrix/club.svg' />
+</div>
+
+<p>This first example skews the card 30&#x00B0; along X using: </p>
+<pre>
+&lt;g id="card_sheared" 
+    transform="skewX( 30 )" >
+    ...
+&lt;/g>
+</pre>
+
+<p>The next skews a card on the Y axis.</p>
+<div>
+    <img alt='INSERT skew y' 
+        src='/svg/tx_matrix/diamond.svg' />
+</div>
+
+<pre>
+&lt;g id="card_sheared" 
+    transform="skewY( 30 )" >
+    ...
+&lt;/g>
+</pre>
+
+<p>And as we see next, you can apply skew on both the X and Y axes.</p>
+<div>
+    <img alt='INSERT skew y' 
+        src='/svg/tx_matrix/spade.svg' />
+</div>
+
+<pre>
+&lt;g id="card_sheared" 
+    transform="skewX( 30 ) skewY( 15 )" >
+    ...
+&lt;/g>
+</pre>
+
+<p>And finally, as I've shown below, you can apply multiple transforms including skew in a single transform attribute. I'll leave it as an exercise for the reader to identify the transformations I applied to create the effect. </p>
+<div>
+    <img 
+        alt='INSERT CARDS' 
+        src='/svg/tx_matrix/card_suits.svg' 
+    />
+</div>
+
+<p>As we've seen applying skew in SVG is straightforward and can be used to create compelling effects. Beyond playing with cards it can be applied to slant text, create shadows, and create reflections. In games and simulations skewed shapes can be used to build orthographic projections adding a whole new dimension of information to an SVG scene. </p>
+<p>This just about rounds out our discussion of SVG transformations. We've looked at translation, rotation, scale and shear and seen how these transformations can be applied to create interesting and beautiful effects and objects suitable for a multitude of purposes. But a discussion of SVG transformations would not be complete without due consideration of the <em>transformation matrix</em>. </p>
+<h1>SVG Transformation Matrices</h1>
+<p>So it turns out that all the transformations we've discussed up to this point can be represented and handled mathematically using <em>SVG transformation matrices</em>. </p>
+<div class="admonition important">
+<p class="admonition-title">LinAlg for Artists</p>
+<p>Now at this point I can imagine many reactions like; "Waitaminnit Nick! Why on earth would I ever want to work with a matrix? Doesn't that involve math?!" And you're right. It does. So, yeah this section on the SVG transformation matrix is a bit more advanced. And to be honest some folks might want to skip it. And you probabably could and still take away a <em>lot</em> from this blog post. But I'd really like to encourage you not to. I know many folks have somewhat of an aversion to it, but, personally, I believe anyone with the desire can do the math -- and maybe even come to appreciate its beauty. In any case, for SVG creators it's important to at least know <em>about</em> the math. And who knows -- exploring a bit of math may open up whole new worlds of creative possibilities for you. To that end, I've written a <a href="TBD">primer</a> which explains the math related to transformations covered in this blog post. So if you're interested in learning a bit about linear algebra for computer graphics I'd highly encourage you to give it a shot. </p>
+</div>
+<h2>Forms</h2>
+<p>SVG transformation matrices have the following form:</p>
+<p>$$
+TM = 
+\begin{bmatrix} 
+a &amp; c &amp; e \\ 
+b &amp; d &amp; f \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+$$</p>
+<p>Where a, b, c, d, e, and f are values that can be applied to transform coordinate systems in all the ways we discussed above with functions. The following list shows the transformation matrices for <em>translation</em>, <em>scale</em> and <em>rotation</em>.</p>
+<ol>
+<li>
+<p>Translation:
+$$
+TM_{translation} = 
+\begin{bmatrix} 
+1 &amp; 0 &amp; t_x \\
+0 &amp; 1 &amp; t_y \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+$$</p>
+</li>
+<li>
+<p>Scale:
+$$
+TM_{scale} = 
+\begin{bmatrix} 
+s_x &amp; 0 &amp; 0 \\
+0 &amp; s_y &amp; 0 \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+$$</p>
+</li>
+<li>
+<p>Rotation:
+$$
+TM_{rotation} = 
+\begin{bmatrix} 
+cos(a) &amp; -sin(a) &amp; 0 \\
+sin(a) &amp; cos(a) &amp; 0 \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+$$</p>
+</li>
+</ol>
+<h2>Mappings</h2>
+<p>As we've been seeing all along, transformations provide a mapping from a prior (or <em>parent</em>) coordinate sytem to a new coordinate system. Transformation matrices provide a formal means of describing the mapping operations. The general form of the mapping looks like this:</p>
+<p>$$
+\begin{bmatrix} 
+x_{prevCoordSystem} \\
+y_{prevCoordSystem} \\
+1
+\end{bmatrix} = \begin{bmatrix} 
+a &amp; c &amp; e \\ 
+b &amp; d &amp; f \\
+0 &amp; 0 &amp; 1
+\end{bmatrix} \cdot \begin{bmatrix} 
+x_{newCoordSystem} \\
+y_{newCoordSystem} \\
+1
+\end{bmatrix}
+$$</p>
+<p>Given the general form, let's look at a concrete example.</p>
+<h2>Example</h2>
+<div>
+    <img 
+        alt='INSERT ROTATION' 
+        src='/svg/tx_matrix/wind_turbine_matrix.svg' 
+    />
+</div>
+
+<p>Let's revisit our windmill. Since wind direction can change we might need to rotate our blades in order to efficiently generate power. So let's see how we'd apply a transformation matrix to achieve that end. </p>
+<pre class="markup">
+&lt;g  id="needle_scaled"
+  transform="<span style="color:red" >scale(2)</span> translate(300, 200)"
+>
+  ...
+&lt;/g>
+</pre>
+
+<h3><font color='RED'>RESUME HERE GO THROUGH SKEW EXAMPLES USING THE TRANSFORMATION MATRIX </font></h3>
+<p>https://www.w3.org/TR/SVGTiny12/coords.html#TransformMatrixDefined</p>
+<style>
+#wind_farm {
+
+/*
+    display: inline-block;
+    width:  300px;
+    height: 300px;
+
+*/
+
+}
+</style>
+<div id="wind_farm">
+    <svg id="svg_wf"
+        xmlns="http://www.w3.org/2000/svg" 
+        width="300"
+        height="300" 
+    >
+        <!--INSERT SVG CONTENT-->
+    </svg>
+</div>
+
+<style>
+#airstrip {
+
+/*
+    display: inline-block;
+    width:  300px;
+    height: 300px;
+*/
+margin-top: 200px;
+
+}
+</style>
+<div id="airstrip">
+    <svg id="svg_strip"
+        xmlns="http://www.w3.org/2000/svg" 
+        width="300"
+        height="300" 
+    >
+        <!--INSERT SVG CONTENT-->
+    </svg>
 </div>
 
 <script src="/svg/loadsvg.js"></script>
+
 <script>
-loadSvg( "/svg/tx_matrix/tx_matrix_plain_1_trans.svg", "canvas_1" );
+/**
+ * One off script for this article. VERY fragile. Synchronization
+ * going on to 1. load all the svg's. and ONLY THEN work off DOM...
+ */
+async function doLoads () {
+
+    //await loadSvg( "/svg/tx_matrix/tx_matrix_1_trans.svg", "canvas_1" );
+
+    await loadSvg( "/svg/tx_matrix/svg_viewport.svg", "svg_2" );
+    await loadSvg( "/svg/tx_matrix/wind_farm_plain.svg", "svg_wf" );
+    await loadSvg( "/svg/tx_matrix/plane_plain.svg", "svg_strip" );
+
+    let svg2 = document.getElementById( "svg_01_viewport" );
+    let textElem = document.getElementById("mouse-coords"); 
+    let textElem2 = document.getElementById("client-coords"); 
+
+    function getSVGCoords(evt) {
+
+        let pt = svg2.createSVGPoint();
+        pt.x = evt.clientX;
+        pt.y = evt.clientY;
+        let transformed = pt.matrixTransform(svg2.getScreenCTM().inverse());
+
+        let svg_x = transformed.x - 40 ;
+        let svg_y = transformed.y - 120 ;
+        let client_x = transformed.x - 20 ;
+        let client_y = transformed.y - 50 ;
+
+        // textElem.textContent = `x: ${transformed.x.toFixed(2)}, y: ${transformed.y.toFixed(2)}`;
+        textElem.textContent = `SVG x: ${ Math.round(svg_x) }, SVG y: ${ Math.round(svg_y) }`;
+        textElem2.textContent = `Client x: ${ Math.round(client_x) }, Client y: ${ Math.round(client_y) }`;
+
+    }
+
+    svg2.addEventListener("mousemove", getSVGCoords);
+}
+doLoads();
 </script>
 
 <h1>The Transformation Matrix</h1>
@@ -130,32 +642,24 @@ console.log(ctm.e, ctm.f); // Transformed X, Y coordinates</p>
 <p>getScreenCTM(): Returns the transformation matrix relative to the entire screen.</p>
 <p>let screenCTM = shape.getScreenCTM();
 console.log(screenCTM.e, screenCTM.f); // Screen-space coordinates</p>
-<h1>A Javascript Example</h1>
-<h1>SVG Artworks in Action!</h1>
-<p>Here is an example.</p>
-<p>USE THE GORGON HEAD AT THE TEMPLE ... </p>
-<div id="viewport-container">
-    <svg id="viewport" 
-        xmlns="http://www.w3.org/2000/svg" 
-        width="500" 
-        height="250" 
-        style="background-color: rgb(143, 202, 206);">
-        <!--INSERT SVG CONTENT-->
-    </svg>
-</div>
-<div class='Panel'>
-    <button id='start_anim'>Start</button>
-    <button id='stop_anim'>Stop</button>
-    <span id='frame_rate'
-        style="display:inline-block;width: 200px">0</span>
-    <span id='mouse_coords'
-        style="display:inline-block;width: 200px">mouse: 0, 0</span>
-</div>
-
-<p>As you can see, it's aliiiiive!</p>
 <h1>Discussion</h1>
+<p>This post ended up a bit longer than I'd originally anticipated. 
+Why? because it's so interesting and powerfull to me...
+They say a picture is worth a thousand words.</p>
 <h1>Conclusion</h1>
+<p>But keeping these few points in mind will bring you a long way to understanding what the world of Scalable Vector Grapics opens up!</p>
+<h1>Appendix: Nesting Coordinate Systems</h1>
+<p>svg viewer</p>
 <h1>Resources</h1>
+<ol>
+<li>
+<p>For NEXT TIME: <a href="https://www.svgbackgrounds.com/is-smil-dead-in-2022/">Is SMIL dead or alive?</a>
+    Really this is for the next article on SMIL animation tags. They make that point about the Chrome deprecation discussion ...</p>
+</li>
+<li>
+<p><a href="https://www.w3.org/TR/SVGTiny12/coords.html#TransformAttribute">Coordinate Systems, Transformations and Units</a></p>
+</li>
+</ol>
     <footer>
       <p>Published: <time datetime="2025-02-17T00:00:00-05:00">
         Mon 17 February 2025

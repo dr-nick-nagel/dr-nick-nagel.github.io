@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created (in part) with Inkscape (http://www.inkscape.org/) -->
+<svg
+   width="300"
+   height="300"
+   viewBox="-10 -10 420 420"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient12">
+      <stop
+         style="stop-color:#fff9df;stop-opacity:1;"
+         offset="0"
+         id="stop13" />
+      <stop
+         style="stop-color:#ffcc00;stop-opacity:1;"
+         offset="1"
+         id="stop12" />
+    </linearGradient>
+    <radialGradient
+       xlink:href="#linearGradient12"
+       id="radialGradient13"
+       cx="-1.4851526"
+       cy="2.4815423"
+       fx="-1.4851526"
+       fy="2.4815423"
+       r="5"
+       gradientTransform="matrix(0.61432909,0.78841744,-0.85570222,0.6667569,1.2614278,-0.39172849)"
+       gradientUnits="userSpaceOnUse" />
+
+    <marker id="arrowhead" 
+      markerWidth="6" 
+      markerHeight="6" 
+      refX="5" 
+      refY="3" 
+      orient="auto" 
+      markerUnits="strokeWidth">
+        <path d="M0,0 L6,3 L0,6 Z" fill="green" />
+    </marker>
+
+    <marker id="arrowhead-start" 
+      markerWidth="6" 
+      markerHeight="6" 
+      refX="1" 
+      refY="3"
+      orient="auto-start-reverse" 
+      markerUnits="strokeWidth">
+        <path d="M0,0 L6,3 L0,6 Z" fill="green" />
+    </marker>
+
+  </defs>
+  <g
+     id="grid">
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.969808px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 100.5151,3.9324101e-5 100.4849,399.99997"
+       id="path1" />
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.969808px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 200.5151,3.6610258e-5 200.4849,399.99997"
+       id="path2" />
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.969808px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 300.5151,3.6610258e-5 300.4849,399.99997"
+       id="path3" />
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.725468px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 4.4636593e-4,100.36273 399.99955,100.63726"
+       id="path4" />
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.725468px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 4.4636593e-4,200.36273 399.99955,200.63726"
+       id="path5" />
+
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.725468px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 4.4636593e-4,300.36273 399.99955,300.63726"
+       id="path6" />
+    <path
+       style="fill:none;stroke:#1d22df;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="M 0.49851479,399.99835 0,0 399.99482,0.49849065"
+       id="path7" />
+    <!-- ORIGIN -->   
+    <circle cx="0" cy="0" r="5" fill="#1d22df" />
+    <!-- ARROW HEADS -->
+    <path d="M 400 -5 L 410 0 L 400 5 Z" fill="#1d22df"/>
+    <path d="M -5 400 L 0 410 L 5 400 Z" fill="#1d22df"/>
+    <rect x="-2" y="60" 
+         width="20" 
+         height="250" 
+         fill="white" 
+         stroke="none" />
+   <text x="50" y="10" 
+         text-anchor="middle" 
+         dominant-baseline="hanging" 
+         font-size="12">Origin at (0, 0)</text>
+   <text x="350" y="10" 
+         text-anchor="middle" 
+         dominant-baseline="hanging" 
+         font-size="12">X-Direction</text>
+   <text x="-100" y="70" 
+         text-anchor="middle" 
+         dominant-baseline="central" 
+         transform="rotate(-90 10 75)" 
+         font-size="12">Y (Notice that positive is down...)</text>
+  </g>
+
+  <g
+     id="needle"
+     transform="translate(100, 200)"
+  >
+
+    <g id='coords'>
+        <line x1="0" y1="-50" x2="0" y2="50" 
+              stroke="green" stroke-width="2" 
+              marker-end="url(#arrowhead)"
+              marker-start="url(#arrowhead-start)"
+         />
+        <line x1="-30" y1="-0" x2="30" y2="0" 
+              stroke="green" stroke-width="2" 
+              marker-end="url(#arrowhead)"
+              marker-start="url(#arrowhead-start)"
+         />
+    </g>
+
+    <path
+       style="fill:#c83737;stroke:none;stroke-width:0.576161px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 0.04064339,-0.42693735 5,0 0,-40 Z"
+       id="path8" />
+    <path
+       style="fill:#d35f5f;stroke:none;stroke-width:0.576161px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M -0.0406434,-0.42693735 -5,0 0,-40 Z"
+       id="path9" />
+    <path
+       style="fill:#2c5aa0;stroke:none;stroke-width:0.576161px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 0.04064339,0.426937 5,0 0,40 Z"
+       id="path10" />
+    <path
+       style="fill:#5f8dd3;stroke:none;stroke-width:0.576161px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M -0.0406434,0.426937 -5,0 0,40 Z"
+       id="path11" />
+    <ellipse
+       style="fill:url(#radialGradient13);fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       id="path12"
+       cx="0"
+       cy="0.42399979"
+       rx="5"
+       ry="5.4239998" />
+  </g>
+
+  <g
+     id="needle_scaled"
+     transform="translate(300, 200) scale(2)"
+  >
+    <g id='coords'>
+        <line x1="0" y1="-50" x2="0" y2="50" 
+              stroke="green" stroke-width="2" 
+              marker-end="url(#arrowhead)"
+              marker-start="url(#arrowhead-start)"
+         />
+        <line x1="-30" y1="-0" x2="30" y2="0" 
+              stroke="green" stroke-width="2" 
+              marker-end="url(#arrowhead)"
+              marker-start="url(#arrowhead-start)"
+         />
+    </g>
+    <path
+       style="fill:#c83737;stroke:none;stroke-width:0.576161px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 0.04064339,-0.42693735 5,0 0,-40 Z"
+       id="path8" />
+    <path
+       style="fill:#d35f5f;stroke:none;stroke-width:0.576161px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M -0.0406434,-0.42693735 -5,0 0,-40 Z"
+       id="path9" />
+    <path
+       style="fill:#2c5aa0;stroke:none;stroke-width:0.576161px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 0.04064339,0.426937 5,0 0,40 Z"
+       id="path10" />
+    <path
+       style="fill:#5f8dd3;stroke:none;stroke-width:0.576161px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M -0.0406434,0.426937 -5,0 0,40 Z"
+       id="path11" />
+    <ellipse
+       style="fill:url(#radialGradient13);fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       id="path12"
+       cx="0"
+       cy="0.42399979"
+       rx="5"
+       ry="5.4239998" />
+  </g>
+
+</svg>

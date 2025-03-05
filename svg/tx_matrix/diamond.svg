@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="300"
+   height="100"
+   viewBox="0 0 600 280"
+   version="1.1"
+   id="svg_club"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+
+  <g id="d_card">
+
+    <rect x="20" y="0"
+       style="fill:#e6e6e6;stroke-width:0.499373;stroke:black"
+       width="160"
+       height="200"
+    />
+
+    <path  id="diamond" 
+       style="fill:#d40000;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 100,30 c -11.561571,27.08106 -23.864601,51.716208 -50,70 23.622851,22.68823 37.882912,46.24474 50,70 11.56856,-22.86482 21.86191,-47.05185 50,-70 C 120.06986,81.48564 112.43246,55.986941 100,30 Z"
+     />
+
+  </g>
+
+  <g id="d_card_sheared"
+     transform="translate( 240 0 ) skewY( 15 )"
+  >
+
+    <rect x="20" y="0"
+       style="fill:#e6e6e6;stroke-width:0.499373;stroke:black"
+       width="160"
+       height="200"
+    />
+  
+    <path  id="diamond" 
+       style="fill:#d40000;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 100,30 c -11.561571,27.08106 -23.864601,51.716208 -50,70 23.622851,22.68823 37.882912,46.24474 50,70 11.56856,-22.86482 21.86191,-47.05185 50,-70 C 120.06986,81.48564 112.43246,55.986941 100,30 Z"
+     />
+
+  </g>
+
+
+
+</svg>

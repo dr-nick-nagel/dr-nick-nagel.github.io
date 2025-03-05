@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created (in part) with Inkscape (http://www.inkscape.org/) -->
+<svg
+   width="150"
+   height="150"
+   viewBox="-5 -5 210 210"
+   version="1.1"
+   id="svg_wind"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+
+
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient12">
+      <stop
+         style="stop-color:#fff9df;stop-opacity:1;"
+         offset="0"
+         id="stop13" />
+      <stop
+         style="stop-color:#ffcc00;stop-opacity:1;"
+         offset="1"
+         id="stop12" />
+    </linearGradient>
+    <radialGradient
+       xlink:href="#linearGradient12"
+       id="radialGradient13"
+       cx="-1.4851526"
+       cy="2.4815423"
+       fx="-1.4851526"
+       fy="2.4815423"
+       r="5"
+       gradientTransform="matrix(0.61432909,0.78841744,-0.85570222,0.6667569,1.2614278,-0.39172849)"
+       gradientUnits="userSpaceOnUse" />
+
+    <marker id="arrowhead" 
+      markerWidth="6" 
+      markerHeight="6" 
+      refX="5" 
+      refY="3" 
+      orient="auto" 
+      markerUnits="strokeWidth">
+        <path d="M0,0 L6,3 L0,6 Z" fill="green" />
+    </marker>
+
+    <marker id="arrowhead-start" 
+      markerWidth="6" 
+      markerHeight="6" 
+      refX="1" 
+      refY="3"
+      orient="auto-start-reverse" 
+      markerUnits="strokeWidth">
+        <path d="M0,0 L6,3 L0,6 Z" fill="green" />
+    </marker>
+
+  </defs>
+  <g
+     id="grid">
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.969808px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 100.5151,3.9324101e-5 100.4849,399.99997"
+       id="path1" />
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.969808px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 200.5151,3.6610258e-5 200.4849,399.99997"
+       id="path2" />
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.969808px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 300.5151,3.6610258e-5 300.4849,399.99997"
+       id="path3" />
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.725468px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 4.4636593e-4,100.36273 399.99955,100.63726"
+       id="path4" />
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.725468px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 4.4636593e-4,200.36273 399.99955,200.63726"
+       id="path5" />
+
+    <path
+       style="fill:none;stroke:#f21010;stroke-width:0.725468px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 4.4636593e-4,300.36273 399.99955,300.63726"
+       id="path6" />
+    <path
+       style="fill:none;stroke:#1d22df;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="M 0.49851479,399.99835 0,0 399.99482,0.49849065"
+       id="path7" />
+    <!-- ORIGIN -->   
+    <circle cx="0" cy="0" r="5" fill="#1d22df" />
+
+  </g>
+
+  <g
+     id="windmill">
+    <path
+       style="fill:#ececec;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="m 97,200 h 6 V 100 h -6 z"
+       id="path2" />
+    <g
+       id="propeller"
+       style="stroke-width:0.5;stroke-dasharray:none"
+       transform="rotate(45 100 100)"
+    >
+      <path
+         style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+         d="M 98,97 V 30 l 12,55 -7.99719,5.783666 L 102,97 Z"
+         id="path3" />
+      <path
+         style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+         d="m 103.99327,99.205325 61.04097,27.622475 -55.05557,-11.74246 -1.97221,-9.67037 -5.66221,-2.56558 z"
+         id="path4" />
+      <path
+         style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+         d="m 98.234735,102.93367 -61.328823,26.97735 45.512789,-33.129855 8.514144,4.991495 5.691371,-2.500241 z"
+         id="path5" />
+      <circle
+         style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+         id="path1"
+         cx="100"
+         cy="100"
+         r="5" />
+    </g>
+  </g>
+
+  <g id='overlay'>
+      <line x1="0" y1="0" x2="100" y2="100" 
+         stroke="green" stroke-width="2" 
+         marker-end="url(#arrowhead)"
+         opacity="0.5"
+      />
+      <path 
+           style="fill:none;stroke:green;stroke-width:1;"
+           d="M 100, 50 C 115, 30, 130, 30, 145, 50"
+           id="path6" 
+           marker-end="url(#arrowhead)"
+      />
+      <rect x="100" y="25" width="50" height="15" fill="white" />
+      <rect x="5" y="20" width="85" height="50" fill="white" />
+      <text x="125" y="30"  
+         text-anchor="middle" 
+         dominant-baseline="hanging" 
+         font-size="9">theta = 45&#x00B0;</text>
+      <text x="10" y="30"  
+         text-anchor="left" 
+         dominant-baseline="hanging" 
+         font-size="9">Pivot point is</text>
+      <text x="10" y="40"  
+         text-anchor="left" 
+         dominant-baseline="hanging" 
+         font-size="9">moved to</text>
+      <text x="10" y="50"  
+         text-anchor="left" 
+         dominant-baseline="hanging" 
+         font-size="9">(100, 100)</text>
+  </g>
+
+
+</svg>

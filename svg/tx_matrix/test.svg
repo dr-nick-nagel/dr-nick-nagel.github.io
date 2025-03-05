@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+    <defs>
+        <!-- Parchment gradient fill -->
+        <linearGradient id="parchmentGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fdf6e3" />
+            <stop offset="100%" stop-color="#e0cda9" />
+        </linearGradient>
+
+        <!-- Rough edge effect -->
+        <filter id="roughEdges" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" />
+            <feDisplacementMap in="SourceGraphic" scale="15" />
+        </filter>
+    </defs>
+
+    <!-- Background Layer -->
+    <g id="parchmentBackground">
+        <!-- Base Rectangle with Gradient -->
+        <rect width="800" height="600" fill="url(#parchmentGradient)" />
+        
+        <!-- Rough Edge Overlay -->
+        <path d="M20,10 Q50,0 100,10 T200,20 T300,5 T400,15 T500,10 T600,5 T700,10 T780,15 
+                 L780,580 Q750,590 700,580 T600,570 T500,575 T400,565 T300,580 T200,570 T100,580 T20,590 Z" 
+              fill="none" stroke="#c4a484" stroke-width="10" filter="url(#roughEdges)" />
+    </g>
+</svg>
