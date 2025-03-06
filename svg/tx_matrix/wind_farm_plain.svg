@@ -2,11 +2,11 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="350"
-   height="200"
+   width="300"
+   height="170"
    viewBox="0 0 350 200"
    version="1.1"
-   id="svg1"
+   id="svg_wf"
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
@@ -398,38 +398,46 @@
        style="mix-blend-mode:normal;fill:url(#linearGradient54);fill-opacity:1;stroke:none;stroke-width:0.318215;stroke-linecap:square;filter:url(#filter54)"
        d="m 268.52817,55.175557 a 28.43182,6.0177388 0 0 0 -24.88476,3.12169 18.292856,4.8670623 0 0 0 -3.66407,-0.09968 18.292856,4.8670623 0 0 0 -18.29297,4.866862 18.292856,4.8670623 0 0 0 16.95118,4.843129 34.893867,5.8623168 0 0 0 -0.50391,0.938247 34.893867,5.8623168 0 0 0 34.89453,5.86286 34.893867,5.8623168 0 0 0 15.9043,-0.657406 19.414528,3.9876384 0 0 0 -0.0371,0.113919 19.414528,3.9876384 0 0 0 19.41406,3.987947 19.414528,3.9876384 0 0 0 15.98633,-1.740425 15.831038,2.7872069 0 0 0 11.08984,0.800595 15.831038,2.7872069 0 0 0 15.83204,-2.787054 15.831038,2.7872069 0 0 0 -14.72461,-2.779933 19.414528,3.9876384 0 0 0 2.42773,-1.921588 19.414528,3.9876384 0 0 0 -19.41601,-3.987156 19.414528,3.9876384 0 0 0 -13.60352,1.145516 34.893867,5.8623168 0 0 0 -12.48633,-2.793383 28.43182,6.0177388 0 0 0 3.54492,-2.896225 28.43182,6.0177388 0 0 0 -28.43164,-6.017916 z" />
   </g>
-  <g
-     id="layer6">
-    <g id="t_1">
 
+  <g id="turbines">
 
+    <g id="turbine_1">
       <path
          style="fill:#e6e6e6;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 75.093266,120.05955 c -21.201395,5.94153 1.030229,33.88581 -1.445262,58.70913 l 4.961323,1.27648 4.71777,-1.42365 c -3.222678,-19.28932 -24.85112,-52.56709 -8.510404,-56.44961 0.199344,-0.13794 1.573895,-0.71509 1.537422,-1.18195 -0.03587,-0.45911 -1.483049,-0.80813 -1.260849,-0.9304 z"
          id="path55" />
-
-         
-
       <path
          style="fill:#b3b3b3;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 73.167796,178.92848 5.093884,1.00085 c -1.220732,-13.64231 -6.383793,-27.49032 -10.755361,-41.13264 -0.795656,-4.51335 -2.353092,-9.0267 -0.07151,-13.54005 -1.777552,2.04045 -2.598736,5.19465 -1.662555,10.3954 3.11556,14.37835 7.694557,29.58341 7.395545,43.27644 z"
          id="path70" />
-      <g
-         id="blades_1">
+
+      <g id="blades_1"
+         transform-origin="76 121"
+      >
+
+        <animateTransform id="a_1"
+            attributeName="transform" 
+            type="rotate"
+            from="0" to="360" 
+            dur="2s" 
+            repeatCount="indefinite"
+        />
+
         <path
            style="fill:url(#radialGradient70);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            d="m 44.37888,144.61763 29.661369,-23.75557 1.788148,-1.85442 -2.102389,-18.25805 3.084448,-24.986191 0.472288,45.367441 11.629463,6.71422 17.523933,16.84724 -31.182978,-22.10425 -10.270176,10.36653 z"
            id="path56" />
       </g>
-      
 
     </g>
+    
     <path
        style="fill:#32b667;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 63.680626,179.17714 c 4.634056,-1.07015 10.054731,0.23543 15.087665,1.84539 2.476094,-1.3539 4.672748,-3.19966 9.624776,-3.08855 -3.438931,-0.66906 -6.791028,0.22962 -10.116633,1.6066 -5.197539,-1.14402 -10.193059,-1.66615 -14.595808,-0.36344 z"
        id="path71" />
+
     <g
-       id="g73">
+       id="house">
       <path
          style="fill:#666666;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 57.894279,159.03693 -15.732598,9.72478 -7.335343,0.39827 9.48277,-7.52428 z"
@@ -443,9 +451,10 @@
          d="m 45.943317,161.59861 10.6289,11.93098 11.640773,-4.26885 -8.738804,-10.24918 z"
          id="path72" />
     </g>
-    <g
-       id="g79"
-       transform="matrix(0.23012152,0,0,0.22458898,28.950821,53.147552)">
+
+    <g id="turbine_middle"
+       transform="matrix(0.23012152,0,0,0.22458898,28.950821,53.147552)"
+       >
       <path
          style="fill:#e6e6e6;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 75.093266,120.05955 c -21.201395,5.94153 1.030229,33.88581 -1.445262,58.70913 l 4.961323,1.27648 4.71777,-1.42365 c -3.222678,-19.28932 -24.85112,-52.56709 -8.510404,-56.44961 0.199344,-0.13794 1.573895,-0.71509 1.537422,-1.18195 -0.03587,-0.45911 -1.483049,-0.80813 -1.260849,-0.9304 z"
@@ -454,16 +463,28 @@
          style="fill:#b3b3b3;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 73.167796,178.92848 5.093884,1.00085 c -1.220732,-13.64231 -6.383793,-27.49032 -10.755361,-41.13264 -0.795656,-4.51335 -2.353092,-9.0267 -0.07151,-13.54005 -1.777552,2.04045 -2.598736,5.19465 -1.662555,10.3954 3.11556,14.37835 7.694557,29.58341 7.395545,43.27644 z"
          id="path77" />
-      <g
-         id="g78">
+
+
+      <g id="blades_middle"
+         transform-origin="76 122"
+      >
+        <animateTransform id="a_2"
+            attributeName="transform" 
+            type="rotate"
+            from="0" to="360" 
+            dur="2s" 
+            repeatCount="indefinite"
+        />
+
         <path
            style="fill:url(#radialGradient79);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            d="m 44.37888,144.61763 29.661369,-23.75557 1.788148,-1.85442 -2.102389,-18.25805 3.084448,-24.986191 0.472288,45.367441 11.629463,6.71422 17.523933,16.84724 -31.182978,-22.10425 -10.270176,10.36653 z"
            id="path78" />
       </g>
+
     </g>
-    <g
-       id="g82"
+    
+    <g id="turbine_right"
        transform="matrix(0.18623623,0,0,0.18175877,45.636946,57.065877)">
       <path
          style="fill:#e6e6e6;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -473,16 +494,30 @@
          style="fill:#b3b3b3;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 73.167796,178.92848 5.093884,1.00085 c -1.220732,-13.64231 -6.383793,-27.49032 -10.755361,-41.13264 -0.795656,-4.51335 -2.353092,-9.0267 -0.07151,-13.54005 -1.777552,2.04045 -2.598736,5.19465 -1.662555,10.3954 3.11556,14.37835 7.694557,29.58341 7.395545,43.27644 z"
          id="path80" />
-      <g
-         id="g81">
+
+
+      <g id="blades_right"
+         transform-origin="76 122"
+      >
+
+        <animateTransform id="a_3"
+            attributeName="transform" 
+            type="rotate"
+            from="0" to="360" 
+            dur="2s" 
+            repeatCount="indefinite"
+        />
+
         <path
            style="fill:url(#radialGradient82);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            d="m 44.37888,144.61763 29.661369,-23.75557 1.788148,-1.85442 -2.102389,-18.25805 3.084448,-24.986191 0.472288,45.367441 11.629463,6.71422 17.523933,16.84724 -31.182978,-22.10425 -10.270176,10.36653 z"
            id="path81" />
       </g>
+
     </g>
-    <g
-       id="g85"
+
+
+    <g id="turbine_left"
        transform="matrix(0.18623623,0,0,0.18175877,19.116183,57.082874)">
       <path
          style="fill:#e6e6e6;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -492,15 +527,35 @@
          style="fill:#b3b3b3;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 73.167796,178.92848 5.093884,1.00085 c -1.220732,-13.64231 -6.383793,-27.49032 -10.755361,-41.13264 -0.795656,-4.51335 -2.353092,-9.0267 -0.07151,-13.54005 -1.777552,2.04045 -2.598736,5.19465 -1.662555,10.3954 3.11556,14.37835 7.694557,29.58341 7.395545,43.27644 z"
          id="path83" />
-      <g
-         id="g84">
+
+
+      <g id="blades_left"
+         transform-origin="76 122"
+      >
+        <animateTransform id="a_4"
+            attributeName="transform" 
+            type="rotate"
+            from="0" to="360" 
+            dur="2s" 
+            repeatCount="indefinite"
+        />
+
         <path
            style="fill:url(#radialGradient85);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            d="m 44.37888,144.61763 29.661369,-23.75557 1.788148,-1.85442 -2.102389,-18.25805 3.084448,-24.986191 0.472288,45.367441 11.629463,6.71422 17.523933,16.84724 -31.182978,-22.10425 -10.270176,10.36653 z"
            id="path84" />
       </g>
     </g>
+
+
   </g>
+
+
+
+
+
+
+
   <g
      id="layer7">
     <path
@@ -528,4 +583,32 @@
        d="m 224.74457,192.80602 c -2.18548,0.22595 3.49013,-0.16155 -0.65649,-1.61345 3.57497,0.31113 3.86703,1.49244 5.13509,0.26384 -0.74536,-0.82609 0.65135,-4.14925 -0.028,-5.29741 1.57554,1.22743 3.03904,3.82157 4.75361,3.3531 5.06744,0.30318 4.50011,-1.2519 5.95119,-2.14133 -1.41543,3.29773 2.80644,2.24572 7.21635,1.04861 -1.07461,-2.08099 5.32435,1.38329 5.30895,0.6114 0.47435,0.2262 -3.14181,-2.63147 -1.60542,-3.20956 3.24281,4.25009 14.76634,2.22374 13.24991,0.13833 -2.62116,3.4139 -2.17401,4.78767 1.29922,4.42517 l -32.22143,3.20559 -12.44733,2.16004 z"
        id="path69" />
   </g>
+
+
+
+   <script type="text/javascript">
+<![CDATA[
+/**
+ * Get and log to console mouse coordinates on click.
+ */
+(function() {
+   let svg = document.documentElement;
+   
+   //let textElem = document.getElementById("mouse-coords");
+
+   function getSVGCoords(evt) {
+         let pt = svg.createSVGPoint();
+         pt.x = evt.clientX;
+         pt.y = evt.clientY;
+         let transformed = pt.matrixTransform(svg.getScreenCTM().inverse());
+         let textContent = `x: ${transformed.x.toFixed(2)}, y: ${transformed.y.toFixed(2)}`;
+         console.log( textContent );
+   }
+
+   svg.addEventListener("click", getSVGCoords);
+
+})();
+]]>
+   </script>
+
 </svg>

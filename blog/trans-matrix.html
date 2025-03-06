@@ -524,34 +524,85 @@ y_{newCoordSystem} \\
 $$</p>
 <p>Given the general form, let's look at a concrete example.</p>
 <h2>Example</h2>
-<div>
+<p>Let's revisit our windmill. Since wind direction can change we might need to rotate our blades in order to efficiently generate power. So let's see how we'd apply a transformation matrix to achieve that end. </p>
+<div class='right_float'>
     <img 
         alt='INSERT ROTATION' 
         src='/svg/tx_matrix/wind_turbine_matrix.svg' 
     />
 </div>
 
-<p>Let's revisit our windmill. Since wind direction can change we might need to rotate our blades in order to efficiently generate power. So let's see how we'd apply a transformation matrix to achieve that end. </p>
-<pre class="markup">
-&lt;g  id="needle_scaled"
-  transform="<span style="color:red" >scale(2)</span> translate(300, 200)"
->
-  ...
+<p>Once again, consider the SVG transformation matrix.</p>
+<p>$$
+\begin{bmatrix} 
+a &amp; c &amp; e \\ 
+b &amp; d &amp; f \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+$$</p>
+<p>Notice that only the first two rows represent used values. The bottom row is an identity provided to enable matrix multiplication (think of it as multiplying any number by $1$ -- you get the same number; identity). Since this is the case we can reduce the matrix to a vector of six values: $[a, b, c, d, e, f]$ where: </p>
+<ul>
+<li>$a$ = scale factor on the X-axis, </li>
+<li>$b$ = skew on X,</li>
+<li>$c$ = skew on Y,</li>
+<li>$d$ = scale factor on the Y-axis, </li>
+<li>$e$ = X-axis translation, and</li>
+<li>$f$ = Y-axis translation.</li>
+</ul>
+<p>So for this example, I wanted to achieve the effect of rotating the blades about the mast of the wind turbine. To do so I had to:</p>
+<ol>
+<li>Translate the blades along the X-axis, and </li>
+<li>Scale them down on X (to get the right perspective).</li>
+</ol>
+<p>Here's the svg fragment with the relevant <code>matrix</code> function:</p>
+<pre>
+&lt;g id="windmill">
+    ...
+    &lt;g id="blades"
+       ...
+       transform-origin="100 100"
+       transform="<span style="color:red" >matrix(0.6, 0, 0, 1, 10, 0)</span>"
+    >
+    ...
 &lt;/g>
+  ...
 </pre>
 
-<h3><font color='RED'>RESUME HERE GO THROUGH SKEW EXAMPLES USING THE TRANSFORMATION MATRIX </font></h3>
-<p>https://www.w3.org/TR/SVGTiny12/coords.html#TransformMatrixDefined</p>
+<h2>Really Nick! Why on Earth Would I <em>Ever</em> want to Work with a transformation Matrix?!</h2>
+<p>If you've made it this far into this post you probably fall into one of two camps:</p>
+<ol>
+<li>
+<p>Like me, maybe you appreciate the beauty of mathematics and have enjoyed the discussion around the application of matrix operations to achieve SVG transforms. </p>
+<p>Or...</p>
+</li>
+<li>
+<p>Maybe you don't appreciate the mathematics underlying SVG's linear transformations and through eyes glazed over are wondering why on earth you should ever have to worry about it.</p>
+</li>
+</ol>
+<p>Fair enough. Working with SVG you can achieve quite a bit with the <em>function</em> syntax -- which may feel more "user friendly". Either way though, the view into the matrix operations applicable to SVG is good to have and keep in mind. And there are a number of reasons to consider the matrix approach in the creation of your artworks. Especially if you use animations and need to make your work interactive. </p>
+<p>The SVG transformation matrix provides a powerful mechanism to for manipulating and animating SVG lines shapes and objects. The ability to apply matrices in SVG transforms offers numerous key advantages. Here's a short list.</p>
+<ul>
+<li>
+<p><strong>Efficiency</strong>. As we've seen, a single matrix can represent a combination of multiple transformations (e.g., translation, rotation, scale, and skew). This allows you to apply multiple transformations in a single step, which is more efficient than applying them sequentially.</p>
+</li>
+<li>
+<p><strong>Control</strong>. Matrices provide precise control over the order in which transformations are applied. Beyond that, knowledge of matrix applications enables the creation of custom effects over and above the list we've covered here. <em>Perspective</em> is an important example. </p>
+</li>
+<li>
+<p><strong>Optimization</strong>. The matrix allows individual transformations to be mathematically combined into a single, equivalent transformation. Consolidation reduces the calculations to be performed by the rendering engine leading to significant performance benefits. </p>
+</li>
+<li>
+<p><strong>DOM Manipulation</strong>. Using matrix computations as the potential to reduce DOM manipulation which can have big impacts on performance. </p>
+</li>
+</ul>
+<p>The bottom line is that using the transformation matrix to combine multiple transformations like translate, skew, and rotate can optimize your SVG by reducing processing overhead and leveraging GPU optimization. This is particularly beneficial for complex SVGs and animations where performance is a key factor.</p>
 <style>
 #wind_farm {
-
-/*
-    display: inline-block;
+    border: inset 4px #585;
     width:  300px;
-    height: 300px;
-
-*/
-
+    height: 170px;
+    margin-left: auto;
+    margin-right: auto;
 }
 </style>
 <div id="wind_farm">
@@ -566,25 +617,25 @@ $$</p>
 
 <style>
 #airstrip {
-
 /*
     display: inline-block;
     width:  300px;
     height: 300px;
 */
 margin-top: 200px;
-
 }
 </style>
+
+<!--
 <div id="airstrip">
     <svg id="svg_strip"
         xmlns="http://www.w3.org/2000/svg" 
         width="300"
         height="300" 
     >
-        <!--INSERT SVG CONTENT-->
     </svg>
 </div>
+-->
 
 <script src="/svg/loadsvg.js"></script>
 
@@ -599,7 +650,8 @@ async function doLoads () {
 
     await loadSvg( "/svg/tx_matrix/svg_viewport.svg", "svg_2" );
     await loadSvg( "/svg/tx_matrix/wind_farm_plain.svg", "svg_wf" );
-    await loadSvg( "/svg/tx_matrix/plane_plain.svg", "svg_strip" );
+
+    // await loadSvg( "/svg/tx_matrix/plane_plain.svg", "svg_strip" );
 
     let svg2 = document.getElementById( "svg_01_viewport" );
     let textElem = document.getElementById("mouse-coords"); 
@@ -628,36 +680,24 @@ async function doLoads () {
 doLoads();
 </script>
 
-<h1>The Transformation Matrix</h1>
-<p>https://chatgpt.com/c/67a0fefd-46d0-8010-ac39-e381a73f5d3c
-https://gemini.google.com/app/4574d2fa7452fb9c</p>
-<p>In SVG, you can use the .getBBox(), .getCTM(), or .getScreenCTM() methods to get the coordinates of a shape relative to different reference points:</p>
-<pre><code>getBBox(): Returns the bounding box of the shape in local coordinate space (before transformations). It does not account for transformations applied to the element.
-</code></pre>
-<p>let bbox = shape.getBBox();
-console.log(bbox.x, bbox.y, bbox.width, bbox.height);</p>
-<p>getCTM() (Current Transformation Matrix): Returns the transformation matrix of the shape relative to its nearest SVG viewport.</p>
-<p>let ctm = shape.getCTM();
-console.log(ctm.e, ctm.f); // Transformed X, Y coordinates</p>
-<p>getScreenCTM(): Returns the transformation matrix relative to the entire screen.</p>
-<p>let screenCTM = shape.getScreenCTM();
-console.log(screenCTM.e, screenCTM.f); // Screen-space coordinates</p>
-<h1>Discussion</h1>
-<p>This post ended up a bit longer than I'd originally anticipated. 
-Why? because it's so interesting and powerfull to me...
-They say a picture is worth a thousand words.</p>
 <h1>Conclusion</h1>
-<p>But keeping these few points in mind will bring you a long way to understanding what the world of Scalable Vector Grapics opens up!</p>
-<h1>Appendix: Nesting Coordinate Systems</h1>
-<p>svg viewer</p>
+<p>This post ended up a bit longer than I'd originally anticipated. Originally I'd intended to write focusing mainly on just the SVG transformation <em>matrix</em>. But soon into it I realized I'd have to provide some context -- namely the discussion around coordinate systems. And as I wrote, I went down the garden path of exploring the various SVG built-in transformation functions and thinking about the implications for creating SVG artworks. Nonetheless, I'm happy to've gone down that path. In doing so I hope to have shared some of the rich and vibrant features SVG offers to creative types of all kinds. I feel we've covered a lot in this post -- but keeping the main points we've covered in mind; the way viewport and client coordinate systems work, the SVG functions central to transformations, and the power of the transformation matrix itself will bring you a long way toward understanding what the world of Scalable Vector Grapics opens up! </p>
 <h1>Resources</h1>
 <ol>
 <li>
-<p>For NEXT TIME: <a href="https://www.svgbackgrounds.com/is-smil-dead-in-2022/">Is SMIL dead or alive?</a>
-    Really this is for the next article on SMIL animation tags. They make that point about the Chrome deprecation discussion ...</p>
+<p><a href="https://www.w3.org/TR/SVGTiny12/coords.html#TransformAttribute">W3C: <em>Coordinate Systems, Transformations and Units</em></a></p>
 </li>
 <li>
-<p><a href="https://www.w3.org/TR/SVGTiny12/coords.html#TransformAttribute">Coordinate Systems, Transformations and Units</a></p>
+<p><a href="https://www.w3.org/TR/SVGTiny12/coords.html#TransformMatrixDefined">W3C: <em>Transform Matrix Defined</em></a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform">mdn web docs: <em>transform</em> </a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform/matrix">mdn web docs: <code>SVGTransform</code><em>: matrix property</em></a></p>
+</li>
+<li>
+<p><a href="https://svgwg.org/svg2-draft/coords.html#TransformProperty"><em>SVG Coordinate Systems, Transformations and Units</em></a></p>
 </li>
 </ol>
     <footer>

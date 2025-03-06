@@ -18,6 +18,9 @@
        d="m 97,200 h 6 V 100 h -6 z"
        id="path2" />
 
+    <!-- Cylinder body -->
+    <rect x="90" y="98" width="20" height="5" fill="#ddd" stroke="#222" stroke-width="0.5" />
+  
     <g
        id="blades"
        style="stroke-width:0.5;"

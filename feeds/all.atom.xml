@@ -438,34 +438,85 @@ y_{newCoordSystem} \\
 $$&lt;/p&gt;
 &lt;p&gt;Given the general form, let's look at a concrete example.&lt;/p&gt;
 &lt;h2&gt;Example&lt;/h2&gt;
-&lt;div&gt;
+&lt;p&gt;Let's revisit our windmill. Since wind direction can change we might need to rotate our blades in order to efficiently generate power. So let's see how we'd apply a transformation matrix to achieve that end. &lt;/p&gt;
+&lt;div class='right_float'&gt;
     &lt;img 
         alt='INSERT ROTATION' 
         src='/svg/tx_matrix/wind_turbine_matrix.svg' 
     /&gt;
 &lt;/div&gt;
 
-&lt;p&gt;Let's revisit our windmill. Since wind direction can change we might need to rotate our blades in order to efficiently generate power. So let's see how we'd apply a transformation matrix to achieve that end. &lt;/p&gt;
-&lt;pre class="markup"&gt;
-&amp;lt;g  id="needle_scaled"
-  transform="&lt;span style="color:red" &gt;scale(2)&lt;/span&gt; translate(300, 200)"
-&gt;
-  ...
+&lt;p&gt;Once again, consider the SVG transformation matrix.&lt;/p&gt;
+&lt;p&gt;$$
+\begin{bmatrix} 
+a &amp;amp; c &amp;amp; e \\ 
+b &amp;amp; d &amp;amp; f \\
+0 &amp;amp; 0 &amp;amp; 1
+\end{bmatrix}
+$$&lt;/p&gt;
+&lt;p&gt;Notice that only the first two rows represent used values. The bottom row is an identity provided to enable matrix multiplication (think of it as multiplying any number by $1$ -- you get the same number; identity). Since this is the case we can reduce the matrix to a vector of six values: $[a, b, c, d, e, f]$ where: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$a$ = scale factor on the X-axis, &lt;/li&gt;
+&lt;li&gt;$b$ = skew on X,&lt;/li&gt;
+&lt;li&gt;$c$ = skew on Y,&lt;/li&gt;
+&lt;li&gt;$d$ = scale factor on the Y-axis, &lt;/li&gt;
+&lt;li&gt;$e$ = X-axis translation, and&lt;/li&gt;
+&lt;li&gt;$f$ = Y-axis translation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So for this example, I wanted to achieve the effect of rotating the blades about the mast of the wind turbine. To do so I had to:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Translate the blades along the X-axis, and &lt;/li&gt;
+&lt;li&gt;Scale them down on X (to get the right perspective).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Here's the svg fragment with the relevant &lt;code&gt;matrix&lt;/code&gt; function:&lt;/p&gt;
+&lt;pre&gt;
+&amp;lt;g id="windmill"&gt;
+    ...
+    &amp;lt;g id="blades"
+       ...
+       transform-origin="100 100"
+       transform="&lt;span style="color:red" &gt;matrix(0.6, 0, 0, 1, 10, 0)&lt;/span&gt;"
+    &gt;
+    ...
 &amp;lt;/g&gt;
+  ...
 &lt;/pre&gt;
 
-&lt;h3&gt;&lt;font color='RED'&gt;RESUME HERE GO THROUGH SKEW EXAMPLES USING THE TRANSFORMATION MATRIX &lt;/font&gt;&lt;/h3&gt;
-&lt;p&gt;https://www.w3.org/TR/SVGTiny12/coords.html#TransformMatrixDefined&lt;/p&gt;
+&lt;h2&gt;Really Nick! Why on Earth Would I &lt;em&gt;Ever&lt;/em&gt; want to Work with a transformation Matrix?!&lt;/h2&gt;
+&lt;p&gt;If you've made it this far into this post you probably fall into one of two camps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Like me, maybe you appreciate the beauty of mathematics and have enjoyed the discussion around the application of matrix operations to achieve SVG transforms. &lt;/p&gt;
+&lt;p&gt;Or...&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Maybe you don't appreciate the mathematics underlying SVG's linear transformations and through eyes glazed over are wondering why on earth you should ever have to worry about it.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Fair enough. Working with SVG you can achieve quite a bit with the &lt;em&gt;function&lt;/em&gt; syntax -- which may feel more "user friendly". Either way though, the view into the matrix operations applicable to SVG is good to have and keep in mind. And there are a number of reasons to consider the matrix approach in the creation of your artworks. Especially if you use animations and need to make your work interactive. &lt;/p&gt;
+&lt;p&gt;The SVG transformation matrix provides a powerful mechanism to for manipulating and animating SVG lines shapes and objects. The ability to apply matrices in SVG transforms offers numerous key advantages. Here's a short list.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Efficiency&lt;/strong&gt;. As we've seen, a single matrix can represent a combination of multiple transformations (e.g., translation, rotation, scale, and skew). This allows you to apply multiple transformations in a single step, which is more efficient than applying them sequentially.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Control&lt;/strong&gt;. Matrices provide precise control over the order in which transformations are applied. Beyond that, knowledge of matrix applications enables the creation of custom effects over and above the list we've covered here. &lt;em&gt;Perspective&lt;/em&gt; is an important example. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Optimization&lt;/strong&gt;. The matrix allows individual transformations to be mathematically combined into a single, equivalent transformation. Consolidation reduces the calculations to be performed by the rendering engine leading to significant performance benefits. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;DOM Manipulation&lt;/strong&gt;. Using matrix computations as the potential to reduce DOM manipulation which can have big impacts on performance. &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The bottom line is that using the transformation matrix to combine multiple transformations like translate, skew, and rotate can optimize your SVG by reducing processing overhead and leveraging GPU optimization. This is particularly beneficial for complex SVGs and animations where performance is a key factor.&lt;/p&gt;
 &lt;style&gt;
 #wind_farm {
-
-/*
-    display: inline-block;
+    border: inset 4px #585;
     width:  300px;
-    height: 300px;
-
-*/
-
+    height: 170px;
+    margin-left: auto;
+    margin-right: auto;
 }
 &lt;/style&gt;
 &lt;div id="wind_farm"&gt;
@@ -480,25 +531,25 @@ $$&lt;/p&gt;
 
 &lt;style&gt;
 #airstrip {
-
 /*
     display: inline-block;
     width:  300px;
     height: 300px;
 */
 margin-top: 200px;
-
 }
 &lt;/style&gt;
+
+&lt;!--
 &lt;div id="airstrip"&gt;
     &lt;svg id="svg_strip"
         xmlns="http://www.w3.org/2000/svg" 
         width="300"
         height="300" 
     &gt;
-        &lt;!--INSERT SVG CONTENT--&gt;
     &lt;/svg&gt;
 &lt;/div&gt;
+--&gt;
 
 &lt;script src="/svg/loadsvg.js"&gt;&lt;/script&gt;
 
@@ -513,7 +564,8 @@ async function doLoads () {
 
     await loadSvg( "/svg/tx_matrix/svg_viewport.svg", "svg_2" );
     await loadSvg( "/svg/tx_matrix/wind_farm_plain.svg", "svg_wf" );
-    await loadSvg( "/svg/tx_matrix/plane_plain.svg", "svg_strip" );
+
+    // await loadSvg( "/svg/tx_matrix/plane_plain.svg", "svg_strip" );
 
     let svg2 = document.getElementById( "svg_01_viewport" );
     let textElem = document.getElementById("mouse-coords"); 
@@ -542,36 +594,24 @@ async function doLoads () {
 doLoads();
 &lt;/script&gt;
 
-&lt;h1&gt;The Transformation Matrix&lt;/h1&gt;
-&lt;p&gt;https://chatgpt.com/c/67a0fefd-46d0-8010-ac39-e381a73f5d3c
-https://gemini.google.com/app/4574d2fa7452fb9c&lt;/p&gt;
-&lt;p&gt;In SVG, you can use the .getBBox(), .getCTM(), or .getScreenCTM() methods to get the coordinates of a shape relative to different reference points:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;getBBox(): Returns the bounding box of the shape in local coordinate space (before transformations). It does not account for transformations applied to the element.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;let bbox = shape.getBBox();
-console.log(bbox.x, bbox.y, bbox.width, bbox.height);&lt;/p&gt;
-&lt;p&gt;getCTM() (Current Transformation Matrix): Returns the transformation matrix of the shape relative to its nearest SVG viewport.&lt;/p&gt;
-&lt;p&gt;let ctm = shape.getCTM();
-console.log(ctm.e, ctm.f); // Transformed X, Y coordinates&lt;/p&gt;
-&lt;p&gt;getScreenCTM(): Returns the transformation matrix relative to the entire screen.&lt;/p&gt;
-&lt;p&gt;let screenCTM = shape.getScreenCTM();
-console.log(screenCTM.e, screenCTM.f); // Screen-space coordinates&lt;/p&gt;
-&lt;h1&gt;Discussion&lt;/h1&gt;
-&lt;p&gt;This post ended up a bit longer than I'd originally anticipated. 
-Why? because it's so interesting and powerfull to me...
-They say a picture is worth a thousand words.&lt;/p&gt;
 &lt;h1&gt;Conclusion&lt;/h1&gt;
-&lt;p&gt;But keeping these few points in mind will bring you a long way to understanding what the world of Scalable Vector Grapics opens up!&lt;/p&gt;
-&lt;h1&gt;Appendix: Nesting Coordinate Systems&lt;/h1&gt;
-&lt;p&gt;svg viewer&lt;/p&gt;
+&lt;p&gt;This post ended up a bit longer than I'd originally anticipated. Originally I'd intended to write focusing mainly on just the SVG transformation &lt;em&gt;matrix&lt;/em&gt;. But soon into it I realized I'd have to provide some context -- namely the discussion around coordinate systems. And as I wrote, I went down the garden path of exploring the various SVG built-in transformation functions and thinking about the implications for creating SVG artworks. Nonetheless, I'm happy to've gone down that path. In doing so I hope to have shared some of the rich and vibrant features SVG offers to creative types of all kinds. I feel we've covered a lot in this post -- but keeping the main points we've covered in mind; the way viewport and client coordinate systems work, the SVG functions central to transformations, and the power of the transformation matrix itself will bring you a long way toward understanding what the world of Scalable Vector Grapics opens up! &lt;/p&gt;
 &lt;h1&gt;Resources&lt;/h1&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;For NEXT TIME: &lt;a href="https://www.svgbackgrounds.com/is-smil-dead-in-2022/"&gt;Is SMIL dead or alive?&lt;/a&gt;
-    Really this is for the next article on SMIL animation tags. They make that point about the Chrome deprecation discussion ...&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.w3.org/TR/SVGTiny12/coords.html#TransformAttribute"&gt;W3C: &lt;em&gt;Coordinate Systems, Transformations and Units&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href="https://www.w3.org/TR/SVGTiny12/coords.html#TransformAttribute"&gt;Coordinate Systems, Transformations and Units&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.w3.org/TR/SVGTiny12/coords.html#TransformMatrixDefined"&gt;W3C: &lt;em&gt;Transform Matrix Defined&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform"&gt;mdn web docs: &lt;em&gt;transform&lt;/em&gt; &lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform/matrix"&gt;mdn web docs: &lt;code&gt;SVGTransform&lt;/code&gt;&lt;em&gt;: matrix property&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://svgwg.org/svg2-draft/coords.html#TransformProperty"&gt;&lt;em&gt;SVG Coordinate Systems, Transformations and Units&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;</content><category term="Draft"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="motion"></category><category term="cartoon"></category><category term="physics"></category><category term="HTML5"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Time-Based Animation in Javascript using RequestAnimationFrame</title><link href="https://dr-nick-nagel.github.io/blog/raf-time.html" rel="alternate"></link><published>2025-02-10T00:00:00-05:00</published><updated>2025-02-10T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-10:/blog/raf-time.html</id><summary type="html">&lt;p&gt;How to use javascript RAF for time-based animation...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;In this article I'll discuss key aspects of web-based animation with javascript. In particular, I'll be focusing on time-dependent animation with &lt;a href="TBD"&gt;RequestAnimationFrame&lt;/a&gt;. &lt;/p&gt;
