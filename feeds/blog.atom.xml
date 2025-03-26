@@ -254,9 +254,9 @@ And you should see a list of pages that the search engine has indexed from your 
 &lt;/ol&gt;
 &lt;h1&gt;Summary&lt;/h1&gt;
 &lt;p&gt;So, there you have it. As promised, this was not a comprehensive work on SEO for web development. Instead, it's a shortlist of tips and techniques to improve your web presence and Internet visibility. I suggested ways to verify your site is indexed, checking some aspects of your HTML to help with ranking and some technical files you ensure are present to help with indexing. Also, I recommended one or two bad practices to avoid. But at the end of the day what matters most is the value of the content you provide. It's really up to you to promote your work and provide top quality products and services to build your reputation. &lt;/p&gt;</content><category term="Blog"></category><category term="search engine optimization"></category><category term="web site"></category><category term="visibility"></category><category term="business"></category><category term="improve"></category><category term="optimize"></category><category term="search"></category><category term="indexing"></category><category term="web crawlers"></category><category term="search engines"></category><category term="SEO"></category></entry><entry><title>Conceptualizing Bayes's Theorem</title><link href="https://dr-nick-nagel.github.io/blog/baysean-statistics.html" rel="alternate"></link><published>2025-01-08T00:00:00-05:00</published><updated>2025-01-08T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-01-08:/blog/baysean-statistics.html</id><summary type="html">&lt;p&gt;If you have an interest in machine learning and you want to get into it at some point you'll want to deepen your understanding of Bayes's theorem.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;People who know me well enough at one time or another have probably heard me say: "I love math. Why? Because I believe math is truth! Well ... unless it's statistics ... ". Of course I'm being facetious here. I mean, I say that jokingly of course. In fact, quite the opposite, statistics is really about getting at truth through our inherent biases, misattributions, and misconceptions. &lt;/p&gt;
-&lt;p&gt;Back when I was in grad school I spent a lot of time studying and later teaching statistics -- mainly as applied to psychological research. But recently, as I've undergone a rekindled interest in concsiousness and Artificial Intelligence I've been revisiting statistical approaches and methodologies. And over the course of doing so I got to thinking about Bayes' Theorem. &lt;/p&gt;
-&lt;p&gt;Bayes' Theorem (and, more generally, Bayesian statistics) is a statistical approach that delves into the nature of &lt;em&gt;belief&lt;/em&gt; as much explicating mathematical principles for probabalistic inference. Consequently, over and above adding more tools to the belt for statistical analysis, conceptualizing Bayes Theorem has profound implications relating to our general understanding of probability. &lt;/p&gt;
+&lt;p&gt;People who know me well enough at one time or another have probably heard me say: "I love math. Why? Because I believe math is truth! Well ... unless it's statistics ... ". Of course I'm being facetious here -- I say that jokingly. In fact, quite the opposite, statistics is really about getting at truth through our inherent biases, misattributions, and misconceptions. &lt;/p&gt;
+&lt;p&gt;Back when I was in grad school I spent a lot of time studying -- and later teaching -- statistics (mainly as applied to psychological research). But recently, as I've undergone a rekindled interest in consciousness and Artificial Intelligence I've been revisiting statistical approaches and methodologies. And over the course of doing so I got to thinking about Bayes' Theorem. &lt;/p&gt;
+&lt;p&gt;Bayes' Theorem (and, more generally, Bayesian statistics) is a statistical approach that delves into the nature of &lt;em&gt;belief&lt;/em&gt; as much explicating mathematical principles for probabilistic inference. Consequently, over and above adding more tools to the belt for statistical analysis, conceptualizing Bayes' Theorem has profound implications relating to our &lt;em&gt;general understanding&lt;/em&gt; of probability. &lt;/p&gt;
 &lt;h1&gt;Bayes' Theorem&lt;/h1&gt;
 &lt;p&gt;Bayes theorem is all about &lt;em&gt;likelihood&lt;/em&gt;. Mathematically, it can be expressed in terms of probabilities. Given that it's all about belief I like to express Bayes' theorem terms of &lt;em&gt;events&lt;/em&gt; and &lt;em&gt;hypotheses&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;$$
@@ -265,10 +265,10 @@ $$&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Where:&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;P(Hyp | Event)&lt;/strong&gt; represents the probability of a hypothesis being true given that an event has occurred. This is the &lt;strong&gt;posterior probability&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;P(Hyp | Event)&lt;/strong&gt; represents the probability of a hypothesis being true &lt;em&gt;given&lt;/em&gt; that an event has occurred. This is the &lt;strong&gt;posterior probability&lt;/strong&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;P(Event | Hyp)&lt;/strong&gt; represents the probability of the event occurring given that the hypothesis is true (which may be referred to as the &lt;strong&gt;likelihood&lt;/strong&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;P(Event | Hyp)&lt;/strong&gt; represents the probability of the event occurring &lt;em&gt;given that the hypothesis is true&lt;/em&gt; (which may be referred to as the &lt;strong&gt;likelihood&lt;/strong&gt;).&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;P(Hyp)&lt;/strong&gt; represents the &lt;em&gt;prior&lt;/em&gt; probability of the hypothesis &lt;em&gt;irrespective of the event&lt;/em&gt;.&lt;/p&gt;
@@ -303,9 +303,9 @@ P ( Hyp | Event ) &amp;= \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event
 $$
 &lt;/div&gt;
 
-&lt;p&gt;So, Bayesean analysis enables us to add information to the determination of a probability, often greatly enhancing the estimate. In the weather example, adding observational information to the equation raised the probability of snow from the baseline (prior) probability significantly.&lt;/p&gt;
+&lt;p&gt;So, Bayesian analysis enables us to add information to the determination of a probability, often greatly enhancing the estimate. In the weather example, adding observational information to the equation raised the probability of snow from the baseline (prior) probability significantly.&lt;/p&gt;
 &lt;h3&gt;Medical Diagnostics&lt;/h3&gt;
-&lt;p&gt;Just for fun let's work through a slightly more complex example. Imagine a scenario where you want to determine the probabiliy of a patient presenting with a particular rare condition. The condition can be detected by a test which has 99% accuracy. In other words, if the condition is present the probability that the test is positive is 99% (there is a 1% chance of a &lt;em&gt;false negative&lt;/em&gt;). If the condition is &lt;em&gt;not&lt;/em&gt; present the test will be positive 1% of the time (a false &lt;em&gt;positive&lt;/em&gt;). &lt;/p&gt;
+&lt;p&gt;Just for fun let's work through a slightly more complex example. Imagine a scenario where you want to determine the probability of a patient presenting with a particular rare condition. The condition can be detected by a test which has 99% accuracy. In other words, if the condition is present the probability that the test is positive is 99% (there is a 1% chance of a &lt;em&gt;false negative&lt;/em&gt;). If the condition is &lt;em&gt;not&lt;/em&gt; present the test will be positive 1% of the time (a false &lt;em&gt;positive&lt;/em&gt;). &lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Let's say the condition occurs in 1% of the population ($P(Cond) = 0.01$) . &lt;/p&gt;
@@ -318,8 +318,8 @@ $$
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Let's say we have a case where a patient tests positive for the condition. The question is; what are the odds that the patient &lt;em&gt;actually has the condition&lt;/em&gt;. In Bayesean terms we ask; "What is the probability that the patient has the condition given the &lt;em&gt;evidence&lt;/em&gt; of a positive test result?" &lt;/p&gt;
-&lt;p&gt;At this point we have all the information we need to apply Bayes' Theorem, but not quite in the form given above. That is, we don't have a number for $P( Pos )$ (the probability of getting a positive test result &lt;em&gt;irrespective of the condition&lt;/em&gt;). But we can detemine that probability and expand the theorem to address our question. &lt;/p&gt;
+&lt;p&gt;Let's say we have a case where a patient tests positive for the condition. The question is; what is the probability that the patient &lt;em&gt;actually has the condition&lt;/em&gt;. In Bayesian terms we ask; "What is the probability that the patient has the condition given the &lt;em&gt;evidence&lt;/em&gt; of a positive test result?" &lt;/p&gt;
+&lt;p&gt;At this point we have all the information we need to apply Bayes' Theorem, but not quite in the form given above. That is, we don't have a number for $P( Pos )$ (the probability of getting a positive test result &lt;em&gt;irrespective of the condition&lt;/em&gt;). But we can determine that probability and expand the theorem to address our question. &lt;/p&gt;
 &lt;p&gt;We can obtain $P(Pos)$ by collapsing conditions across the entire population:&lt;/p&gt;
 &lt;p&gt;$$
 P( Pos ) = P( Pos | Cond ) \times P( Cond ) + P( Pos | \neg Cond ) \times P( \neg Cond ) 
@@ -339,7 +339,7 @@ $$
 &lt;/div&gt;
 
 &lt;p&gt;So, with this example, we see that it's not enough to just consider the test accuracy in gauging the probability of a correct diagnosis. Over and above that we need to consider the &lt;em&gt;frequency of the condition&lt;/em&gt; with respect to the &lt;em&gt;population writ large&lt;/em&gt;. &lt;/p&gt;
-&lt;p&gt;This example demonstrates a crucial point about Bayesian probability; the &lt;em&gt;prior&lt;/em&gt; probability (the prevalence of the condition in the population) greatly influences the &lt;em&gt;posterior&lt;/em&gt; probability (the probability of having the condition &lt;em&gt;given&lt;/em&gt; a positive test result). The failure to bring the prior probability to bear on the assessment (referred to as &lt;em&gt;base-rate neglect&lt;/em&gt;) is an example of a well-known fallacy in statistical reasoning -- a form of cognitive bias that can lead to errors in judgement that depend on estimating probabilities associated with uncertain events.&lt;/p&gt;
+&lt;p&gt;This example demonstrates a crucial point about Bayesian probability; the &lt;em&gt;prior&lt;/em&gt; probability (the prevalence of the condition in the population) greatly influences the &lt;em&gt;posterior&lt;/em&gt; probability (the probability of having the condition &lt;em&gt;given&lt;/em&gt; a positive test result). The failure to bring the prior probability to bear on the assessment (referred to as &lt;em&gt;base-rate neglect&lt;/em&gt;) is an example of a well-known fallacy in statistical reasoning -- a form of cognitive bias that can lead to errors in judgment that depend on estimating probabilities associated with uncertain events.&lt;/p&gt;
 &lt;h1&gt;Summary&lt;/h1&gt;
 &lt;p&gt;In summary, Bayes' theorem defines probability in terms of evidence for a hypothesis. Key concepts include:&lt;/p&gt;
 &lt;ul&gt;
@@ -349,10 +349,10 @@ $$
 &lt;/ul&gt;
 &lt;p&gt;In other words the Bayesian interpretation of probability is one where probability expresses &lt;em&gt;a degree of belief in an event&lt;/em&gt;. A level of certainty.&lt;/p&gt;
 &lt;h1&gt;Discussion: Understanding Statistics&lt;/h1&gt;
-&lt;p&gt;All this bares thinking about as much as for deepening our understanding of statistics as for computational applications. Bayesian analysis actually predates in large part the formalization of what some statistians might term "classical" hypothesis testing. Bayes theorem was originally formulated by Thomas Bayes in the 18th century. Back then many philosophers were concerned with the nature of &lt;em&gt;belief&lt;/em&gt; (and those concerns are as relevent today as ever)! Subsequent statistical approaches shifted toward methods around "proving" the "truth" of hypotheses through sampling from larger populations. Back when I was in grad school, Bayesian analysis was &lt;em&gt;re&lt;/em&gt;emerging as an analytic method often posed in constrast to formal hypthesis testing based on sampling distributions. &lt;/p&gt;
-&lt;p&gt;I feel in large part the confusion people often feel around statistics stems from the tendency to conflate &lt;em&gt;belief&lt;/em&gt; with &lt;em&gt;fact&lt;/em&gt;. To fully understand the concept of probability it's critical to understand that nothing is fully certain until after the fact. In other words, to me statistics is all about &lt;em&gt;belief&lt;/em&gt;. &lt;/p&gt;
-&lt;p&gt;To me, central to understanding probability is to embrace the concept that statistics is all about &lt;em&gt;belief&lt;/em&gt;. The heart of statistical analysis lies on the notion that nothing is ever 100% certain. Frequentists have historically been concerned with drawing conclusions about &lt;em&gt;populations&lt;/em&gt; based on evidence present in &lt;em&gt;samples&lt;/em&gt;. But conclusions based on aggregate data can't be applied to individuals. Going back to the diagnosis example it's tempting to say something like, "Oh, based on your symptoms you have a 95% chance of having the disease". The fact is you either have the disease or you don't. That's a constant. Probabalistic assessments rely on variability over populations. And you can't confuse statements based on aggregate sample statistics with individual assessments. "95% of the people in this group have the disease" does not mean the same thing as saying "You have a 95% chance of having the disease". The distinction is subtle but it's not just arguing semantics. There are very real consequences of statistical fallacies!&lt;/p&gt;
-&lt;p&gt;So in conclusion I'd have to say that going back and revisiting the Bayesian approach has been worth the effort. I feel I've gained some new insights into the nature of statistical reasoning and understanding probability. Bayesian inference is a key methodical approach to many machine learning applications. But key to them all is embracing uncertainty and understanding levels of certainty in any sort of classification problem!&lt;/p&gt;
+&lt;p&gt;All this bares thinking about as much as for deepening our understanding of statistics as for computational applications. Bayesian analysis actually predates in large part the formalization of what some statisticians might term "classical" hypothesis testing. Bayes theorem was originally formulated by Thomas Bayes in the 18th century. Back then many philosophers were concerned with the nature of &lt;em&gt;belief&lt;/em&gt; (and those concerns are as relevant today as ever)! Subsequent statistical approaches shifted toward methods around "proving" the "truth" of hypotheses through sampling from larger populations. Back when I was in grad school, Bayesian analysis was &lt;em&gt;re&lt;/em&gt;emerging as an analytic method often posed in contrast to formal hypothesis testing based on sampling distributions. &lt;/p&gt;
+&lt;p&gt;I feel in large part the confusion people often feel around statistics stems from the tendency to conflate &lt;em&gt;belief&lt;/em&gt; with &lt;em&gt;fact&lt;/em&gt;. To fully understand the concept of probability it's critical to understand that nothing is fully certain until after the fact. &lt;/p&gt;
+&lt;p&gt;In other words, to me statistics is all about &lt;em&gt;belief&lt;/em&gt;. At the heart of statistical analysis lies the notion that nothing is ever 100% certain. Frequentists have historically been concerned with drawing conclusions about &lt;em&gt;populations&lt;/em&gt; based on evidence present in &lt;em&gt;samples&lt;/em&gt;. But conclusions based on aggregate data can't be applied to individuals. Going back to the diagnosis example it's tempting to say something like, "Oh, based on your symptoms you have a 95% chance of having the disease". The fact is you either have the disease or you don't. That's a constant. Probabilistic assessments rely on variability over populations. And you can't confuse statements based on aggregate sample statistics with individual assessments. "95% of the people in this group have the disease" does not mean the same thing as saying "You have a 95% chance of having the disease". The distinction is subtle but it's not just arguing semantics. There are very real consequences of statistical fallacies!&lt;/p&gt;
+&lt;p&gt;So in conclusion I'd have to say that going back and revisiting the Bayesian approach has been worth the effort. I feel I've gained some new insights into the nature of statistical reasoning and understanding probability. Bayesian inference is a key methodical approach to many machine learning applications. But key to them all is embracing uncertainty and understanding &lt;em&gt;levels of certainty&lt;/em&gt; in any sort of classification problem!&lt;/p&gt;
 &lt;h1&gt;Resources&lt;/h1&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -2222,7 +2222,34 @@ And while I completely acknowledge the need to get ahead of the eight-ball with 
 &lt;li&gt;&lt;a href="https://docs.getpelican.com/en/latest/settings.html"&gt;Settings&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Process&lt;/p&gt;
-&lt;p&gt;RESUME HERE...&lt;/p&gt;</content><category term="Blog"></category><category term="pelican"></category><category term="themes"></category><category term="setup"></category></entry><entry><title>Using LaTeX with Pelican</title><link href="https://dr-nick-nagel.github.io/blog/latex-pelican.html" rel="alternate"></link><published>2024-07-25T00:00:00-04:00</published><updated>2024-07-25T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-07-25:/blog/latex-pelican.html</id><summary type="html">&lt;p&gt;If you have an interest in maching learning and want to write about it, odd are at some point you'll want to add in some math. So how do you do that with Pelican?&lt;/p&gt;</summary><content type="html">&lt;p&gt;This is a test for LaTeX rendering.&lt;/p&gt;
+&lt;p&gt;RESUME HERE...&lt;/p&gt;</content><category term="Blog"></category><category term="pelican"></category><category term="themes"></category><category term="setup"></category></entry><entry><title>Using LaTeX with Pelican</title><link href="https://dr-nick-nagel.github.io/blog/latex-pelican.html" rel="alternate"></link><published>2024-07-25T00:00:00-04:00</published><updated>2024-07-25T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-07-25:/blog/latex-pelican.html</id><summary type="html">&lt;p&gt;If you have an interest in maching learning and want to write about it, odds are at some point you'll want to add in some math. So how do you do that with Pelican?&lt;/p&gt;</summary><content type="html">&lt;p&gt;As a passionate blogger of many years I've increasingly had a desire to formalize ideas I'm working on using mathematics. After all, as I always say, "Math is truth". That said, it's hard to express mathematical notation in digital media. Or rather I should say it's hard if you can't use LaTeX : ) .&lt;/p&gt;
+&lt;p&gt;So when I recently upgraded my blogging system (now using pelican) one of the first things I had to figure out was how to support LaTeX. A little research turned up (as always) not just one but &lt;em&gt;multiple&lt;/em&gt; approaches ranging from modding templates to using a number of plugins. After thinking about the alternatives, it turns out that the simplest, downest, dirtiest approach (for me) was to add a simple script to my theme. The approach is quick, easy, least touch and robust. &lt;/p&gt;
+&lt;h1&gt;Method&lt;/h1&gt;
+&lt;p&gt;The method uses &lt;em&gt;MathJax&lt;/em&gt;. MathJax is a javascript display engine for mathematics that just plain works in all browsers. To use it simply:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;include the following script in you HTML &lt;em&gt;header&lt;/em&gt; element for your page template:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;
+&amp;lt;script type="text/javascript" 
+           async
+           src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"&gt;&amp;lt/script&gt;
+&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Add the following script in the same area:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;
+&amp;lt;script&gt;
+MathJax = {
+    tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+};
+&amp;lt;/script&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;And bang! you're done. Easy peasy.&lt;/p&gt;
+&lt;p&gt;Following I have a few tests that show how easy it is to use LaTeX with these changes...&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Same line rendering: $\color{red}{f(x) = x^2}$ . The math should render in-lined.&lt;/p&gt;
@@ -2231,7 +2258,7 @@ And while I completely acknowledge the need to get ahead of the eight-ball with 
 &lt;p&gt;Same line rendering: $f(x) = x^2$ . The math should render in-lined.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;TEST: if I had $1,000,000.00, I would buy you a house...&lt;/p&gt;
+&lt;p&gt;TEST: if I had $1,000,000.00, I would buy you a house... (you should see the dollar character '\$')&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Block Rendering. Remember the activation function?&lt;/p&gt;
@@ -2262,7 +2289,12 @@ P ( Hyp | Event ) &amp;= \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event
 \end{align}
 $$
 &amp;lt;/div&gt;
-&lt;/pre&gt;</content><category term="Blog"></category><category term="math"></category><category term="LaTeX"></category><category term="equations"></category></entry><entry><title>Wah Lum Tam Tui Kung Fu</title><link href="https://dr-nick-nagel.github.io/blog/kung_fu.html" rel="alternate"></link><published>2010-12-20T00:00:00-05:00</published><updated>2010-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2010-12-20:/blog/kung_fu.html</id><summary type="html">&lt;p&gt;Kung fu motion capture.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Kung Fu Moves&lt;/h1&gt;
+&lt;/pre&gt;
+
+&lt;h1&gt;Resources&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://www.mathjax.org/"&gt;MathJax&lt;/a&gt; .&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Blog"></category><category term="math"></category><category term="LaTeX"></category><category term="equations"></category></entry><entry><title>Wah Lum Tam Tui Kung Fu</title><link href="https://dr-nick-nagel.github.io/blog/kung_fu.html" rel="alternate"></link><published>2010-12-20T00:00:00-05:00</published><updated>2010-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2010-12-20:/blog/kung_fu.html</id><summary type="html">&lt;p&gt;Kung fu motion capture.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Kung Fu Moves&lt;/h1&gt;
 &lt;p&gt;Back when I was visiting Aizuwakamatsu Japan (会津若松市) I had the good fortune to be invited to participate in a motion capture session with &lt;a href="https://www.nowhere.co.jp/en"&gt;Eyes Japan&lt;/a&gt;. Don't get me wrong -- my kung fu is not something to brag about. But what I loved about the session was the &lt;em&gt;concept&lt;/em&gt; of capturing kung fu moves in general-- for posterity. That is, by it's very nature, kung fu is not something that can be easily recorded in a book. There's no standard, easy way to transcribe the movements. When one makes a study of kung fu it has to be passed down through direct observation. In that sense it's kind of like an oral tradition -- you have to hear and learn the stories to hand them forward from one generation to the next. &lt;/p&gt;
 &lt;p&gt;What I liked about the mo' cap was that I had a sense that the kung fu moves could be recorded for posterity. The tradition I study is &lt;a href="https://www.wahlum.com/history/"&gt;Wah Lum Tam Tui&lt;/a&gt; (northern mantis style) kung fu. Kung Fu itself has a long history going back a thousand years. I've been studying it myself for more years than I care to count. I engage in kung fu for the physical exercise, but also for  mental and spiritual discipline. Kung fu exercises not just body but also mind. &lt;/p&gt;
 &lt;p&gt;The motion capture effort was quite valuable to me inasmuch as that it serves as a sort of record -- a visual log or diary -- of a long standing and beautiful cultural tradition. &lt;/p&gt;

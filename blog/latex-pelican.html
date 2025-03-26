@@ -72,7 +72,34 @@ Welcome to NickNagel.com
            title="Permalink to Using LaTeX with Pelican">Using LaTeX with Pelican</a></h2>
       
     </header>
-    <p>This is a test for LaTeX rendering.</p>
+    <p>As a passionate blogger of many years I've increasingly had a desire to formalize ideas I'm working on using mathematics. After all, as I always say, "Math is truth". That said, it's hard to express mathematical notation in digital media. Or rather I should say it's hard if you can't use LaTeX : ) .</p>
+<p>So when I recently upgraded my blogging system (now using pelican) one of the first things I had to figure out was how to support LaTeX. A little research turned up (as always) not just one but <em>multiple</em> approaches ranging from modding templates to using a number of plugins. After thinking about the alternatives, it turns out that the simplest, downest, dirtiest approach (for me) was to add a simple script to my theme. The approach is quick, easy, least touch and robust. </p>
+<h1>Method</h1>
+<p>The method uses <em>MathJax</em>. MathJax is a javascript display engine for mathematics that just plain works in all browsers. To use it simply:</p>
+<ol>
+<li>include the following script in you HTML <em>header</em> element for your page template:</li>
+</ol>
+<pre>
+&lt;script type="text/javascript" 
+           async
+           src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt/script>
+</pre>
+
+<ol>
+<li>Add the following script in the same area:</li>
+</ol>
+<pre>
+&lt;script>
+MathJax = {
+    tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+};
+&lt;/script>
+</pre>
+
+<p>And bang! you're done. Easy peasy.</p>
+<p>Following I have a few tests that show how easy it is to use LaTeX with these changes...</p>
 <ol>
 <li>
 <p>Same line rendering: $\color{red}{f(x) = x^2}$ . The math should render in-lined.</p>
@@ -81,7 +108,7 @@ Welcome to NickNagel.com
 <p>Same line rendering: $f(x) = x^2$ . The math should render in-lined.</p>
 </li>
 <li>
-<p>TEST: if I had $1,000,000.00, I would buy you a house...</p>
+<p>TEST: if I had $1,000,000.00, I would buy you a house... (you should see the dollar character '\$')</p>
 </li>
 <li>
 <p>Block Rendering. Remember the activation function?</p>
@@ -113,6 +140,11 @@ P ( Hyp | Event ) &= \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) }
 $$
 &lt;/div>
 </pre>
+
+<h1>Resources</h1>
+<ol>
+<li><a href="https://www.mathjax.org/">MathJax</a> .</li>
+</ol>
     <footer>
       <p>Published: <time datetime="2024-07-25T00:00:00-04:00">
         Thu 25 July 2024

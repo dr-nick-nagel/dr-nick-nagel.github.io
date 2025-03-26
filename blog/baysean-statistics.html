@@ -76,9 +76,9 @@ Welcome to NickNagel.com
       
     </header>
     <h1>Introduction</h1>
-<p>People who know me well enough at one time or another have probably heard me say: "I love math. Why? Because I believe math is truth! Well ... unless it's statistics ... ". Of course I'm being facetious here. I mean, I say that jokingly of course. In fact, quite the opposite, statistics is really about getting at truth through our inherent biases, misattributions, and misconceptions. </p>
-<p>Back when I was in grad school I spent a lot of time studying and later teaching statistics -- mainly as applied to psychological research. But recently, as I've undergone a rekindled interest in concsiousness and Artificial Intelligence I've been revisiting statistical approaches and methodologies. And over the course of doing so I got to thinking about Bayes' Theorem. </p>
-<p>Bayes' Theorem (and, more generally, Bayesian statistics) is a statistical approach that delves into the nature of <em>belief</em> as much explicating mathematical principles for probabalistic inference. Consequently, over and above adding more tools to the belt for statistical analysis, conceptualizing Bayes Theorem has profound implications relating to our general understanding of probability. </p>
+<p>People who know me well enough at one time or another have probably heard me say: "I love math. Why? Because I believe math is truth! Well ... unless it's statistics ... ". Of course I'm being facetious here -- I say that jokingly. In fact, quite the opposite, statistics is really about getting at truth through our inherent biases, misattributions, and misconceptions. </p>
+<p>Back when I was in grad school I spent a lot of time studying -- and later teaching -- statistics (mainly as applied to psychological research). But recently, as I've undergone a rekindled interest in consciousness and Artificial Intelligence I've been revisiting statistical approaches and methodologies. And over the course of doing so I got to thinking about Bayes' Theorem. </p>
+<p>Bayes' Theorem (and, more generally, Bayesian statistics) is a statistical approach that delves into the nature of <em>belief</em> as much explicating mathematical principles for probabilistic inference. Consequently, over and above adding more tools to the belt for statistical analysis, conceptualizing Bayes' Theorem has profound implications relating to our <em>general understanding</em> of probability. </p>
 <h1>Bayes' Theorem</h1>
 <p>Bayes theorem is all about <em>likelihood</em>. Mathematically, it can be expressed in terms of probabilities. Given that it's all about belief I like to express Bayes' theorem terms of <em>events</em> and <em>hypotheses</em>.</p>
 <p>$$
@@ -87,10 +87,10 @@ $$</p>
 <p><strong>Where:</strong></p>
 <ul>
 <li>
-<p><strong>P(Hyp | Event)</strong> represents the probability of a hypothesis being true given that an event has occurred. This is the <strong>posterior probability</strong>.</p>
+<p><strong>P(Hyp | Event)</strong> represents the probability of a hypothesis being true <em>given</em> that an event has occurred. This is the <strong>posterior probability</strong>.</p>
 </li>
 <li>
-<p><strong>P(Event | Hyp)</strong> represents the probability of the event occurring given that the hypothesis is true (which may be referred to as the <strong>likelihood</strong>).</p>
+<p><strong>P(Event | Hyp)</strong> represents the probability of the event occurring <em>given that the hypothesis is true</em> (which may be referred to as the <strong>likelihood</strong>).</p>
 </li>
 <li>
 <p><strong>P(Hyp)</strong> represents the <em>prior</em> probability of the hypothesis <em>irrespective of the event</em>.</p>
@@ -125,9 +125,9 @@ P ( Hyp | Event ) &= \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) }
 $$
 </div>
 
-<p>So, Bayesean analysis enables us to add information to the determination of a probability, often greatly enhancing the estimate. In the weather example, adding observational information to the equation raised the probability of snow from the baseline (prior) probability significantly.</p>
+<p>So, Bayesian analysis enables us to add information to the determination of a probability, often greatly enhancing the estimate. In the weather example, adding observational information to the equation raised the probability of snow from the baseline (prior) probability significantly.</p>
 <h3>Medical Diagnostics</h3>
-<p>Just for fun let's work through a slightly more complex example. Imagine a scenario where you want to determine the probabiliy of a patient presenting with a particular rare condition. The condition can be detected by a test which has 99% accuracy. In other words, if the condition is present the probability that the test is positive is 99% (there is a 1% chance of a <em>false negative</em>). If the condition is <em>not</em> present the test will be positive 1% of the time (a false <em>positive</em>). </p>
+<p>Just for fun let's work through a slightly more complex example. Imagine a scenario where you want to determine the probability of a patient presenting with a particular rare condition. The condition can be detected by a test which has 99% accuracy. In other words, if the condition is present the probability that the test is positive is 99% (there is a 1% chance of a <em>false negative</em>). If the condition is <em>not</em> present the test will be positive 1% of the time (a false <em>positive</em>). </p>
 <ul>
 <li>
 <p>Let's say the condition occurs in 1% of the population ($P(Cond) = 0.01$) . </p>
@@ -140,8 +140,8 @@ $$
 </ul>
 </li>
 </ul>
-<p>Let's say we have a case where a patient tests positive for the condition. The question is; what are the odds that the patient <em>actually has the condition</em>. In Bayesean terms we ask; "What is the probability that the patient has the condition given the <em>evidence</em> of a positive test result?" </p>
-<p>At this point we have all the information we need to apply Bayes' Theorem, but not quite in the form given above. That is, we don't have a number for $P( Pos )$ (the probability of getting a positive test result <em>irrespective of the condition</em>). But we can detemine that probability and expand the theorem to address our question. </p>
+<p>Let's say we have a case where a patient tests positive for the condition. The question is; what is the probability that the patient <em>actually has the condition</em>. In Bayesian terms we ask; "What is the probability that the patient has the condition given the <em>evidence</em> of a positive test result?" </p>
+<p>At this point we have all the information we need to apply Bayes' Theorem, but not quite in the form given above. That is, we don't have a number for $P( Pos )$ (the probability of getting a positive test result <em>irrespective of the condition</em>). But we can determine that probability and expand the theorem to address our question. </p>
 <p>We can obtain $P(Pos)$ by collapsing conditions across the entire population:</p>
 <p>$$
 P( Pos ) = P( Pos | Cond ) \times P( Cond ) + P( Pos | \neg Cond ) \times P( \neg Cond ) 
@@ -161,7 +161,7 @@ $$
 </div>
 
 <p>So, with this example, we see that it's not enough to just consider the test accuracy in gauging the probability of a correct diagnosis. Over and above that we need to consider the <em>frequency of the condition</em> with respect to the <em>population writ large</em>. </p>
-<p>This example demonstrates a crucial point about Bayesian probability; the <em>prior</em> probability (the prevalence of the condition in the population) greatly influences the <em>posterior</em> probability (the probability of having the condition <em>given</em> a positive test result). The failure to bring the prior probability to bear on the assessment (referred to as <em>base-rate neglect</em>) is an example of a well-known fallacy in statistical reasoning -- a form of cognitive bias that can lead to errors in judgement that depend on estimating probabilities associated with uncertain events.</p>
+<p>This example demonstrates a crucial point about Bayesian probability; the <em>prior</em> probability (the prevalence of the condition in the population) greatly influences the <em>posterior</em> probability (the probability of having the condition <em>given</em> a positive test result). The failure to bring the prior probability to bear on the assessment (referred to as <em>base-rate neglect</em>) is an example of a well-known fallacy in statistical reasoning -- a form of cognitive bias that can lead to errors in judgment that depend on estimating probabilities associated with uncertain events.</p>
 <h1>Summary</h1>
 <p>In summary, Bayes' theorem defines probability in terms of evidence for a hypothesis. Key concepts include:</p>
 <ul>
@@ -171,10 +171,10 @@ $$
 </ul>
 <p>In other words the Bayesian interpretation of probability is one where probability expresses <em>a degree of belief in an event</em>. A level of certainty.</p>
 <h1>Discussion: Understanding Statistics</h1>
-<p>All this bares thinking about as much as for deepening our understanding of statistics as for computational applications. Bayesian analysis actually predates in large part the formalization of what some statistians might term "classical" hypothesis testing. Bayes theorem was originally formulated by Thomas Bayes in the 18th century. Back then many philosophers were concerned with the nature of <em>belief</em> (and those concerns are as relevent today as ever)! Subsequent statistical approaches shifted toward methods around "proving" the "truth" of hypotheses through sampling from larger populations. Back when I was in grad school, Bayesian analysis was <em>re</em>emerging as an analytic method often posed in constrast to formal hypthesis testing based on sampling distributions. </p>
-<p>I feel in large part the confusion people often feel around statistics stems from the tendency to conflate <em>belief</em> with <em>fact</em>. To fully understand the concept of probability it's critical to understand that nothing is fully certain until after the fact. In other words, to me statistics is all about <em>belief</em>. </p>
-<p>To me, central to understanding probability is to embrace the concept that statistics is all about <em>belief</em>. The heart of statistical analysis lies on the notion that nothing is ever 100% certain. Frequentists have historically been concerned with drawing conclusions about <em>populations</em> based on evidence present in <em>samples</em>. But conclusions based on aggregate data can't be applied to individuals. Going back to the diagnosis example it's tempting to say something like, "Oh, based on your symptoms you have a 95% chance of having the disease". The fact is you either have the disease or you don't. That's a constant. Probabalistic assessments rely on variability over populations. And you can't confuse statements based on aggregate sample statistics with individual assessments. "95% of the people in this group have the disease" does not mean the same thing as saying "You have a 95% chance of having the disease". The distinction is subtle but it's not just arguing semantics. There are very real consequences of statistical fallacies!</p>
-<p>So in conclusion I'd have to say that going back and revisiting the Bayesian approach has been worth the effort. I feel I've gained some new insights into the nature of statistical reasoning and understanding probability. Bayesian inference is a key methodical approach to many machine learning applications. But key to them all is embracing uncertainty and understanding levels of certainty in any sort of classification problem!</p>
+<p>All this bares thinking about as much as for deepening our understanding of statistics as for computational applications. Bayesian analysis actually predates in large part the formalization of what some statisticians might term "classical" hypothesis testing. Bayes theorem was originally formulated by Thomas Bayes in the 18th century. Back then many philosophers were concerned with the nature of <em>belief</em> (and those concerns are as relevant today as ever)! Subsequent statistical approaches shifted toward methods around "proving" the "truth" of hypotheses through sampling from larger populations. Back when I was in grad school, Bayesian analysis was <em>re</em>emerging as an analytic method often posed in contrast to formal hypothesis testing based on sampling distributions. </p>
+<p>I feel in large part the confusion people often feel around statistics stems from the tendency to conflate <em>belief</em> with <em>fact</em>. To fully understand the concept of probability it's critical to understand that nothing is fully certain until after the fact. </p>
+<p>In other words, to me statistics is all about <em>belief</em>. At the heart of statistical analysis lies the notion that nothing is ever 100% certain. Frequentists have historically been concerned with drawing conclusions about <em>populations</em> based on evidence present in <em>samples</em>. But conclusions based on aggregate data can't be applied to individuals. Going back to the diagnosis example it's tempting to say something like, "Oh, based on your symptoms you have a 95% chance of having the disease". The fact is you either have the disease or you don't. That's a constant. Probabilistic assessments rely on variability over populations. And you can't confuse statements based on aggregate sample statistics with individual assessments. "95% of the people in this group have the disease" does not mean the same thing as saying "You have a 95% chance of having the disease". The distinction is subtle but it's not just arguing semantics. There are very real consequences of statistical fallacies!</p>
+<p>So in conclusion I'd have to say that going back and revisiting the Bayesian approach has been worth the effort. I feel I've gained some new insights into the nature of statistical reasoning and understanding probability. Bayesian inference is a key methodical approach to many machine learning applications. But key to them all is embracing uncertainty and understanding <em>levels of certainty</em> in any sort of classification problem!</p>
 <h1>Resources</h1>
 <ol>
 <li>
