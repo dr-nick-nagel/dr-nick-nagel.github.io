@@ -2577,7 +2577,33 @@ animation target over that duration.&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;p id="en_3"&gt; As of this writing the latest version of Firefox (3.6) supports only a subset of SVG features. So while you may see the SVG graphic, you may not see the animated fade effect if you are using Firefox. You can see the full effect using Google Chrome. I.E. and Safari are another story...&lt;a href="#note_3"&gt;&amp;uarr;&lt;/a&gt;&lt;/p&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;</content><category term="blog"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="alice"></category><category term="wonderland"></category><category term="cartoon"></category><category term="chesire cat"></category><category term="smil"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Paddling Cape to Cape: On Crossing Massachusetts Bay by Sea Kayak</title><link href="https://dr-nick-nagel.github.io/blog/cape2cape.html" rel="alternate"></link><published>2007-10-08T00:00:00-04:00</published><updated>2007-10-08T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2007-10-08:/blog/cape2cape.html</id><summary type="html">&lt;p&gt;Adventures in paddling: crossing Massachusetts Bay by sea kayak&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="alice"></category><category term="wonderland"></category><category term="cartoon"></category><category term="chesire cat"></category><category term="smil"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>このガイジンの冒険は Bandai -san</title><link href="https://dr-nick-nagel.github.io/blog/bandai.html" rel="alternate"></link><published>2009-10-29T00:00:00-04:00</published><updated>2009-10-29T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2009-10-29:/blog/bandai.html</id><summary type="html">&lt;p&gt;Adventures in paragliding: Jumping off of Bandai san!&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Paragliding in Bandai&lt;/h1&gt;
+&lt;p&gt;This Gaijin will always remember visiting Japan. Definitely a major highlight of my existance. While there I had the good fortune to be invited to try my hand at paragliding (I'd never done it before). &lt;/p&gt;
+&lt;div style="width:400px"&gt;
+
+&lt;object width="400" 
+        height="300" &gt;
+  &lt;param name="src" value="/video/My_Turn.MP4" /&gt;
+  &lt;param name="autoplay" value="true" /&gt;
+  &lt;embed src="/video/My_Turn.MP4" 
+         width="400" 
+         height="300" 
+         autoplay="true"&gt;&lt;/embed&gt;
+&lt;/object&gt;
+
+&lt;p style='text-align:center'&gt;Yup that's me up there. Gliding off of Bandai San in Inawashiro, Japan. What fun!&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;The place was Bandai -san -- A mountain near Azuwakamatsu. I was visiting the University of Aizu to collaborate on work related to the &lt;em&gt;Immersive Education Initiative&lt;/em&gt;. &lt;/p&gt;
+&lt;p&gt;Bandai -san is a beautiful volcanic peak located in Bandai-town, and Kitashiobara village, in Yama-Gun, Fukushima prefecture.&lt;/p&gt;
+&lt;div style="border: inset 4px grey; width: 400px"&gt;
+
+    &lt;iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d214527.83975608827!2d139.88054177215298!3d37.534688032225525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f8aa565471aad81%3A0xb6ecffcff8edabe5!2sMount%20Bandai!5e0!3m2!1sen!2sus!4v1743024265697!5m2!1sen!2sus" width="400" height="380" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"&gt;&lt;/iframe&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;Visiting the onsen there and biking around the region were definitely highlights of my visit. My thanks to Michael Cohen and Jun Yamadera for providing me the opportunity to jump off the mountain!&lt;/p&gt;</content><category term="Blog"></category><category term="paragliding"></category><category term="adventure"></category><category term="travel"></category><category term="bandai"></category><category term="mountain"></category><category term="aizuwakamatsu"></category><category term="japan"></category><category term="inawashiro"></category></entry><entry><title>Paddling Cape to Cape: On Crossing Massachusetts Bay by Sea Kayak</title><link href="https://dr-nick-nagel.github.io/blog/cape2cape.html" rel="alternate"></link><published>2007-10-08T00:00:00-04:00</published><updated>2007-10-08T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2007-10-08:/blog/cape2cape.html</id><summary type="html">&lt;p&gt;Adventures in paddling: crossing Massachusetts Bay by sea kayak&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 
 body::-webkit-scrollbar {
     display:none;
