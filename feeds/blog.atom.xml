@@ -253,7 +253,121 @@ And you should see a list of pages that the search engine has indexed from your 
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h1&gt;Summary&lt;/h1&gt;
-&lt;p&gt;So, there you have it. As promised, this was not a comprehensive work on SEO for web development. Instead, it's a shortlist of tips and techniques to improve your web presence and Internet visibility. I suggested ways to verify your site is indexed, checking some aspects of your HTML to help with ranking and some technical files you ensure are present to help with indexing. Also, I recommended one or two bad practices to avoid. But at the end of the day what matters most is the value of the content you provide. It's really up to you to promote your work and provide top quality products and services to build your reputation. &lt;/p&gt;</content><category term="Blog"></category><category term="search engine optimization"></category><category term="web site"></category><category term="visibility"></category><category term="business"></category><category term="improve"></category><category term="optimize"></category><category term="search"></category><category term="indexing"></category><category term="web crawlers"></category><category term="search engines"></category><category term="SEO"></category></entry><entry><title>Implementing WebRTC Applications in Python Part I: Session Description Protocol</title><link href="https://dr-nick-nagel.github.io/blog/python_web_rtc_1.html" rel="alternate"></link><published>2024-12-20T00:00:00-05:00</published><updated>2024-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-12-20:/blog/python_web_rtc_1.html</id><summary type="html">&lt;p&gt;First is a series of blog posts exploring WebRTC application development in python.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Objective&lt;/h1&gt;
+&lt;p&gt;So, there you have it. As promised, this was not a comprehensive work on SEO for web development. Instead, it's a shortlist of tips and techniques to improve your web presence and Internet visibility. I suggested ways to verify your site is indexed, checking some aspects of your HTML to help with ranking and some technical files you ensure are present to help with indexing. Also, I recommended one or two bad practices to avoid. But at the end of the day what matters most is the value of the content you provide. It's really up to you to promote your work and provide top quality products and services to build your reputation. &lt;/p&gt;</content><category term="Blog"></category><category term="search engine optimization"></category><category term="web site"></category><category term="visibility"></category><category term="business"></category><category term="improve"></category><category term="optimize"></category><category term="search"></category><category term="indexing"></category><category term="web crawlers"></category><category term="search engines"></category><category term="SEO"></category></entry><entry><title>Conceptualizing Bayes's Theorem</title><link href="https://dr-nick-nagel.github.io/blog/baysean-statistics.html" rel="alternate"></link><published>2025-01-08T00:00:00-05:00</published><updated>2025-01-08T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-01-08:/blog/baysean-statistics.html</id><summary type="html">&lt;p&gt;If you have an interest in machine learning and you want to get into it at some point you'll want to deepen your understanding of Bayes's theorem.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;People who know me well enough at one time or another have probably heard me say: "I love math. Why? Because I believe math is truth! Well ... unless it's statistics ... ". Of course I'm being facetious here. I mean, I say that jokingly of course. In fact, quite the opposite, statistics is really about getting at truth through our inherent biases, misattributions, and misconceptions. &lt;/p&gt;
+&lt;p&gt;Back when I was in grad school I spent a lot of time studying and later teaching statistics -- mainly as applied to psychological research. But recently, as I've undergone a rekindled interest in concsiousness and Artificial Intelligence I've been revisiting statistical approaches and methodologies. And over the course of doing so I got to thinking about Bayes' Theorem. &lt;/p&gt;
+&lt;p&gt;Bayes' Theorem (and, more generally, Bayesian statistics) is a statistical approach that delves into the nature of &lt;em&gt;belief&lt;/em&gt; as much explicating mathematical principles for probabalistic inference. Consequently, over and above adding more tools to the belt for statistical analysis, conceptualizing Bayes Theorem has profound implications relating to our general understanding of probability. &lt;/p&gt;
+&lt;h1&gt;Bayes' Theorem&lt;/h1&gt;
+&lt;p&gt;Bayes theorem is all about &lt;em&gt;likelihood&lt;/em&gt;. Mathematically, it can be expressed in terms of probabilities. Given that it's all about belief I like to express Bayes' theorem terms of &lt;em&gt;events&lt;/em&gt; and &lt;em&gt;hypotheses&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;$$
+P ( Hyp | Event ) = \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) }
+$$&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Where:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;P(Hyp | Event)&lt;/strong&gt; represents the probability of a hypothesis being true given that an event has occurred. This is the &lt;strong&gt;posterior probability&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;P(Event | Hyp)&lt;/strong&gt; represents the probability of the event occurring given that the hypothesis is true (which may be referred to as the &lt;strong&gt;likelihood&lt;/strong&gt;).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;P(Hyp)&lt;/strong&gt; represents the &lt;em&gt;prior&lt;/em&gt; probability of the hypothesis &lt;em&gt;irrespective of the event&lt;/em&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;P(Event)&lt;/strong&gt; represents the probability of the event irrespective of the hypothesis. It may be considered as the &lt;em&gt;marginal&lt;/em&gt; likelihood of the event. &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Examples&lt;/h2&gt;
+&lt;h3&gt;Forecasting the Weather&lt;/h3&gt;
+&lt;p&gt;With anything math I always like examples. Being a New Englander and an avid outdoorsperson (also given that my father was a meteorologist) I often worry about the weather. Since, as I write this, it's January and quite cloudy outside my window, let's consider, in Bayesian terms, whether I should be concerned about snow. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Let's assume the probability that it will snow in my location on the given day in January ( $P(Hyp)$ ) to be 25% (based on historical data). &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The probability that it will snow is the &lt;em&gt;prior&lt;/em&gt; probability. But I've also observed an event that should impact the prior: It's cloudy. The probability of an overcast day occurring on a January day in New England is $P(E) = 50\%$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;But in Bayesean terms that's not the whole story. Whether I should be concerned with snow given that it's cloudy is &lt;em&gt;also&lt;/em&gt; impacted by the likelihood it will be overcast if it's snowing. Given snow, it may be cloudy 99% of the time but on rare occaisions I've seen snow when it's not completely overcast. So let $P( Event | Hyp  ) = 99\%$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now let's do the math. &lt;em&gt;Calculate the probability of snow in Boston on January 9th&lt;/em&gt; (the hypothesis) &lt;em&gt;given that it's overcast in the morning&lt;/em&gt; (the event)...&lt;/p&gt;
+&lt;div class='latex_align'&gt;
+&lt;!--NOTE: Pelican causes &amp;amp; substitution so need to wrap in div to preempt...--&gt;
+$$
+\begin{align}
+P ( Hyp | Event ) &amp;= \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) } \\
+                  &amp;= \frac {0.99 \times 0.25 } { 0.50 } \\
+                  &amp;= 0.495
+\end{align}
+$$
+&lt;/div&gt;
+
+&lt;p&gt;So, Bayesean analysis enables us to add information to the determination of a probability, often greatly enhancing the estimate. In the weather example, adding observational information to the equation raised the probability of snow from the baseline (prior) probability significantly.&lt;/p&gt;
+&lt;h3&gt;Medical Diagnostics&lt;/h3&gt;
+&lt;p&gt;Just for fun let's work through a slightly more complex example. Imagine a scenario where you want to determine the probabiliy of a patient presenting with a particular rare condition. The condition can be detected by a test which has 99% accuracy. In other words, if the condition is present the probability that the test is positive is 99% (there is a 1% chance of a &lt;em&gt;false negative&lt;/em&gt;). If the condition is &lt;em&gt;not&lt;/em&gt; present the test will be positive 1% of the time (a false &lt;em&gt;positive&lt;/em&gt;). &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Let's say the condition occurs in 1% of the population ($P(Cond) = 0.01$) . &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;We know the test is 99% accurate. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If the condition is present the test is positive 99% of the time ( $P(Pos|Cond) = 0.99$ ).&lt;/li&gt;
+&lt;li&gt;If the condition is &lt;em&gt;not&lt;/em&gt; present the test is negative 99% of the time ( $P( Pos | \neg Cond) = 0.01$ ).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let's say we have a case where a patient tests positive for the condition. The question is; what are the odds that the patient &lt;em&gt;actually has the condition&lt;/em&gt;. In Bayesean terms we ask; "What is the probability that the patient has the condition given the &lt;em&gt;evidence&lt;/em&gt; of a positive test result?" &lt;/p&gt;
+&lt;p&gt;At this point we have all the information we need to apply Bayes' Theorem, but not quite in the form given above. That is, we don't have a number for $P( Pos )$ (the probability of getting a positive test result &lt;em&gt;irrespective of the condition&lt;/em&gt;). But we can detemine that probability and expand the theorem to address our question. &lt;/p&gt;
+&lt;p&gt;We can obtain $P(Pos)$ by collapsing conditions across the entire population:&lt;/p&gt;
+&lt;p&gt;$$
+P( Pos ) = P( Pos | Cond ) \times P( Cond ) + P( Pos | \neg Cond ) \times P( \neg Cond ) 
+$$&lt;/p&gt;
+&lt;p&gt;Given that we can expand our original formulation of Bayes' Theorem. If the hypothesis (Hyp) put to the test is that the patient has the condition, and the event (Event) is testing positive then:&lt;/p&gt;
+&lt;p&gt;$$
+P ( Hyp | Event ) = \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P( Event | Hyp ) \times P( Hyp ) + P( Event | \neg Hyp ) \times P( \neg Hyp ) }
+$$&lt;/p&gt;
+&lt;p&gt;Now the calculation boils down to simple arithmetic:&lt;/p&gt;
+&lt;div class='latex_align'&gt;
+$$
+\begin{align}
+P ( Cond | Pos ) &amp;= \frac { 0.99 \times 0.01 } {(0.99)(0.01) + (0.01)(0.99)}  \\
+                 &amp;= 0.50
+\end{align}
+$$
+&lt;/div&gt;
+
+&lt;p&gt;So, with this example, we see that it's not enough to just consider the test accuracy in gauging the probability of a correct diagnosis. Over and above that we need to consider the &lt;em&gt;frequency of the condition&lt;/em&gt; with respect to the &lt;em&gt;population writ large&lt;/em&gt;. &lt;/p&gt;
+&lt;p&gt;This example demonstrates a crucial point about Bayesian probability; the &lt;em&gt;prior&lt;/em&gt; probability (the prevalence of the condition in the population) greatly influences the &lt;em&gt;posterior&lt;/em&gt; probability (the probability of having the condition &lt;em&gt;given&lt;/em&gt; a positive test result). The failure to bring the prior probability to bear on the assessment (referred to as &lt;em&gt;base-rate neglect&lt;/em&gt;) is an example of a well-known fallacy in statistical reasoning -- a form of cognitive bias that can lead to errors in judgement that depend on estimating probabilities associated with uncertain events.&lt;/p&gt;
+&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;p&gt;In summary, Bayes' theorem defines probability in terms of evidence for a hypothesis. Key concepts include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Prior Probability:&lt;/strong&gt; Our initial belief in the hypothesis before observing any evidence.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Likelihood:&lt;/strong&gt; How &lt;em&gt;likely&lt;/em&gt; observed evidence would be &lt;em&gt;if&lt;/em&gt; the hypothesis is true, and &lt;/li&gt;
+&lt;li&gt;the &lt;strong&gt;Posterior Probability:&lt;/strong&gt; Our updated belief in the hypothesis after considering the evidence.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In other words the Bayesian interpretation of probability is one where probability expresses &lt;em&gt;a degree of belief in an event&lt;/em&gt;. A level of certainty.&lt;/p&gt;
+&lt;h1&gt;Discussion: Understanding Statistics&lt;/h1&gt;
+&lt;p&gt;All this bares thinking about as much as for deepening our understanding of statistics as for computational applications. Bayesian analysis actually predates in large part the formalization of what some statistians might term "classical" hypothesis testing. Bayes theorem was originally formulated by Thomas Bayes in the 18th century. Back then many philosophers were concerned with the nature of &lt;em&gt;belief&lt;/em&gt; (and those concerns are as relevent today as ever)! Subsequent statistical approaches shifted toward methods around "proving" the "truth" of hypotheses through sampling from larger populations. Back when I was in grad school, Bayesian analysis was &lt;em&gt;re&lt;/em&gt;emerging as an analytic method often posed in constrast to formal hypthesis testing based on sampling distributions. &lt;/p&gt;
+&lt;p&gt;I feel in large part the confusion people often feel around statistics stems from the tendency to conflate &lt;em&gt;belief&lt;/em&gt; with &lt;em&gt;fact&lt;/em&gt;. To fully understand the concept of probability it's critical to understand that nothing is fully certain until after the fact. In other words, to me statistics is all about &lt;em&gt;belief&lt;/em&gt;. &lt;/p&gt;
+&lt;p&gt;To me, central to understanding probability is to embrace the concept that statistics is all about &lt;em&gt;belief&lt;/em&gt;. The heart of statistical analysis lies on the notion that nothing is ever 100% certain. Frequentists have historically been concerned with drawing conclusions about &lt;em&gt;populations&lt;/em&gt; based on evidence present in &lt;em&gt;samples&lt;/em&gt;. But conclusions based on aggregate data can't be applied to individuals. Going back to the diagnosis example it's tempting to say something like, "Oh, based on your symptoms you have a 95% chance of having the disease". The fact is you either have the disease or you don't. That's a constant. Probabalistic assessments rely on variability over populations. And you can't confuse statements based on aggregate sample statistics with individual assessments. "95% of the people in this group have the disease" does not mean the same thing as saying "You have a 95% chance of having the disease". The distinction is subtle but it's not just arguing semantics. There are very real consequences of statistical fallacies!&lt;/p&gt;
+&lt;p&gt;So in conclusion I'd have to say that going back and revisiting the Bayesian approach has been worth the effort. I feel I've gained some new insights into the nature of statistical reasoning and understanding probability. Bayesian inference is a key methodical approach to many machine learning applications. But key to them all is embracing uncertainty and understanding levels of certainty in any sort of classification problem!&lt;/p&gt;
+&lt;h1&gt;Resources&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://greenteapress.com/wp/think-bayes/"&gt; Think Bayes &lt;/a&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://allendowney.github.io/ThinkBayes2/"&gt; Think Bays on Github &lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Bayes%27_theorem"&gt;Bayes' Theorem&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=HZGCoVF3YvM"&gt;3Blue1Brown&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Blog"></category><category term="math"></category><category term="Bayes Theorem"></category><category term="probability"></category><category term="statistics"></category><category term="neural networks"></category><category term="machine learning"></category></entry><entry><title>Implementing WebRTC Applications in Python Part I: Session Description Protocol</title><link href="https://dr-nick-nagel.github.io/blog/python_web_rtc_1.html" rel="alternate"></link><published>2024-12-20T00:00:00-05:00</published><updated>2024-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-12-20:/blog/python_web_rtc_1.html</id><summary type="html">&lt;p&gt;First is a series of blog posts exploring WebRTC application development in python.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Objective&lt;/h1&gt;
 &lt;p&gt;The purpose of this article is to introduce a series blog-posts I'm writing on Web Real-Time Communications (known as WebRTC). WebRTC embodies a set of free and open  standards that enable devices connected over the Internet to communicate in real time. Taken together, WebRTC standards and protocols enable voice and video calls, live streaming, file sharing and much, much more.&lt;/p&gt;
 &lt;p&gt;A detailed discussion of all the standards used in WebRTC would be quite an undertaking -- definitely too much to cover in a single blog post. So I'm carving out the coverage of this large topic into a series in which I'll explore implementations of these standards in the context of developing a streaming-media reference-application using python. &lt;/p&gt;
 &lt;h1&gt;Introduction&lt;/h1&gt;
@@ -2463,4 +2577,394 @@ animation target over that duration.&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;p id="en_3"&gt; As of this writing the latest version of Firefox (3.6) supports only a subset of SVG features. So while you may see the SVG graphic, you may not see the animated fade effect if you are using Firefox. You can see the full effect using Google Chrome. I.E. and Safari are another story...&lt;a href="#note_3"&gt;&amp;uarr;&lt;/a&gt;&lt;/p&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;</content><category term="blog"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="alice"></category><category term="wonderland"></category><category term="cartoon"></category><category term="chesire cat"></category><category term="smil"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry></feed>
+&lt;/ol&gt;</content><category term="blog"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="alice"></category><category term="wonderland"></category><category term="cartoon"></category><category term="chesire cat"></category><category term="smil"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Paddling Cape to Cape: On Crossing Massachusetts Bay by Sea Kayak</title><link href="https://dr-nick-nagel.github.io/blog/cape2cape.html" rel="alternate"></link><published>2007-10-08T00:00:00-04:00</published><updated>2007-10-08T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2007-10-08:/blog/cape2cape.html</id><summary type="html">&lt;p&gt;Adventures in paddling: crossing Massachusetts Bay by sea kayak&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+
+body::-webkit-scrollbar {
+    display:none;
+}
+
+body {
+    font-family: "Times New Roman", Times, serif;
+    overflow-y: scroll;
+
+    .content {
+        overflow-y: scroll;
+
+        div.ImageRack
+        {
+          position: relative;
+          left:          50%;
+          margin-left:-400px;
+          width:       800px;
+          text-align: center;
+        }
+        div.ImageRack img
+        {
+          border:solid black 1px;
+        }
+
+    }
+
+    .content::-webkit-scrollbar {
+        display:none
+    }
+
+    h2 {
+        margin: -20px;
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: #fafafa;
+        font-family: "", Arial, sans-serif;
+        border-bottom: solid #222 1px;
+        text-align: center;
+        font-size: 14pt;
+    }
+
+    h2 a:link,
+    h2 a:visited {
+        text-decoration: none;
+        color: #002;
+    }
+
+}
+
+.content
+
+div.heading {
+    text-align:center;
+    font-weight:bold;
+    font-size:18pt
+}
+&lt;/style&gt;
+
+&lt;div class='heading' &gt;
+~ I ~
+&lt;/div&gt;
+
+&lt;p&gt;What can I say? It simply had to be done. Chris Thomas and I had talked
+about it for years. I even recall a colleague from years gone by, David
+Gow, mentioning it as some sort of remote objective when I first got
+introduced to sea kayaking (more years ago, now, than I care to count).
+But for whatever reason, this simply had to be the year that we paddled
+our sea kayaks from cape to cape; Cape Ann Massachusetts (Gloucester) to
+Province Town, Cape Cod.&lt;/p&gt;
+&lt;p&gt;Whenever I chat about it with non-seakayakers they sort of do a double
+take, look at me like I'm crazy, and then &lt;em&gt;tell&lt;/em&gt; me that I'm crazy. I
+never claimed otherwise.&lt;/p&gt;
+&lt;p&gt;But to any sea kayaker ~~ any &lt;em&gt;real&lt;/em&gt; sea kayaker ~~ the idea of
+crossing Massachusetts Bay (a 47 mile odyssey over open ocean and
+completely out of sight of land) is as natural as a hiker wanting to
+summit their favorite mountain, or an athlete wanting to run a marathon.&lt;/p&gt;
+&lt;p&gt;Don't get me wrong ~~ this was no walk in the park. First of all, to
+our knowledge, crossing Massachusetts Bay by sea kayak had never been
+done before. At least, I know of no written record of the feat. If
+anyone reading this can lay claim to having paddled cape to cape before
+us please let me know. But that's beside the point anyway. Certainly
+many paddlers have logged much more time on a journey and achieved far
+greater feats. I even know of at least one intrepid paddler that has
+kayaked the entire US eastern sea-board. But, to my knowledge, there is
+no record of a continuous crossing from Cape Cod to Cape Ann, one point
+of land to the other, a crossing which ended up taking us about 13 and a
+half hours to complete.&lt;/p&gt;
+&lt;p&gt;The planning alone was difficult ~~ never mind the execution. You
+can't just pick a day and say, "Let's paddle across Massachusetts Bay
+today". So many factors have to fall into place to make that happen. I
+think the smartest thing we did was choose a two-week window in early
+fall and say we have to be ready to go at any minute within that
+time-frame ~~ weather permitting. And that right there is the key
+phrase; &lt;em&gt;weather permitting&lt;/em&gt;. You don't want to get caught out on the
+open ocean, 20-30 miles from the nearest point of land, in a sea kayak,
+and have a storm come up. Or even just sustained 20-mile-an-hour winds
+for that matter! When you're sitting there at water level and making
+headway completely under your own steam, every stroke is critical, and
+wind and current can change a pleasant excursion into a tragic nightmare
+in short order. Luckily for us, that didn't happen. On Saturday,
+October 6th, 2007 The sea Gods smiled upon us. We had fair winds (little
+to none), fair temperatures (summer-like), and fair seas (very calm).
+And we were off; Chris Thomas, Will Means, Doug Millen and myself ~~
+paddling from cape to cape.&lt;/p&gt;
+&lt;p&gt;In addition to knowing the weather, we had to be able to navigate.
+Navigation is critical for a journey like this. When you are completely
+out of site of land it is very easy to veer off course. And when your
+target is a small point of land 40 miles away you don't want that to
+happen. Miss Cape Cod and your next stop is the Bahamas! But thanks to
+this miricle of modern navigational science, navigation was a breeze. We
+plotted our way points in advance and all we had to do was follow the
+little arrow and maintain a straight course. Thank you GPS!&lt;/p&gt;
+&lt;div class="ImageRack"&gt;
+    &lt;a href="images/CapeToCape.jpg" target="_blank"&gt;
+      &lt;img alt="Insert Image" width="200" height="200" src="/images/cape_kayakin/CapeToCape.jpg" style="margin:10px;" /&gt;
+    &lt;/a&gt;
+    &lt;a href="images/CapeToCapeLocator.jpg" target="_blank"&gt;
+      &lt;img alt="Insert Image" width="200" height="200" src="/images/cape_kayakin/CapeToCapeLocator.jpg" style="margin:10px;" /&gt;
+    &lt;/a&gt;
+    &lt;a href="images/CapeToCapeTrack2.jpg" target="_blank"&gt;
+      &lt;img alt="Insert Image" width="200" height="200" src="/images/cape_kayakin/CapeToCapeTrack2.jpg" style="margin:10px;" /&gt;
+    &lt;/a&gt;
+    &lt;p&gt;These images show the course we took. Left: naughtical map. Center: GPS way points. Right: actual course as determined by GPS.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Originally, we were going to have a chase boat ~~ a power boater was
+going to follow us just in case of emergency. That put some of the folks
+I was chatting with about this before-hand at ease. But it didn't end
+up happening. Our chase boat couldn't follow in the end, so we just set
+out ourselves in two two-person sea kayaks ~~ the Tango One and Tango
+Two.&lt;/p&gt;
+&lt;div class="Image"&gt;
+    &lt;img alt="INSERT IMAGE" src="/images/cape_kayakin/CapeToCape003.jpg" /&gt;
+    &lt;p&gt;The Tango 1 and Tango 2.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And so it was that at approximately three o'clock in the morning on a
+calm Saturday in the early fall we loaded up our boats and set off from
+Stage Fort Park at the head of Gloucester Harbor. Set off for Province
+Town cape cod.&lt;/p&gt;
+&lt;div class='heading' &gt;
+~ II ~
+&lt;/div&gt;
+
+&lt;p&gt;The early part of the paddle was eerie. Setting off in the wee hours of
+the morning meant, essentially, that we were in the dark. Don't get me
+wrong ~~ it was beautiful to look up and see the stars overhead. But
+as the lights of the shoreline receded into the nighttime mist behind us
+and the rhythm of the small waves lapping at the sides of the boat
+settled in, the magnitude of what we were undertaking really started to
+hit home.&lt;/p&gt;
+&lt;p&gt;But we soon got accustomed to the darkness, I turned off my GPS, and set
+a course by the stars. What a treat. Getting to experience first-hand
+what the ancient mariners must have done, as they set about exploring
+their world in the days before electronics were standard issue on almost
+any sea going vessel.&lt;/p&gt;
+&lt;p&gt;It wasn't so dark for long though. Almost immediately after setting out
+the lights of a huge offshore rig (Keyspan energy laying a natural gas
+pipeline or some such) started to loom in the distance. It seemed to
+take us forever to reach that rig, but approaching it was awe-inspiring.
+Here were we were, in these tiny kayaks, paddling past this vessel of
+gargantuan proportions (I couldn't even count how many stories high
+this thing stood off the water). The lights of the rig blazed out of the
+night like the lights of a city block ~~ lighting up the sky and
+blotting out the stars. As we passed the rig, a party ship shot by
+behind us with a more colorful display of lights. And moving at a pretty
+good clip! Images of Huckleberry Finn and Jim the slave getting run over
+by a Mississippi steamboat came to mind.&lt;/p&gt;
+&lt;p&gt;But that was about as much big boat traffic that we saw. Even much later
+in the journey when we crossed the major shipping lanes into Boston we
+didn't see another vessel larger than a fishing boat, despite earlier
+concerns.&lt;/p&gt;
+&lt;p&gt;Not long after we passed that rig and it too receded into the distance
+dawn began to break. More than one person since has asked me to describe
+what it was like to experience that sunrise.&lt;/p&gt;
+&lt;div class="Image"&gt;
+    &lt;img alt="INSERT IMAGE" src="/images/cape_kayakin/CapeToCape005.jpg" /&gt;
+    &lt;p&gt;Dawn breaks on the ocean&lt;/p&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;Well it was beautiful for sure. But what was so much more amazing to me
+was being in a such a rhythm with the sea, and paddling on through that
+sunrise, and on into the day, and seeing the sun ~~ not just as a
+snapshot ~~ but rather watching it climb into the sky and on overhead
+over the course of the day. It wasn't just the moment of the sunrise
+~~ the in-between time that happens between night and day. It was the
+totality and continuity of the paddling experience without the everyday
+distractions of corporate life and work that most impressed me.&lt;/p&gt;
+&lt;p&gt;And on we went. The seconds blended into minutes, the minutes into
+hours. The Sun continued it's climb into the heavens and the waves
+continued incessantly lapping at our sides.&lt;/p&gt;
+&lt;div class="Image" style="display:inline-block;margin-left:auto;margin-right:auto;width:400px"&gt;
+    &lt;img alt="INSERT IMAGE" width=400px src="/images/cape_kayakin/CapeToCape006.jpg" /&gt;
+    &lt;p&gt;Paddlin'!&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;A slide show reflecting the experience would be funny; "Here we are on
+the ocean paddling. Here we are paddling some more. And here's another
+shot of ocean. And here's some more water". Really, most of the
+journey was like this.&lt;/p&gt;
+&lt;p&gt;By now, we were completely out of sight of land as we were for most of
+the crossing. Around mid morning we stopped for our first significant
+break.&lt;/p&gt;
+&lt;div class="Image"&gt;
+    &lt;img alt="INSERT IMAGE" src="/images/cape_kayakin/DSCF8995.jpg" width="400px" /&gt;
+    &lt;p&gt;Break time.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Doug got a little worried when Chris decided to go for a swim (it
+wasn't exactly 100% intentional) ~~ and a bit more worried when the
+radio decided to dive in too (we only had two radios among us all, our
+only contact in the event of an emergency). And when we opened our aft
+hatch and found the bulkhead full of water, we started to get a bit more
+worried still. But, luckily, we had enough stuff in dry bags in the rear
+bulkhead to displace some of the water, so with some heavy duty pumping
+Doug was able to empty it out.&lt;/p&gt;
+&lt;p&gt;And so, with one of our radios sitting at a depth of 100 feet, a slow
+leak in the aft bulkhead, and morale ever so slightly compromised ~~
+we pressed on. No more breaks for a while!&lt;/p&gt;
+&lt;p&gt;Not long after, with the sun climbing a bit higher into the sky we saw a
+fishing boat heading our way. He pulled up alongside us ~~ obviously
+intrigued at the prospect of seeing a small group of sea kayakers
+paddling along 20 nautical miles out to sea! I had to chuckle inwardly
+at his bemused expression when we told him we were in the middle of
+paddling our kayaks cape to cape. That would be pretty much our only
+contact with another mariner until we reached the waters of Cape Cod.&lt;/p&gt;
+&lt;div class='heading' &gt;
+~ III ~
+&lt;/div&gt;
+
+&lt;p&gt;Around about half way through our expedition we started to feel the
+strain. I felt it in my left wrist, where the repetitive motion and
+strain of the paddling started working my tendons. So I had to
+continually adjust my stroke to avoid injury. Later I'd feel it in my
+lower back as well. The constant rotation and stress of sitting in the
+cockpit for 14 hours will inevitably take its toll.&lt;/p&gt;
+&lt;p&gt;But just as we were starting to feel the strain, physically, it
+happened. We were in the midst of crossing the shipping lanes (with not
+a ship in sight) when we started chatting about the possibility seeing
+whales. We knew we'd be passing over Stellwagen bank for much of the
+crossing and we also knew that area is frequented by whales
+(Massachusetts has some boats that'll take tourists out to actually see
+them in the wild). So we'd been expecting, hoping, maybe that we might
+catch a view of them on the trip. Will started joking around, making low
+rumbling noises to "call" out to the whales.&lt;/p&gt;
+&lt;p&gt;Well, there must've been something in the translation ~~ I'm gonna
+call him whale whisperer from now on ~~ because not long after he
+sounded off we saw them. Chris was, I think, the first to spot them
+breaching on the horizon. It was a small group ~~ maybe a family of
+three humpbacks feeding. We all got very exited very quick over this. It
+was the most amazing experience to be sitting that close to the water
+and seeing these magnificent animals approach. We were very happy as we
+watched them break the surface. There's one breaching. Look at flukes
+as that one sounds. Look, you can see the gaping mouth on that one as it
+drinks in its briny soup.&lt;/p&gt;
+&lt;style&gt;
+  .video-container {
+    display: inline-block;
+    overflow: hidden;  
+    width: 320px;       
+    height: 250px;      
+    margin: 0;         
+    padding: 0;      
+    border: inset 4px grey  
+  }
+
+  .video-container object, .video-container embed {
+
+    margin: 0;         
+    padding: 0;        
+  }
+&lt;/style&gt;
+
+&lt;div class='.video-container'&gt;
+    &lt;object width="320" height="250"&gt;
+      &lt;param name="src" value="/video/whales_firefox.mp4" /&gt;
+      &lt;param name="autoplay" value="false" /&gt;
+      &lt;param name="loop" value="false" /&gt;
+      &lt;param name="controller" value="true" /&gt;
+      &lt;embed src="/video/whales_firefox.mp4" 
+             width="320" 
+             height="250" 
+             autoplay="false" 
+             loop="false" 
+             controller="true" /&gt;
+    &lt;/object&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Thar she blows! If you play this movie, you should see 
+the flukes of a whale as it dives and the
+distinctive signiture of its humpback companions.&lt;/p&gt;
+&lt;p&gt;Then they started to get closer. And closer. Maybe just a bit too close!
+At one point they couldn't have been more than 100 yards away from us!
+When we could actually &lt;em&gt;hear&lt;/em&gt; them making those same rumbling noises
+Will had been making. Truth be told we started to get a bit nervous! I mean,
+here's an animal the size of a city bus ~~ bigger even ~~
+approaching you as you sit in your narrow little kayak rocking on the
+waves. You have to respect that. At one point I said to Doug who was
+eagerly trying to get some good shots of the whales; "you might wanna
+put the camera away and get ready to brace!".&lt;/p&gt;
+&lt;p&gt;But 100 yards or so was about as close as they got. Eventually they went
+their way and we continued on ours. The experience of paddling with
+whales gave us our second wind and on we went. We saw a lot more
+wildlife along the way ~~ breaking the surface of water. We saw
+schools of tuna ~~ huge fish leaping clean out of the water. At one
+point we saw a pod of dolphins porposing along at great speed with some
+purpose evident that we would just not fathom. And birds. A couple of
+them quite strange ~~ looking like a cross between a pelican and an
+albatross.&lt;/p&gt;
+&lt;p&gt;And, we saw the shark. It was pretty funny really. I just looked over at
+Chris and Will at one point and saw a couple of dorsal fins breaking the
+surface. Dolphins maybe? No, wait, they're not porposing. Then,
+suddenly I realized ~~ it wasn\'t two animals, but rather it was one!
+The first fin was the dorsal fin and the second was the tale fin of a
+shark! That animal must've exceeded 10 feet in length if it was an
+inch! We suspect it might've been a blue shark, but can't rule out the
+possibility it was a mako. But all he did was cross our path and move
+along his way ~~ in his endless search for his next meal.&lt;/p&gt;
+&lt;div class='heading' &gt;
+~ IV ~
+&lt;/div&gt;
+
+&lt;p&gt;Not long afterward we reached the fishing grounds off of cape cod. When
+we had to paddle through a fleet of fishing boats (anchored just out of
+sight of land) we knew we were reaching the end of our journey. The last
+8 miles were the most grueling. The sun was high in the sky beating down
+on us ~~ raising sweat on my brow and causing the sunscreen to sting
+my eyes. The mild tendonitis started to flare up again. And the pace,
+which had been a steady 3.5 ~ 3.7 knots for most of the trip began to
+slow.&lt;/p&gt;
+&lt;p&gt;But then, through the late afternoon haze, we saw the faintest shadow of
+a coastline and we knew we'd made it. The cape seemed just to pop out
+at us, and soon we began to make out details like the small tower in
+Province Town a monument visible just over Race Point beach. We were
+there. 13 odd hours and 41 nautical miles (47 statute) and we were
+there.&lt;/p&gt;
+&lt;div class="Image" style="display:inline-block;margin-left:auto;margin-right:auto;width:400px"&gt;
+    &lt;img alt="INSERT IMAGE" src="/images/cape_kayakin/CapeToCape031.jpg" /&gt;
+    &lt;p&gt;Land Ho'!&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Rounding the point and paddling to the takeout was probably the most
+grueling part of the trip. But we'd made it! And that simple fact gave
+us the energy to put forth that final burst of speed as we paddled up to
+the shore and touched land for the first time in 14 hours. There were
+many people on the beach, enjoying a lazy afternoon on the Cape on that
+warm fall day. The sun was sinking now ~~ approaching the horizon on
+Cape Cod bay.&lt;/p&gt;
+&lt;div class="Image" style="display:inline-block;margin-left:auto;margin-right:auto;width:400px"&gt;
+    &lt;img alt="INSERT IMAGE" src="/images/cape_kayakin/CapeToCape037.jpg" /&gt;
+    &lt;p&gt;Landing at Race Point&lt;/p&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;A couple of guys staggered up to us ~~ it's not every day you see two
+21 foot 2 man kayaks pull up onto the beach I guess.&lt;/p&gt;
+&lt;p&gt;"Where'd you guys pull in from" they asked? "Oh, we just took off
+from Cape Ann. Gloucester you know." They were incredulous at first.
+"Naw ~~ you're kidding right?" But then they saw the conviction in
+our eyes. They sensed the aura you exude when you've just paddled 41
+miles across the open sea. And they new we'd done it.&lt;/p&gt;
+&lt;div class='heading' &gt;
+~ Epilogue ~
+&lt;/div&gt;
+
+&lt;p&gt;My buddy Bill Schoolcraft picked us up down there at Race Point beach
+not long after we arrived. The sun was setting by then ~~ simply
+beautiful. We were a bit surprised at how great we felt. Sure it was a
+long paddle, and it tested our endurance at the end. But we felt
+surprisingly good as we packed up our gear and loaded up the van to head
+for home.&lt;/p&gt;
+&lt;div class="Image"&gt;
+    &lt;img alt="INSERT IMAGE" src="/images/cape_kayakin/CapeToCape053.jpg" /&gt;
+    &lt;p&gt;Sunset over Cape Cod Bay.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We were all excited as we headed out from Province Town that evening.
+Full of our adventure. The blackness of the morning launch was far
+behind us now. The uncertainty we'd felt was gone ~~ replaced by the
+accomplishment of having paddled cape to cape.&lt;/p&gt;
+&lt;div class='heading' &gt;
+~ Links ~
+&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="http://www.nspn.org/forum/index.php?showtopic=4025"&gt;Chris's entry in NSPN Paddler's forum&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.nspn.org/forum/index.php?showtopic=4039"&gt;Will's entry in the forum&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/assets/Cape2CapebyWill.pdf"&gt;Will's Writeup (PDF)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.nekayaking.com/trips/capetocape.htm"&gt;New Enland Kayaking (Doug's Account)&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Blog"></category><category term="kayak"></category><category term="adventure"></category><category term="travel"></category><category term="paddling"></category><category term="whales"></category><category term="cape anne"></category><category term="cape cod"></category><category term="massachusetts"></category><category term="sea kaying"></category></entry></feed>

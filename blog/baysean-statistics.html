@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-          <title>NickNagel.com - On the Probability of Conceptualizing Bayes's Theorem</title>
+          <title>NickNagel.com - Conceptualizing Bayes's Theorem</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script>
@@ -16,14 +16,17 @@
             async 
             src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
         ></script>
+        
+
+        
         <link 
             rel="stylesheet" 
             type="text/css" 
-            href="/theme/css/styles.css" />
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
         <link 
             rel="stylesheet" 
             type="text/css" 
-            href="/theme/css/admonitions.css" />
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
         <link 
             rel="stylesheet" 
             href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
@@ -48,19 +51,19 @@ Welcome to NickNagel.com
             <navbar class="navigation">
                 <div class='image_item' id="pallas-athena-container">
                     <img id="pallas-athena-image"
-                        src="/images/athena.svg" 
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
                         alt="Pallas Athena"
                     >
                 </div>
                 <ul>
                     <li>
-                        <a href="/pages/about-nick.html">About Nick</a>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
                     </li>
                     <li>
-                        <a href="/blog/index.html">Blog</a>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
                     </li>
                     <li>
-                        <a href="/pages/nn-cv.html">CV</a>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
                     </li>
                 </ul>
             </navbar>
@@ -68,15 +71,16 @@ Welcome to NickNagel.com
   <article>
     <header>
       <h2>
-        <a href="/blog/baysean-statistics.html" rel="bookmark"
-           title="Permalink to On the Probability of Conceptualizing Bayes's Theorem">On the Probability of Conceptualizing Bayes's Theorem</a></h2>
+        <a href="https://dr-nick-nagel.github.io/blog/baysean-statistics.html" rel="bookmark"
+           title="Permalink to Conceptualizing Bayes's Theorem">Conceptualizing Bayes's Theorem</a></h2>
       
     </header>
     <h1>Introduction</h1>
-<p>If you know me well enough you've probably heard me say, at one time or another, "I love math. Why? Because I believe math is truth! Unless it's statistics ...". Just kidding (LOL). But not really.</p>
-<p>EXPAND THE INTRO ... </p>
-<h1>Bayes Theorem</h1>
-<p>Mathematically, Bayes Theorem can be expressed in terms of probabilities. Given that Bayes theorem is all about <em>belief</em> I like to express it terms of <em>events</em> and <em>hypotheses</em>.</p>
+<p>People who know me well enough at one time or another have probably heard me say: "I love math. Why? Because I believe math is truth! Well ... unless it's statistics ... ". Of course I'm being facetious here. I mean, I say that jokingly of course. In fact, quite the opposite, statistics is really about getting at truth through our inherent biases, misattributions, and misconceptions. </p>
+<p>Back when I was in grad school I spent a lot of time studying and later teaching statistics -- mainly as applied to psychological research. But recently, as I've undergone a rekindled interest in concsiousness and Artificial Intelligence I've been revisiting statistical approaches and methodologies. And over the course of doing so I got to thinking about Bayes' Theorem. </p>
+<p>Bayes' Theorem (and, more generally, Bayesian statistics) is a statistical approach that delves into the nature of <em>belief</em> as much explicating mathematical principles for probabalistic inference. Consequently, over and above adding more tools to the belt for statistical analysis, conceptualizing Bayes Theorem has profound implications relating to our general understanding of probability. </p>
+<h1>Bayes' Theorem</h1>
+<p>Bayes theorem is all about <em>likelihood</em>. Mathematically, it can be expressed in terms of probabilities. Given that it's all about belief I like to express Bayes' theorem terms of <em>events</em> and <em>hypotheses</em>.</p>
 <p>$$
 P ( Hyp | Event ) = \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) }
 $$</p>
@@ -121,7 +125,7 @@ P ( Hyp | Event ) &= \frac {P ( Event | Hyp ) \times P ( Hyp ) } { P ( Event ) }
 $$
 </div>
 
-<p>So, Bayesean analysis enables us to add information to the determination of a probability, often greatly enhancing the estimate. In the weather example, adding observational information to the equation raised the odds of snow from the baseline (prior) probality significantly. 'Still might as well flip a coin though, right?</p>
+<p>So, Bayesean analysis enables us to add information to the determination of a probability, often greatly enhancing the estimate. In the weather example, adding observational information to the equation raised the probability of snow from the baseline (prior) probability significantly.</p>
 <h3>Medical Diagnostics</h3>
 <p>Just for fun let's work through a slightly more complex example. Imagine a scenario where you want to determine the probabiliy of a patient presenting with a particular rare condition. The condition can be detected by a test which has 99% accuracy. In other words, if the condition is present the probability that the test is positive is 99% (there is a 1% chance of a <em>false negative</em>). If the condition is <em>not</em> present the test will be positive 1% of the time (a false <em>positive</em>). </p>
 <ul>
@@ -156,33 +160,22 @@ P ( Cond | Pos ) &= \frac { 0.99 \times 0.01 } {(0.99)(0.01) + (0.01)(0.99)}  \\
 $$
 </div>
 
-<p>So, with this example, we see that it's not enough to just consider the test accuracy in gauging the probability of a correct diagnosis. Over and above that we need to consider the frequency of the condition with respect to the population writ large. This example demonstrates a crucial point about Bayesian probability; the <em>prior</em> probability (the prevalence of the condition in the population) greatly influences the <em>posterior</em> probability (the probability of having the condition <em>given</em> a positive test result). The failure to bring the prior probability to bear on the assessment (referred to as <em>base-rate neglect</em>) is an example of a well-known fallacy in statistical reasoning -- a form of cognitive bias that can lead to errors in judgement that depend on estimating probabilities associated with uncertain events.</p>
-<h1>Understanding Bayesean Statistics</h1>
-<p>Fallacy of thinking about statistics without regard to a POPULATION.
-See philosophical discussion ...
-https://gemini.google.com/app/22cd3a3cef87136e</p>
-<p>Statistics <em>guides</em> decisions, it doesn't describe facts </p>
-<p>There's something that bothers me that I can't quite put my finger on or bring to top of mind here...</p>
-<p><strong>Key Concepts:</strong></p>
+<p>So, with this example, we see that it's not enough to just consider the test accuracy in gauging the probability of a correct diagnosis. Over and above that we need to consider the <em>frequency of the condition</em> with respect to the <em>population writ large</em>. </p>
+<p>This example demonstrates a crucial point about Bayesian probability; the <em>prior</em> probability (the prevalence of the condition in the population) greatly influences the <em>posterior</em> probability (the probability of having the condition <em>given</em> a positive test result). The failure to bring the prior probability to bear on the assessment (referred to as <em>base-rate neglect</em>) is an example of a well-known fallacy in statistical reasoning -- a form of cognitive bias that can lead to errors in judgement that depend on estimating probabilities associated with uncertain events.</p>
+<h1>Summary</h1>
+<p>In summary, Bayes' theorem defines probability in terms of evidence for a hypothesis. Key concepts include:</p>
 <ul>
 <li><strong>Prior Probability:</strong> Our initial belief in the hypothesis before observing any evidence.</li>
-<li><strong>Likelihood:</strong> How likely the observed evidence is if the hypothesis is true.</li>
-<li><strong>Posterior Probability:</strong> Our updated belief in the hypothesis after considering the evidence.</li>
+<li><strong>Likelihood:</strong> How <em>likely</em> observed evidence would be <em>if</em> the hypothesis is true, and </li>
+<li>the <strong>Posterior Probability:</strong> Our updated belief in the hypothesis after considering the evidence.</li>
 </ul>
-<p>TODO: ADD AN INSIGHT RE: THE GENERALIZED THEORY</p>
-<p><strong>In simpler terms:</strong></p>
-<p>Bayes' Theorem helps us update our belief in a hypothesis based on new evidence. It allows us to calculate the probability of a hypothesis given the observed evidence.</p>
-<h1>Discussion</h1>
-<p>Falacies</p>
-<p>The wrong way to think about statistics</p>
-<p>the right way to think about statistics</p>
-<p>with examples ...</p>
-<p>Diagnosing Disease and false positives</p>
-<p>epistemology</p>
-<p>conflation of statistics with facts, when, in fact, statistics is all about belief. Think about it. You can say "I believe it is going to snow tomorrow" and associate that statement with some degree of certainty. But you cannot say "it is a fact that it will snow tomorrow" -- it just doen't make sense.</p>
-<p>BAYESEAN VS. FREQUENTIST VIEWS DISCUSS...</p>
+<p>In other words the Bayesian interpretation of probability is one where probability expresses <em>a degree of belief in an event</em>. A level of certainty.</p>
+<h1>Discussion: Understanding Statistics</h1>
+<p>All this bares thinking about as much as for deepening our understanding of statistics as for computational applications. Bayesian analysis actually predates in large part the formalization of what some statistians might term "classical" hypothesis testing. Bayes theorem was originally formulated by Thomas Bayes in the 18th century. Back then many philosophers were concerned with the nature of <em>belief</em> (and those concerns are as relevent today as ever)! Subsequent statistical approaches shifted toward methods around "proving" the "truth" of hypotheses through sampling from larger populations. Back when I was in grad school, Bayesian analysis was <em>re</em>emerging as an analytic method often posed in constrast to formal hypthesis testing based on sampling distributions. </p>
+<p>I feel in large part the confusion people often feel around statistics stems from the tendency to conflate <em>belief</em> with <em>fact</em>. To fully understand the concept of probability it's critical to understand that nothing is fully certain until after the fact. In other words, to me statistics is all about <em>belief</em>. </p>
+<p>To me, central to understanding probability is to embrace the concept that statistics is all about <em>belief</em>. The heart of statistical analysis lies on the notion that nothing is ever 100% certain. Frequentists have historically been concerned with drawing conclusions about <em>populations</em> based on evidence present in <em>samples</em>. But conclusions based on aggregate data can't be applied to individuals. Going back to the diagnosis example it's tempting to say something like, "Oh, based on your symptoms you have a 95% chance of having the disease". The fact is you either have the disease or you don't. That's a constant. Probabalistic assessments rely on variability over populations. And you can't confuse statements based on aggregate sample statistics with individual assessments. "95% of the people in this group have the disease" does not mean the same thing as saying "You have a 95% chance of having the disease". The distinction is subtle but it's not just arguing semantics. There are very real consequences of statistical fallacies!</p>
+<p>So in conclusion I'd have to say that going back and revisiting the Bayesian approach has been worth the effort. I feel I've gained some new insights into the nature of statistical reasoning and understanding probability. Bayesian inference is a key methodical approach to many machine learning applications. But key to them all is embracing uncertainty and understanding levels of certainty in any sort of classification problem!</p>
 <h1>Resources</h1>
-<h2>Books</h2>
 <ol>
 <li>
 <p><a href="https://greenteapress.com/wp/think-bayes/"> Think Bayes </a> </p>
@@ -190,56 +183,31 @@ https://gemini.google.com/app/22cd3a3cef87136e</p>
 <li>
 <p><a href="https://allendowney.github.io/ThinkBayes2/"> Think Bays on Github </a></p>
 </li>
-</ol>
-<h2>Encyclopedic</h2>
-<ol>
 <li>
 <p><a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes' Theorem</a></p>
 </li>
 <li>
-<p><a href="https://en.wikipedia.org/wiki/Multilayer_perceptron">Multi-Layer Perceptron</a></p>
+<p><a href="https://www.youtube.com/watch?v=HZGCoVF3YvM">3Blue1Brown</a></p>
 </li>
 </ol>
-<h2>Visualizing Bayes' Theorem</h2>
-<ol>
-<li><a href="https://www.youtube.com/watch?v=HZGCoVF3YvM">3Blue1Brown</a></li>
-</ol>
-<hr />
-<p>RESUME HERE:</p>
-<p>FINISH UP THIS NONSENSE!!</p>
-<p>https://chatgpt.com/c/677ec2bc-06a0-8010-bc01-2d08fef8888a
-https://gemini.google.com/app/630232f2976ca734</p>
-<p>https://en.wikipedia.org/wiki/Base_rate_fallacy
-False Positive Paradox: Face Recognition Example
-https://gemini.google.com/app/d855ab417d0723df</p>
-<p>====
-FOR BLOG 
-Understanding the Differences Between Bayesian and Frequentist Statistics
-https://www.redjournal.org/article/S0360-3016(21)03256-9/fulltext</p>
-<p>https://chatgpt.com/c/67816bff-ffd4-8010-af2b-251cc130f155</p>
-<p>====
-AI's </p>
-<p>https://chatgpt.com/c/677ec2bc-06a0-8010-bc01-2d08fef8888a
-https://chatgpt.com/c/678169b5-5430-8010-9d11-85b7bc09daf3
-https://gemini.google.com/app/5c14fec36cd64182</p>
     <footer>
       <p>Published: <time datetime="2025-01-08T00:00:00-05:00">
         Wed 08 January 2025
       </time></p>
         <address>
-          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
         </address>
         <p>
-          Category: <a href="/category/blog.html">Blog</a>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
         </p>
         <p>
           Tags:
-            <a href="/tag/math.html">math</a>
-            <a href="/tag/bayes-theorem.html">Bayes Theorem</a>
-            <a href="/tag/probability.html">probability</a>
-            <a href="/tag/statistics.html">statistics</a>
-            <a href="/tag/neural-networks.html">neural networks</a>
-            <a href="/tag/machine-learning.html">machine learning</a>
+            <a href="https://dr-nick-nagel.github.io/tag/math.html">math</a>
+            <a href="https://dr-nick-nagel.github.io/tag/bayes-theorem.html">Bayes Theorem</a>
+            <a href="https://dr-nick-nagel.github.io/tag/probability.html">probability</a>
+            <a href="https://dr-nick-nagel.github.io/tag/statistics.html">statistics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/neural-networks.html">neural networks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/machine-learning.html">machine learning</a>
         </p>
     </footer>
   </article>

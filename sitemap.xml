@@ -6,37 +6,51 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://dr-nick-nagel.github.io/</loc>
-<lastmod>2025-03-06T18:49:59-00:00</lastmod>
+<lastmod>2025-03-26T14:39:27-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/archives.html</loc>
-<lastmod>2025-03-06T18:49:59-00:00</lastmod>
+<lastmod>2025-03-26T14:39:27-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/author/nick-nagel.html</loc>
-<lastmod>2025-03-06T18:49:59-00:00</lastmod>
+<lastmod>2025-03-26T14:39:27-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/authors.html</loc>
-<lastmod>2025-03-06T18:49:59-00:00</lastmod>
+<lastmod>2025-03-26T14:39:27-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/blog/</loc>
-<lastmod>2025-03-06T18:49:59-00:00</lastmod>
+<lastmod>2025-03-26T14:39:27-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
+</url>
+
+<url>
+<loc>https://dr-nick-nagel.github.io/blog/baysean-statistics.html</loc>
+<lastmod>2025-01-08T00:00:00-05:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://dr-nick-nagel.github.io/blog/cape2cape.html</loc>
+<lastmod>2007-10-08T00:00:00-04:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
 </url>
 
 <url>
@@ -167,7 +181,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://dr-nick-nagel.github.io/categories.html</loc>
-<lastmod>2025-03-06T18:49:59-00:00</lastmod>
+<lastmod>2025-03-26T14:39:27-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
@@ -188,7 +202,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://dr-nick-nagel.github.io/tags.html</loc>
-<lastmod>2025-03-06T18:49:59-00:00</lastmod>
+<lastmod>2025-03-26T14:39:27-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
