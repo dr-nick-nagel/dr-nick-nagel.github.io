@@ -1,5 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/all.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-02-17T00:00:00-05:00</updated><entry><title>Working with SVG Transformations</title><link href="https://dr-nick-nagel.github.io/blog/trans-matrix.html" rel="alternate"></link><published>2025-02-17T00:00:00-05:00</published><updated>2025-02-17T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-17:/blog/trans-matrix.html</id><summary type="html">&lt;p&gt;How to work with SVG transformations ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/all.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-04-07T00:00:00-04:00</updated><entry><title>Tracking Trump Administration Tariff Policy</title><link href="https://dr-nick-nagel.github.io/blog/trump-tariffs.html" rel="alternate"></link><published>2025-04-07T00:00:00-04:00</published><updated>2025-04-07T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-04-07:/blog/trump-tariffs.html</id><summary type="html">&lt;p&gt;My dashboard for tracking the economic impacts of Trump administration tariffs...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Purpose&lt;/h1&gt;
+&lt;p&gt;The purpose of this page is to track the ongoing impacts of the Trump administration tariffs which were announced in April 2025. &lt;/p&gt;
+&lt;h1&gt;Rationale&lt;/h1&gt;
+&lt;p&gt;On April 2, 2025, president Donald Trump signed an executive order imposing a minimum 10% tariff on all U.S. imports, with higher rates applied to upwards of 57  nations. This amounts to a huge perturbation to the &lt;em&gt;World Wide Economy&lt;/em&gt;. As shown in the following figure the trade-weighted average tariff rose from 2% to an estimated 24% in an incredibly small time period. This broad application of tariffs marked a significant escalation in U.S. trade protectionism the likes of which have not been seen since the Great Depression. &lt;/p&gt;
+&lt;iframe title="US Average Effective Tariff Rate Since 1850" aria-label="Interactive line chart" id="datawrapper-chart-FXfCZ" src="https://datawrapper.dwcdn.net/FXfCZ/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="389" data-external="1"&gt;&lt;/iframe&gt;
+&lt;script type="text/javascript"&gt;!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}}))}();
+&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;Figure 1:&lt;/strong&gt; US average effective tariff rate since 1850. Source: &lt;a href="https://budgetlab.yale.edu/research/state-us-tariffs-week-april-7-2025"&gt;Yale Budget Lab&lt;/a&gt; .&lt;/p&gt;
+&lt;p&gt;The formula used by the administration to apply the tariffs [first deduced by journalists and later published by the Office of the United States Trade Representative (OUSTR)] is as follows:&lt;/p&gt;
+&lt;p&gt;$$
+\Delta \tau _i = \frac{x_i - m_i}{\varepsilon \times \varphi \times m_i } 
+$$&lt;/p&gt;
+&lt;p&gt;Where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;$\Delta \tau$ = The amount of tariff increase (for each country)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$x_i$ = US exports to that country &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$m_i$ = US imports to that country &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$\varepsilon$ = The price elasticity of import demand&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$\varphi$ = The elasticity of import prices with respect to tariffs&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;According to the OUSTR the $\varepsilon$ and $\varphi$ values were set to 4 and 0.25 respectively which effectively cancel one another out (the product of the two amounts to 1) which has zero effect on the denominator. Also, the &lt;em&gt;minimum&lt;/em&gt; tariff for a given country was floored at 10% &lt;em&gt;regardless of the value determined by the formula&lt;/em&gt;. So, in essence, the formula amounts to imposing a tariff equivalent to the proportion of the trade deficit with any nation divided by overall imports from that nation, or, a flat 10% tariff where the proportion falls below 0.1. To me, this approach amounts to applying a rather blunt instrument to address concerns about the US trade deficit. &lt;/p&gt;
+&lt;p&gt;The blanket approach to imposing tariffs world-wide is bound to affect &lt;em&gt;everybody everywhere&lt;/em&gt;. Economists have warned of inevitable price increases for US citizens and strong probabilities of trending the economy toward recession. And so, mainly out of concern for the consequences of this economic policy I've put together this page in order to track the economic impacts of the policy going forward. &lt;/p&gt;
+&lt;h1&gt;TTT Dashboard&lt;/h1&gt;
+&lt;p&gt;I'm not purporting to be an economist but off the top of my head it seems that a fair set of indicators to watch should include market reactions, inflation and GDP -- broad indicators of economic health. So to start off the analysis I've added feeds to display the S&amp;amp;P index, CPI and GDP. Later I'll come back and look at employment numbers and trade balances. &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;S&amp;amp;P 500&lt;/strong&gt;. The S&amp;amp;P 500 is a commonly used indicator of U.S. Market performance embodying a broad market view with the 500 largest capitalized U.s. companies.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;CPI&lt;/strong&gt;. The CPI (Consumer Price Index) is a measure of change in prices over time ( $CPI_t = \frac{C_t}{C_0} \times 100$ ) and as such, a good indicator of inflation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;GDP&lt;/strong&gt; . The GDP (Gross Domestic Product) is defined as the total monetary value of all the goods and services produced by a country over the course of a specified period. Here I'll be looking at quarterly GDP tied to 2017 USD.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;For direct comparison I've clamped the starting point of the time series for the chosen indicators to January of 2018.&lt;/p&gt;
+&lt;style&gt;
+.Chart {
+    margin-bottom: 10px
+}
+&lt;/style&gt;
+
+&lt;div class='Chart'&gt;
+  &lt;canvas id='snpChart' 
+          width='400' 
+          height='200' 
+
+          &gt;
+  &lt;/canvas&gt;
+&lt;/div&gt;
+
+&lt;div  class='Chart'&gt;
+  &lt;canvas id='cpiChart' 
+          width='400' 
+          height='200' &gt;
+  &lt;/canvas&gt;
+&lt;/div&gt;
+
+&lt;div  class='Chart'&gt;
+  &lt;canvas id='gdpChart' 
+          width='400' 
+          height='200' &gt;
+  &lt;/canvas&gt;
+&lt;/div&gt;
+
+&lt;h1&gt;Discussion&lt;/h1&gt;
+&lt;p&gt;In the past I've been skeptical with regard to the extent to which U.S. presidents can impact the economy. The &lt;em&gt;World Wide Economy&lt;/em&gt; is a vastly complex system and it's hard to imagine that any one individual could have such significant impacts. But the Trump Tariffs have absolutely opened my eyes and proved my skepticism wrong. Here is a single individual who with a single order has imposed a policy that is bound to affect &lt;em&gt;everybody everywhere&lt;/em&gt;. &lt;/p&gt;
+&lt;p&gt;Immediately out of the gate, as the S&amp;amp;P data shows, the markets don't seem to like the tariffs. Leading companies (e.g., Apple, Google, etc.) saw trillions of dollars evaporate almost overnight. Economists have warned of inevitable price increases for US citizens and strong possibilities of trending the economy toward recession. Initial market indications seem to bear those fears out as companies around the world reel from the implications of the 2025 trade wars. &lt;/p&gt;
+&lt;p&gt;Will this perturbation result in increased economic difficulties for American households? In the near term almost certainly the answer is yes. As noted in a &lt;a href="https://budgetlab.yale.edu/research/state-us-tariffs-week-april-7-2025"&gt;Yale Budget Lab analysis&lt;/a&gt; &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tariffs are a regressive tax, especially in the short-run. This means that tariffs burden households at the bottom of the income ladder more than those at the top as a share of income. &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Tariffs are essentially taxes on materials and goods that have to be paid somewhere whether by producers or consumers of the materials or finished goods subject to the tariffs. And when tariffs are applied across the board in the manner executed on April 2nd it's hard to find a product that &lt;em&gt;isn't&lt;/em&gt; directly affected. &lt;/p&gt;
+&lt;p&gt;But what will be the long term consequences? The answer is only time will tell. That's why I created this dashboard; it behooves us all to pay very careful attention to the indicators and tie them to the fiscal policy of an administration that appears determined to reinvigorate trade protectionism at any cost.&lt;/p&gt;
+&lt;h1&gt;Resources and References&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://ustr.gov/issue-areas/reciprocal-tariff-calculations"&gt;Office of the United States Trade Representative: Reciprocal Tariff Calculations &lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://budgetlab.yale.edu/research/state-us-tariffs-week-april-7-2025"&gt;State of U.S. Tariffs: Week of April 7, 2025&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://budgetlab.yale.edu/research/state-us-tariffs-week-april-7-2025"&gt;Yale Budget Lab analysis&lt;/a&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.datawrapper.de/"&gt;Data Wrapper&lt;/a&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://fred.stlouisfed.org/docs/api/fred/"&gt;FRED &amp;reg; API&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/w/index.php?title=Tariffs_in_the_second_Trump_administration"&gt;Wikipedia: Tariffs in the second Trump administration&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.reuters.com/markets/us/jpmorgan-ceo-dimon-warns-tariffs-could-slow-us-growth-fuel-inflation-2025-04-07/"&gt;Dimon warns of economic impact of trade war, sees possible recession&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script src='https://cdn.jsdelivr.net/npm/chart.js' &gt;&lt;/script&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1"&gt;&lt;/script&gt;</content><category term="Published"></category><category term="economics"></category><category term="tariffs"></category><category term="trump administration"></category></entry><entry><title>SVG Artworks</title><link href="https://dr-nick-nagel.github.io/blog/svg-artworks.html" rel="alternate"></link><published>2025-04-01T00:00:00-04:00</published><updated>2025-04-01T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-04-01:/blog/svg-artworks.html</id><summary type="html">&lt;p&gt;Creating art with SVG&lt;/p&gt;</summary><content type="html">&lt;p&gt;&amp;lt;&amp;lt; INSERT THE N &amp;gt;&amp;gt;&lt;/p&gt;
+&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Recently I've had the good fortune to be able to devote effort to a long-time passion-project of mine revolving around art and SVG (Scalable Vector Graphics). Returning to this project (after somewhat of a hiatus) got me thinking about general principles of art and how they apply to SVG. This post is an attempt to synthesize some of these concepts.&lt;/p&gt;
+&lt;p&gt;Some time ago I was regularly attending life drawing sessions conducted by a local artist, Freeman Burns. Every couple of weeks He'd invite models to his studio and local artists would come and participate in drawing sessions. To me, over and above the creation of the artwork itself, this kind of activity is &lt;em&gt;very&lt;/em&gt; important to train and exercise one's mind, and foster creativity more generally. &lt;/p&gt;
+&lt;p&gt;While attending these sessions, Freeman helped me understand that all art is about making marks. Whether it's using charcoal, ink or oils -- or in the digital world pixels, brushes and strokes -- art is about getting your image from your mind to your medium. And one of the key insights I took away from these sessions was a christallization of the core elements of art itself: &lt;em&gt;shape&lt;/em&gt;, &lt;em&gt;line&lt;/em&gt; and &lt;em&gt;color&lt;/em&gt;. This post is about applying these core elements to create artworks using the medium of SVG. &lt;/p&gt;
+&lt;h1&gt;SVG as an Artistic Medium&lt;/h1&gt;
+&lt;p&gt;Details aside, SVG is an XML-based vector image format for defining two-dimensional graphics. In addition, SVG supports interactivity and animation&lt;sup id="note_1"&gt;&lt;a href="en_1"&gt;1&lt;/a&gt;&lt;/sup&gt;. It is widely used over the World-Wide-Web to create logos and illustrations, and has many applications for data visualization. This post is about thinking of SVG more generally as an artistic medium. To illustrate, I'll walk through the process I've arrived at to draw the figure.&lt;/p&gt;
+&lt;p&gt;Since it is XML-based SVG is technically "human readable". This aspect is &lt;em&gt;very&lt;/em&gt; useful to programmers who are willing and able to work through the syntax and semantics of the format. But for the creation of artworks you don't want to be generating SVG by hand. The good news is there are a number of tools and applications available to create SVG. But my all-time favorite is &lt;em&gt;Inkscape&lt;/em&gt;. So that's what I'll be using to create figure for this post.&lt;/p&gt;
+&lt;p&gt;One of the more interesting applications of SVG (to me) is the creation of assets for games and other simulations. So, for purposes of illustration, I'll walk through the creation of a legendary hero figure -- Perseus -- of Graeko-Roman mythological fame &lt;sup id="note_2"&gt;&lt;a href="en_2"&gt;2&lt;/a&gt;&lt;/sup&gt; . &lt;/p&gt;
+&lt;p&gt;&amp;lt;&lt;INSERT REFERENCE STATUE IMAGE&gt;&amp;gt;&lt;/p&gt;
+&lt;p&gt;Reference Image. Whenever I'm modelling a character I like to work off references. In classical mythology, Perseus is a heroic figure. So as a starting point I found some imagery from classical Greece in the form of this statue.&lt;/p&gt;
+&lt;h2&gt;Shape&lt;/h2&gt;
+&lt;p&gt;Shape in art is a two dimensional area that gives rise to perceptible forms in created works. Shapes give character and personality to objects and can be manipulated to convey layoring and depth. Shapes range from mathematically well defined geometric clases to organic shapes created by artists. &lt;/p&gt;
+&lt;p&gt;Toward creating the figure, I like to start by defining a set of component shapes. From the reference I've induced I'll need:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A number of shapes for the body parts,&lt;/li&gt;
+&lt;li&gt;A shape for the hair,&lt;/li&gt;
+&lt;li&gt;Shapes for the helmet, and&lt;/li&gt;
+&lt;li&gt;Since the figure I'm creating is intended as a game asset I'll need shapes for a sword and shield (we'll need to enable our hero to do battle, right?)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&amp;lt;&lt;INSERT SVG&gt;&amp;gt;&lt;/p&gt;
+&lt;p&gt;Component shapes for the legendary hero.&lt;/p&gt;
+&lt;p&gt;In this example I have a set of shapes that can be readily arranged to create a wide range of poses for the hero type and maintain consistency. So, working with these components we acheive a level of &lt;em&gt;modularity&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Tip: A note on modularity. One of the benefits of working with SVG is that it readily lends itself to the creation of modular and re-usable component libraries. Modular libraries define component parts that can be readily assembled in order to help maintain consitency and produce animations and sequential artworks. &lt;/p&gt;
+&lt;p&gt;To illustrate, in the next step I've arranged the parts to create a "resting pose" for the legendary hero. &lt;/p&gt;
+&lt;p&gt;&amp;lt;&lt;INSERT SVG&gt;&amp;gt;&lt;/p&gt;
+&lt;h1&gt;Line&lt;/h1&gt;
+&lt;p&gt;Up to now I've sort of glossed over the point that inherent in our definition of shape is the notion that shapes have perimeters which can be called out with lines and curves. Perceptually, lines are synthetic in the sense that they're a construct of the brain. As you gaze out into your world you perceive objects, and these objects can be described by lines and curves. And yet these perceived linear elements are constucts synthesized by the brain based on the detection of light gradients, and color contrasts. Conversely, artists can use line to 'suggest' shapes, relationships, negative space and ultimately give form to their ideas.&lt;/p&gt;
+&lt;p&gt;To illustrate consider the classic Rubin's vase (which I've reproduced below in SVG). &lt;/p&gt;
+&lt;p&gt;&amp;lt;&amp;lt; INSERT EXAMPLE &amp;gt;&amp;gt; &lt;/p&gt;
+&lt;p&gt;Rubin's vase in SVG. &lt;/p&gt;
+&lt;p&gt;Rubin's vase illustrate the importance of synthesis in perception. It's an &lt;em&gt;ambigous&lt;/em&gt; figure that can be perceived either as a vase object or two faces symmetrically arranged around a negative space. Above I've used line to call out the two percepts. &lt;/p&gt;
+&lt;p&gt;Here I want to use the illustration to raise an important aspect of working with SVG as a medium. SVG defines a shape in terms of both &lt;em&gt;fill&lt;/em&gt; and &lt;em&gt;stroke&lt;/em&gt;. The &lt;em&gt;stroke&lt;/em&gt; is the line defining the perimeter of the &lt;em&gt;shape&lt;/em&gt;. The fill is the area encased by the line. When you create a shape in SVG the stroke is implied. Both the fill and stroke in SVG can be associated with color through attributes on the shape &lt;sup id="note_3"&gt;&lt;a href="en_3"&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;Getting back to the creation of the legendary hero; I've drawn a set of shapes and arranged them in a resting pose. In doing so I refined the shapes to better define relationships among the constituent body parts and to suggest a particular heroic physique. Finally, I've hidden the stroke-lines for reasons which I'll make evident momentarily. &lt;/p&gt;
+&lt;p&gt;&amp;lt;&amp;lt; INSERT SVG &amp;gt;&amp;gt;&lt;/p&gt;
+&lt;p&gt;At this point in the process I'd say I've locked in the "broad strokes" that are starting to better define the figure I'm after. Now is where I like to come in and flesh out greater detail using linear elements. &lt;/p&gt;
+&lt;p&gt;INFO:  I think what attracts me most to SVG is the capability to work with Bezier Curves to create shapes. Working with SVG shapes is a completely different approach to creating art than working with brushes and strokes that are availible in bitmap centric applications like Photoshop. To me its a process more akin to &lt;em&gt;sculpting&lt;/em&gt; than &lt;em&gt;drawing&lt;/em&gt;. Working with Inkscape beziers I feel like I'm sculpting &lt;em&gt;lines&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;And this brings me to an important aspect of working with SVG as a medium. SVG defines a shape in terms of both &lt;em&gt;fill&lt;/em&gt; and &lt;em&gt;stroke&lt;/em&gt;. The stroke is the line defining the perimeter of the shape. The fill is the area encased by the line. When you create a shape in SVG the stroke is implied. &lt;/p&gt;
+&lt;p&gt;But for artistic purposes I like to hide the stroke and apply a differnt technique to create the line art. Working with SVG it's straightforward to duplicate shapes. So once I have the broad strokes locked down I can add line art with a bit of style by duplicating any shape, slightly enlarging it, setting an "outline color" and dropping it below the original. &lt;/p&gt;
+&lt;p&gt;TIP: Inskcape makes the process I just described somewhat easier using the &lt;em&gt;linked outset tool&lt;/em&gt;. Select a shape and use &lt;code&gt;path -&amp;gt; linked outset&lt;/code&gt; from the dropdown menu. This gives you a &lt;em&gt;linked outset&lt;/em&gt; shape which you can resize using a convenient handle. TODO CONSIDER EMBEDDING A SCREENSHOT...&lt;/p&gt;
+&lt;p&gt;With this approach, I can add detailed linework independent of the stroke lines associated with the shapes in the artwork. &lt;/p&gt;
+&lt;h1&gt;Color&lt;/h1&gt;
+&lt;p&gt;It's hard to do justice to the concept of color in art in a short blog post. I could write an entire book about it if I had enough time. But here my aim is to distill color theory down to some of the key concepts most highly relevent to SVG. Artists use color theory to create imagery that influences mood and perception in many ways in order to acheive their artistic expression. &lt;/p&gt;
+&lt;h2&gt;Perception&lt;/h2&gt;
+&lt;p&gt;Understanding color theory starts with perception. Variation in color arises due to variation in light frequencies across the visible spectrum. We perceive color thanks to the structure of the human eye.&lt;/p&gt;
+&lt;p&gt;&amp;lt;&lt;Insert EYEBALL DIAGRAM&gt;&amp;gt;&lt;/p&gt;
+&lt;p&gt;Structure of the Human Eye.&lt;/p&gt;
+&lt;p&gt;Above I've created a diagram of the eyeball (using SVG of course!) to illustrate. Light passes through the lens, traverses the aqueous humor on and falls on the &lt;em&gt;retina&lt;/em&gt;. The retina is a thin sheet of nerve cells covering the interior of the eyeball. It is the retina that enables us to sense light. The retina is comprised of two main types of cell that respond to light; &lt;em&gt;rods&lt;/em&gt; and &lt;em&gt;cones&lt;/em&gt;. Rods are sensitive to light intensity. It's the cones that underly our perception of color. Different cone cells respond differently to different light frequencies. They respond differntially depending on whether light hitting them falls closer to the red green or blue frequency ranges in the visible spectrum. &lt;/p&gt;
+&lt;p&gt;So that's the biological underpinning of the red, green and blue primary color scheme. All the colors we perceive in the world around us are the result of combinations of red, green and blue intensity levels reflecting off of objects and landing on the retina. &lt;/p&gt;
+&lt;h2&gt;Elements of Color&lt;/h2&gt;
+&lt;p&gt;In art, the qualitative perception different colors (i.e., red vs. green vs. blue etc.) isn't the only way to think about color. Artists describe color not only in terms of &lt;em&gt;hue&lt;/em&gt; (the colors as they appear on the color wheel) but also in terms of &lt;em&gt;value&lt;/em&gt; and &lt;em&gt;saturation&lt;/em&gt;. Value refers to the lightness or darkness of a color. Saturation refers to intensity or purity. Highly saturated colors are vibrant. Low saturation is dull. &lt;/p&gt;
+&lt;h2&gt;The Color Wheel&lt;/h2&gt;
+&lt;p&gt;RESUME HERE &lt;/p&gt;
+&lt;p&gt;INCLUDE A SCREENSHOT OF THE COLOR WHEEL FROM INKSCAPE...&lt;/p&gt;
+&lt;p&gt;## Palettes
+  ## Shade
+  ## Highlight
+  ## Gradients&lt;/p&gt;
+&lt;h1&gt;Discussion&lt;/h1&gt;
+&lt;p&gt;If you've followed along then maybe you can appreciate what I mean about SVG as an artistic medium. &lt;/p&gt;
+&lt;p&gt;As a format it can describe libraries of reusable works.&lt;/p&gt;
+&lt;p&gt;As an artform it has many applications: icons, illustrations, animations, lazer cuts, simulations, datavisualization and beyond...&lt;/p&gt;
+&lt;h1&gt;End Notes&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="en_1"&gt;Scalable Vector Graphics (SVG) is a technological specification that enables the creation of digital images using a format defined over mathematical operations (as opposed to bitmap image representational formats). I'm not going into much greater detail in this post -- I'm afraid that will have to await another article. But, long story short, vector graphics is a digital art form well known to web developers and graphics designers and I've had a long-standing passion revolving around applying vector graphics to create art &lt;a href="#note_1"&gt;INSERT UP&lt;/a&gt;&lt;/span&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="en_2"&gt;I created this character as an asset for a game demo I'm writing to demonstrate AI applications in game development &lt;a href="#note_2"&gt;INSERT UP&lt;/a&gt;&lt;/span&gt;. Spoiler alert; he battles Medusa.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;INSERT MEDUSA&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Technically the fill and stroke colors (along with other properties of these features) can be specified and modified using CSS &lt;sup id="note_3"&gt;&lt;a href="en_2"&gt;INSERT UP&lt;/a&gt;&lt;/sup&gt; . &lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Working with SVG Transformations</title><link href="https://dr-nick-nagel.github.io/blog/trans-matrix.html" rel="alternate"></link><published>2025-02-17T00:00:00-05:00</published><updated>2025-02-17T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-17:/blog/trans-matrix.html</id><summary type="html">&lt;p&gt;How to work with SVG transformations ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;Having recently re-engaged in a passion project of mine -- building an SVG/javascript &lt;em&gt;artworks framework&lt;/em&gt; -- I found myself needing to make use of &lt;em&gt;SVG transforms&lt;/em&gt;.  Transforms are a &lt;em&gt;very&lt;/em&gt; powerful feature of SVG that can be used to create and position shapes, move and deform elements, and modify paths to create amazing and beautiful effects and animations. But, in order to exploit this feature to its utmost potential, programmers and artists must make the effort to fully understand SVG coordinate systems and how transforms work!&lt;/p&gt;
 &lt;h1&gt;Coordinate Systems in SVG&lt;/h1&gt;
 &lt;p&gt;SVG was created to define images in terms of mathematical abstractions as opposed to bitmap representations. In so doing it opens up a whole new universe of possibilities for creative types to produce artworks -- art that can be beautifully rendered with full fidelity without concern for information loss due to resolution. Conceptually, as a creator you're still working with a canvas. But to produce your art you're manipulating lines and shapes in ways that, to me, feels more like sculpting than like painting. &lt;/p&gt;
@@ -1017,7 +1202,7 @@ $$&lt;/p&gt;
 &lt;p&gt;The probability that it will snow is the &lt;em&gt;prior&lt;/em&gt; probability. But I've also observed an event that should impact the prior: It's cloudy. The probability of an overcast day occurring on a January day in New England is $P(E) = 50\%$&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;But in Bayesean terms that's not the whole story. Whether I should be concerned with snow given that it's cloudy is &lt;em&gt;also&lt;/em&gt; impacted by the likelihood it will be overcast if it's snowing. Given snow, it may be cloudy 99% of the time but on rare occaisions I've seen snow when it's not completely overcast. So let $P( Event | Hyp  ) = 99\%$&lt;/p&gt;
+&lt;p&gt;But in Bayesian terms that's not the whole story. Whether I should be concerned with snow given that it's cloudy is &lt;em&gt;also&lt;/em&gt; impacted by the likelihood it will be overcast if it's snowing. Given snow, it may be cloudy 99% of the time but on rare occaisions I've seen snow when it's not completely overcast. So let $P( Event | Hyp  ) = 99\%$&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Now let's do the math. &lt;em&gt;Calculate the probability of snow in Boston on January 9th&lt;/em&gt; (the hypothesis) &lt;em&gt;given that it's overcast in the morning&lt;/em&gt; (the event)...&lt;/p&gt;

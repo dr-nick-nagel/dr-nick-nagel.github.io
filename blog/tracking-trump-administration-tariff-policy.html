@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Tracking Trump Administration Tariff Policy</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        
+          [
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/blog/tracking-trump-administration-tariff-policy.html" rel="bookmark"
+           title="Permalink to Tracking Trump Administration Tariff Policy">Tracking Trump Administration Tariff Policy</a></h2>
+      
+    </header>
+    <script src='https://cdn.jsdelivr.net/npm/chart.js' ></script>
+<p>,</p>
+<script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+<p>,</p>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1"></script>
+<p>,</p>
+<script src='/scripts/nnttt.js' ></script>
+<p>]
+Category: Published
+Tags: economics, tariffs, trump administration
+Slug: trump-tariffs
+Author: Nick Nagel
+Status: published
+Summary: My dashboard for tracking the economic impacts of Trump administration tariffs...</p>
+<h1>Purpose</h1>
+<p>The purpose of this page is to track the ongoing impacts of the Trump administration tariffs which were announced in April 2025. Below is a dashboard designed to track the impact using a number of indicators.</p>
+<h1>Impact Tracking Dashboard</h1>
+<p>Consumer price index
+Dow Jones Industrial
+S&amp;P
+NASDAQ</p>
+<div style='border: solid red 1px'>
+  <canvas id='cpiChart' 
+          width='400' 
+          height='200' >
+  </canvas>
+</div>
+
+<h1>Rationale</h1>
+<p>On April 2, 2025, president Donald Trump signed an executive order imposing a minimum 10% tariff on all U.S. imports, with higher rates ranging from 11% to 50% for imports from 57 nations. This amounts to a huge perturbation; the trade-weighted average tariff rose from 2% to an estimated 24%! This broad application of tariffs marked a significant escalation in U.S. trade policy the likes of which have not been seen since the great depression. </p>
+<p><span id="note_1">To me it seems the approach amounts to applying a rather blunt instrument to address concerns about the US trade deficit. The formula -- deduced by journalists and later published by the Office of the United States Trade Representative (OUSTR)<sup><a href="#en_1">1</a></sup></span> is as follows:</p>
+<p>$$
+\Delta \tau _i = \frac{x_i - m_i}{\varepsilon \times \varphi \times m_i } 
+$$</p>
+<p>Where:</p>
+<ul>
+<li>
+<p>$\Delta \tau$ = The amount of tariff increase (for each country)</p>
+</li>
+<li>
+<p>$x_i$ = US exports to that country </p>
+</li>
+<li>
+<p>$m_i$ = US imports to that country </p>
+</li>
+<li>
+<p>$\varepsilon$ = The price elasticity of import demand</p>
+</li>
+<li>
+<p>$\varphi$ = The elasticity of import prices with respect to tariffs</p>
+</li>
+</ul>
+<p>According to the OUSTR the $\varepsilon$ and $\varphi$ values were set to 4 and 0.25 respectively. I can only assume this means they were set <em>across the board</em> which effectively cancel one another out (the product of the two amounts to 1) which has zero effect on the denominator. Also, the <em>minimum</em> tariff for a given country was floored at 10% <em>regardless of the value determined by the formula</em>.</p>
+<p>So, in essense, the formula amounts to imposing a tariff equivalent to the proportion of the trade deficit with any nation divided by ovarall imports, or a flat 10% tariff where that proportion falls below 0.1. </p>
+<h1>Discussion</h1>
+<p>This blanket approach to imposing tariffs world-wide is bound to affect <em>eveybody everywhere</em>. Economists have warned of inevitable price increases for US citizens and stong possibilities of trending the economy toward to recession. Initial market indications seem to bear those fears out as companies around the world reel from the implications of the 2025 trade wars. </p>
+<p>Will this perturbation result in increased economic difficulties for American households? In the near term almost certainly the answer is yes. Tariffs are essentially taxes on materials and goods that have to be paid somewhere whether by producers or consumers of the materials or finished goods subject to the tariffs. And when tariffs are applied across the board in this fashion it's hard to find a product that isn't affected directly or indirectly. </p>
+<p>But in the long term only time will tell. That's why I created this dashboard; it behooves us all to pay very careful attention to the indicators and tie them to the fiscal policy of an administration that appears determined to reinvigorate trade protectionism at any cost.</p>
+<h1>Resources and References</h1>
+<ol>
+<li>
+<p><a href="https://en.wikipedia.org/w/index.php?title=Tariffs_in_the_second_Trump_administration">Wikipedia: Tariffs in the second Trump administration</a></p>
+</li>
+<li>
+<p><span id="en_1"><a href="https://ustr.gov/issue-areas/reciprocal-tariff-calculations">Office of the United States Trade Representative: Reciprocal Tariff Calculations </a></span> <a href="#note_1">UPARROW</a></p>
+</li>
+<li>
+<p><a href="https://www.axios.com/2025/04/03/how-trump-calculated-tariffs-trade-deficit?utm_source=firefox-newtab-en-us">Trump's surprisingly simple tariff math</a></p>
+</li>
+<li>
+<p><a href="https://fred.stlouisfed.org/docs/api/fred/">FRED® API</a></p>
+</li>
+<li>
+<p><a href="INSERT_URL">RESOURCE</a></p>
+</li>
+<li>
+<p><a href="INSERT_URL">RESOURCE</a></p>
+</li>
+</ol>
+<script>
+
+
+
+</script>
+    <footer>
+      <p>Published: <time datetime="2025-04-07T00:00:00-04:00">
+        Mon 07 April 2025
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/posts.html">posts</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Published</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/published.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-04-07T00:00:00-04:00</updated><entry><title>Tracking Trump Administration Tariff Policy</title><link href="https://dr-nick-nagel.github.io/blog/trump-tariffs.html" rel="alternate"></link><published>2025-04-07T00:00:00-04:00</published><updated>2025-04-07T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-04-07:/blog/trump-tariffs.html</id><summary type="html">&lt;p&gt;My dashboard for tracking the economic impacts of Trump administration tariffs...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Purpose&lt;/h1&gt;
+&lt;p&gt;The purpose of this page is to track the ongoing impacts of the Trump administration tariffs which were announced in April 2025. &lt;/p&gt;
+&lt;h1&gt;Rationale&lt;/h1&gt;
+&lt;p&gt;On April 2, 2025, president Donald Trump signed an executive order imposing a minimum 10% tariff on all U.S. imports, with higher rates applied to upwards of 57  nations. This amounts to a huge perturbation to the &lt;em&gt;World Wide Economy&lt;/em&gt;. As shown in the following figure the trade-weighted average tariff rose from 2% to an estimated 24% in an incredibly small time period. This broad application of tariffs marked a significant escalation in U.S. trade protectionism the likes of which have not been seen since the Great Depression. &lt;/p&gt;
+&lt;iframe title="US Average Effective Tariff Rate Since 1850" aria-label="Interactive line chart" id="datawrapper-chart-FXfCZ" src="https://datawrapper.dwcdn.net/FXfCZ/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="389" data-external="1"&gt;&lt;/iframe&gt;
+&lt;script type="text/javascript"&gt;!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r,i=0;r=e[i];i++)if(r.contentWindow===a.source){var d=a.data["datawrapper-height"][t]+"px";r.style.height=d}}}))}();
+&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;Figure 1:&lt;/strong&gt; US average effective tariff rate since 1850. Source: &lt;a href="https://budgetlab.yale.edu/research/state-us-tariffs-week-april-7-2025"&gt;Yale Budget Lab&lt;/a&gt; .&lt;/p&gt;
+&lt;p&gt;The formula used by the administration to apply the tariffs [first deduced by journalists and later published by the Office of the United States Trade Representative (OUSTR)] is as follows:&lt;/p&gt;
+&lt;p&gt;$$
+\Delta \tau _i = \frac{x_i - m_i}{\varepsilon \times \varphi \times m_i } 
+$$&lt;/p&gt;
+&lt;p&gt;Where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;$\Delta \tau$ = The amount of tariff increase (for each country)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$x_i$ = US exports to that country &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$m_i$ = US imports to that country &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$\varepsilon$ = The price elasticity of import demand&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$\varphi$ = The elasticity of import prices with respect to tariffs&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;According to the OUSTR the $\varepsilon$ and $\varphi$ values were set to 4 and 0.25 respectively which effectively cancel one another out (the product of the two amounts to 1) which has zero effect on the denominator. Also, the &lt;em&gt;minimum&lt;/em&gt; tariff for a given country was floored at 10% &lt;em&gt;regardless of the value determined by the formula&lt;/em&gt;. So, in essence, the formula amounts to imposing a tariff equivalent to the proportion of the trade deficit with any nation divided by overall imports from that nation, or, a flat 10% tariff where the proportion falls below 0.1. To me, this approach amounts to applying a rather blunt instrument to address concerns about the US trade deficit. &lt;/p&gt;
+&lt;p&gt;The blanket approach to imposing tariffs world-wide is bound to affect &lt;em&gt;everybody everywhere&lt;/em&gt;. Economists have warned of inevitable price increases for US citizens and strong probabilities of trending the economy toward recession. And so, mainly out of concern for the consequences of this economic policy I've put together this page in order to track the economic impacts of the policy going forward. &lt;/p&gt;
+&lt;h1&gt;TTT Dashboard&lt;/h1&gt;
+&lt;p&gt;I'm not purporting to be an economist but off the top of my head it seems that a fair set of indicators to watch should include market reactions, inflation and GDP -- broad indicators of economic health. So to start off the analysis I've added feeds to display the S&amp;amp;P index, CPI and GDP. Later I'll come back and look at employment numbers and trade balances. &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;S&amp;amp;P 500&lt;/strong&gt;. The S&amp;amp;P 500 is a commonly used indicator of U.S. Market performance embodying a broad market view with the 500 largest capitalized U.s. companies.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;CPI&lt;/strong&gt;. The CPI (Consumer Price Index) is a measure of change in prices over time ( $CPI_t = \frac{C_t}{C_0} \times 100$ ) and as such, a good indicator of inflation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;GDP&lt;/strong&gt; . The GDP (Gross Domestic Product) is defined as the total monetary value of all the goods and services produced by a country over the course of a specified period. Here I'll be looking at quarterly GDP tied to 2017 USD.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;For direct comparison I've clamped the starting point of the time series for the chosen indicators to January of 2018.&lt;/p&gt;
+&lt;style&gt;
+.Chart {
+    margin-bottom: 10px
+}
+&lt;/style&gt;
+
+&lt;div class='Chart'&gt;
+  &lt;canvas id='snpChart' 
+          width='400' 
+          height='200' 
+
+          &gt;
+  &lt;/canvas&gt;
+&lt;/div&gt;
+
+&lt;div  class='Chart'&gt;
+  &lt;canvas id='cpiChart' 
+          width='400' 
+          height='200' &gt;
+  &lt;/canvas&gt;
+&lt;/div&gt;
+
+&lt;div  class='Chart'&gt;
+  &lt;canvas id='gdpChart' 
+          width='400' 
+          height='200' &gt;
+  &lt;/canvas&gt;
+&lt;/div&gt;
+
+&lt;h1&gt;Discussion&lt;/h1&gt;
+&lt;p&gt;In the past I've been skeptical with regard to the extent to which U.S. presidents can impact the economy. The &lt;em&gt;World Wide Economy&lt;/em&gt; is a vastly complex system and it's hard to imagine that any one individual could have such significant impacts. But the Trump Tariffs have absolutely opened my eyes and proved my skepticism wrong. Here is a single individual who with a single order has imposed a policy that is bound to affect &lt;em&gt;everybody everywhere&lt;/em&gt;. &lt;/p&gt;
+&lt;p&gt;Immediately out of the gate, as the S&amp;amp;P data shows, the markets don't seem to like the tariffs. Leading companies (e.g., Apple, Google, etc.) saw trillions of dollars evaporate almost overnight. Economists have warned of inevitable price increases for US citizens and strong possibilities of trending the economy toward recession. Initial market indications seem to bear those fears out as companies around the world reel from the implications of the 2025 trade wars. &lt;/p&gt;
+&lt;p&gt;Will this perturbation result in increased economic difficulties for American households? In the near term almost certainly the answer is yes. As noted in a &lt;a href="https://budgetlab.yale.edu/research/state-us-tariffs-week-april-7-2025"&gt;Yale Budget Lab analysis&lt;/a&gt; &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tariffs are a regressive tax, especially in the short-run. This means that tariffs burden households at the bottom of the income ladder more than those at the top as a share of income. &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Tariffs are essentially taxes on materials and goods that have to be paid somewhere whether by producers or consumers of the materials or finished goods subject to the tariffs. And when tariffs are applied across the board in the manner executed on April 2nd it's hard to find a product that &lt;em&gt;isn't&lt;/em&gt; directly affected. &lt;/p&gt;
+&lt;p&gt;But what will be the long term consequences? The answer is only time will tell. That's why I created this dashboard; it behooves us all to pay very careful attention to the indicators and tie them to the fiscal policy of an administration that appears determined to reinvigorate trade protectionism at any cost.&lt;/p&gt;
+&lt;h1&gt;Resources and References&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://ustr.gov/issue-areas/reciprocal-tariff-calculations"&gt;Office of the United States Trade Representative: Reciprocal Tariff Calculations &lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://budgetlab.yale.edu/research/state-us-tariffs-week-april-7-2025"&gt;State of U.S. Tariffs: Week of April 7, 2025&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://budgetlab.yale.edu/research/state-us-tariffs-week-april-7-2025"&gt;Yale Budget Lab analysis&lt;/a&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.datawrapper.de/"&gt;Data Wrapper&lt;/a&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://fred.stlouisfed.org/docs/api/fred/"&gt;FRED &amp;reg; API&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/w/index.php?title=Tariffs_in_the_second_Trump_administration"&gt;Wikipedia: Tariffs in the second Trump administration&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.reuters.com/markets/us/jpmorgan-ceo-dimon-warns-tariffs-could-slow-us-growth-fuel-inflation-2025-04-07/"&gt;Dimon warns of economic impact of trade war, sees possible recession&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script src='https://cdn.jsdelivr.net/npm/chart.js' &gt;&lt;/script&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1"&gt;&lt;/script&gt;</content><category term="Published"></category><category term="economics"></category><category term="tariffs"></category><category term="trump administration"></category></entry></feed>

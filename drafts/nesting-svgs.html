@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - More on SVG Viewports: Nesting SVG's</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        
+          <script src='/scripts/svg_artworks_v0.1.js'></script>
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="javascript" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="motion" />
+    <meta name="tags" content="cartoon" />
+    <meta name="tags" content="physics" />
+    <meta name="tags" content="HTML5" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="framework" />
+    <meta name="tags" content="Inkscape" />
+    <meta name="tags" content="Illustrator" />
+    <meta name="tags" content="Adobe" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/drafts/nesting-svgs.html" rel="bookmark"
+           title="Permalink to More on SVG Viewports: Nesting SVG's">More on SVG Viewports: Nesting SVG's</a></h2>
+      
+    </header>
+    <h1>Introduction</h1>
+<h1>Nesting SVG's</h1>
+<p>What exactly does it mean to "nest" SVG's? </p>
+<p>TODO: USE A RUSSIAN DOLL EXAMPLE ...</p>
+<h1>What does Nesting SVG's Imply?</h1>
+<p>Implies you can create beautiful art like the carousel ...</p>
+<p>Prove by demonstration... </p>
+<h1>Conclusions</h1>
+<p>nested svg coordinate systems</p>
+<p>https://www.google.com/search?q=nested+svg+coordinate+systems&amp;mstk=AUtExfAzI5lt8ZGvGg0sQzZyC4tIOnQ8KqMprQS722xIQzAm4DlfuX8h0oy7ElJ0eu6yRDjb8F_UzWFdA9cBob6SGHxPWXpmFAWIRBhUjhSHxyIVf4-8cbisTnygQ2HDPvOcIn0UOpEvBcQtMI09Tey4Ns6Hs4ifqnOevbYITtcJy_5Zzw8&amp;csuir=3</p>
+<p>nested svgs vs group (g) elements</p>
+<p>https://www.google.com/search?q=is+it+true+in+SVG+that+g+elements+don%27t+get+their+own+viewports?&amp;mstk=AUtExfCpavcaB-yH8_tOVCERlsNN28DkGU41Dej_rvVcYRL9QGkpJSzE_ey9sERXjq8yMN4jA74ti8hDEetkqhs6dCPhzTbQfu0QJfmZ4dQqapat2zk1MbV8JmHftCkqvmRCKlANv6sFu2bPKbkRjhobEs1GwBPXQ2GrGBdi-QHETWAQChP2epwDo6RCUGj8eMv5iW0TXSDHnp0wi8hbYfEBk5hhWG-EZRdQedbl3gHNtMFeBFshOq_SfA8cehDr36VGc10&amp;csuir=3</p>
+<p>blog
+https://www.sarasoueidan.com/blog/nesting-svgs/</p>
+<p>demo
+https://output.jsbin.com/loceqo/1</p>
+<p>stack overflow</p>
+<p>https://stackoverflow.com/questions/16890292/why-nest-an-svg-element-inside-another-svg-element</p>
+<h1>Resources</h1>
+<ol>
+<li>
+<p><a href="https://www.w3.org/TR/SVGTiny12/coords.html#TransformAttribute">W3C: <em>Coordinate Systems, Transformations and Units</em></a></p>
+</li>
+<li>
+<p><a href="https://www.w3.org/TR/SVGTiny12/coords.html#TransformMatrixDefined">W3C: <em>Transform Matrix Defined</em></a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform">mdn web docs: <em>transform</em> </a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform/matrix">mdn web docs: <code>SVGTransform</code><em>: matrix property</em></a></p>
+</li>
+<li>
+<p><a href="https://svgwg.org/svg2-draft/coords.html#TransformProperty"><em>SVG Coordinate Systems, Transformations and Units</em></a></p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2025-03-17T00:00:00-04:00">
+        Mon 17 March 2025
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/draft.html">Draft</a>
+        </p>
+        <p>
+          Tags:
+            <a href="/tag/javascript.html">javascript</a>
+            <a href="/tag/animation.html">animation</a>
+            <a href="/tag/svg.html">svg</a>
+            <a href="/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="/tag/art.html">art</a>
+            <a href="/tag/artwork.html">artwork</a>
+            <a href="/tag/motion.html">motion</a>
+            <a href="/tag/cartoon.html">cartoon</a>
+            <a href="/tag/physics.html">physics</a>
+            <a href="/tag/html5.html">HTML5</a>
+            <a href="/tag/artworks.html">artworks</a>
+            <a href="/tag/framework.html">framework</a>
+            <a href="/tag/inkscape.html">Inkscape</a>
+            <a href="/tag/illustrator.html">Illustrator</a>
+            <a href="/tag/adobe.html">Adobe</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
