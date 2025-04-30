@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Connecting Machine Learning with SVG: Working with BlazePose</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        
+          <script type="module" crossorigin src="/scripts/dist_mv_pose/assets/index-BaujR9Cs.js"></script>
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="SVG" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="machine learning" />
+    <meta name="tags" content="blazepose" />
+    <meta name="tags" content="pose estimation" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="collaborative" />
+    <meta name="tags" content="artists" />
+    <meta name="tags" content="tensorflow" />
+    <meta name="tags" content="pre-trained models" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/drafts/blaze-pose.html" rel="bookmark"
+           title="Permalink to Connecting Machine Learning with SVG: Working with BlazePose">Connecting Machine Learning with SVG: Working with BlazePose</a></h2>
+      
+    </header>
+    <style>
+    body {
+
+    }
+    video {
+        display: block;
+        background-color: #eee;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    svg {
+        display: block;
+        background-color: black;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    circle {
+        fill: rgba(0, 255, 255, 0.75);
+        r: 4;
+    }
+    .DemoView {
+        display: inline-block;
+        width:   340px;
+        border: 0.5px solid #666; 
+        border-radius: 15px; 
+        padding: 10px;
+    }
+</style>
+
+<h1>Introduction</h1>
+<p>Lately I've had the good fortune to work on a passion project of mine: creating an <em>SVG artworks framework</em> alongside a collaborative of artists interested in Scalable Vector Graphics. While I haven't officially launched the framework yet I've been writing more lately about SVG. This post will continue the trend but tie in another of my passions; namely machine-learning. </p>
+<p>In particular, this post is the first in a series I'm working on exploring an application of machine vision to the creation of SVG artworks. The application involves <em>pose estimation</em>. Several years ago I started working with the tensorflow ecosystem on projects revolving around machine learning and computer vision. Around that time Google released a pre-trained model for pose estimation designed for WWW development using tensorflow.js; namely <em>PoseNet</em>.</p>
+<p>PoseNet enables pose estimation using input from images, videos and devices like web-cams. With PoseNet, engineers can create applications that eable a system to "see" figures identifiable by key features related to pose -- like elbows, knees, wrists, hips, etc.. Since its release, PoseNet has been applied to many applications including gaming, interactive fitness, gesture recognition, movement analysis, sports science, physical therapy ... the list goes on. Given my long-standing interests in machine learning, sports, kung fu animation, etc., it should come as no surprise that I landed on pose estimation as my next avenue of exploration.</p>
+<h1>Setting up to PoseNet</h1>
+<p>My initial plan was to engage in a quick spike to explore recent developments and understand what it would take to integrate posenet models with my framework. Always the optimist, I figured I'd hammer out some proofs and have a new ml module up in short order. But, as always, the devil's in the details and I encountered enough gotcha's that I figured an initial post on getting started was warranted -- if for no other reasons than to help others with similar interests and document aspects of the <em>SVG artworks framework</em> as its development unfolds. </p>
+<h2>The Reports of its Demise are Greatly Exaggerated</h2>
+<p>The first question that came up for me was <em>tensforflow.js</em>? Is that still a thing? Now, I've had extensive experience with tensorflow.js -- so I feel I have a right to be wary &#128517; . Again, back when I jumped into architecting and building machine-learning applications tensorflow was <em>the</em> most well-supported and most widely adopted system available for applied ML. And with tensorflow.js (tensorflow with javascript bindings) it was pretty much the <em>only</em> thing around for doing ML on networked (WWW) applications. But, more recently, newer and purportedly more usable systems (namely <em>PyTorch</em>) have come into favor (especially among the python crowd) and I hear a lot of "oh, no-one uses tensorflow anymore". But, to be true, I feel the reports of it's demise are greatly exaggerated. Tensorflow continues to boast a large community of support. Many pre-trained models are available and tested on Tensorflow -- not the least being PoseNet and it's cousins. So it is with confidence that I'm once again adopting tensorflow.js for integration with my framework.</p>
+<h2>Setting up a Build System with Vite</h2>
+<p>My next problem was setting up a build system. Whenever I have the luxury of engaging in solo engineering I <em>always</em> attempt to be platform agnostic. I mention that here because I'm working primarily in pure vanilla javascript and haven't committed to any particular opinionated framework or build system. But with the need to once again incorporate tensorflow and associated models into my applications, and eventually to invite potential collaborators to contribute to the system, it's high time to look a build tooling. </p>
+<p>At this point in time my requirements are simple enough. I need a tool that will quickly and easily generate a minified bundle containing <em>all and only</em> the dependencies I need for particular posts and demos. Lean and mean. And for now, that turns out to be Vite. From its own website; "Vite makes web development simple again". Vite accelerates my process by enabling me to quickly and easily create highly optimized static assets leveraging native ES Modules for blogging, application development and demos. For development I get seemless hot swaps and reloads with it's built in server. </p>
+<h3>Procedure</h3>
+<p>Getting started with Vite was a straightforward formula:</p>
+<ol>
+<li>
+<p>Create the Vite project (I choose plain vanilla)
+    <pre>
+    npm create vite@latest &lt;<PROJECT_ROOT_NAME>&gt; --template vanilla
+    </pre></p>
+</li>
+<li>
+<p><code>cd</code> to the newly created project root directory and run: 
+    <pre>
+    npm install
+    </pre>
+    (Vite provides a pre-defined package.json for a vanilla project).</p>
+</li>
+<li>
+<p>Install the required tensorflow libraries.
+    <pre>
+    npm install @tensorflow/tfjs @tensorflow-models/pose-detection
+    </pre></p>
+</li>
+</ol>
+<p>With this simple recipe I was good to go. The tensorflow installations went smooth and I ended up with a self-contained project development environment. </p>
+<h3>Modularity with Javascript</h3>
+<p>I should mention that I often work in python where I leverage conda to avoid versioning and environment clashes. But javascript's NPM is a different story. Using Vite and local npm installs I have everything I need neatly bundled in a root development directory that looks like this:</p>
+<pre>
+./project_root
+├── dist
+├── index.html
+├── node_modules
+├── package.json
+├── package-lock.json
+├── public
+└── src
+</pre>
+
+<p>This structure very simple and a typical starting point for web-apps. The important thing to note for purposes of getting started is the <em>dist</em> directory. Vite provides a build routine that you can execute with:</p>
+<pre>
+$ npm run build
+</pre>
+<p>What I love about it is that it will generate a <em>dist</em> directory which will contain your HTML index alongside an <em>assets</em> directory. The assets directory contains a minified javascript bundle containing <em>all and only</em> the ES modules required for your application which you can drop anywhere as needed (for example that's exactly what I did for this blog).</p>
+<pre>
+/dist
+├── assets
+│   └── index-###.js
+├── index.html
+</pre>
+<p>And that's it -- that's all there is to it. What I love about this is it's a <em>very</em> modular solution (for javascript anyway) and for my current purposes it suits my needs perfectly! So with the setup out of the way we can develop some good stuff!</p>
+<h1>Pose Estimation with a View toward SVG</h1>
+<h2>Using BlazePose</h2>
+<p>In introducing this post I made reference to PoseNet -- an open source model due to Google which was released several years back. Since it's release, however, significant advances have been made in pose detection and we've seen the release of several new models supporting applied ML. So for my purposes on evaluating the current state of the art I landed on adopting BlazePose for several reasons:</p>
+<ol>
+<li>
+<p>BlazePoze is a new addition to the family of pose estimation models trained on COCO</p>
+</li>
+<li>
+<p>It has greater topological resolution than MoveNet (a PoseNet derivative) with 33 as opposed to 17 keypoints</p>
+</li>
+<li>
+<p>It runs on tensorflow.js with proven performance (30-60 FPS on mobile devices). </p>
+</li>
+</ol>
+<p>BlazePose works really well on individuals. It uses a two stage architecture:</p>
+<ol>
+<li>
+<p>Defining a region of interested on frame 1 input, and</p>
+</li>
+<li>
+<p>Carrying on with prediction on 33 topological keypoints.</p>
+</li>
+</ol>
+<div>
+  <img src="full_body_landmarks.png" />
+</div>
+<p>Figure 1. Blaze pose full body landmarks.</p>
+<h2>Coding BlazePose</h2>
+<p>Having set up an initial project as I described above, coding to BlazePose was straightforward. Here's a recipe using vanilla ES6 modules.</p>
+<ol>
+<li>Import the libraries:</li>
+</ol>
+<pre class='CodeFragment'>
+import * as poseDetection from '@tensorflow-models/pose-detection';
+import * as tf from '@tensorflow/tfjs';
+import '@tensorflow/tfjs-backend-webgl';
+</pre>
+
+<ol>
+<li>Create a detector:</li>
+</ol>
+<pre class='CodeFragment'>
+    // INITIALIZE POSE DETECTION
+    const model = poseDetection.SupportedModels.BlazePose;
+    const detectorConfig = {
+        runtime: 'mediapipe',
+        enableSmoothing: true,
+        modelType: 'full', 
+        solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/pose', 
+    };
+    PoseLoopController.poseDetector = await poseDetection.createDetector(
+        model, 
+        detectorConfig
+    );
+</pre>
+
+<p>INSERT ENDNOTE REGARDING mediapoint RUNTIME ...
+// CDN for the MediaPipe WASM/JS files</p>
+<p>TODO: VISIT THAT STACKOVERFLOW WITH SOLUTION (AND LINK BACK TO BLOG)...</p>
+<p>You can also choose the lite or the heavy variant by setting the modelType field, as shown above: </p>
+<ol>
+<li>That's it! Once you have your detector you can kick off pose estimation.</li>
+</ol>
+<pre class='CodeFragment'>
+        const poseData = await this.poseDetector.estimatePoses(
+            this.video,
+            this.poseEstimationConfig,
+            timeStamp
+        );
+</pre>
+
+<h2>Input</h2>
+<p>For my initial forray I'm interested in webcam input for pose estimation in real-time. Web browsers provide an API for webcam access enabling client code to set up streams. The following fragment shows a very basic setup routine to get laptop camera access:</p>
+<pre class='CodeFragment'>
+let video   = document.getElementById('video');
+// START THE CAMERA ... 
+const stream = await navigator.mediaDevices.getUserMedia({
+    video: { width: 640, height: 480 },
+    audio: false
+});
+video.srcObject = stream;
+/*
+ * Promise to wait 'till camera is ready...
+ */
+await new Promise( (resolve) => {
+    video.onloadedmetadata = () => {
+        video.play();
+        PoseLoopController.video = video;
+        resolve();
+    };
+} );
+</pre>
+
+<p>The code above presupposes a <code>video</code> element embedded in the HTML client to the script:</p>
+<pre class='CodeFragment'>
+&lt;video id="video" autoplay playsinline muted&gt;&lt;/video&gt;
+</pre>
+
+<h2>Connecting the Dots with SVG</h2>
+<p>Finally, with all the infrastructure in place, the stage is set to connect the dots. When you estimate with BlazePose you get a JSON set with keypoints representing skeletal features as shown in Figure 1 above. I've included a specimen in Appendix 1 for anyone who wants to look at the format. So for this first iteration, I just wanted to connect the dots with SVG. </p>
+<p>To this end, I set up an SVG element in my HTML:</p>
+<pre class='CodeFragment'>
+        &lt;svg id="svg_root"
+            width="640px"
+            height="480px"
+            viewbox="0 0 640 480"&gt;&lt;/svg&gt;
+</pre>
+
+<p>Elsewhere, in my javascript module ...</p>
+<pre class='CodeFragment'>
+init( svgElement ) {
+    this.svgRoot = svgElement;
+},
+</pre>
+
+<p>Working off the pose data we can use SVG to; (1) draw the joints, and (2) set up a mapping to create a sort of stick person, or, "skeleton". Here's the code to draw the point data in SVG:</p>
+<pre class='CodeFragment'>
+// DRAW THE JOINTS
+for( const point of keypoints ) {
+    // skip low-confidence points
+    if (point.score < 0.5) continue; 
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", point.x);
+    circle.setAttribute("cy", point.y);
+    circle.setAttribute("r", "5");
+    circle.setAttribute("fill", "lime");
+    this.svgRoot.appendChild(circle);
+}
+</pre>
+
+<p>INSERT NOTE ON CONFIDENCE VALUES
+INSERT PLUG TO BASEAN INFERENCE BLOG</p>
+<p>And here's a mapping for the BlazePose topology:</p>
+<pre class='CodeFragment'>
+SKELETON_CONNECTIONS: [
+    ['left_shoulder', 'right_shoulder'],
+    ['left_shoulder', 'left_elbow'],
+    ['left_elbow', 'left_wrist'],
+    ['right_shoulder', 'right_elbow'],
+    ['right_elbow', 'right_wrist'],
+    ['left_shoulder', 'left_hip'],
+    ['right_shoulder', 'right_hip'],
+    ['left_hip', 'right_hip'],
+    ['left_hip', 'left_knee'],
+    ['left_knee', 'left_ankle'],
+    ['right_hip', 'right_knee'],
+    ['right_knee', 'right_ankle'],
+    ['nose', 'left_eye'],
+    ['nose', 'right_eye'],
+    ['left_eye', 'left_ear'],
+    ['right_eye', 'right_ear']
+]
+</pre>
+
+<p>Armed with the mapping we can connect the dots:</p>
+<pre class='CodeFragment'>
+        const keypointMap = {};
+        for (const kp of keypoints) {
+            keypointMap[kp.name] = kp;
+        }
+
+        for (const [p1Name, p2Name] of this.SKELETON_CONNECTIONS) {
+            const p1 = keypointMap[p1Name];
+            const p2 = keypointMap[p2Name];
+            if (!p1 || !p2 || p1.score < 0.5 || p2.score < 0.5) continue;
+
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", p1.x);
+            line.setAttribute("y1", p1.y);
+            line.setAttribute("x2", p2.x);
+            line.setAttribute("y2", p2.y);
+            line.setAttribute("stroke", "cyan");
+            line.setAttribute("stroke-width", "2");
+            this.svgRoot.appendChild(line);
+        }
+</pre>
+
+<p>And there we have it. A render method for the pose data returned by the BlazePose model. </p>
+<p>As a final note, to sample in real time, I set up a controller using javascript's ubiquitous <code>requestAnimationFrame</code>:</p>
+<pre class='CodeFragment'>
+/**
+ * classic controller logic to mediate between 
+ * model and view...
+ */
+const PoseLoopController = {
+    ...
+    updateEstimates: async function ( timeStamp ) {
+        const poseData = await this.poseDetector.estimatePoses(
+            this.video,
+            this.poseEstimationConfig,
+            timeStamp
+        );
+        this.renderPose( poseData );
+        this.estimateRafId = requestAnimationFrame( 
+            this.updateEstimates.bind(this) 
+        );
+    },
+
+    renderPose: function( data ) {
+        this.poseView.renderPose(data);
+    },
+    ...
+};
+</pre>
+
+<h1>Result</h1>
+<h1>BlazePose Demo Page</h1>
+<div class="DemoView">
+    <div id="ControlButtons">
+        <button id="starter">Start</button>
+        <button id="cam_select"
+            class="disabled" >Switch to Rear Cam</button>
+    </div>
+    <h2>WebCam</h2>
+    <div class="WebCamDiv">
+        <video id="video" 
+                autoplay 
+                playsinline 
+                muted 
+                width=320
+                height=240
+                >
+        </video>
+    </div>
+    <h2>SVG</h2>
+    <div>
+        <svg id="svg_root"
+            width="320"
+            height="240"
+            viewBox="0 0 640 480"></svg>
+    </div>
+</div>
+
+<h1>Discussion</h1>
+<p>I find the results of this initial iteration encouraging. Contrary to what I've been hearing I found tensorflow.js to be quite usable and readily integrated with my existing (ablbeit minimal!) infrastructure. I've used tensorflow extensively in the past for model development and training and remain a fan. Admittedly, I haven't applied tensforflow to develop models with attention -- yet -- but I find results like this encouraging when that time comes.</p>
+<p>Regarding BlazePose itself the results of this spike speak volumes. Easy to use (relatively speaking), highly accurate and quite peformant. Future efforts will help me assess it's readiness for application to the SVG Artworks innitiative.</p>
+<h1>Summary</h1>
+<p>Once again, this post is the first in a two part series on leveraging pose estimation for <strong>SVG Artworks</strong>. This part covered setting up the infrastructure toward integration. In this post I showed:</p>
+<ol>
+<li>
+<p>How and why I commited to BlazePose for pose estimation, </p>
+</li>
+<li>
+<p>The basic recipe to sample data in real time using the media INSERT runtime, and</p>
+</li>
+<li>
+<p>How to render pose-data using SVG.</p>
+</li>
+</ol>
+<p>In the next part of this series I'll explore the first of many applications for this sub-system.</p>
+<h1>Appendix 1: BlazePose Estimate Format</h1>
+<h1>Endnotes</h1>
+<h1>Resources</h1>
+<ol>
+<li>
+<p><a href="https://blog.tensorflow.org/2021/05/high-fidelity-pose-tracking-with-mediapipe-blazepose-and-tfjs.html">BlazePose</a></p>
+</li>
+<li>
+<p><a href="https://github.com/tensorflow/tfjs-models/tree/master/pose-detection">Pose Detection GIT</a></p>
+</li>
+<li>
+<p><a href="https://raw.githubusercontent.com/geaxgx/depthai_blazepose/main/img/full_body_landmarks.png">BlazePose keypoints image</a></p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2025-04-26T00:00:00-04:00">
+        Sat 26 April 2025
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/draft.html">Draft</a>
+        </p>
+        <p>
+          Tags:
+            <a href="/tag/svg.html">SVG</a>
+            <a href="/tag/animation.html">animation</a>
+            <a href="/tag/machine-learning.html">machine learning</a>
+            <a href="/tag/blazepose.html">blazepose</a>
+            <a href="/tag/pose-estimation.html">pose estimation</a>
+            <a href="/tag/artworks.html">artworks</a>
+            <a href="/tag/collaborative.html">collaborative</a>
+            <a href="/tag/artists.html">artists</a>
+            <a href="/tag/tensorflow.html">tensorflow</a>
+            <a href="/tag/pre-trained-models.html">pre-trained models</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

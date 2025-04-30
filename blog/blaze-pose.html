@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Connecting Machine Learning with SVG: Working with BlazePose</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        
+          <script type="module" crossorigin src="/scripts/dist_mv_pose/assets/index-BaujR9Cs.js"></script>
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="SVG" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="machine learning" />
+    <meta name="tags" content="blazepose" />
+    <meta name="tags" content="pose estimation" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="collaborative" />
+    <meta name="tags" content="artists" />
+    <meta name="tags" content="tensorflow" />
+    <meta name="tags" content="pre-trained models" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/blaze-pose.html" rel="bookmark"
+           title="Permalink to Connecting Machine Learning with SVG: Working with BlazePose">Connecting Machine Learning with SVG: Working with BlazePose</a></h2>
+      
+    </header>
+    <style>
+    video {
+        display: block;
+        background-color: #eee;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    svg {
+        display: block;
+        background-color: black;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    circle {
+        fill: rgba(0, 255, 255, 0.75);
+        r: 4;
+    }
+    .DemoView {
+        display: inline-block;
+        width:   340px;
+        border: 0.5px solid #666; 
+        border-radius: 15px; 
+        padding: 10px;
+    }
+    .CodeFragment{
+        font-size: 10px;
+        color: #ffe;
+        background-color: #444;
+        padding: 10px
+    }
+</style>
+
+<h1>Introduction</h1>
+<p>Lately I've had the good fortune to work on a passion project of mine: creating an <em>SVG artworks framework</em> alongside a collaborative of artists interested in Scalable Vector Graphics. While I haven't officially launched the framework yet I've been writing more lately about SVG. This post will continue the trend but tie in another of my passions; namely machine-learning. </p>
+<p>In particular, this is the first in a series posts I'm working on exploring an application of machine vision to the creation of SVG artworks. The application involves <em>pose estimation</em>. Several years ago I started working with the tensorflow ecosystem on projects revolving around machine learning and computer vision. Around that time Google released a pre-trained model for pose estimation designed for WWW development using tensorflow.js; namely <em>PoseNet</em>.</p>
+<p>PoseNet enables pose estimation using input from images, videos and devices like web-cams. With PoseNet, engineers can create applications that enable a system to "see" figures identifiable by key features related to pose -- like elbows, knees, wrists, hips, etc.. Since its release, PoseNet has been applied to many applications including gaming, interactive fitness, gesture recognition, movement analysis, sports science, physical therapy ... the list goes on. Given my long-standing interests in machine learning, sports, kung fu animation, etc., it's no surprise that I landed on pose estimation as my next avenue of exploration.</p>
+<h1>Setting up to PoseNet</h1>
+<p>My initial plan was to engage in a quick spike to explore recent developments and understand what it would take to integrate PoseNet models with my framework. Always the optimist, I figured I'd hammer out some proofs and have a new ml module up in short order. But, as always, the devil's in the details and I encountered enough gotcha's that I figured an initial post on getting started was warranted -- if for no other reasons than to help others with similar interests and document aspects of the <em>SVG artworks framework</em> as its development unfolds. </p>
+<h2>The Reports of its Demise are Greatly Exaggerated</h2>
+<p>The first question that came up for me was <em>tensorflow.js</em>? Is that still a thing? Now, I've had extensive experience with tensorflow.js -- so I feel I have a right to be wary &#128517; . Again, back when I jumped into architecting and building machine-learning applications tensorflow was <em>the</em> most well-supported and most widely adopted system available for applied ML. And with tensorflow.js (tensorflow with javascript bindings) it was pretty much the <em>only</em> thing around for doing ML on networked (WWW) applications. But, more recently, newer and purportedly more usable systems (namely <em>PyTorch</em>) have come into favor (especially among the python crowd) and I hear a lot of "oh, no-one uses tensorflow anymore". But, to be true, I feel the reports of it's demise are greatly exaggerated. Tensorflow continues to boast a large community of support. Many pre-trained models are available and tested on Tensorflow -- not the least being PoseNet and it's cousins. So it is with confidence that I'm once again adopting tensorflow.js -- at present for integration with my SVG Artworks framework.</p>
+<h2>Setting up a Build System with Vite</h2>
+<p>My next problem was setting up a build system. Whenever I have the luxury of engaging in solo engineering I <em>always</em> attempt to be platform agnostic. I mention that here because I'm working primarily in pure vanilla javascript and haven't committed to any particular opinionated framework or build system. But with the need to once again incorporate tensorflow and associated models into my applications, and eventually to invite potential collaborators to contribute to the system, it's high time to look a build tooling. </p>
+<p>At this point in time, my requirements are simple enough. I need a tool that will quickly and easily generate a minified bundle containing <em>all and only</em> the dependencies I need for particular posts and demos. Lean and mean. And for now, that turns out to be <em>Vite</em>. From its own website; "Vite makes web development simple again". Vite accelerates my process by enabling me to quickly and easily create highly optimized static assets leveraging native ES Modules for blogging, application development and demos. For development I get seamless hot swaps and reloads with its built-in server. </p>
+<h3>Procedure</h3>
+<p>Getting started with Vite was a straightforward formula:</p>
+<ol>
+<li>
+<p>Create the Vite project (I choose plain vanilla)
+    <pre>
+    npm create vite@latest &lt;<PROJECT_ROOT_NAME>&gt; --template vanilla
+    </pre></p>
+</li>
+<li>
+<p><code>cd</code> to the newly created project root directory and run: 
+    <pre>
+    npm install
+    </pre>
+    (Vite provides a pre-defined package.json for a vanilla project).</p>
+</li>
+<li>
+<p>Install the required tensorflow libraries.
+    <pre>
+    npm install @tensorflow/tfjs @tensorflow-models/pose-detection
+    </pre></p>
+</li>
+</ol>
+<p>With this simple recipe I was good to go. The tensorflow installations went smooth and I ended up with a self-contained project development environment. </p>
+<h3>Modularity with Javascript</h3>
+<p>I should mention that I often work in python where I leverage conda to avoid versioning and environment clashes. But javascript's NPM is a different story. Using Vite and local npm installs I have everything I need neatly bundled in a root development directory that looks like this:</p>
+<pre>
+./project_root
+|-- dist
+|-- index.html
+|-- node_modules
+|-- package.json
+|-- package-lock.json
+|-- public
+|-- src
+</pre>
+
+<p>This structure very simple and a typical starting point for web-apps. The important thing to note for purposes of getting started is the <em>dist</em> directory. Vite provides a build routine that you can execute with:</p>
+<pre>
+$ npm run build
+</pre>
+<p>What I love about it is that it will generate a <em>dist</em> directory which will contain your HTML index alongside an <em>assets</em> directory. The assets directory contains a minified javascript bundle containing <em>all and only</em> the ES modules required for your application which you can drop anywhere as needed (for example that's exactly what I did for this blog).</p>
+<pre>
+/dist
+|-- assets
+|      -- index-###.js
+|-- index.html
+</pre>
+<p>And that's it -- that's all there is to it. What I love about this is it's a <em>very</em> modular solution (for javascript anyway) and for my current purposes it suits my needs perfectly! So with the setup out of the way we can develop some good stuff!</p>
+<h1>Pose Estimation with a View toward SVG</h1>
+<h2>Using BlazePose</h2>
+<p>In introducing this post I made reference to PoseNet -- an open source model due to Google which was released several years back. Since it's release, however, significant advances have been made in pose detection and we've seen the release of several new models supporting applied ML. So for my purposes on evaluating the current state of the art I landed on adopting BlazePose for several reasons:</p>
+<ol>
+<li>
+<p>BlazePose is a new addition to the family of pose estimation models trained on COCO</p>
+</li>
+<li>
+<p>It has greater topological resolution than MoveNet (a PoseNet derivative) with 33 as opposed to 17 keypoints</p>
+</li>
+<li>
+<p>It runs on tensorflow.js with proven performance (30-60 FPS on mobile devices). </p>
+</li>
+</ol>
+<p>BlazePose works really well on individuals. It uses a two stage architecture:</p>
+<ol>
+<li>
+<p>Defining a region of interested on frame 1 input, and</p>
+</li>
+<li>
+<p>Carrying on with prediction on 33 topological keypoints.</p>
+</li>
+</ol>
+<div>
+  <img 
+    src="/images/blazepose/full_body_landmarks.png" 
+    width="360"
+    />
+</div>
+<p>Figure 1. Blaze pose full body landmarks.</p>
+<h2>Coding BlazePose</h2>
+<p>Having set up an initial project as I described above, coding to BlazePose was straightforward. Here's a recipe using vanilla ES6 modules.</p>
+<ol>
+<li>
+<p>Import the libraries:</p>
+<p><pre class='CodeFragment'>
+import * as poseDetection from '@tensorflow-models/pose-detection';
+import * as tf from '@tensorflow/tfjs';
+import '@tensorflow/tfjs-backend-webgl';
+</pre></p>
+</li>
+<li>
+<p>Create a detector:</p>
+<p><pre class='CodeFragment'>
+// INITIALIZE POSE DETECTION
+const model = poseDetection.SupportedModels.BlazePose;
+const detectorConfig = {
+    <span style='color: #f00'>runtime: 'mediapipe',</span>
+    enableSmoothing: true,
+    modelType: 'full', 
+    <span style='color: #f00'>solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/pose',</span>
+};
+PoseLoopController.poseDetector = await poseDetection.createDetector(
+    model, 
+    detectorConfig
+);
+</pre></p>
+</li>
+<li>
+<p>That's it! Once you have your detector you can kick off pose estimation. </p>
+<p><pre class='CodeFragment'>
+const poseData = await this.poseDetector.estimatePoses(
+    this.video,
+    this.poseEstimationConfig,
+    timeStamp
+);
+</pre></p>
+</li>
+</ol>
+<div class="admonition danger">
+<p class="admonition-title">Pain Point</p>
+<p>Full disclosure -- one of the main reasons I'm writing this is I did have somewhat of a pain point conducting my initial spike with BlazePose. While the Google site says you should be able to use the <em>tfjs runtime</em> the only way I could get BlazePose to work was using <em>mediapipe</em>. I've called out the relevant lines in the <code>detectorConfig</code> above.</p>
+</div>
+<h2>Input</h2>
+<p>For my initial foray I'm interested in webcam input for pose estimation in real-time. Web browsers provide an API for webcam access enabling client code to set up streams. The following fragment shows a very basic setup routine to get laptop camera access:</p>
+<pre class='CodeFragment'>
+let video   = document.getElementById('video');
+// START THE CAMERA ... 
+const stream = await navigator.mediaDevices.getUserMedia({
+    video: { width: 640, height: 480 },
+    audio: false
+});
+video.srcObject = stream;
+/*
+ * Promise to wait 'till camera is ready...
+ */
+await new Promise( (resolve) => {
+    video.onloadedmetadata = () => {
+        video.play();
+        PoseLoopController.video = video;
+        resolve();
+    };
+} );
+</pre>
+
+<p>The code above presupposes a <code>video</code> element embedded in the HTML client to the script:</p>
+<pre class='CodeFragment'>
+&lt;video id="video" autoplay playsinline muted&gt;&lt;/video&gt;
+</pre>
+
+<h2>Connecting the Dots with SVG</h2>
+<p>Finally, with all the infrastructure in place, the stage is set to connect the dots. When you estimate with BlazePose you get a JSON formatted set of keypoints representing skeletal features as shown in Figure 1 above. I've included a specimen in Appendix 1 for anyone who wants to look at the format. So for this first iteration, I just wanted to connect the dots with SVG. </p>
+<p>To this end, I set up an SVG element in my HTML:</p>
+<pre class='CodeFragment'>
+&lt;svg id="svg_root"
+    width="640px"
+    height="480px"
+    viewbox="0 0 640 480"&gt;&lt;/svg&gt;
+</pre>
+
+<p>Elsewhere, in my javascript module ...</p>
+<pre class='CodeFragment'>
+init( svgElement ) {
+    this.svgRoot = svgElement;
+},
+</pre>
+
+<p>Working off the pose data we can use SVG to; (1) draw the joints, and (2) set up a mapping to create a sort of stick person, or, "skeleton". Here's the code to draw the point data in SVG:</p>
+<pre class='CodeFragment'>
+// DRAW THE JOINTS
+for( const point of keypoints ) {
+    // skip low-confidence points
+    if (point.score < 0.5) continue; 
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", point.x);
+    circle.setAttribute("cy", point.y);
+    circle.setAttribute("r", "5");
+    circle.setAttribute("fill", "lime");
+    this.svgRoot.appendChild(circle);
+}
+</pre>
+
+<p>Notice how we skip drawing the low confidence estimates. That is, if you look at the data format the BlazePose model provides a confidence score for each estimate. Since low confidence esimates reflect a greater probability of error I just skip drawing them for now.</p>
+<p>The next thing we need to render is a mapping for the <em>BlazePose topology</em>:</p>
+<pre class='CodeFragment'>
+SKELETON_CONNECTIONS: [
+    ['left_shoulder', 'right_shoulder'],
+    ['left_shoulder', 'left_elbow'],
+    ['left_elbow', 'left_wrist'],
+    ['right_shoulder', 'right_elbow'],
+    ['right_elbow', 'right_wrist'],
+    ['left_shoulder', 'left_hip'],
+    ['right_shoulder', 'right_hip'],
+    ['left_hip', 'right_hip'],
+    ['left_hip', 'left_knee'],
+    ['left_knee', 'left_ankle'],
+    ['right_hip', 'right_knee'],
+    ['right_knee', 'right_ankle'],
+    ['nose', 'left_eye'],
+    ['nose', 'right_eye'],
+    ['left_eye', 'left_ear'],
+    ['right_eye', 'right_ear']
+]
+</pre>
+
+<p>Armed with the mapping we can connect the dots:</p>
+<pre class='CodeFragment'>
+        const keypointMap = {};
+        for (const kp of keypoints) {
+            keypointMap[kp.name] = kp;
+        }
+
+        for (const [p1Name, p2Name] of this.SKELETON_CONNECTIONS) {
+            const p1 = keypointMap[p1Name];
+            const p2 = keypointMap[p2Name];
+            if (!p1 || !p2 || p1.score < 0.5 || p2.score < 0.5) continue;
+
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", p1.x);
+            line.setAttribute("y1", p1.y);
+            line.setAttribute("x2", p2.x);
+            line.setAttribute("y2", p2.y);
+            line.setAttribute("stroke", "cyan");
+            line.setAttribute("stroke-width", "2");
+            this.svgRoot.appendChild(line);
+        }
+</pre>
+
+<p>And there we have it. A render method for the pose data returned by the BlazePose model. </p>
+<p>As a final note -- to sample in real time -- I set up a controller using javascript's ubiquitous <code>requestAnimationFrame</code>:</p>
+<pre class='CodeFragment'>
+/**
+ * classic controller logic to mediate between 
+ * model and view...
+ */
+const PoseLoopController = {
+    ...
+    updateEstimates: async function ( timeStamp ) {
+        const poseData = await this.poseDetector.estimatePoses(
+            this.video,
+            this.poseEstimationConfig,
+            timeStamp
+        );
+        this.renderPose( poseData );
+        this.estimateRafId = requestAnimationFrame( 
+            this.updateEstimates.bind(this) 
+        );
+    },
+
+    renderPose: function( data ) {
+        this.poseView.renderPose(data);
+    },
+    ...
+};
+</pre>
+
+<h1>Result</h1>
+<h1>BlazePose Demo Page</h1>
+<div class="DemoView">
+    <div id="ControlButtons">
+        <button id="starter">Start</button>
+        <button id="cam_select"
+            class="disabled" >Switch to Rear Cam</button>
+    </div>
+    <h2>WebCam</h2>
+    <div class="WebCamDiv">
+        <video id="video" 
+                autoplay 
+                playsinline 
+                muted 
+                width=320
+                height=240
+                >
+        </video>
+    </div>
+    <h2>SVG</h2>
+    <div>
+        <svg id="svg_root"
+            width="320"
+            height="240"
+            viewBox="0 0 640 480"></svg>
+    </div>
+</div>
+
+<h1>Discussion</h1>
+<p>I find the results of this initial iteration encouraging. Contrary to what I've been hearing I found tensorflow.js to be quite usable and readily integrated with my existing (albeit minimal!) infrastructure. I've used tensorflow extensively in the past for model development and training and remain a fan. Admittedly, I haven't applied tensorflow to develop models with attention -- yet -- but I find results like this encouraging when that time comes.</p>
+<p>Regarding BlazePose itself the results of this spike speak volumes. Easy to use (relatively speaking), highly accurate and quite performant. Future efforts will help me assess it's readiness for application to the <em>SVG Artworks initiative</em>.</p>
+<h1>Summary</h1>
+<p>Once again, this post is the first in a two part series on leveraging pose estimation for <strong>SVG Artworks</strong>. This part covered setting up the infrastructure toward integration. In this post I showed:</p>
+<ol>
+<li>
+<p>How and why I committed to BlazePose for pose estimation, </p>
+</li>
+<li>
+<p>The basic recipe to sample data in real time using the <em>mediapipe</em> runtime, and</p>
+</li>
+<li>
+<p>How to render pose-data using SVG.</p>
+</li>
+</ol>
+<p>In the next part of this series I'll explore the first of many applications for this sub-system.</p>
+<h1>Appendix 1: BlazePose Estimate Format</h1>
+<p>This appendix shows the data format for BlazePose estimates.</p>
+<pre class='CodeFragment'>
+export const testData = [
+    {
+      "keypoints": [
+        {
+          "x": 356.4840316772461,
+          "y": 250.0550651550293,
+          "z": -1.1119136810302734,
+          "score": 0.9996199607849121,
+          "name": "nose"
+        },
+        {
+          "x": 377.94788360595703,
+          "y": 223.2425880432129,
+          "z": -1.0387614965438843,
+          "score": 0.9989515542984009,
+          "name": "left_eye_inner"
+        },
+        {
+          "x": 392.9246520996094,
+          "y": 224.65370178222656,
+          "z": -1.0387614965438843,
+          "score": 0.9992958307266235,
+          "name": "left_eye"
+        },
+        {
+          "x": 404.59362030029297,
+          "y": 226.76160335540771,
+          "z": -1.0387614965438843,
+          "score": 0.9989797472953796,
+          "name": "left_eye_outer"
+        },
+        {
+          "x": 333.9323425292969,
+          "y": 225.13166427612305,
+          "z": -1.0371358394622803,
+          "score": 0.9990264177322388,
+          "name": "right_eye_inner"
+        },
+        {
+          "x": 320.34534454345703,
+          "y": 227.19446182250977,
+          "z": -1.036323070526123,
+          "score": 0.9993976354598999,
+          "name": "right_eye"
+        },
+        {
+          "x": 309.02246475219727,
+          "y": 230.1283836364746,
+          "z": -1.0371358394622803,
+          "score": 0.9992387294769287,
+          "name": "right_eye_outer"
+        },
+        {
+          "x": 431.91295623779297,
+          "y": 259.8684883117676,
+          "z": -0.5970033407211304,
+          "score": 0.9990710020065308,
+          "name": "left_ear"
+        },
+        {
+          "x": 300.7639694213867,
+          "y": 261.9875907897949,
+          "z": -0.5592080354690552,
+          "score": 0.9994493126869202,
+          "name": "right_ear"
+        },
+        {
+          "x": 391.6098403930664,
+          "y": 296.5780448913574,
+          "z": -0.9477275609970093,
+          "score": 0.9995063543319702,
+          "name": "mouth_left"
+        },
+        {
+          "x": 332.71968841552734,
+          "y": 299.16006088256836,
+          "z": -0.9379739761352539,
+          "score": 0.9995487332344055,
+          "name": "mouth_right"
+        },
+        {
+          "x": 552.4941253662109,
+          "y": 466.1836624145508,
+          "z": -0.3050040900707245,
+          "score": 0.9921233057975769,
+          "name": "left_shoulder"
+        },
+        {
+          "x": 209.28165435791016,
+          "y": 471.54327392578125,
+          "z": -0.41778045892715454,
+          "score": 0.9973989725112915,
+          "name": "right_shoulder"
+        },
+        {
+          "x": 673.1623840332031,
+          "y": 670.8623313903809,
+          "z": -0.3901451528072357,
+          "score": 0.06075190007686615,
+          "name": "left_elbow"
+        },
+        {
+          "x": 131.7729949951172,
+          "y": 701.9555854797363,
+          "z": -0.35966506600379944,
+          "score": 0.14977993071079254,
+          "name": "right_elbow"
+        },
+        {
+          "x": 641.864013671875,
+          "y": 856.4664459228516,
+          "z": -0.8883930444717407,
+          "score": 0.01822929084300995,
+          "name": "left_wrist"
+        },
+        {
+          "x": 135.20204544067383,
+          "y": 863.7027740478516,
+          "z": -0.9127771258354187,
+          "score": 0.05802474543452263,
+          "name": "right_wrist"
+        },
+        {
+          "x": 659.3319702148438,
+          "y": 923.6346817016602,
+          "z": -1.0290077924728394,
+          "score": 0.02822098881006241,
+          "name": "left_pinky"
+        },
+        {
+          "x": 115.05788803100586,
+          "y": 925.6657218933105,
+          "z": -1.0728992223739624,
+          "score": 0.07850097864866257,
+          "name": "right_pinky"
+        },
+        {
+          "x": 610.3805541992188,
+          "y": 922.3855018615723,
+          "z": -1.0875296592712402,
+          "score": 0.050517670810222626,
+          "name": "left_index"
+        },
+        {
+          "x": 148.2944679260254,
+          "y": 923.1860733032227,
+          "z": -1.179376244544983,
+          "score": 0.1364932507276535,
+          "name": "right_index"
+        },
+        {
+          "x": 598.1359100341797,
+          "y": 893.5819244384766,
+          "z": -0.9404124021530151,
+          "score": 0.0497734472155571,
+          "name": "left_thumb"
+        },
+        {
+          "x": 161.11021041870117,
+          "y": 897.3326683044434,
+          "z": -0.9810525178909302,
+          "score": 0.12678517401218414,
+          "name": "right_thumb"
+        },
+        {
+          "x": 499.7105026245117,
+          "y": 909.8320770263672,
+          "z": -0.03601730614900589,
+          "score": 0.00015843621804378927,
+          "name": "left_hip"
+        },
+        {
+          "x": 261.3803482055664,
+          "y": 910.173511505127,
+          "z": 0.04259592667222023,
+          "score": 0.00016997529019135982,
+          "name": "right_hip"
+        },
+        {
+          "x": 493.2014465332031,
+          "y": 1276.8883895874023,
+          "z": -0.23429028689861298,
+          "score": 0.00018667821132112294,
+          "name": "left_knee"
+        },
+        {
+          "x": 269.8649024963379,
+          "y": 1273.6931991577148,
+          "z": -0.1004318967461586,
+          "score": 0.0000660521473037079,
+          "name": "right_knee"
+        },
+        {
+          "x": 495.0320053100586,
+          "y": 1606.7665100097656,
+          "z": 0.3820171356201172,
+          "score": 0.00003852893496514298,
+          "name": "left_ankle"
+        },
+        {
+          "x": 273.22668075561523,
+          "y": 1602.488021850586,
+          "z": 0.29606327414512634,
+          "score": 0.0000035008542909054086,
+          "name": "right_ankle"
+        },
+        {
+          "x": 503.89259338378906,
+          "y": 1663.7647247314453,
+          "z": 0.39949238300323486,
+          "score": 0.0000321923362207599,
+          "name": "left_heel"
+        },
+        {
+          "x": 269.63619232177734,
+          "y": 1660.8712005615234,
+          "z": 0.3068329095840454,
+          "score": 0.000008332717698067427,
+          "name": "right_heel"
+        },
+        {
+          "x": 451.91650390625,
+          "y": 1703.7100982666016,
+          "z": -0.36129066348075867,
+          "score": 0.000050644717703107744,
+          "name": "left_foot_index"
+        },
+        {
+          "x": 307.6192092895508,
+          "y": 1698.3306884765625,
+          "z": -0.47386378049850464,
+          "score": 0.00003734356869244948,
+          "name": "right_foot_index"
+        }
+      ],
+      "keypoints3D": [
+        {
+          "x": -0.01939723640680313,
+          "y": -0.59392911195755,
+          "z": -0.269775390625,
+          "score": 0.9996199607849121,
+          "name": "nose"
+        },
+        {
+          "x": -0.012170777656137943,
+          "y": -0.6322293281555176,
+          "z": -0.256103515625,
+          "score": 0.9989515542984009,
+          "name": "left_eye_inner"
+        },
+        {
+          "x": -0.011749839410185814,
+          "y": -0.6337063312530518,
+          "z": -0.256103515625,
+          "score": 0.9992958307266235,
+          "name": "left_eye"
+        },
+        {
+          "x": -0.011679437011480331,
+          "y": -0.6341966986656189,
+          "z": -0.256103515625,
+          "score": 0.9989797472953796,
+          "name": "left_eye_outer"
+        },
+        {
+          "x": -0.04084436595439911,
+          "y": -0.6245983839035034,
+          "z": -0.251953125,
+          "score": 0.9990264177322388,
+          "name": "right_eye_inner"
+        },
+        {
+          "x": -0.04001894220709801,
+          "y": -0.6251096129417419,
+          "z": -0.254150390625,
+          "score": 0.9993976354598999,
+          "name": "right_eye"
+        },
+        {
+          "x": -0.04083907604217529,
+          "y": -0.626063883304596,
+          "z": -0.253173828125,
+          "score": 0.9992387294769287,
+          "name": "right_eye_outer"
+        },
+        {
+          "x": 0.04208122566342354,
+          "y": -0.617120623588562,
+          "z": -0.1627197265625,
+          "score": 0.9990710020065308,
+          "name": "left_ear"
+        },
+        {
+          "x": -0.09006303548812866,
+          "y": -0.5944186449050903,
+          "z": -0.1534423828125,
+          "score": 0.9994493126869202,
+          "name": "right_ear"
+        },
+        {
+          "x": 0.005040733143687248,
+          "y": -0.5721349120140076,
+          "z": -0.2391357421875,
+          "score": 0.9995063543319702,
+          "name": "mouth_left"
+        },
+        {
+          "x": -0.03399992361664772,
+          "y": -0.5603097677230835,
+          "z": -0.234375,
+          "score": 0.9995487332344055,
+          "name": "mouth_right"
+        },
+        {
+          "x": 0.16162842512130737,
+          "y": -0.4394470155239105,
+          "z": -0.0804443359375,
+          "score": 0.9921233057975769,
+          "name": "left_shoulder"
+        },
+        {
+          "x": -0.16945692896842957,
+          "y": -0.4227263629436493,
+          "z": -0.11651611328125,
+          "score": 0.9973989725112915,
+          "name": "right_shoulder"
+        },
+        {
+          "x": 0.26471081376075745,
+          "y": -0.24886244535446167,
+          "z": -0.1248779296875,
+          "score": 0.06075190007686615,
+          "name": "left_elbow"
+        },
+        {
+          "x": -0.24077995121479034,
+          "y": -0.20644015073776245,
+          "z": -0.10650634765625,
+          "score": 0.14977993071079254,
+          "name": "right_elbow"
+        },
+        {
+          "x": 0.24441960453987122,
+          "y": -0.07281969487667084,
+          "z": -0.2763671875,
+          "score": 0.01822929084300995,
+          "name": "left_wrist"
+        },
+        {
+          "x": -0.24561065435409546,
+          "y": -0.07191699743270874,
+          "z": -0.2130126953125,
+          "score": 0.05802474543452263,
+          "name": "right_wrist"
+        },
+        {
+          "x": 0.23677894473075867,
+          "y": -0.00020848028361797333,
+          "z": -0.30419921875,
+          "score": 0.02822098881006241,
+          "name": "left_pinky"
+        },
+        {
+          "x": -0.2482885867357254,
+          "y": -0.014158015139400959,
+          "z": -0.22705078125,
+          "score": 0.07850097864866257,
+          "name": "right_pinky"
+        },
+        {
+          "x": 0.19907549023628235,
+          "y": -0.021193398162722588,
+          "z": -0.328369140625,
+          "score": 0.050517670810222626,
+          "name": "left_index"
+        },
+        {
+          "x": -0.20775923132896423,
+          "y": -0.027901863679289818,
+          "z": -0.251953125,
+          "score": 0.1364932507276535,
+          "name": "right_index"
+        },
+        {
+          "x": 0.2194294035434723,
+          "y": -0.0668170154094696,
+          "z": -0.285400390625,
+          "score": 0.0497734472155571,
+          "name": "left_thumb"
+        },
+        {
+          "x": -0.22554269433021545,
+          "y": -0.06160316243767738,
+          "z": -0.2288818359375,
+          "score": 0.12678517401218414,
+          "name": "right_thumb"
+        },
+        {
+          "x": 0.14885969460010529,
+          "y": 0.004388710018247366,
+          "z": 0.017364501953125,
+          "score": 0.00015843621804378927,
+          "name": "left_hip"
+        },
+        {
+          "x": -0.1501338928937912,
+          "y": -0.03282200172543526,
+          "z": -0.01105499267578125,
+          "score": 0.00016997529019135982,
+          "name": "right_hip"
+        },
+        {
+          "x": 0.11079777777194977,
+          "y": -0.11131850630044937,
+          "z": -0.1480712890625,
+          "score": 0.00018667821132112294,
+          "name": "left_knee"
+        },
+        {
+          "x": -0.05517786741256714,
+          "y": -0.4290594458580017,
+          "z": -0.240234375,
+          "score": 0.0000660521473037079,
+          "name": "right_knee"
+        },
+        {
+          "x": 0.18389558792114258,
+          "y": 0.167469322681427,
+          "z": -0.04730224609375,
+          "score": 0.00003852893496514298,
+          "name": "left_ankle"
+        },
+        {
+          "x": -0.042911700904369354,
+          "y": -0.0934547632932663,
+          "z": -0.173095703125,
+          "score": 0.0000035008542909054086,
+          "name": "right_ankle"
+        },
+        {
+          "x": 0.17212402820587158,
+          "y": 0.23642432689666748,
+          "z": 0.0014562606811523438,
+          "score": 0.0000321923362207599,
+          "name": "left_heel"
+        },
+        {
+          "x": -0.07328654080629349,
+          "y": -0.022688165307044983,
+          "z": -0.08013916015625,
+          "score": 0.000008332717698067427,
+          "name": "right_heel"
+        },
+        {
+          "x": 0.2948821187019348,
+          "y": -0.20878705382347107,
+          "z": -0.375732421875,
+          "score": 0.000050644717703107744,
+          "name": "left_foot_index"
+        },
+        {
+          "x": -0.06450705975294113,
+          "y": -0.3733605146408081,
+          "z": -0.48095703125,
+          "score": 0.00003734356869244948,
+          "name": "right_foot_index"
+        }
+      ]
+    }
+  ]
+
+</pre>
+
+<h1>Resources</h1>
+<ol>
+<li>
+<p><a href="https://blog.tensorflow.org/2021/05/high-fidelity-pose-tracking-with-mediapipe-blazepose-and-tfjs.html">BlazePose</a></p>
+</li>
+<li>
+<p><a href="https://github.com/tensorflow/tfjs-models/tree/master/pose-detection">Pose Detection GIT</a></p>
+</li>
+<li>
+<p><a href="https://raw.githubusercontent.com/geaxgx/depthai_blazepose/main/img/full_body_landmarks.png">BlazePose keypoints image</a></p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2025-04-26T00:00:00-04:00">
+        Sat 26 April 2025
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">SVG</a>
+            <a href="https://dr-nick-nagel.github.io/tag/animation.html">animation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/machine-learning.html">machine learning</a>
+            <a href="https://dr-nick-nagel.github.io/tag/blazepose.html">blazepose</a>
+            <a href="https://dr-nick-nagel.github.io/tag/pose-estimation.html">pose estimation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/collaborative.html">collaborative</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artists.html">artists</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tensorflow.html">tensorflow</a>
+            <a href="https://dr-nick-nagel.github.io/tag/pre-trained-models.html">pre-trained models</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

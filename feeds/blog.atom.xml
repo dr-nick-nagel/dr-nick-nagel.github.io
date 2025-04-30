@@ -1,5 +1,835 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-04-01T00:00:00-04:00</updated><entry><title>SVG Artworks</title><link href="https://dr-nick-nagel.github.io/blog/svg-artworks.html" rel="alternate"></link><published>2025-04-01T00:00:00-04:00</published><updated>2025-04-01T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-04-01:/blog/svg-artworks.html</id><summary type="html">&lt;p&gt;Creating art with SVG&lt;/p&gt;</summary><content type="html">&lt;p&gt;&amp;lt;&amp;lt; INSERT THE N &amp;gt;&amp;gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-04-26T00:00:00-04:00</updated><entry><title>Connecting Machine Learning with SVG: Working with BlazePose</title><link href="https://dr-nick-nagel.github.io/blog/blaze-pose.html" rel="alternate"></link><published>2025-04-26T00:00:00-04:00</published><updated>2025-04-26T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-04-26:/blog/blaze-pose.html</id><summary type="html">&lt;p&gt;Setting up BlazePose to work with machine learning and SVG...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+    video {
+        display: block;
+        background-color: #eee;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    svg {
+        display: block;
+        background-color: black;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    circle {
+        fill: rgba(0, 255, 255, 0.75);
+        r: 4;
+    }
+    .DemoView {
+        display: inline-block;
+        width:   340px;
+        border: 0.5px solid #666; 
+        border-radius: 15px; 
+        padding: 10px;
+    }
+    .CodeFragment{
+        font-size: 10px;
+        color: #ffe;
+        background-color: #444;
+        padding: 10px
+    }
+&lt;/style&gt;
+
+&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Lately I've had the good fortune to work on a passion project of mine: creating an &lt;em&gt;SVG artworks framework&lt;/em&gt; alongside a collaborative of artists interested in Scalable Vector Graphics. While I haven't officially launched the framework yet I've been writing more lately about SVG. This post will continue the trend but tie in another of my passions; namely machine-learning. &lt;/p&gt;
+&lt;p&gt;In particular, this is the first in a series posts I'm working on exploring an application of machine vision to the creation of SVG artworks. The application involves &lt;em&gt;pose estimation&lt;/em&gt;. Several years ago I started working with the tensorflow ecosystem on projects revolving around machine learning and computer vision. Around that time Google released a pre-trained model for pose estimation designed for WWW development using tensorflow.js; namely &lt;em&gt;PoseNet&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;PoseNet enables pose estimation using input from images, videos and devices like web-cams. With PoseNet, engineers can create applications that enable a system to "see" figures identifiable by key features related to pose -- like elbows, knees, wrists, hips, etc.. Since its release, PoseNet has been applied to many applications including gaming, interactive fitness, gesture recognition, movement analysis, sports science, physical therapy ... the list goes on. Given my long-standing interests in machine learning, sports, kung fu animation, etc., it's no surprise that I landed on pose estimation as my next avenue of exploration.&lt;/p&gt;
+&lt;h1&gt;Setting up to PoseNet&lt;/h1&gt;
+&lt;p&gt;My initial plan was to engage in a quick spike to explore recent developments and understand what it would take to integrate PoseNet models with my framework. Always the optimist, I figured I'd hammer out some proofs and have a new ml module up in short order. But, as always, the devil's in the details and I encountered enough gotcha's that I figured an initial post on getting started was warranted -- if for no other reasons than to help others with similar interests and document aspects of the &lt;em&gt;SVG artworks framework&lt;/em&gt; as its development unfolds. &lt;/p&gt;
+&lt;h2&gt;The Reports of its Demise are Greatly Exaggerated&lt;/h2&gt;
+&lt;p&gt;The first question that came up for me was &lt;em&gt;tensorflow.js&lt;/em&gt;? Is that still a thing? Now, I've had extensive experience with tensorflow.js -- so I feel I have a right to be wary &amp;#128517; . Again, back when I jumped into architecting and building machine-learning applications tensorflow was &lt;em&gt;the&lt;/em&gt; most well-supported and most widely adopted system available for applied ML. And with tensorflow.js (tensorflow with javascript bindings) it was pretty much the &lt;em&gt;only&lt;/em&gt; thing around for doing ML on networked (WWW) applications. But, more recently, newer and purportedly more usable systems (namely &lt;em&gt;PyTorch&lt;/em&gt;) have come into favor (especially among the python crowd) and I hear a lot of "oh, no-one uses tensorflow anymore". But, to be true, I feel the reports of it's demise are greatly exaggerated. Tensorflow continues to boast a large community of support. Many pre-trained models are available and tested on Tensorflow -- not the least being PoseNet and it's cousins. So it is with confidence that I'm once again adopting tensorflow.js -- at present for integration with my SVG Artworks framework.&lt;/p&gt;
+&lt;h2&gt;Setting up a Build System with Vite&lt;/h2&gt;
+&lt;p&gt;My next problem was setting up a build system. Whenever I have the luxury of engaging in solo engineering I &lt;em&gt;always&lt;/em&gt; attempt to be platform agnostic. I mention that here because I'm working primarily in pure vanilla javascript and haven't committed to any particular opinionated framework or build system. But with the need to once again incorporate tensorflow and associated models into my applications, and eventually to invite potential collaborators to contribute to the system, it's high time to look a build tooling. &lt;/p&gt;
+&lt;p&gt;At this point in time, my requirements are simple enough. I need a tool that will quickly and easily generate a minified bundle containing &lt;em&gt;all and only&lt;/em&gt; the dependencies I need for particular posts and demos. Lean and mean. And for now, that turns out to be &lt;em&gt;Vite&lt;/em&gt;. From its own website; "Vite makes web development simple again". Vite accelerates my process by enabling me to quickly and easily create highly optimized static assets leveraging native ES Modules for blogging, application development and demos. For development I get seamless hot swaps and reloads with its built-in server. &lt;/p&gt;
+&lt;h3&gt;Procedure&lt;/h3&gt;
+&lt;p&gt;Getting started with Vite was a straightforward formula:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create the Vite project (I choose plain vanilla)
+    &lt;pre&gt;
+    npm create vite@latest &amp;lt;&lt;PROJECT_ROOT_NAME&gt;&amp;gt; --template vanilla
+    &lt;/pre&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;cd&lt;/code&gt; to the newly created project root directory and run: 
+    &lt;pre&gt;
+    npm install
+    &lt;/pre&gt;
+    (Vite provides a pre-defined package.json for a vanilla project).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install the required tensorflow libraries.
+    &lt;pre&gt;
+    npm install @tensorflow/tfjs @tensorflow-models/pose-detection
+    &lt;/pre&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;With this simple recipe I was good to go. The tensorflow installations went smooth and I ended up with a self-contained project development environment. &lt;/p&gt;
+&lt;h3&gt;Modularity with Javascript&lt;/h3&gt;
+&lt;p&gt;I should mention that I often work in python where I leverage conda to avoid versioning and environment clashes. But javascript's NPM is a different story. Using Vite and local npm installs I have everything I need neatly bundled in a root development directory that looks like this:&lt;/p&gt;
+&lt;pre&gt;
+./project_root
+|-- dist
+|-- index.html
+|-- node_modules
+|-- package.json
+|-- package-lock.json
+|-- public
+|-- src
+&lt;/pre&gt;
+
+&lt;p&gt;This structure very simple and a typical starting point for web-apps. The important thing to note for purposes of getting started is the &lt;em&gt;dist&lt;/em&gt; directory. Vite provides a build routine that you can execute with:&lt;/p&gt;
+&lt;pre&gt;
+$ npm run build
+&lt;/pre&gt;
+&lt;p&gt;What I love about it is that it will generate a &lt;em&gt;dist&lt;/em&gt; directory which will contain your HTML index alongside an &lt;em&gt;assets&lt;/em&gt; directory. The assets directory contains a minified javascript bundle containing &lt;em&gt;all and only&lt;/em&gt; the ES modules required for your application which you can drop anywhere as needed (for example that's exactly what I did for this blog).&lt;/p&gt;
+&lt;pre&gt;
+/dist
+|-- assets
+|      -- index-###.js
+|-- index.html
+&lt;/pre&gt;
+&lt;p&gt;And that's it -- that's all there is to it. What I love about this is it's a &lt;em&gt;very&lt;/em&gt; modular solution (for javascript anyway) and for my current purposes it suits my needs perfectly! So with the setup out of the way we can develop some good stuff!&lt;/p&gt;
+&lt;h1&gt;Pose Estimation with a View toward SVG&lt;/h1&gt;
+&lt;h2&gt;Using BlazePose&lt;/h2&gt;
+&lt;p&gt;In introducing this post I made reference to PoseNet -- an open source model due to Google which was released several years back. Since it's release, however, significant advances have been made in pose detection and we've seen the release of several new models supporting applied ML. So for my purposes on evaluating the current state of the art I landed on adopting BlazePose for several reasons:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;BlazePose is a new addition to the family of pose estimation models trained on COCO&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It has greater topological resolution than MoveNet (a PoseNet derivative) with 33 as opposed to 17 keypoints&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It runs on tensorflow.js with proven performance (30-60 FPS on mobile devices). &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;BlazePose works really well on individuals. It uses a two stage architecture:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Defining a region of interested on frame 1 input, and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Carrying on with prediction on 33 topological keypoints.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div&gt;
+  &lt;img 
+    src="/images/blazepose/full_body_landmarks.png" 
+    width="360"
+    /&gt;
+&lt;/div&gt;
+&lt;p&gt;Figure 1. Blaze pose full body landmarks.&lt;/p&gt;
+&lt;h2&gt;Coding BlazePose&lt;/h2&gt;
+&lt;p&gt;Having set up an initial project as I described above, coding to BlazePose was straightforward. Here's a recipe using vanilla ES6 modules.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Import the libraries:&lt;/p&gt;
+&lt;p&gt;&lt;pre class='CodeFragment'&gt;
+import * as poseDetection from '@tensorflow-models/pose-detection';
+import * as tf from '@tensorflow/tfjs';
+import '@tensorflow/tfjs-backend-webgl';
+&lt;/pre&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a detector:&lt;/p&gt;
+&lt;p&gt;&lt;pre class='CodeFragment'&gt;
+// INITIALIZE POSE DETECTION
+const model = poseDetection.SupportedModels.BlazePose;
+const detectorConfig = {
+    &lt;span style='color: #f00'&gt;runtime: 'mediapipe',&lt;/span&gt;
+    enableSmoothing: true,
+    modelType: 'full', 
+    &lt;span style='color: #f00'&gt;solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/pose',&lt;/span&gt;
+};
+PoseLoopController.poseDetector = await poseDetection.createDetector(
+    model, 
+    detectorConfig
+);
+&lt;/pre&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;That's it! Once you have your detector you can kick off pose estimation. &lt;/p&gt;
+&lt;p&gt;&lt;pre class='CodeFragment'&gt;
+const poseData = await this.poseDetector.estimatePoses(
+    this.video,
+    this.poseEstimationConfig,
+    timeStamp
+);
+&lt;/pre&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="admonition danger"&gt;
+&lt;p class="admonition-title"&gt;Pain Point&lt;/p&gt;
+&lt;p&gt;Full disclosure -- one of the main reasons I'm writing this is I did have somewhat of a pain point conducting my initial spike with BlazePose. While the Google site says you should be able to use the &lt;em&gt;tfjs runtime&lt;/em&gt; the only way I could get BlazePose to work was using &lt;em&gt;mediapipe&lt;/em&gt;. I've called out the relevant lines in the &lt;code&gt;detectorConfig&lt;/code&gt; above.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2&gt;Input&lt;/h2&gt;
+&lt;p&gt;For my initial foray I'm interested in webcam input for pose estimation in real-time. Web browsers provide an API for webcam access enabling client code to set up streams. The following fragment shows a very basic setup routine to get laptop camera access:&lt;/p&gt;
+&lt;pre class='CodeFragment'&gt;
+let video   = document.getElementById('video');
+// START THE CAMERA ... 
+const stream = await navigator.mediaDevices.getUserMedia({
+    video: { width: 640, height: 480 },
+    audio: false
+});
+video.srcObject = stream;
+/*
+ * Promise to wait 'till camera is ready...
+ */
+await new Promise( (resolve) =&gt; {
+    video.onloadedmetadata = () =&gt; {
+        video.play();
+        PoseLoopController.video = video;
+        resolve();
+    };
+} );
+&lt;/pre&gt;
+
+&lt;p&gt;The code above presupposes a &lt;code&gt;video&lt;/code&gt; element embedded in the HTML client to the script:&lt;/p&gt;
+&lt;pre class='CodeFragment'&gt;
+&amp;lt;video id="video" autoplay playsinline muted&amp;gt;&amp;lt;/video&amp;gt;
+&lt;/pre&gt;
+
+&lt;h2&gt;Connecting the Dots with SVG&lt;/h2&gt;
+&lt;p&gt;Finally, with all the infrastructure in place, the stage is set to connect the dots. When you estimate with BlazePose you get a JSON formatted set of keypoints representing skeletal features as shown in Figure 1 above. I've included a specimen in Appendix 1 for anyone who wants to look at the format. So for this first iteration, I just wanted to connect the dots with SVG. &lt;/p&gt;
+&lt;p&gt;To this end, I set up an SVG element in my HTML:&lt;/p&gt;
+&lt;pre class='CodeFragment'&gt;
+&amp;lt;svg id="svg_root"
+    width="640px"
+    height="480px"
+    viewbox="0 0 640 480"&amp;gt;&amp;lt;/svg&amp;gt;
+&lt;/pre&gt;
+
+&lt;p&gt;Elsewhere, in my javascript module ...&lt;/p&gt;
+&lt;pre class='CodeFragment'&gt;
+init( svgElement ) {
+    this.svgRoot = svgElement;
+},
+&lt;/pre&gt;
+
+&lt;p&gt;Working off the pose data we can use SVG to; (1) draw the joints, and (2) set up a mapping to create a sort of stick person, or, "skeleton". Here's the code to draw the point data in SVG:&lt;/p&gt;
+&lt;pre class='CodeFragment'&gt;
+// DRAW THE JOINTS
+for( const point of keypoints ) {
+    // skip low-confidence points
+    if (point.score &lt; 0.5) continue; 
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", point.x);
+    circle.setAttribute("cy", point.y);
+    circle.setAttribute("r", "5");
+    circle.setAttribute("fill", "lime");
+    this.svgRoot.appendChild(circle);
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Notice how we skip drawing the low confidence estimates. That is, if you look at the data format the BlazePose model provides a confidence score for each estimate. Since low confidence esimates reflect a greater probability of error I just skip drawing them for now.&lt;/p&gt;
+&lt;p&gt;The next thing we need to render is a mapping for the &lt;em&gt;BlazePose topology&lt;/em&gt;:&lt;/p&gt;
+&lt;pre class='CodeFragment'&gt;
+SKELETON_CONNECTIONS: [
+    ['left_shoulder', 'right_shoulder'],
+    ['left_shoulder', 'left_elbow'],
+    ['left_elbow', 'left_wrist'],
+    ['right_shoulder', 'right_elbow'],
+    ['right_elbow', 'right_wrist'],
+    ['left_shoulder', 'left_hip'],
+    ['right_shoulder', 'right_hip'],
+    ['left_hip', 'right_hip'],
+    ['left_hip', 'left_knee'],
+    ['left_knee', 'left_ankle'],
+    ['right_hip', 'right_knee'],
+    ['right_knee', 'right_ankle'],
+    ['nose', 'left_eye'],
+    ['nose', 'right_eye'],
+    ['left_eye', 'left_ear'],
+    ['right_eye', 'right_ear']
+]
+&lt;/pre&gt;
+
+&lt;p&gt;Armed with the mapping we can connect the dots:&lt;/p&gt;
+&lt;pre class='CodeFragment'&gt;
+        const keypointMap = {};
+        for (const kp of keypoints) {
+            keypointMap[kp.name] = kp;
+        }
+
+        for (const [p1Name, p2Name] of this.SKELETON_CONNECTIONS) {
+            const p1 = keypointMap[p1Name];
+            const p2 = keypointMap[p2Name];
+            if (!p1 || !p2 || p1.score &lt; 0.5 || p2.score &lt; 0.5) continue;
+
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", p1.x);
+            line.setAttribute("y1", p1.y);
+            line.setAttribute("x2", p2.x);
+            line.setAttribute("y2", p2.y);
+            line.setAttribute("stroke", "cyan");
+            line.setAttribute("stroke-width", "2");
+            this.svgRoot.appendChild(line);
+        }
+&lt;/pre&gt;
+
+&lt;p&gt;And there we have it. A render method for the pose data returned by the BlazePose model. &lt;/p&gt;
+&lt;p&gt;As a final note -- to sample in real time -- I set up a controller using javascript's ubiquitous &lt;code&gt;requestAnimationFrame&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class='CodeFragment'&gt;
+/**
+ * classic controller logic to mediate between 
+ * model and view...
+ */
+const PoseLoopController = {
+    ...
+    updateEstimates: async function ( timeStamp ) {
+        const poseData = await this.poseDetector.estimatePoses(
+            this.video,
+            this.poseEstimationConfig,
+            timeStamp
+        );
+        this.renderPose( poseData );
+        this.estimateRafId = requestAnimationFrame( 
+            this.updateEstimates.bind(this) 
+        );
+    },
+
+    renderPose: function( data ) {
+        this.poseView.renderPose(data);
+    },
+    ...
+};
+&lt;/pre&gt;
+
+&lt;h1&gt;Result&lt;/h1&gt;
+&lt;h1&gt;BlazePose Demo Page&lt;/h1&gt;
+&lt;div class="DemoView"&gt;
+    &lt;div id="ControlButtons"&gt;
+        &lt;button id="starter"&gt;Start&lt;/button&gt;
+        &lt;button id="cam_select"
+            class="disabled" &gt;Switch to Rear Cam&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;h2&gt;WebCam&lt;/h2&gt;
+    &lt;div class="WebCamDiv"&gt;
+        &lt;video id="video" 
+                autoplay 
+                playsinline 
+                muted 
+                width=320
+                height=240
+                &gt;
+        &lt;/video&gt;
+    &lt;/div&gt;
+    &lt;h2&gt;SVG&lt;/h2&gt;
+    &lt;div&gt;
+        &lt;svg id="svg_root"
+            width="320"
+            height="240"
+            viewBox="0 0 640 480"&gt;&lt;/svg&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h1&gt;Discussion&lt;/h1&gt;
+&lt;p&gt;I find the results of this initial iteration encouraging. Contrary to what I've been hearing I found tensorflow.js to be quite usable and readily integrated with my existing (albeit minimal!) infrastructure. I've used tensorflow extensively in the past for model development and training and remain a fan. Admittedly, I haven't applied tensorflow to develop models with attention -- yet -- but I find results like this encouraging when that time comes.&lt;/p&gt;
+&lt;p&gt;Regarding BlazePose itself the results of this spike speak volumes. Easy to use (relatively speaking), highly accurate and quite performant. Future efforts will help me assess it's readiness for application to the &lt;em&gt;SVG Artworks initiative&lt;/em&gt;.&lt;/p&gt;
+&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;p&gt;Once again, this post is the first in a two part series on leveraging pose estimation for &lt;strong&gt;SVG Artworks&lt;/strong&gt;. This part covered setting up the infrastructure toward integration. In this post I showed:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;How and why I committed to BlazePose for pose estimation, &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The basic recipe to sample data in real time using the &lt;em&gt;mediapipe&lt;/em&gt; runtime, and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;How to render pose-data using SVG.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In the next part of this series I'll explore the first of many applications for this sub-system.&lt;/p&gt;
+&lt;h1&gt;Appendix 1: BlazePose Estimate Format&lt;/h1&gt;
+&lt;p&gt;This appendix shows the data format for BlazePose estimates.&lt;/p&gt;
+&lt;pre class='CodeFragment'&gt;
+export const testData = [
+    {
+      "keypoints": [
+        {
+          "x": 356.4840316772461,
+          "y": 250.0550651550293,
+          "z": -1.1119136810302734,
+          "score": 0.9996199607849121,
+          "name": "nose"
+        },
+        {
+          "x": 377.94788360595703,
+          "y": 223.2425880432129,
+          "z": -1.0387614965438843,
+          "score": 0.9989515542984009,
+          "name": "left_eye_inner"
+        },
+        {
+          "x": 392.9246520996094,
+          "y": 224.65370178222656,
+          "z": -1.0387614965438843,
+          "score": 0.9992958307266235,
+          "name": "left_eye"
+        },
+        {
+          "x": 404.59362030029297,
+          "y": 226.76160335540771,
+          "z": -1.0387614965438843,
+          "score": 0.9989797472953796,
+          "name": "left_eye_outer"
+        },
+        {
+          "x": 333.9323425292969,
+          "y": 225.13166427612305,
+          "z": -1.0371358394622803,
+          "score": 0.9990264177322388,
+          "name": "right_eye_inner"
+        },
+        {
+          "x": 320.34534454345703,
+          "y": 227.19446182250977,
+          "z": -1.036323070526123,
+          "score": 0.9993976354598999,
+          "name": "right_eye"
+        },
+        {
+          "x": 309.02246475219727,
+          "y": 230.1283836364746,
+          "z": -1.0371358394622803,
+          "score": 0.9992387294769287,
+          "name": "right_eye_outer"
+        },
+        {
+          "x": 431.91295623779297,
+          "y": 259.8684883117676,
+          "z": -0.5970033407211304,
+          "score": 0.9990710020065308,
+          "name": "left_ear"
+        },
+        {
+          "x": 300.7639694213867,
+          "y": 261.9875907897949,
+          "z": -0.5592080354690552,
+          "score": 0.9994493126869202,
+          "name": "right_ear"
+        },
+        {
+          "x": 391.6098403930664,
+          "y": 296.5780448913574,
+          "z": -0.9477275609970093,
+          "score": 0.9995063543319702,
+          "name": "mouth_left"
+        },
+        {
+          "x": 332.71968841552734,
+          "y": 299.16006088256836,
+          "z": -0.9379739761352539,
+          "score": 0.9995487332344055,
+          "name": "mouth_right"
+        },
+        {
+          "x": 552.4941253662109,
+          "y": 466.1836624145508,
+          "z": -0.3050040900707245,
+          "score": 0.9921233057975769,
+          "name": "left_shoulder"
+        },
+        {
+          "x": 209.28165435791016,
+          "y": 471.54327392578125,
+          "z": -0.41778045892715454,
+          "score": 0.9973989725112915,
+          "name": "right_shoulder"
+        },
+        {
+          "x": 673.1623840332031,
+          "y": 670.8623313903809,
+          "z": -0.3901451528072357,
+          "score": 0.06075190007686615,
+          "name": "left_elbow"
+        },
+        {
+          "x": 131.7729949951172,
+          "y": 701.9555854797363,
+          "z": -0.35966506600379944,
+          "score": 0.14977993071079254,
+          "name": "right_elbow"
+        },
+        {
+          "x": 641.864013671875,
+          "y": 856.4664459228516,
+          "z": -0.8883930444717407,
+          "score": 0.01822929084300995,
+          "name": "left_wrist"
+        },
+        {
+          "x": 135.20204544067383,
+          "y": 863.7027740478516,
+          "z": -0.9127771258354187,
+          "score": 0.05802474543452263,
+          "name": "right_wrist"
+        },
+        {
+          "x": 659.3319702148438,
+          "y": 923.6346817016602,
+          "z": -1.0290077924728394,
+          "score": 0.02822098881006241,
+          "name": "left_pinky"
+        },
+        {
+          "x": 115.05788803100586,
+          "y": 925.6657218933105,
+          "z": -1.0728992223739624,
+          "score": 0.07850097864866257,
+          "name": "right_pinky"
+        },
+        {
+          "x": 610.3805541992188,
+          "y": 922.3855018615723,
+          "z": -1.0875296592712402,
+          "score": 0.050517670810222626,
+          "name": "left_index"
+        },
+        {
+          "x": 148.2944679260254,
+          "y": 923.1860733032227,
+          "z": -1.179376244544983,
+          "score": 0.1364932507276535,
+          "name": "right_index"
+        },
+        {
+          "x": 598.1359100341797,
+          "y": 893.5819244384766,
+          "z": -0.9404124021530151,
+          "score": 0.0497734472155571,
+          "name": "left_thumb"
+        },
+        {
+          "x": 161.11021041870117,
+          "y": 897.3326683044434,
+          "z": -0.9810525178909302,
+          "score": 0.12678517401218414,
+          "name": "right_thumb"
+        },
+        {
+          "x": 499.7105026245117,
+          "y": 909.8320770263672,
+          "z": -0.03601730614900589,
+          "score": 0.00015843621804378927,
+          "name": "left_hip"
+        },
+        {
+          "x": 261.3803482055664,
+          "y": 910.173511505127,
+          "z": 0.04259592667222023,
+          "score": 0.00016997529019135982,
+          "name": "right_hip"
+        },
+        {
+          "x": 493.2014465332031,
+          "y": 1276.8883895874023,
+          "z": -0.23429028689861298,
+          "score": 0.00018667821132112294,
+          "name": "left_knee"
+        },
+        {
+          "x": 269.8649024963379,
+          "y": 1273.6931991577148,
+          "z": -0.1004318967461586,
+          "score": 0.0000660521473037079,
+          "name": "right_knee"
+        },
+        {
+          "x": 495.0320053100586,
+          "y": 1606.7665100097656,
+          "z": 0.3820171356201172,
+          "score": 0.00003852893496514298,
+          "name": "left_ankle"
+        },
+        {
+          "x": 273.22668075561523,
+          "y": 1602.488021850586,
+          "z": 0.29606327414512634,
+          "score": 0.0000035008542909054086,
+          "name": "right_ankle"
+        },
+        {
+          "x": 503.89259338378906,
+          "y": 1663.7647247314453,
+          "z": 0.39949238300323486,
+          "score": 0.0000321923362207599,
+          "name": "left_heel"
+        },
+        {
+          "x": 269.63619232177734,
+          "y": 1660.8712005615234,
+          "z": 0.3068329095840454,
+          "score": 0.000008332717698067427,
+          "name": "right_heel"
+        },
+        {
+          "x": 451.91650390625,
+          "y": 1703.7100982666016,
+          "z": -0.36129066348075867,
+          "score": 0.000050644717703107744,
+          "name": "left_foot_index"
+        },
+        {
+          "x": 307.6192092895508,
+          "y": 1698.3306884765625,
+          "z": -0.47386378049850464,
+          "score": 0.00003734356869244948,
+          "name": "right_foot_index"
+        }
+      ],
+      "keypoints3D": [
+        {
+          "x": -0.01939723640680313,
+          "y": -0.59392911195755,
+          "z": -0.269775390625,
+          "score": 0.9996199607849121,
+          "name": "nose"
+        },
+        {
+          "x": -0.012170777656137943,
+          "y": -0.6322293281555176,
+          "z": -0.256103515625,
+          "score": 0.9989515542984009,
+          "name": "left_eye_inner"
+        },
+        {
+          "x": -0.011749839410185814,
+          "y": -0.6337063312530518,
+          "z": -0.256103515625,
+          "score": 0.9992958307266235,
+          "name": "left_eye"
+        },
+        {
+          "x": -0.011679437011480331,
+          "y": -0.6341966986656189,
+          "z": -0.256103515625,
+          "score": 0.9989797472953796,
+          "name": "left_eye_outer"
+        },
+        {
+          "x": -0.04084436595439911,
+          "y": -0.6245983839035034,
+          "z": -0.251953125,
+          "score": 0.9990264177322388,
+          "name": "right_eye_inner"
+        },
+        {
+          "x": -0.04001894220709801,
+          "y": -0.6251096129417419,
+          "z": -0.254150390625,
+          "score": 0.9993976354598999,
+          "name": "right_eye"
+        },
+        {
+          "x": -0.04083907604217529,
+          "y": -0.626063883304596,
+          "z": -0.253173828125,
+          "score": 0.9992387294769287,
+          "name": "right_eye_outer"
+        },
+        {
+          "x": 0.04208122566342354,
+          "y": -0.617120623588562,
+          "z": -0.1627197265625,
+          "score": 0.9990710020065308,
+          "name": "left_ear"
+        },
+        {
+          "x": -0.09006303548812866,
+          "y": -0.5944186449050903,
+          "z": -0.1534423828125,
+          "score": 0.9994493126869202,
+          "name": "right_ear"
+        },
+        {
+          "x": 0.005040733143687248,
+          "y": -0.5721349120140076,
+          "z": -0.2391357421875,
+          "score": 0.9995063543319702,
+          "name": "mouth_left"
+        },
+        {
+          "x": -0.03399992361664772,
+          "y": -0.5603097677230835,
+          "z": -0.234375,
+          "score": 0.9995487332344055,
+          "name": "mouth_right"
+        },
+        {
+          "x": 0.16162842512130737,
+          "y": -0.4394470155239105,
+          "z": -0.0804443359375,
+          "score": 0.9921233057975769,
+          "name": "left_shoulder"
+        },
+        {
+          "x": -0.16945692896842957,
+          "y": -0.4227263629436493,
+          "z": -0.11651611328125,
+          "score": 0.9973989725112915,
+          "name": "right_shoulder"
+        },
+        {
+          "x": 0.26471081376075745,
+          "y": -0.24886244535446167,
+          "z": -0.1248779296875,
+          "score": 0.06075190007686615,
+          "name": "left_elbow"
+        },
+        {
+          "x": -0.24077995121479034,
+          "y": -0.20644015073776245,
+          "z": -0.10650634765625,
+          "score": 0.14977993071079254,
+          "name": "right_elbow"
+        },
+        {
+          "x": 0.24441960453987122,
+          "y": -0.07281969487667084,
+          "z": -0.2763671875,
+          "score": 0.01822929084300995,
+          "name": "left_wrist"
+        },
+        {
+          "x": -0.24561065435409546,
+          "y": -0.07191699743270874,
+          "z": -0.2130126953125,
+          "score": 0.05802474543452263,
+          "name": "right_wrist"
+        },
+        {
+          "x": 0.23677894473075867,
+          "y": -0.00020848028361797333,
+          "z": -0.30419921875,
+          "score": 0.02822098881006241,
+          "name": "left_pinky"
+        },
+        {
+          "x": -0.2482885867357254,
+          "y": -0.014158015139400959,
+          "z": -0.22705078125,
+          "score": 0.07850097864866257,
+          "name": "right_pinky"
+        },
+        {
+          "x": 0.19907549023628235,
+          "y": -0.021193398162722588,
+          "z": -0.328369140625,
+          "score": 0.050517670810222626,
+          "name": "left_index"
+        },
+        {
+          "x": -0.20775923132896423,
+          "y": -0.027901863679289818,
+          "z": -0.251953125,
+          "score": 0.1364932507276535,
+          "name": "right_index"
+        },
+        {
+          "x": 0.2194294035434723,
+          "y": -0.0668170154094696,
+          "z": -0.285400390625,
+          "score": 0.0497734472155571,
+          "name": "left_thumb"
+        },
+        {
+          "x": -0.22554269433021545,
+          "y": -0.06160316243767738,
+          "z": -0.2288818359375,
+          "score": 0.12678517401218414,
+          "name": "right_thumb"
+        },
+        {
+          "x": 0.14885969460010529,
+          "y": 0.004388710018247366,
+          "z": 0.017364501953125,
+          "score": 0.00015843621804378927,
+          "name": "left_hip"
+        },
+        {
+          "x": -0.1501338928937912,
+          "y": -0.03282200172543526,
+          "z": -0.01105499267578125,
+          "score": 0.00016997529019135982,
+          "name": "right_hip"
+        },
+        {
+          "x": 0.11079777777194977,
+          "y": -0.11131850630044937,
+          "z": -0.1480712890625,
+          "score": 0.00018667821132112294,
+          "name": "left_knee"
+        },
+        {
+          "x": -0.05517786741256714,
+          "y": -0.4290594458580017,
+          "z": -0.240234375,
+          "score": 0.0000660521473037079,
+          "name": "right_knee"
+        },
+        {
+          "x": 0.18389558792114258,
+          "y": 0.167469322681427,
+          "z": -0.04730224609375,
+          "score": 0.00003852893496514298,
+          "name": "left_ankle"
+        },
+        {
+          "x": -0.042911700904369354,
+          "y": -0.0934547632932663,
+          "z": -0.173095703125,
+          "score": 0.0000035008542909054086,
+          "name": "right_ankle"
+        },
+        {
+          "x": 0.17212402820587158,
+          "y": 0.23642432689666748,
+          "z": 0.0014562606811523438,
+          "score": 0.0000321923362207599,
+          "name": "left_heel"
+        },
+        {
+          "x": -0.07328654080629349,
+          "y": -0.022688165307044983,
+          "z": -0.08013916015625,
+          "score": 0.000008332717698067427,
+          "name": "right_heel"
+        },
+        {
+          "x": 0.2948821187019348,
+          "y": -0.20878705382347107,
+          "z": -0.375732421875,
+          "score": 0.000050644717703107744,
+          "name": "left_foot_index"
+        },
+        {
+          "x": -0.06450705975294113,
+          "y": -0.3733605146408081,
+          "z": -0.48095703125,
+          "score": 0.00003734356869244948,
+          "name": "right_foot_index"
+        }
+      ]
+    }
+  ]
+
+&lt;/pre&gt;
+
+&lt;h1&gt;Resources&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://blog.tensorflow.org/2021/05/high-fidelity-pose-tracking-with-mediapipe-blazepose-and-tfjs.html"&gt;BlazePose&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://github.com/tensorflow/tfjs-models/tree/master/pose-detection"&gt;Pose Detection GIT&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://raw.githubusercontent.com/geaxgx/depthai_blazepose/main/img/full_body_landmarks.png"&gt;BlazePose keypoints image&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="SVG"></category><category term="animation"></category><category term="machine learning"></category><category term="blazepose"></category><category term="pose estimation"></category><category term="artworks"></category><category term="collaborative"></category><category term="artists"></category><category term="tensorflow"></category><category term="pre-trained models"></category></entry><entry><title>SVG Artworks</title><link href="https://dr-nick-nagel.github.io/blog/svg-artworks.html" rel="alternate"></link><published>2025-04-01T00:00:00-04:00</published><updated>2025-04-01T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-04-01:/blog/svg-artworks.html</id><summary type="html">&lt;p&gt;Creating art with SVG&lt;/p&gt;</summary><content type="html">&lt;p&gt;&amp;lt;&amp;lt; INSERT THE N &amp;gt;&amp;gt;&lt;/p&gt;
 &lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;Recently I've had the good fortune to be able to devote effort to a long-time passion-project of mine revolving around art and SVG (Scalable Vector Graphics). Returning to this project (after somewhat of a hiatus) got me thinking about general principles of art and how they apply to SVG. This post is an attempt to synthesize some of these concepts.&lt;/p&gt;
 &lt;p&gt;Some time ago I was regularly attending life drawing sessions conducted by a local artist, Freeman Burns. Every couple of weeks He'd invite models to his studio and local artists would come and participate in drawing sessions. To me, over and above the creation of the artwork itself, this kind of activity is &lt;em&gt;very&lt;/em&gt; important to train and exercise one's mind, and foster creativity more generally. &lt;/p&gt;
@@ -73,7 +903,187 @@
 &lt;p&gt;INSERT MEDUSA&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Technically the fill and stroke colors (along with other properties of these features) can be specified and modified using CSS &lt;sup id="note_3"&gt;&lt;a href="en_2"&gt;INSERT UP&lt;/a&gt;&lt;/sup&gt; . &lt;/li&gt;
-&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Our Encounter with the Gorgon!</title><link href="https://dr-nick-nagel.github.io/blog/paestum.html" rel="alternate"></link><published>2025-02-08T00:00:00-05:00</published><updated>2025-02-08T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-08:/blog/paestum.html</id><summary type="html">&lt;p&gt;Encounter the Gorgon!&lt;/p&gt;</summary><content type="html">&lt;p&gt;Even though I do a lot of technical blogging I've also always liked to blog a bit about my travels. This past summer I had the good fortune to visit my long time friend in Italy. While there we visited Paestum -- a major ancient Greek city on the coast of the Tyrrhenian Sea. It was there where we encountered the fearsome Gorgon!...&lt;/p&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Time-Based Animation in Javascript using RequestAnimationFrame</title><link href="https://dr-nick-nagel.github.io/blog/raf-time.html" rel="alternate"></link><published>2025-02-10T00:00:00-05:00</published><updated>2025-02-10T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-10:/blog/raf-time.html</id><summary type="html">&lt;p&gt;How to use javascript RAF for time-based animation...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;In this article I'll discuss key aspects of web-based animation with javascript. In particular, I'll be focusing on time-dependent animation with &lt;em&gt;RequestAnimationFrame&lt;/em&gt;. My purpose in doing so is to highlight some important points for anyone interested in web-based animation in general, but especially vis-à-vis SVG.&lt;/p&gt;
+&lt;p&gt;TODO: ELABORATE VIS A VIS SVG ARTWORKS FRAMEWORK ...&lt;/p&gt;
+&lt;h2&gt;The Animation Loop&lt;/h2&gt;
+&lt;p&gt;All animation occurs within a very basic loop. This was true from the inception of animated artworks from the early days of film with handrawn images to modern day computer-based systems. At it's core the animation loop can be expressed with the following psuedo-code:&lt;/p&gt;
+&lt;pre&gt;
+WHILE animating:
+
+    UPDATE animation state
+        MOVE objects
+        CHANGE properties 
+        etc...
+
+    RENDER the current frame
+        (RE)DRAW objects at new positions/states
+        DISPLAY the frame
+
+    WAIT for an interval of time to elapse
+&lt;/pre&gt;
+
+&lt;p&gt;In other words, all animation involves rendering a scene, waiting for an interval of time to pass, updating the scene, and rendering the updated imagery over and over again. &lt;/p&gt;
+&lt;h2&gt;Animation on the World Wide Web&lt;/h2&gt;
+&lt;p&gt;Back in the olden days web-based animation could be implemented using javascript. The animation loop could be implemented in just a few lines of code: &lt;/p&gt;
+&lt;pre&gt;
+function animate() {
+  while ( animating ) {
+    update();
+    render(); 
+    setTimeout(animate, 50);
+  }
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Here, &lt;code&gt;update&lt;/code&gt; would be a function defined to move things around and/or change object properties and &lt;code&gt;render&lt;/code&gt; would be a function to draw to a renderable area like a 2D canvas. The &lt;em&gt;wait&lt;/em&gt; period was achieved using javascript's &lt;code&gt;setTimeout&lt;/code&gt; function. &lt;/p&gt;
+&lt;p&gt;Using this oldschool technique worked OK in the early years of WWW development but used today would probably result in janky animation. The reason is that &lt;code&gt;setTimeout&lt;/code&gt; is not synchronized with the browser engine's rendering cycle, so using it to create delays can potentially lead to erratic updates and dropped frames appearing as flicker. &lt;/p&gt;
+&lt;h1&gt;RequestAnimationFrame&lt;/h1&gt;
+&lt;p&gt;The good news is that a better standard for animation was introduced way back in 2015 and has since become widely supported across all browser rendering engines. The approach relies on a function called &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame"&gt;requestAnimationFrame&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;Specifically intended to enable smooth animation, &lt;code&gt;requestAnimationFrame&lt;/code&gt; is optimized to operate in synch with the browser rendering cycle. It is also worth noting that animation loops using RAF will pause when a user switches tabs or minimizes the animation window in order to reduce CPU utilization and battery usage. RequestAnimationFrame is ideal for game-loops, simulations and any other use-cases requiring visual updates that need to be synchronized with browsers' rendering system.&lt;/p&gt;
+&lt;p&gt;TODO: RESUME HERE&lt;/p&gt;
+&lt;p&gt;Describe the process&lt;/p&gt;
+&lt;p&gt;USE new animation controller example&lt;/p&gt;
+&lt;p&gt;add examples for 
+  1. sprite motion&lt;/p&gt;
+&lt;p&gt;wicked witch flying across screen...&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;keyframe animation&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Use wicked examples cape billowing&lt;/p&gt;
+&lt;p&gt;ADD appendix for billowing effect with sin math&lt;/p&gt;
+&lt;p&gt;SEE: https://chatgpt.com/c/68014d38-e7d8-8010-9522-4cc19cec83f9&lt;/p&gt;
+&lt;p&gt;REMOVE BELOW&lt;/p&gt;
+&lt;h1&gt;Elementary Kinematics&lt;/h1&gt;
+&lt;p&gt;I've always had a love of cartoon physics. Who can stop but to laugh out loud watching a &lt;em&gt;Tom 'n' Jerry cartoon&lt;/em&gt; or a &lt;em&gt;Road Runner&lt;/em&gt; short with Wile E. Coyote? But when I started working with computer graphics and simulations I quickly needed to ground myself in real-world physics. Before you can control and bend them to your will in your artworks you need to understand the basic laws of motion. So the purpose of this section is to quickly review basic kenetic principles in order to apply them to good effect in the context of the SVG framework. &lt;/p&gt;
+&lt;h2&gt;What is Kinematics?&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Kinematics&lt;/em&gt; is the study of motion without worrying about the forces that cause it. The focus is on &lt;em&gt;position&lt;/em&gt;, &lt;em&gt;velocity&lt;/em&gt; and &lt;em&gt;acceleration&lt;/em&gt; and how these aspects of motion change over time. Basic kinematic principles have been well-known since Newton. &lt;/p&gt;
+&lt;h3&gt;Position, Velocity and Accelaration&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Position.&lt;/strong&gt; &lt;em&gt;Position&lt;/em&gt; represents the location of an object in space relative to a reference point. Since the SVG Artworks Framework is mainly 2D we'll consider 2D descriptions in Cartesian coordinates. Position is represented as a &lt;em&gt;vector&lt;/em&gt;, $\vec v$, with coordinates $x$ and $y$ (horizontal and vertical).&lt;/p&gt;
+&lt;p&gt;&amp;lt;&amp;lt; INSERT IMAGE &amp;gt;&amp;gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; In order to be consisent with 2D rendering in web browsers this discussion treats positive y as down in the 2D space. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Velocity.&lt;/strong&gt; &lt;em&gt;Velocity&lt;/em&gt; is the &lt;em&gt;rate of change&lt;/em&gt; of position with respect to time. In physics velocity represents both &lt;em&gt;speed&lt;/em&gt; and &lt;em&gt;direction&lt;/em&gt; (represented as a vector with &lt;em&gt;orientation&lt;/em&gt; and &lt;em&gt;magnitude&lt;/em&gt;). &lt;/p&gt;
+&lt;p&gt;Mathematically, velocity is the first derivative of position. &lt;/p&gt;
+&lt;p&gt;$$
+v = \frac{dx}{dt}
+$$&lt;/p&gt;
+&lt;p&gt;If you integrate an object's velocity you get its position.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Acceleration.&lt;/strong&gt; &lt;em&gt;Acceleration&lt;/em&gt; if the rate of change in &lt;em&gt;velocity&lt;/em&gt; over time. &lt;/p&gt;
+&lt;p&gt;Acceleration is the first derivative of velocity and the second derviative of position. &lt;/p&gt;
+&lt;p&gt;$$
+a = \frac{dv}{dt} = \frac{d^2x}{dt^2}
+$$&lt;/p&gt;
+&lt;p&gt;If you integrate an object's acceleration you get its velocity, and as I just observed if you integrate that you get position.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Example&lt;/h3&gt;
+&lt;p&gt;Let's look at a simple example. Suppose we have an object in motion starting at position $x=0$ with an initial velocity $v_0$ of $5 m/s$ and a constant acceleration, $a$, of $2 m/s^2$ . Using the definitions above we can represent its motion as:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Velocity over time:&lt;/strong&gt;
+    $$
+    v(t) = v_0 + at
+    $$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Position over time:&lt;/strong&gt;
+    $$
+    p(t) = x_0 + v_0t + \frac{1}{2}at^2
+    $$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Let's look at the object's motion over the course of a 3 second interval. Where is the object located after 3 seconds? &lt;/p&gt;
+&lt;div&gt;
+$$
+\begin{align}
+p(3) &amp;= 0 + (5 \times 3) + \frac{1}{2}(2 \times 3^2) \\
+     &amp;= (15) + \frac{1}{2}(2 \times 9) \\
+     &amp;= 15 + 9 \\
+     &amp;= 24m 
+\end{align}
+$$
+&lt;/div&gt;
+&lt;p&gt;So, after a 3 second interval we see the object has moved 24 meters. &lt;/p&gt;
+&lt;div class="admonition hint"&gt;
+&lt;p class="admonition-title"&gt;An Important Note on Units&lt;/p&gt;
+&lt;p&gt;In going over these computations you'll notice I've been using &lt;em&gt;meters&lt;/em&gt;  as the unit of measure. And this brings up an important point. If you're working on efforts concerning simulations, games, etc., you have to keep your units in mind when working out computations necessary to simulate forces acting on your objects. For example, in creating a particle effect if I want to simulate forces like gravity and drag I can apply real-world formulas but will have to translate real-world units associated with those formulas to my artworks space. Since the SVG Artworks Framework is mainly concerned with rendering SVG graphics I'll typically consider pixels as units.  &lt;strong&gt;TODO: make this better. Look for units discussion in UNREAL?&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;RESUME HERE...&lt;/p&gt;
+&lt;div style="display:none"&gt;
+SEE: 
+
+https://chatgpt.com/c/679bb3f6-8dc4-8010-9865-4cbac92ccaad
+https://chatgpt.com/c/6793b6c3-e21c-8010-b70c-f7f3dcb972be
+https://gemini.google.com/app/caa89c6776f23682
+https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
+
+&lt;/div&gt;
+
+&lt;h1&gt;A Javascript Example&lt;/h1&gt;
+&lt;p&gt;INSERT JAVASCRIPT IMPLEMENTATIONS&lt;/p&gt;
+&lt;h1&gt;SVG Artworks in Action!&lt;/h1&gt;
+&lt;p&gt;This demo of the NN SVG ARTWORKS FRAMEWORK illustrates the application of the kinematic expressions described in this artical to simulate gravitational forces and resistance acting on an object's velocity. Somewhere between a toy and a game... &lt;/p&gt;
+&lt;div id="viewport-container"&gt;
+    &lt;svg id="viewport" 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="500" 
+        height="250" 
+        style="background-color: rgb(143, 202, 206);"&gt;
+    &lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class='Panel'&gt;
+    &lt;button id='start_anim'&gt;Fire&lt;/button&gt;
+    &lt;button id='stop_anim'&gt;Stop&lt;/button&gt;
+    &lt;button id='reset_anim'&gt;Reload&lt;/button&gt;
+    &lt;span id='frame_rate'
+        style="display:inline-block;min-width: 180px; width: 180px"&gt;Frame Rate: 0 (Interval: 0)&lt;/span&gt;
+    &lt;span id='mouse_coords'
+        style="display:inline-block;min-width: 150px; width: 130px"&gt;mouse x=0, y=0&lt;/span&gt;
+    &lt;input type='text' id='vx' value='193'
+        style="display:inline-block;width: 30px" /&gt;
+    &lt;input type='text' id='vy' value='-52'
+        style="display:inline-block;width: 30px" /&gt;
+&lt;/div&gt;
+
+&lt;h1&gt;Discussion&lt;/h1&gt;
+&lt;p&gt;As we've seen, RAF enables fine grained control over the animation loop for web base animations.&lt;/p&gt;
+&lt;p&gt;IMPORTANT NOTES:&lt;/p&gt;
+&lt;p&gt;I. RAF de-couples animation loop timing. 
+  a. In film you were tied to a fixed frame-rate (e.g., 18 FPS) . Same for using setTimeout on web. This meant you would have to time your key frames and tweens to the the fixed interval. So for cyclic animations like walk cycles the keys had to be tied to clicks on the beat. &lt;/p&gt;
+&lt;p&gt;b. With RAF, you get a chance to render everytime the browser refreshes its view. this has a number of implications the most important being:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; 1. you have to take steps to insure movement velocity is constant across varying frame rates, and
+
+ 2. you have to insure you maintain a constant interval for frame dependent animations.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This adds a bit of complexity to your calculations for different types of animation. And introduces an important concept: &lt;/p&gt;
+&lt;p&gt;THE ANIMATION TIMELINE.&lt;/p&gt;
+&lt;p&gt;But with the extra bit of complexity you get a bit of freedom as well. Depending on what your are trying to accomplish, you  can adjust your timeline independent the frames you're working with to speed up or slow an animation:&lt;/p&gt;
+&lt;p&gt;SHOW EXAMPLE WITH THE WICKED BILLOWING EFFECT ... &lt;/p&gt;
+&lt;p&gt;Call to stay TUNED&lt;/p&gt;
+&lt;p&gt;In a subsequent entries I'll look a bit more closely at creating effects with animation frames ...&lt;/p&gt;
+&lt;p&gt;NEXT UP&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Walk Cycle,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Cloth effects (Billowing etc.)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MVC for SVG artworks...&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;There are many applications of web-based animation...&lt;/p&gt;
+&lt;p&gt;TODO ELABORATE&lt;/p&gt;
+&lt;h1&gt;Conclusion&lt;/h1&gt;
+&lt;h1&gt;Resources&lt;/h1&gt;</content><category term="blog"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="motion"></category><category term="HTML5"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Our Encounter with the Gorgon!</title><link href="https://dr-nick-nagel.github.io/blog/paestum.html" rel="alternate"></link><published>2025-02-08T00:00:00-05:00</published><updated>2025-02-08T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-08:/blog/paestum.html</id><summary type="html">&lt;p&gt;Encounter the Gorgon!&lt;/p&gt;</summary><content type="html">&lt;p&gt;Even though I do a lot of technical blogging I've also always liked to blog a bit about my travels. This past summer I had the good fortune to visit my long time friend in Italy. While there we visited Paestum -- a major ancient Greek city on the coast of the Tyrrhenian Sea. It was there where we encountered the fearsome Gorgon!...&lt;/p&gt;
 &lt;style &gt;
 .image-container {
     background: rgb(200, 200, 200);
@@ -148,8 +1158,15 @@ const svgConfig = {
     &lt;img src="/svg/foxy_plain.svg" width=100px&gt;&lt;/img&gt;
     &lt;div&gt;Character Design by Alessandro Gasparini&lt;/div&gt;
 &lt;/div&gt;</content><category term="Blog"></category><category term="ancient"></category><category term="Paestum"></category><category term="Rome"></category><category term="Salerno"></category><category term="Greece"></category><category term="Athena"></category><category term="Hera"></category><category term="Poseidon"></category><category term="Neptune"></category><category term="Juno"></category></entry><entry><title>SVG with a dash of Kinematics</title><link href="https://dr-nick-nagel.github.io/blog/kinematics.html" rel="alternate"></link><published>2025-02-07T00:00:00-05:00</published><updated>2025-02-07T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-07:/blog/kinematics.html</id><summary type="html">&lt;p&gt;Applying kinematics to animation with SVG ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;I've always had a love of cartoon physics. Who can stop but to laugh out loud watching a &lt;em&gt;Tom 'n' Jerry cartoon&lt;/em&gt; or a &lt;em&gt;Road Runner&lt;/em&gt; short with &lt;em&gt;Wile E. Coyote&lt;/em&gt;? But when I started working with computer graphics and simulations over the course of  developing a flight simulator subsystem for US Air force pilot training I quickly needed to ground myself in real-world physics. &lt;/p&gt;
-&lt;p&gt;More recently I've had some time to re-engage in a long-standing passion project of mine and found myself revisiting the fundamentals of &lt;em&gt;kinematics&lt;/em&gt;. The project revolves around a Framework (watch for forthcoming announcements!) I'm developing to support SVG artworks. But, ahead of formally announcing the framework, I'm writing this post for artistic types who might have a general interest in kinematics. Before you can control and bend them to your will in your artworks you need to understand the basic laws of motion. So the purpose of this post is to quickly review basic kinetic principles in order to apply them to good effect in the creation of SVG art for simulations, games, sequential art any any other applications that may be inspired by the muse. &lt;/p&gt;
+&lt;p&gt;I've always had a love of cartoon physics. Who can stop but to laugh out loud watching a &lt;em&gt;Tom 'n' Jerry cartoon&lt;/em&gt; or a &lt;em&gt;Road Runner&lt;/em&gt; short with &lt;em&gt;Wile E. Coyote&lt;/em&gt;? &lt;/p&gt;
+&lt;div style="text-align:center"&gt;
+  &lt;img style="border:solid 1px #555"
+       src="/images/kinematics/wileecoyote1.jpg" 
+       width=250px&gt;&lt;/img&gt; 
+&lt;/div&gt;
+
+&lt;p&gt;But when I started working with computer graphics and simulations over the course of  developing a flight simulator subsystem for US Air force pilot training I quickly needed to ground myself in real-world physics. &lt;/p&gt;
+&lt;p&gt;More recently I've had some time to re-engage in a long-standing passion project of mine and found myself revisiting the fundamentals of &lt;em&gt;kinematics&lt;/em&gt;. The project revolves around a Framework (watch for forthcoming announcements!) I'm developing to support SVG artworks. But, ahead of formally announcing the framework, I'm writing this post for artistic types who might have a general interest in kinematics. Before you can control and bend them to your will in your artworks you need to understand the basic laws of motion. So the purpose of this post is to quickly review basic kinetic principles in order to apply them to good effect in the creation of SVG art for simulations, games, sequential art or any other applications that may be inspired by the muse. &lt;/p&gt;
 &lt;h1&gt;Elementary Kinematics&lt;/h1&gt;
 &lt;h2&gt;What is Kinematics?&lt;/h2&gt;
 &lt;p&gt;&lt;em&gt;Kinematics&lt;/em&gt; is the study of motion without worrying about the forces that cause it. The focus is on &lt;em&gt;position&lt;/em&gt;, &lt;em&gt;velocity&lt;/em&gt; and &lt;em&gt;acceleration&lt;/em&gt; and how these aspects of motion change over time. Basic kinematic principles have been well-known since Newton. It is my view that understanding basic kinematics will help vector graphics artists be more creative in their artistic endeavors.&lt;/p&gt;
@@ -157,9 +1174,7 @@ const svgConfig = {
 &lt;p&gt;You don't have to be an expert in physics to produce good game art or illustrations. But I personally have found that a basic understanding of the relations between three aspects of motion can take you a looong way to creating a wide range of assets. Those aspects are &lt;em&gt;position&lt;/em&gt;, &lt;em&gt;velocity&lt;/em&gt; and acceleration. &lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Position.&lt;/strong&gt; &lt;em&gt;Position&lt;/em&gt; represents the location of an object in space relative to a reference point. Since SVG art is described in 2 dimensions I'll limit the scope of this post to a 2D coordinate system&lt;sup&gt;*&lt;/sup&gt;. But the principles we'll examine can be readily extended to 3D.&lt;/p&gt;
-&lt;p&gt;&amp;lt;&amp;lt; INSERT IMAGE &amp;gt;&amp;gt;&lt;/p&gt;
-&lt;p&gt;&lt;sup&gt;*&lt;/sup&gt; In order to be consisent with 2D rendering in web browsers I'll be treating positive $y$ as down in the 2D space. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Position.&lt;/strong&gt; &lt;em&gt;Position&lt;/em&gt; represents the location of an object in space relative to a reference point. Since SVG art is described in 2 dimensions I'll limit the scope of this post to a 2D coordinate system. But the principles we'll examine can be readily extended to 3D.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Velocity.&lt;/strong&gt; &lt;em&gt;Velocity&lt;/em&gt; is the &lt;em&gt;rate of change&lt;/em&gt; of position with respect to time. In physics velocity represents both speed &lt;em&gt;and&lt;/em&gt; direction and so is conveniently represented as a &lt;em&gt;vector&lt;/em&gt; with &lt;em&gt;orientation&lt;/em&gt; and &lt;em&gt;magnitude&lt;/em&gt;. &lt;/p&gt;

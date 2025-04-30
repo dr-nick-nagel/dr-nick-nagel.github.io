@@ -23,11 +23,11 @@
         <link 
             rel="stylesheet" 
             type="text/css" 
-            href="/theme/css/styles.css" />
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
         <link 
             rel="stylesheet" 
             type="text/css" 
-            href="/theme/css/admonitions.css" />
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
         <link 
             rel="stylesheet" 
             href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
@@ -42,8 +42,6 @@
     <meta name="tags" content="art" />
     <meta name="tags" content="artwork" />
     <meta name="tags" content="motion" />
-    <meta name="tags" content="cartoon" />
-    <meta name="tags" content="physics" />
     <meta name="tags" content="HTML5" />
     <meta name="tags" content="artworks" />
     <meta name="tags" content="framework" />
@@ -61,19 +59,19 @@ Welcome to NickNagel.com
             <navbar class="navigation">
                 <div class='image_item' id="pallas-athena-container">
                     <img id="pallas-athena-image"
-                        src="/images/athena.svg" 
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
                         alt="Pallas Athena"
                     >
                 </div>
                 <ul>
                     <li>
-                        <a href="/pages/about-nick.html">About Nick</a>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
                     </li>
                     <li>
-                        <a href="/blog/index.html">Blog</a>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
                     </li>
                     <li>
-                        <a href="/pages/nn-cv.html">CV</a>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
                     </li>
                 </ul>
             </navbar>
@@ -81,25 +79,61 @@ Welcome to NickNagel.com
   <article>
     <header>
       <h2>
-        <a href="/blog/raf-time.html" rel="bookmark"
+        <a href="https://dr-nick-nagel.github.io/blog/raf-time.html" rel="bookmark"
            title="Permalink to Time-Based Animation in Javascript using RequestAnimationFrame">Time-Based Animation in Javascript using RequestAnimationFrame</a></h2>
       
     </header>
     <h1>Introduction</h1>
-<p>In this article I'll discuss key aspects of web-based animation with javascript. In particular, I'll be focusing on time-dependent animation with <a href="TBD">RequestAnimationFrame</a>. </p>
-<p>TODO: Expand a bit. Discuss the upcoming SVG Artworks Framework...</p>
-<h1>The Animation Loop</h1>
-<p>All animation occurs wihin a very basic loop. This was true from the inception of animated artworks from the early days of film with handrawn images to modern day computer-based systems. </p>
-<p>[[ INSERT IMAGE ANIMATION LOOP ]]
-1. update
-2. render
-3. wait</p>
-<p>All animation involves rendering a scene, waiting for an interval to pass, updating the scene and rendering the updated imagery over and over again. </p>
-<p>TODO: ELABORATE A BIT</p>
-<h1>Request Animation Frame</h1>
-<p>Web-based animation has been around since the inception of the WWW. Today, web-based animation is achieved using HTML5, CSS and Javascript. There are a few ways in which animation can be acheived in Javascript. This article focuses on the use of <code>RequestAnimationFrame</code>. </p>
-<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame">Documentation</a></p>
-<p>For basic animation, using RAF may be simple enough. But for serious animations (think complex artworks) you need time-based animations. </p>
+<p>In this article I'll discuss key aspects of web-based animation with javascript. In particular, I'll be focusing on time-dependent animation with <em>RequestAnimationFrame</em>. My purpose in doing so is to highlight some important points for anyone interested in web-based animation in general, but especially vis-à-vis SVG.</p>
+<p>TODO: ELABORATE VIS A VIS SVG ARTWORKS FRAMEWORK ...</p>
+<h2>The Animation Loop</h2>
+<p>All animation occurs within a very basic loop. This was true from the inception of animated artworks from the early days of film with handrawn images to modern day computer-based systems. At it's core the animation loop can be expressed with the following psuedo-code:</p>
+<pre>
+WHILE animating:
+
+    UPDATE animation state
+        MOVE objects
+        CHANGE properties 
+        etc...
+
+    RENDER the current frame
+        (RE)DRAW objects at new positions/states
+        DISPLAY the frame
+
+    WAIT for an interval of time to elapse
+</pre>
+
+<p>In other words, all animation involves rendering a scene, waiting for an interval of time to pass, updating the scene, and rendering the updated imagery over and over again. </p>
+<h2>Animation on the World Wide Web</h2>
+<p>Back in the olden days web-based animation could be implemented using javascript. The animation loop could be implemented in just a few lines of code: </p>
+<pre>
+function animate() {
+  while ( animating ) {
+    update();
+    render(); 
+    setTimeout(animate, 50);
+  }
+}
+</pre>
+
+<p>Here, <code>update</code> would be a function defined to move things around and/or change object properties and <code>render</code> would be a function to draw to a renderable area like a 2D canvas. The <em>wait</em> period was achieved using javascript's <code>setTimeout</code> function. </p>
+<p>Using this oldschool technique worked OK in the early years of WWW development but used today would probably result in janky animation. The reason is that <code>setTimeout</code> is not synchronized with the browser engine's rendering cycle, so using it to create delays can potentially lead to erratic updates and dropped frames appearing as flicker. </p>
+<h1>RequestAnimationFrame</h1>
+<p>The good news is that a better standard for animation was introduced way back in 2015 and has since become widely supported across all browser rendering engines. The approach relies on a function called <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame">requestAnimationFrame</a>. </p>
+<p>Specifically intended to enable smooth animation, <code>requestAnimationFrame</code> is optimized to operate in synch with the browser rendering cycle. It is also worth noting that animation loops using RAF will pause when a user switches tabs or minimizes the animation window in order to reduce CPU utilization and battery usage. RequestAnimationFrame is ideal for game-loops, simulations and any other use-cases requiring visual updates that need to be synchronized with browsers' rendering system.</p>
+<p>TODO: RESUME HERE</p>
+<p>Describe the process</p>
+<p>USE new animation controller example</p>
+<p>add examples for 
+  1. sprite motion</p>
+<p>wicked witch flying across screen...</p>
+<ol>
+<li>keyframe animation</li>
+</ol>
+<p>Use wicked examples cape billowing</p>
+<p>ADD appendix for billowing effect with sin math</p>
+<p>SEE: https://chatgpt.com/c/68014d38-e7d8-8010-9522-4cc19cec83f9</p>
+<p>REMOVE BELOW</p>
 <h1>Elementary Kinematics</h1>
 <p>I've always had a love of cartoon physics. Who can stop but to laugh out loud watching a <em>Tom 'n' Jerry cartoon</em> or a <em>Road Runner</em> short with Wile E. Coyote? But when I started working with computer graphics and simulations I quickly needed to ground myself in real-world physics. Before you can control and bend them to your will in your artworks you need to understand the basic laws of motion. So the purpose of this section is to quickly review basic kenetic principles in order to apply them to good effect in the context of the SVG framework. </p>
 <h2>What is Kinematics?</h2>
@@ -198,7 +232,36 @@ https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
 </div>
 
 <h1>Discussion</h1>
-<p>Hint: 300, -20 might work...</p>
+<p>As we've seen, RAF enables fine grained control over the animation loop for web base animations.</p>
+<p>IMPORTANT NOTES:</p>
+<p>I. RAF de-couples animation loop timing. 
+  a. In film you were tied to a fixed frame-rate (e.g., 18 FPS) . Same for using setTimeout on web. This meant you would have to time your key frames and tweens to the the fixed interval. So for cyclic animations like walk cycles the keys had to be tied to clicks on the beat. </p>
+<p>b. With RAF, you get a chance to render everytime the browser refreshes its view. this has a number of implications the most important being:</p>
+<pre><code> 1. you have to take steps to insure movement velocity is constant across varying frame rates, and
+
+ 2. you have to insure you maintain a constant interval for frame dependent animations.
+</code></pre>
+<p>This adds a bit of complexity to your calculations for different types of animation. And introduces an important concept: </p>
+<p>THE ANIMATION TIMELINE.</p>
+<p>But with the extra bit of complexity you get a bit of freedom as well. Depending on what your are trying to accomplish, you  can adjust your timeline independent the frames you're working with to speed up or slow an animation:</p>
+<p>SHOW EXAMPLE WITH THE WICKED BILLOWING EFFECT ... </p>
+<p>Call to stay TUNED</p>
+<p>In a subsequent entries I'll look a bit more closely at creating effects with animation frames ...</p>
+<p>NEXT UP</p>
+<ol>
+<li>
+<p>Walk Cycle,</p>
+</li>
+<li>
+<p>Cloth effects (Billowing etc.)</p>
+</li>
+<li>
+<p>MVC for SVG artworks...</p>
+</li>
+</ol>
+<h1>Conclusion</h1>
+<p>There are many applications of web-based animation...</p>
+<p>TODO ELABORATE</p>
 <h1>Conclusion</h1>
 <h1>Resources</h1>
     <footer>
@@ -206,28 +269,26 @@ https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
         Mon 10 February 2025
       </time></p>
         <address>
-          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
         </address>
         <p>
-          Category: <a href="/category/draft.html">draft</a>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">blog</a>
         </p>
         <p>
           Tags:
-            <a href="/tag/javascript.html">javascript</a>
-            <a href="/tag/animation.html">animation</a>
-            <a href="/tag/svg.html">svg</a>
-            <a href="/tag/scalable-vector-graphics.html">scalable vector graphics</a>
-            <a href="/tag/art.html">art</a>
-            <a href="/tag/artwork.html">artwork</a>
-            <a href="/tag/motion.html">motion</a>
-            <a href="/tag/cartoon.html">cartoon</a>
-            <a href="/tag/physics.html">physics</a>
-            <a href="/tag/html5.html">HTML5</a>
-            <a href="/tag/artworks.html">artworks</a>
-            <a href="/tag/framework.html">framework</a>
-            <a href="/tag/inkscape.html">Inkscape</a>
-            <a href="/tag/illustrator.html">Illustrator</a>
-            <a href="/tag/adobe.html">Adobe</a>
+            <a href="https://dr-nick-nagel.github.io/tag/javascript.html">javascript</a>
+            <a href="https://dr-nick-nagel.github.io/tag/animation.html">animation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
+            <a href="https://dr-nick-nagel.github.io/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/art.html">art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artwork.html">artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/motion.html">motion</a>
+            <a href="https://dr-nick-nagel.github.io/tag/html5.html">HTML5</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/framework.html">framework</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape.html">Inkscape</a>
+            <a href="https://dr-nick-nagel.github.io/tag/illustrator.html">Illustrator</a>
+            <a href="https://dr-nick-nagel.github.io/tag/adobe.html">Adobe</a>
         </p>
     </footer>
   </article>
