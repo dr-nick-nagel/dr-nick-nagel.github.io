@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Pro Tips for Mobile Focused Web Dev</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="tooling" />
+    <meta name="tags" content="web development" />
+    <meta name="tags" content="testing" />
+    <meta name="tags" content="tips" />
+    <meta name="tags" content="ngrok" />
+    <meta name="tags" content="mobile" />
+    <meta name="tags" content="phone" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/mobile-testing.html" rel="bookmark"
+           title="Permalink to Pro Tips for Mobile Focused Web Dev">Pro Tips for Mobile Focused Web Dev</a></h2>
+      
+    </header>
+    <h1>Purpose</h1>
+<p>This is just a quick sort-of "mini-post" on some tools I just found that make web-dev for mobile a dream. These days I often develop demos and applications with mobile devices in mind. The old adage "The network is the computer!" is truer now than ever and my demos never know what they're gonna wake up and find themselves running on. So, just recently I came across some very cool tools to facilitate mobile testing and development and wanted to post a quick recipe on using them here. Sorry apple users, but this is specific to android, and in particular Samsung.</p>
+<h2>Setup For Mobile Development and Testing</h2>
+<p>The problem with mobile support and mobile-focused web development is how to test and debug on your device. Dev-Tools emulators are great and good enough to get you started but ultimately you want to test on your target devices. But when I actually sat down to do some testing I found the setup was not trivial and the procedure was like some arcane art. Here's how it goes</p>
+<ol>
+<li>
+<p>In order to do remote testing (i.e., use your desktop to test on your device) you have to enable <strong>Developer Options</strong> and <strong>USB Debugging</strong> on Your Phone. The problem is the way you do that is buried deep in an obscure setting and involves some deep knowledge:</p>
+<ul>
+<li>Go to <code>Settings &gt; About phone</code> </li>
+<li>Find "Build number" and tap it <em>seven times</em> to <strong>enable Developer options</strong> </li>
+<li>Go back to <code>Settings</code> and now you'll see <code>Developer options</code></li>
+<li>Enable <strong>USB debugging</strong> in the <code>Developer options</code></li>
+</ul>
+</li>
+<li>
+<p>Next connect Your Phone to Your Computer via USB. Look for "allow" prompts both on your computer and your phone.</p>
+</li>
+<li>
+<p>Then Open Chrome on Your Computer. In the address bar, go to:</p>
+<p><code>chrome://inspect</code> </p>
+<p>This will open the <strong>Remote Devices</strong> section.</p>
+</li>
+<li>
+<p>Inspect Your Phone's Browser on your computer. </p>
+<ul>
+<li>Under the Remote Devices section, you should see your phone's browser tabs listed.</li>
+<li>Click on the <strong>inspect link</strong> associated with the URL you want to debug. </li>
+<li>This will open a new window that mirrors the Chrome DevTools from your phone.</li>
+</ul>
+</li>
+<li>
+<p>In the DevTools window, click on the <strong>Console tab</strong> to see any errors, warnings, or logs from your phone's browser.</p>
+</li>
+</ol>
+<p>You can now interact with the page on your phone and watch the log update in real-time.</p>
+<h1>Pro Tip: Use nGrok for HTTPS Testing.</h1>
+<p>Many WWW API's and interactions require secure contexts (i.e. requests <em>must</em> be issued over HTTPS). For dev types it is very hard and time consuming to stand up and maintain testing environment that enables secure HTTPS requests. That's where <a href="https://ngrok.com">nGrok</a> comes in. nGrok lets you set up a secure HTTPS proxy to expose your local server. I my case I mainly use it for testing when HTTPS headers are required. For example, I had to test camera access on my phone for my SVG Artworks Framework. Here's how to set it up.</p>
+<h2>Procedure</h2>
+<ol>
+<li>
+<p>Install <code>ngrok</code> .</p>
+</li>
+<li>
+<p>Run your server app (e.g., Vite) </p>
+<p><code>npm run dev</code></p>
+</li>
+<li>
+<p>Start <code>ngrok</code>: Open a new terminal and run:</p>
+<p><code>ngrok http ####</code>
+where ####  is the PORT</p>
+</li>
+<li>
+<p>Ensure your server allows requests from the proxy</p>
+</li>
+</ol>
+<h1>Conclusion</h1>
+<p>Again, this was just meant as a quick post with a couple of recipes for mobile-centric dev that, for me, give a big bang for the buck. I hope folks that come across this post find it useful! Happy coding!</p>
+    <footer>
+      <p>Published: <time datetime="2025-04-01T00:00:00-04:00">
+        Tue 01 April 2025
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">Blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/tooling.html">tooling</a>
+            <a href="https://dr-nick-nagel.github.io/tag/web-development.html">web development</a>
+            <a href="https://dr-nick-nagel.github.io/tag/testing.html">testing</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tips.html">tips</a>
+            <a href="https://dr-nick-nagel.github.io/tag/ngrok.html">ngrok</a>
+            <a href="https://dr-nick-nagel.github.io/tag/mobile.html">mobile</a>
+            <a href="https://dr-nick-nagel.github.io/tag/phone.html">phone</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
