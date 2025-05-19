@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Forward Kinematics Distilled</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        
+          <script type="module" crossorigin src="/scripts/tbd"></script>
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="SVG" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="forward kinematics" />
+    <meta name="tags" content="poses" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="collaborative" />
+    <meta name="tags" content="artists" />
+    <meta name="tags" content="key frames" />
+    <meta name="tags" content="robotics" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/drafts/fk.html" rel="bookmark"
+           title="Permalink to Forward Kinematics Distilled">Forward Kinematics Distilled</a></h2>
+      
+    </header>
+    <h1>Introduction:</h1>
+<p>Introduce the topic of Forward Kinematics and its applications: namely robotics and in my case animation...</p>
+<h1>The Anatomy of a Robot Arm</h1>
+<p>Introduce a Simplified Model: Start with the easiest case: a robot arm with two revolute joints moving in a 2D plane (like a human elbow and shoulder moving on a flat surface).</p>
+<p>Given an FK chain, the problem for forward kinematics is to compute rotator (joint) locations starting from a root through the chain to an endpoint (effector). Here I consider the problem in two dimensions. By way of example, imagine a robot arm with the shoulder as the FK chain root, an elbow and a wrist:</p>
+<pre>
+shoulder -> elbow -> wrist -> --<
+</pre>
+
+<p>&lt;&lt; ILLUSTRATIONL: INSERT A COOL, SEXT ANIMATED SVG ROBOT ARM (BECKONING GESTURE) &gt;&gt;</p>
+<h1>Why Trigonometry -- What's your Angle?</h1>
+<p>For me, the simplest way to understand the forward kinematics is through trigonometry. If the robot moves its entire arm starting from the shoulder then the problem for forward kinematics is to represent the the joint locations down the chain in world coordinates. A naive approach might be to try to consider each joint independently. A more robust approach is to traverse each node in the chain computing local coordinates along the way <em>relative to the parent</em> (i.e., preceding node) in the hierarchy. </p>
+<h1>Stepping Through the Example</h1>
+<p>Let's use the term <strong>world coordinate system</strong> to refer to the coordinate system in which the FK chain exists. </p>
+<p>Let's suppose our robot rotates its arm by 60 deg at the shoulder and 30 deg at the elbow. How do we compute the post rotation positions of the joints down the FK chain. </p>
+<p><strong>Step 1.</strong> The shoulder rotation is straightforward using trigonometry. Let's assume for simplicity the shoulder is at the origin of the <em>world coordinate system</em>. </p>
+<ol>
+<li>
+<p>$$x' = l * cos( \alpha )$$</p>
+</li>
+<li>
+<p>$$y' = l * sin( \alpha )$$</p>
+</li>
+</ol>
+<p>That gives us the location of the <em>elbow</em>.</p>
+<p>Step 2. The problem is how do we compute the location of the <em>wrist</em>. We can't use  formulas (1) and (2) <em>as is</em> because they assume <em>world coordinates</em> with the rotator located at the origin. To get the wrist location we have to consider;(1) translation <em>relative to it's parent location</em> (i.e., the elbow rotator), (2) the <em>length</em> (i.e., Euclidean distance from the parent), and (3) the angle of rotation <em>about the parent rotator</em>. In other words, we have to account for the parent <em>offset</em> as we traverse the graph  of the FK chain. </p>
+<ol>
+<li>
+<p>$$ x'' = x' + L * cos( beta )$$</p>
+</li>
+<li>
+<p>$$ y'' = y' + L * sin( beta )$$ </p>
+</li>
+</ol>
+<p>That gives us the location of the <em>wrist</em>.</p>
+<pre><code>&lt;&lt; INSERT SVG  IMAGE SEE https://opentextbooks.clemson.edu/wangrobotics/chapter/forward-kinematics/ &gt;&gt;
+</code></pre>
+<h1>Abstracting out the Heart of the FK System</h1>
+<p>We can generalize this programatically using recursion. Here's an example in javascript.</p>
+<p><code>INSERT THE JAVASCRIPT ALGO HERE...</code></p>
+<h1>Summary and Conclusion</h1>
+<p>If you've read this far then, well congratulations! Hopefully you've gained a deeper understanding of forward kinematics which will help artists wanting to do animations and devs wanting to sate their curiorosity. Applications include robotics, game dev, sims and of course animation with SVG.</p>
+<h1>Next Steps and Beyond</h1>
+<p>Call to Action: </p>
+<ol>
+<li>
+<p>Invite readers to join the collaborative and use the framework. </p>
+</li>
+<li>
+<p>Visit the tool page and use it</p>
+</li>
+</ol>
+<p>Tease future work matrix methods and inverse kinematics...</p>
+    <footer>
+      <p>Published: <time datetime="2025-05-06T00:00:00-04:00">
+        Tue 06 May 2025
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="/tag/svg.html">SVG</a>
+            <a href="/tag/animation.html">animation</a>
+            <a href="/tag/forward-kinematics.html">forward kinematics</a>
+            <a href="/tag/poses.html">poses</a>
+            <a href="/tag/artworks.html">artworks</a>
+            <a href="/tag/collaborative.html">collaborative</a>
+            <a href="/tag/artists.html">artists</a>
+            <a href="/tag/key-frames.html">key frames</a>
+            <a href="/tag/robotics.html">robotics</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

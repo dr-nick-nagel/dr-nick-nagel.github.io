@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Escaping SVG Transformation Hell: Guide Posts toward Working with SVG Transforms</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        
+          <script type="module" crossorigin src="/scripts/dist_matrix_trans/main.js"></script>
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="SVG" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="forward kinematics" />
+    <meta name="tags" content="poses" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="collaborative" />
+    <meta name="tags" content="artists" />
+    <meta name="tags" content="key frames" />
+    <meta name="tags" content="robotics" />
+    <meta name="tags" content="transformations" />
+    <meta name="tags" content="transformation matrix" />
+    <meta name="tags" content="coordinates" />
+    <meta name="tags" content="coordinate systems" />
+
+    </head>
+
+    <body>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/blog/svg-transform-matrix.html" rel="bookmark"
+           title="Permalink to Escaping SVG Transformation Hell: Guide Posts toward Working with SVG Transforms">Escaping SVG Transformation Hell: Guide Posts toward Working with SVG Transforms</a></h2>
+      
+    </header>
+    <style>
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    overflow: scroll;
+    font-size: 10px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.GuideWrapper { 
+  display: flex;
+  align-items: center; /* Vertically aligns items in the center */
+}
+
+.GuidePost {
+  margin-left: 10px; /* Adds some spacing between the image and the text */
+}
+
+</style>
+
+<h1>Introduction</h1>
+<p>Recently, over the course of developing a tool to support animating Scalable Vector Graphics, I found myself deep in the embrace a special kind of madness; <em>deconvolving the SVG transformation matrix</em>. If you've ever tried to animate or interact with SVG elements using JavaScript then likely you've faced something similar, namely: trying to wrap your brain around not just one, not just two, but multiple computer graphics coordinate systems each subject to any number of transformations related to projecting graphics on a 2D screen. Welcome to SVG transformation hell. </p>
+<p>Now don't get me wrong. I'm not here to hate on SVG. In fact, I love scalable vector graphics. I'm so passionate about it that I'm in the process of developing framework for technical artists and developers to work with the medium. That being said, despite the fact that the SVG specification has been around for quite awhile, certain aspects of working with it demand better explanation. My purpose in this post is to walk the reader through a simple problem that took me way too long to solve: <em>getting the actual position of a transformed <code>&lt;g&gt;</code> element in</em> <strong>SVG user coordinates</strong>. Along the way, I'll share a lot of knowledge and a number of useful tips I wish someone had handed me before I had to spend hours spelunking through broken documents and half-solutions on <em><a href="https://stackoverflow.com/questions/46434687/get-the-current-matrix-transformation-of-an-svg-element">Stack Overflow</a></em>. This post isn't just some workaround -- it's a field guide for understanding and taming <em>SVG transforms</em> when you're creating dynamic interactive graphics and animation for the World Wide Web.</p>
+<h1>The Problem: Accessing the Right Transformation Matrix</h1>
+<p>In this post I'll be focussing on a specific problem: <em>accessing the transformation matrix associated with a specific group of SVG render objects</em>. This might seem simple enough -- anyone who's ever done anything non-trivial with SVG must have had to grapple with the concept of the transform -- and applying transformations to elements and groups is one of the facets of this art form that makes it so powerful. But at the same time, the API available to manipulate scalable vector graphics programmatically can seem, well, obtuse on a good day and downright hellish on a bad. So what follows are a set of guideposts to navigate the path to mastery of the SVG transform API. </p>
+<h1>A Brief Guide to the Transform Functions</h1>
+<style>
+.GuidePost {
+  font-weight: bold;
+  font-size:   14px;
+}
+</style>
+
+<p><a href="/blog/trans-matrix.html#svg_matrix">Elsewhere I've described the nature of SVG transformations at length</a> and I invite anyone interested to go back and read or revisit the exploration of the SVG transformation matrix I provided there. Here I'm going to jump right in and provide a brief guide to some of the key <em>SVG transform functions</em>. The goal is to understand how to dynamically obtain transformation information associated with SVG artworks. First I'll provide a brief set of guideposts. I'll follow that with a deeper dive into the system for those interested in fully understanding the richness of SVG transformation matrices.</p>
+<div class='GuideWrapper'>
+    <img src="/svg/matrix_transforms/guidepost.svg" > <span class='GuidePost'>Get the transformations that define local coordinate systems as a consolidated matrix.</span>
+</div>
+
+<p>As a programmer and SVG artist I am constantly performing operations like translation, rotation and scaling over SVG elements and groups. With its hierarchical structure SVG provides a number of ways to work with these sorts of transformations but, believe it or not, the best way to reduce complexity and improve performance is to understand and use the transformation matrix. This first guidepost addresses accessing the matrix for an element or group. Do that with:</p>
+<pre class="CodeList AlignCenter" >
+element.transform.baseVal.consolidate().matrix
+</pre>
+
+<p>This call returns a <em>consolidated transformation list</em> in the form of a matrix for an element or group in the <strong>SVG user coordinate system</strong>.</p>
+<p>I'll elaborate below, but long story short: a lot of confusion for the uninitiated stems from not understanding the difference between the <em>SVG user coordinate system</em> and <em>viewport coordinates</em>. In brief, the important thing here is that <span class='CodeLine'>element.transform.baseVal.consolidate().matrix</span> retrieves the transformation matrix applied to an <em>SVG element</em>. It's this matrix which defines the element's <em>local coordinate system</em>. Importantly, <strong><em>it can also be used to undo transformations</em></strong> by invoking its inverse when you want to map back to the SVG <em>initial coordinate system</em>.</p>
+<div class='GuideWrapper'>
+<img src="/svg/matrix_transforms/guidepost.svg" > <span class='GuidePost'>Get the transformation matrix mapping the *initial coordinate system* to the *viewport* with: 'getCTM()'</span>
+</div>
+
+<p>To map from the SVG coordinate system to the viewport use: </p>
+<pre class="CodeList AlignCenter" >
+svgDoc.getCTM()
+</pre>
+
+<p><span class='CodeLine'>getCTM()</span> gets you the cumulative transformation matrix mapping <em>SVG user coordinates</em> to the <em>SVG viewport</em>. If you're working purely within the SVG this is likely what you'll need. If you're working with SVG embedded in HTML then you'll want to use <span class='CodeLine'>getScreenCTM()</span>. Probably.</p>
+<div class='GuideWrapper'>
+<img src="/svg/matrix_transforms/guidepost.svg" > <span class='GuidePost'>Get the transformation matrix mapping the *initial coordinate system* to the *client* viewport with: 'getScreenCTM()'</span>
+</div>
+
+<p>To map from the <em>SVG user coordinate system</em> to the <em>browser window</em> use:</p>
+<pre class="CodeList AlignCenter" >
+svgDoc.getScreenCTM()
+</pre>
+
+<p><span class='CodeLine'>getScreenCTM()</span> is useful when you need to relate SVG coordinates to screen-based events (like mouse-clicks or the position of other HTML elements).</p>
+<p>The above guide posts summarize the key functions you'll need to obtain all the transformation information necessary to map from the SVG initial coordinate system to the client viewport. If that summary gives you what you need, great. But if you want to get a deeper understanding of all these coordinate spaces read on!</p>
+<h1>Understanding SVG Coordinate Systems</h1>
+<h2>The Big Picture</h2>
+<p>A big part of the problem of applying and untangling SVG transformations stems from vague understanding of SVG's coordinate systems. So to clarify let's zoom out and look at the big picture. </p>
+<div class="ImageWrapper" style="width:350px;height:280px;">
+    <img id='img_svg_coord_Systems'
+         src='/svg/matrix_transforms/user_coords.svg'
+         alt='Insert visual depicting svg user coordinates vs. svg screen coordinates'
+    />
+</div>
+<div style="width:350px;margin-left:auto;margin-right:auto">
+    <strong>Figure 1: SVG Coordinate Systems.</strong> 
+</div>
+
+<p><em>Figure 1</em> is an abstraction intended to conceptually illustrate coordinate systems that must be considered in programmatically applying and/or unravelling SVG transformations. Superficially, what the end-user of an SVG embedded in a web page will see occurs in the context of a <em>screen coordinate system</em>. Embedded in that is an <em>SVG viewport</em> defined by the SVG <code>viewBox</code> attribute. Behind the scenes lies the <em>SVG user coordinate system</em> -- coordinate space used by the SVG artist to create and position the elements of an SVG. Finally, I've also shown a renderable group which, in SVG, will always comprise elements over which transformations can be applied to define a <em>local coordinate system</em>. To me, that's <em>huge</em>. Let's take a moment to summarize all that now. </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>When SVG is embedded in a web page (inline, object, or &lt;img&gt;), there are several coordinate systems you'll need to consider.  Understanding how to move between them is essential for correct interaction, positioning, and transformation. </p>
+</div>
+<h2>Summary of SVG Coordinate Systems</h2>
+<h3>Screen Coordinates</h3>
+<p>The <strong>screen coordinates</strong> include the renderable area of the browser window. The origin is the top-left corner of <em>the browser's content viewport</em> (note that this doesn't include the title bar provided by the device OS). This system has to be accounted for when obtaining user inputs like mouse events or considering element relationships between SVG and DOM elements outsider the renderable context of the SVG viewport. </p>
+<h3>Viewport Coordinates</h3>
+<p><strong>Viewport coordinates</strong> relate the SVG user coordinate system to the <em>SVG Viewport</em>. The SVG viewport is the rectangular region in screen pixels where the SVG content is rendered (think of it as the window through which you're looking at your SVG scene). In the case of embedded SVG, it's determined by the CSS layout box of the <code>&lt;svg&gt;</code> element in the HTML document. </p>
+<p>It's important not to conflate the concept of the SVG viewport with the <code>viewBox</code> attribute. They are different <em>things</em>. <em>Viewport</em> refers to the area of the screen where the SVG is displayed. It is measured in <em>screen pixels</em> (i.e., css units). <code>viewBox</code> is an SVG <em>attribute</em> that, together with SVG <code>width</code>, <code>height</code> and <code>preserveAspectRatio</code> determine <em>how the SVG user coordinate system is mapped to the viewport</em>. </p>
+<div class="admonition tip">
+<p class="admonition-title">Pro Tip</p>
+<p>For SVG artists, unless you have a good reason not to, it's a good practice to insure your viewBox dimensions match your SVG width and height attributes explicitly to insure a 1:1 mapping between your user coordinates and the viewport coordinates. This avoids unexpected surprises downstream in your workflow. </p>
+</div>
+<h3>SVG User Coordinates</h3>
+<p>Finally your <em>SVG user coordinates</em> refer to the coordinate space in which SVG artists usually operate -- sculpting shapes, positioning elements, and constructing scenes. Think of the SVG user space as an abstract two dimensional plane that extends infinitely in all directions, where your drawing lives.</p>
+<h3>A Few Key Points</h3>
+<ul>
+<li>
+<p>When you create an SVG document the <code>&lt;svg&gt;</code> element establishes a default user coordinate system with positive x pointing right and positive y pointing down (as in most computer graphics systems). Sometimes the default system is referred to as <em>the initial coordinate system</em>. </p>
+</li>
+<li>
+<p>In the absence of <code>width</code>, <code>height</code> and <code>viewBox</code> attributes it's safe to assume a 1:1 mapping between SVG units and viewport units with one unit in the initial coordinate system typically representing one "pixel" in the viewport. Probably.</p>
+</li>
+</ul>
+<p>As I described above, the initial space can be modified by applying the <code>viewBox</code> attribute and any number of SVG transforms.</p>
+<h1>A Working Example</h1>
+<p>To help deepen understanding of the concepts I've discussed above I've included a working example below simplified from some tooling I've been developing for my SVG Artworks framework. I've distilled the example to a little toy that incorporates a number of renderable elements within an SVG document. The intent is to enable end-users to move the elements around the SVG space as a group as well as manipulate component elements within the group. </p>
+<h2>Setting up the Viewport</h2>
+<p>First, let's use the example to see how to manipulate the viewport. To keep things simple I designed the components in a very small initial space -- 20 X 20 units. First I'll load it with the following svg:</p>
+<pre class="CodeList">
+    &lt;svg width="20"
+         height="20"
+         ...
+    >
+</pre>
+
+<div class='ViewboxExamples' style="display:inline;width:30px;height:30px;float:right;"><img id='ex_1' alt='SVG default coordinate space' src="/svg/matrix_transforms/fk_bone_design_1.svg" style='background-color:#eee;border:inset 2px red'></div>
+<p>Remember, in the absence of information to the contrary the system should default to a 1:1 mapping of units to pixels.  This is useful to consider for applications that might use very small sprites (e.g., fav-icons, game sprites, icons, etc.). And indeed if I load the present example without a <code>viewBox</code> attribute it looks really small. Maybe a little too small to see. </p>
+<p>I can fix that by "zooming in a bit" using a combination of <code>width</code>, <code>height</code> and the <code>viewBox</code> attribute. </p>
+<pre class="CodeList">
+    &lt;svg width="100"
+         height="100"
+         viewBox="-10 -10 20 20"
+         ...
+    >
+</pre>
+
+<p>Take a moment to look carefully here. Notice I've set <code>width</code> and <code>height</code> to 100 X 100. See, in the <code>svg</code> element it's the <code>width</code> and <code>height</code> that control <em>the screen dimensions</em> with which the graphic will be rendered (as opposed to their use in renderable elements which controls the width and height <em>in SVG user coordinates</em>). <div class='ViewboxExamples'><img id='ex_2' alt='SVG default coordinate space' src="/svg/matrix_transforms/fk_bone_design_2.svg" style='background-color:#eee;border:inset 2px red;display:inline;float:right' ></div></p>
+<p>Next, I've set the <code>viewBox</code> to -10 -10 20 20. This will cause the viewport to show the area starting at (-10, -10) in <em>SVG user coordinates</em> and spanning a 20 by 20 unit <em>region</em> of the SVG coordinate space (effectively panning 10 units to the left and upwards of the origin). </p>
+<p>I did this on purpose to show how I typically develop sprites for model simulations and games. I center the sprites around the <em>SVG coordinate space</em> origin. This technique simplifies calculations for position and movement downstream in development workflows and is the recommended approach for sprite development in the SVG Artworks Framework. </p>
+<div class="admonition tip">
+<p class="admonition-title">Pro Tip</p>
+<p>Artists developing sprite sheets in SVG should consider centering them around the <strong>SVG coordinate space</strong> origin in order to simplify downstream calculations.</p>
+</div>
+<h2>Working with the Matrix</h2>
+<p>Next let's swallow that red pill and dive into working with the matrix. Below I've in-lined an interactive user interface to play with the example and highlight the concepts we've visited. If you hit the "Add Group" button the toy should display a group of renderables. Tor now let's just call that a "bone" and leave it at that. I'll have a lot more to say about bones in forthcoming announcements.</p>
+<p>The bone can be manipulated by "grabbing" one of its three "handles". If you click on the dark red circle you should be able to move it around (i.e., translate the group in the SVG coordinate space). And if you click the pointy part (let's just call it the "nose") you should be able to rotate the group around it's <em>pivot point</em>. In the <em>initial coordinate system</em> the pivot point is set at the SVG origin <em>by design</em>. This makes it easier to rotate the group downstream. Finally there's another component -- the big red circle -- which can be moved along the x-axis of the bone's local coordinate system to visualize the length of the structure. </p>
+<style>
+
+#svg_container {
+  display: inline-block;
+  border: inset red 4px;
+  width: 360px;
+  height: 360px;
+  background-color: #eee;
+}
+
+#svg_container svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#control_panel, #test_output_panel {
+  margin-top: 10px;
+}
+
+</style>
+
+<div id='svg_container'></div>
+
+<div id="control_panel">
+    <button id="bone_button">Add Group</button>
+    <button id="save_svg" disabled>SAVE SVG</button>
+</div>
+
+<div id="test_output_panel">
+    <span style="font-weight:bold">SVG Coords: </span>
+    <span id="coords_display"
+        style="display: inline-block; width: 170px">( 0 , 0 )</span> <br>
+    <span style="font-weight:bold">Screen Coords: </span>
+    <span id="screen_coords_display"
+        style="display: inline-block; width: 170px">( 0 , 0 )</span><br>
+    <span  style="font-weight:bold">Angle: </span>
+    <span id="angle_display"
+        style="display: inline-block; width: 80px">0</span>
+</div>
+
+<p>Now if you the reader have made it this far down the scroll, well, first kudos to you! You've reached the heart of the matter and the lynch pin of this blog post. If you take a moment to play with the toy you'll see how it reports the coordinates cursor -- both in SVG user coordinates and also in screen coordinates. And this brings us back to the guide posts I provided at the outset of the post. What follows is a prescribed path for navigating the system. </p>
+<h2>Navigating the Path with Matrix Operations</h2>
+<p>If you want to create anything interactive you'll have be able to navigate the transformation pipeline end-to-end -- winding your way from the screen back to that abstract SVG coordinate space. For me, the easiest pathway is using the matrix. Let's start with the screen.</p>
+<h3>Working with Screen Coordinates</h3>
+<p>Information related to end-user inputs has to flow through the screen. You saw this if you played with the tool. When you click or touch the various handles the input registers in the form of mouse or touch events which have to be converted from screen coordinates to SVG. Here's a quick utility to wrap and transform mouse-coordinates for use in SVG. I've defined in pure vanilla javascript but you can be readily translate it to typescript or your js framework du jeur. </p>
+<pre class="CodeList"
+     id="mouse_points">
+/**
+ * Convert client coordinates to SVG user coordinates given 
+ * mouse coordintates from screen coordinate system...
+ *
+ * @returns SVG Point in SVG user coordinate space
+ */
+function getSvgCoords(svg, clientX, clientY) {
+    const pt = svg.createSVGPoint();
+    pt.x = clientX;
+    pt.y = clientY;
+    const svgPoint = <font style="color: #8F8">pt.matrixTransform</font>( <font style="color: #F88">svg.getScreenCTM().inverse()</font> );
+    return svgPoint;
+}
+</pre>
+
+<p>This function takes a handle to an <code>svg</code> element and $x$ and $y$ mouse coordinate values <em>in screen coordinates</em>. The mouse coordinates can be obtained off a javascript event object using (e.g.,) <code>event.clientX</code> and <code>event.clientY</code> . </p>
+<p>Notice how in the utility we:</p>
+<ol>
+<li>
+<p>Obtain a new <code>SvgPoint</code> to which we assign the screen coordinates and then,</p>
+</li>
+<li>
+<p>Invoke <code>pt.matrixTransform( svg.getScreenCTM().inverse() )</code> to <em>unravel</em> the transformations that relate the screen event to the SVG user coordinate space using the inverse of the cumulative screen transform matrix.</p>
+</li>
+</ol>
+<p>What's accumulated in that matrix are all the transformations in the chain from the <em>SVG user coordinate system</em>  to the final screen coordinate system with all the CSS, scrolling, zooming and etc. that may imply. </p>
+<h3>Working with SVG User Coordinates</h3>
+<p>Now in order to define operations on the SVG using user input you are going to need to be able to work your way back from the current state to the <em>initial coordinate system</em>. Again, the best way to do this is with the consolidated transform list you get from <span style="CodeLine">el.transform.baseVal.consolidate().matrix</span>
+Here's a few things to keep in mind about that list for the present discussion. </p>
+<ol>
+<li>
+<p>The <strong>SVG Transform List matrix</strong> is a matrix that encapsulates translation, rotation, skew and scaling in a single construct. </p>
+</li>
+<li>
+<p>The API provides it in the form of a set of properties; ${ a, b, c, d, e, f }$ where:</p>
+<ul>
+<li>$a$ represents the cosine of rotation (or scale in $x$)</li>
+<li>$b$ represents the sine of rotation (or skew in $y$)</li>
+<li>$c$ represents the -sine of rotation (or skew in $x$)</li>
+<li>$d$ represents the cosine of rotation (or scale in $y$)</li>
+<li>$e$ represents translation in $x$, and</li>
+<li>$f$ represents translation in $y$</li>
+</ul>
+</li>
+</ol>
+<p>With that in mind let's look at our example. The following listing is the event handler that enables moving the length marker in our toy. In order to move the marker we need to get the distance of the mouse cursor from the group origin within its <em>local coordinate system</em> and update the length marker's coordinates within the <em>initial</em> coordinate system. Whew. Welcome to my world. At this point dear reader, you may want to pause, catch your breath, take a moment to play with the toy. That is, think about what all that entails and then we can look at the solution.</p>
+<pre class="CodeList"
+     id="matrix">
+drag: ( evt ) => {
+    evt.stopPropagation();
+    if( ! this.lengthening ) return;
+    // GET THE CURSOR COORDINTATES IN SVG USER COORD SYSTEM 
+    const mouseSvgCoords = getSVGPoint( this.el.ownerSVGElement, evt.clientX, evt.clientY );
+    // GET THE BONE TRANSFORM MATRIX APPLIED OVER THE INITIAL SVG COORDINATE SYSTEM
+    <font style="color: #F88">const boneTransformMatrix = this.el.transform.baseVal.consolidate()?.matrix;</font>
+    // GET THE UNTRANSFORMED ORIGIN COORDS INTO AN SVG Point
+    const boneLocalOrigin = this.el.ownerSVGElement.createSVGPoint();
+    boneLocalOrigin.x = parseFloat( this.origin.getAttribute("cx") );
+    boneLocalOrigin.y = parseFloat( this.origin.getAttribute("cy") );
+    // APPLY THE TRANSFORMATION MATRIX TO THE ORIGIN MARKER 
+    // TO GET IT'S CURRENT LOCATION AND
+    <font style="color: #F88">const boneOriginTransformed = boneLocalOrigin.matrixTransform( boneTransformMatrix );</font>
+    // COMPUTE THE EUCLIDEAN DISTANCE FROM CURSOR TO THE
+    // TRANSFORMED BONE ORIGIN TO GET THE NEW LENGTH
+    const distance = getSvgDistance( boneOriginTransformed, mouseSvgCoords );
+    // PROJECT THE NEW LENGTH ONTO THE X AXIS OF THE GROUP'S LOCAL COORDINATE SYSTEM
+    this.lengthMarker.setAttribute( "cx", distance );
+},
+</pre>
+
+<ol>
+<li>
+<p>First notice how we get the mouse coordinates. Remember: the mouse coordinates come from the <em>screen coordinate system</em>. To use them we have to transform them to the <em>SVG user coordinate system</em> using the inverse of the screen transform in <code>getSVGPoint</code> as described above. </p>
+</li>
+<li>
+<p>Next we need to get the <em>group's</em> local transformation matrix in order to apply it for our calculations. Remember from our tip, we do that using <code>baseval.consolodate</code> ...</p>
+<p><code>const boneTransformMatrix = this.el.transform.baseVal.consolidate()?.matrix;</code></p>
+</li>
+<li>
+<p>Once we have the matrix we can apply it to get the euclidean distance we're after in the bone group's local (transformed) coordinate system.</p>
+</li>
+<li>
+<p>Finally we can project that distance onto the bone's x-axis back in the initial coordinate system. This works to set the new length because as we saw above the bone's inital orientation is 0 degrees and it's length component is entirely determined by the difference on $x$ with the origin. </p>
+</li>
+</ol>
+<p>Bang! With the matrix operation and inverse available it's as easy as 1, 2, 3, right? It's not so bad once stop and think about it. </p>
+<h1>Discussion</h1>
+<p>In this post we examined coordinate systems and transforms with an eye toward de-mystifying some of the core concepts central to creating artworks with SVG. In particular we applied transformation matrices to unwind the seemingly convoluted path spanning screen, viewport and SVG coordinate spaces. Along the way we gained a deeper understanding of SVG transforms and explored the benefits of working with transformation lists in matrix form to truly own important techniques for positioning and orienting components. </p>
+<p>At the end of the day the most important thing boils down to knowing which coordinate system your API calls operate in and how this impacts the operations you wish to perform. I think it's safe to say most bugs that land you in transform hell boil down to getting this part wrong. </p>
+<p>So what do you want to watch out for in designing and developing interactive SVG applications?</p>
+<ul>
+<li>
+<p><strong>viewBox Scaling</strong> Understand and explicitly using SVG <code>viewBox</code> settings are key to identifying and controlling unexpected results in transforming svg elements and groups.</p>
+</li>
+<li>
+<p><strong>Knowing Which End is Up</strong> Understand the various coordinate systems at play in working with SVG and know how to effectively translate between them</p>
+</li>
+<li>
+<p><strong>API Calls</strong> Know that mouse coordinates are provided in CSS pixels and remember how to relate screen transformation matrices obtained with <code>getScreenCTM</code> to SVG transform histories obtained with <code>element.transform.baseval.consolodate().matrix</code> .</p>
+</li>
+</ul>
+<p>So don't feel like you have to memorize an abundance of arcane API calls. If you can keep these core notions in mind in reasoning about your issues the rest will follow!</p>
+<h1>Conclusion</h1>
+<p>Admittedly, the SVG specification can initially seem overwhelmingly complex. But as I've learned over and over again in life, "big ideas need big words (or in this case API's) to express them". For those willing to invest a bit of effort toward understanding, SVG offers a rich system within which to express artistic creativity. </p>
+<style>
+#transform_hell_wrap {
+    display: block;
+    width: 300px;
+    margin: 20px;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+#transform_hell {
+    display: block;
+}
+</style>
+
+<div class="ImageWrapper"
+  id='transform_hell_wrap'>
+  <img id="transform_hell"
+    alt="The pathway out of SVG transformation hell"
+    src="/svg/matrix_transforms/transform_hell.v2.svg" />
+</div>
+
+<p>Happy coding!</p>
+<h1>Appendix 1: Bonus! A Custom Decorator to Make Matrix Retrieval Easier for Local Elements</h1>
+<p>If you've read throught the text you may have noticed a pattern for retrieving the SVG transformation matrix lists for various contexts. Specifically, we have functions like:</p>
+<ol>
+<li>
+<p><span class="CodeLine">svg.getScreenCTM()</span>, </p>
+</li>
+<li>
+<p><span class="CodeLine">svg.getCTM()</span>, and </p>
+</li>
+<li>
+<p><span class="CodeLine">element.transform.baseVal.consolidate().matrix</span></p>
+</li>
+</ol>
+<p>Well, maybe you see where I'm going with this. Clearly, one of these calls just ain't like the others...</p>
+<p>So, as an added bonus, here's a nice little decoration to add to SVG elements to provide a cleaner, easier, more consitent interface to the matrix. Use it in good health!</p>
+<pre class="CodeList">
+/**
+ * Decorator to get the local culmulative transformation matrix of
+ * the SVGElement.
+ */
+SVGElement.prototype.getLCTM = function() {
+  if (this.transform && this.transform.baseVal) {
+    const matrix = this.transform.baseVal.consolidate()?.matrix;
+    return matrix ? new DOMMatrix( matrix ) : this.ownerSVGElement.createSVGMatrix();
+  } else {
+    return this.ownerSVGElement.createSVGMatrix();
+  }
+};
+</pre>
+
+<p>To use this decorator simply add it to a relevent module. Then you can do things like...</p>
+<pre class="CodeList">
+const mySvgElement = document.getElementById('mySvgElement');
+const lctm = myElement.getLCTM(); // expect a transform list matrix...
+</pre>
+
+<h1>Resources</h1>
+<ol>
+<li>
+<p><a href="https://www.w3.org/TR/SVG/coords.html">W3C Coordinate Systems, Transformations and Units</a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGTransformList">SVGTransformList</a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement/getCTM">SVGGraphicsElement: getCTM() method</a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform">SVGTransform</a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement/getScreenCTM">SVGGraphicsElement: getScreenCTM() method</a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGGraphicsElement">SVGGraphicsElement</a></p>
+</li>
+</ol>
+<script type='module'>
+// Load and parse an external SVG file and append it to the DOM
+export let TEST_FILE     = "/svg/matrix_transforms/fk_bone_design.svg";
+export let CONTAINER_ID  = "svg_container";
+export async function loadAndInsertSVG(url, containerId) {
+    try {
+      if( url === undefined ) {
+          url = TEST_FILE;
+      }
+      if( containerId === undefined ) {
+        containerId = CONTAINER_ID;
+      }
+      const response = await fetch(url);
+      const svgText  = await response.text();
+      const parser = new DOMParser();
+      const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+      const svgElement = svgDoc.documentElement;
+      // Optional: Set an ID or class for the inserted SVG
+      svgElement.id = "svg_root";
+      //---------  TEMP TESTING  ------------
+      svgElement.setAttribute("width",  "20");
+      svgElement.setAttribute("height", "20");
+      svgElement.setAttribute("viewBox", "-10 -10 20 20");
+      // --------- END  TEMP TESTING  ------------
+
+      // Attach to the desired DOM container
+      const container = document.getElementById(containerId);
+      container.appendChild(svgElement);
+    } catch (error) {
+      console.error("Error loading SVG:", error);
+    }
+}
+
+
+/**
+ * Download and save the SVG in the work area given:
+ * 
+ * @param {*} svgElement a handle to the svg root
+ * @param {*} filename   name of file to save to (default provided)
+ */
+export function downloadSvg(svgElement, filename = 'snapshot.svg') {
+  const serializer = new XMLSerializer();
+  const svgString = serializer.serializeToString(svgElement);
+  const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url); // Clean up
+}
+
+
+loadAndInsertSVG();
+</script>
+    <footer>
+      <p>Published: <time datetime="2025-05-14T00:00:00-04:00">
+        Wed 14 May 2025
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="/tag/svg.html">SVG</a>
+            <a href="/tag/animation.html">animation</a>
+            <a href="/tag/forward-kinematics.html">forward kinematics</a>
+            <a href="/tag/poses.html">poses</a>
+            <a href="/tag/artworks.html">artworks</a>
+            <a href="/tag/collaborative.html">collaborative</a>
+            <a href="/tag/artists.html">artists</a>
+            <a href="/tag/key-frames.html">key frames</a>
+            <a href="/tag/robotics.html">robotics</a>
+            <a href="/tag/transformations.html">transformations</a>
+            <a href="/tag/transformation-matrix.html">transformation matrix</a>
+            <a href="/tag/coordinates.html">coordinates</a>
+            <a href="/tag/coordinate-systems.html">coordinate systems</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

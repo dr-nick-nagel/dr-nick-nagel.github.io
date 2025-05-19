@@ -1,0 +1,20 @@
+<svg width="20" height="20" viewBox="-10 -10 20 20" version="1.1" id="svg_root" inkscape:version="1.3.2 (091e20e, 2023-11-25)" sodipodi:docname="rig_test_04.svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview id="namedview1" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" inkscape:document-units="px" inkscape:zoom="11.313708" inkscape:cx="5.1707183" inkscape:cy="15.291184" inkscape:window-width="1848" inkscape:window-height="1016" inkscape:window-x="72" inkscape:window-y="27" inkscape:window-maximized="1" inkscape:current-layer="skeleton"/>
+  <defs id="defs1"/>
+  <g inkscape:groupmode="layer" id="background" inkscape:label="background">
+    <rect style="fill:#ececec;stroke-width:0.5;stroke-linecap:square" id="rect1" width="20" height="20" x="-10" y="-10"/>
+  </g>
+  <g inkscape:groupmode="layer" id="grid" inkscape:label="grid" sodipodi:insensitive="true" style="stroke-opacity:0.3">
+    <path style="fill:#ececec;fill-opacity:1;stroke:#f10a0b;stroke-width:0.239px;stroke-linecap:butt;stroke-linejoin:miter" d="m 5.1195,-9.9999343 0.011,19.999489" id="path3"/>
+    <path style="fill:#ececec;fill-opacity:1;stroke:#f10a0b;stroke-width:0.239px;stroke-linecap:butt;stroke-linejoin:miter" d="m -4.8805,-9.9999343 0.011,19.999489" id="path4"/>
+    <path style="fill:#ececec;fill-opacity:1;stroke:#f10a0b;stroke-width:0.239px;stroke-linecap:butt;stroke-linejoin:miter" d="M 9.9995542,5.1195 -9.9999343,5.1305" id="path5"/>
+    <path style="fill:#ececec;fill-opacity:1;stroke:#f10a0b;stroke-width:0.239px;stroke-linecap:butt;stroke-linejoin:miter" d="m 9.9995542,-4.8805 -19.9994885,0.011" id="path6"/>
+    <path style="fill:#ececec;fill-opacity:1;stroke:#0a1ff1;stroke-width:0.459382px;stroke-linecap:butt;stroke-linejoin:miter" d="M -0.02030948,-9.9995332 0.02033145,9.9995081" id="path1"/>
+    <path style="fill:#ececec;fill-opacity:1;stroke:#0a1ff1;stroke-width:0.459382px;stroke-linecap:butt;stroke-linejoin:miter;" d="M 10.249521,-0.02030948 -9.7495206,0.02033145" id="path2"/>
+  </g>
+  <g inkscape:groupmode="layer" id="skeleton" inkscape:label="skeleton">
+    <circle style="fill:#ff0000;stroke:none;stroke-width:0.220118;stroke-linecap:square" id="hip" cx="0" cy="0" inkscape:label="hip" r="0.5"/>
+    <circle style="fill:#ff0000;stroke:none;stroke-width:0.220118;stroke-linecap:square" id="knee" cx="1.5000000000000004" cy="-2.598076211353316" inkscape:label="knee" r="0.5"/>
+    <circle style="fill:#ff0000;stroke:none;stroke-width:0.220118;stroke-linecap:square" id="ankle" cx="3.000000000000001" cy="-5.196152422706632" inkscape:label="ankle" r="0.5"/>
+  </g>
+</svg>
