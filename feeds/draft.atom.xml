@@ -367,7 +367,8 @@
 
 &lt;p&gt;As we've seen applying skew in SVG is straightforward and can be used to create compelling effects. Beyond playing with cards it can be applied to slant text, create shadows, and create reflections. In games and simulations skewed shapes can be used to build orthographic projections adding a whole new dimension of information to an SVG scene. &lt;/p&gt;
 &lt;p&gt;This just about rounds out our discussion of SVG transformations. We've looked at translation, rotation, scale and shear and seen how these transformations can be applied to create interesting and beautiful effects and objects suitable for a multitude of purposes. But a discussion of SVG transformations would not be complete without due consideration of the &lt;em&gt;transformation matrix&lt;/em&gt;. &lt;/p&gt;
-&lt;h1&gt;SVG Transformation Matrices&lt;/h1&gt;
+&lt;h2 id="svg_matrix"&gt; SVG Transformation Matrices&lt;/h2&gt;
+
 &lt;p&gt;So it turns out that all the transformations we've discussed up to this point can be represented and handled mathematically using &lt;em&gt;SVG transformation matrices&lt;/em&gt;. &lt;/p&gt;
 &lt;div class="admonition important"&gt;
 &lt;p class="admonition-title"&gt;LinAlg for Artists&lt;/p&gt;
