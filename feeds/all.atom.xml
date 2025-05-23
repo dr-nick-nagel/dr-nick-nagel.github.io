@@ -1515,7 +1515,287 @@ where ####  is the PORT&lt;/p&gt;
 &lt;p&gt;INSERT MEDUSA&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Technically the fill and stroke colors (along with other properties of these features) can be specified and modified using CSS &lt;sup id="note_3"&gt;&lt;a href="en_2"&gt;INSERT UP&lt;/a&gt;&lt;/sup&gt; . &lt;/li&gt;
-&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Working with SVG Transformations</title><link href="https://dr-nick-nagel.github.io/blog/trans-matrix.html" rel="alternate"></link><published>2025-02-17T00:00:00-05:00</published><updated>2025-02-17T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-17:/blog/trans-matrix.html</id><summary type="html">&lt;p&gt;How to work with SVG transformations ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>More on SVG Viewports: Nesting SVG's</title><link href="https://dr-nick-nagel.github.io/blog/nesting-svgs.html" rel="alternate"></link><published>2025-03-17T00:00:00-04:00</published><updated>2025-03-17T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-03-17:/blog/nesting-svgs.html</id><summary type="html">&lt;p&gt;Why nesting &lt;svg&gt;'s is very, very cool ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    overflow: scroll;
+    font-size: 10px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.GuideWrapper { 
+  display: flex;
+  align-items: center; /* Vertically aligns items in the center */
+}
+
+.GuidePost {
+  margin-left: 10px; /* Adds some spacing between the image and the text */
+}
+
+&lt;/style&gt;
+
+&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Having been engaged recently in the development of a Scalable Vector Graphics (SVG) framework for artists (the SVG Artists Collaborative(TM) ) I've come to appreciate more and more the creative benefits afforded to vector art by the SVG standard. Elsewhere I've discussed many aspects of the standard, especially those that relate to SVG transforms. In this post I want to focus mainly on one important aspect -- namely the capability and implications of nesting &lt;code&gt;svg&lt;/code&gt; elements. &lt;/p&gt;
+&lt;h1&gt;Nesting SVG's&lt;/h1&gt;
+&lt;p&gt;The &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; element is the top-level, or &lt;em&gt;root element&lt;/em&gt; in an SVG document. The concept of a &lt;em&gt;root element&lt;/em&gt; is particularly important in xml markup languages like SVG. It's also important in HTML. But what's interesting to me is that unlike HTML (where you can&lt;em&gt;not&lt;/em&gt; nest the &lt;code&gt;&amp;lt;html&amp;gt;&lt;/code&gt; element) nesting of &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; elements is perfectly permissible. So what exactly does that mean? &lt;/p&gt;
+&lt;style&gt;
+#russian_doll_1 {
+  display: inline-block;
+  float:   left;
+  margin-right: 20px;
+  border:  inset red 2px;
+  background-color: #000;
+}
+&lt;/style&gt;
+
+&lt;div id="russian_doll_1"&gt;
+  &lt;img 
+    alt="Image: an animated Russian doll SVG graphic illustrating nesting by way of analogy."
+    src="/svg/carousel/russian_doll_animation.svg"
+  &gt;
+  &lt;/img&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Nesting &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt;'s simply means you can put one or more &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; elements inside another.&lt;/p&gt;
+&lt;pre class="CodeFragment"&gt;
+&amp;lt;svg&gt;
+    &amp;lt;svg&gt;
+        ...
+    &amp;lt;/svg&gt;
+    &amp;lt;svg&gt;
+        &amp;lt;svg&gt;
+            ...
+        &amp;lt;/svg&gt;
+        ...
+    &amp;lt;/svg&gt;
+&amp;lt;/svg&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;That's it. Pure and simple. Think of it like a Russian doll. Remember those? You have this beautiful craft piece -- an ornately decorated figure -- and you open it up and there's another one inside. And you open that up and there's another, and so on and so on. &lt;/p&gt;
+&lt;p&gt;Same thing with &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; elements. You can nest these guys as deeply as you need. In principle the recursion can be infinite. &lt;/p&gt;
+&lt;h1&gt;What does Nesting SVG's Imply?&lt;/h1&gt;
+&lt;p&gt;That sounds easy enough. But what are the implications of nesting SVG's? And why am I so excited about it? Well, the capability to nest &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; elements is very cool and carries with it several powerful benefits. Let's take a moment to examine them.&lt;/p&gt;
+&lt;h4&gt;Each SVG Has its Own ViewPort&lt;/h4&gt;
+&lt;p&gt;&lt;span id="return_1"&gt;First and foremost&lt;/span&gt;, each &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; gets its own &lt;em&gt;viewport&lt;/em&gt;. Remember, the SVG viewport is like a window into your creative SVG space. You can control aspects of the viewport using the &lt;code&gt;viewBox&lt;/code&gt; attribute in concert with &lt;code&gt;width&lt;/code&gt; &lt;code&gt;height&lt;/code&gt; and &lt;code&gt;preserveAspectRatio&lt;/code&gt;. Each &lt;code&gt;svg&lt;/code&gt; node will essentially have it's own independent &lt;em&gt;user coordinate system&lt;/em&gt; opening up whole new avenues for creativity &lt;sup&gt;&lt;a href="#end_note_1"&gt;1&lt;/a&gt;&lt;/sup&gt; . &lt;/p&gt;
+&lt;h4&gt;Standalone SVG Rendering Contexts&lt;/h4&gt;
+&lt;p&gt;Each SVG is inherently a standalone rendering context -- it's like its own canvas. This enables creators to design modular re-usable components (e.g., icons, charts, game backgrounds, characters, etc.) that can be shown in isolation and composited into larger figures and scenes. Importantly, the capability to nest SVG documents facilitates collaboration and the use of third-party components or illustrations.&lt;/p&gt;
+&lt;h4&gt;Built-in Aspect Ratio Control&lt;/h4&gt;
+&lt;p&gt;Nested &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; elements respect &lt;code&gt;preserveAspectRatio&lt;/code&gt; settings, allowing better control of layout and scaling behavior. This is incredibly useful in responsive web-design with flexible layouts. &lt;/p&gt;
+&lt;h4&gt;Isolation of CSS and styles&lt;/h4&gt;
+&lt;p&gt;A nested SVG can be isolated in terms of style scope. This makes it possible to create complex UIs where encapsulation is needed to prevent unintended inheritance or style bleed from parent SVG's or HTML.&lt;/p&gt;
+&lt;h1&gt;Demonstration: An SVG Carousel&lt;/h1&gt;
+&lt;p&gt;To demonstrate these powerful benefits I've created an SVG &lt;em&gt;carousel&lt;/em&gt; for use within the SVG Artists Collaborative&amp;trade;. Popular in web-deign and advertising, carousels are dynamic user-interface designs that can be used to showcase multiple pieces of content -- in this case nested SVG's. &lt;/p&gt;
+&lt;style&gt;
+
+.CarouselWrap { 
+  position: relative;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  width: 550px; 
+  height: 412.5px;
+  background: #222; 
+  flex-direction: column;
+}
+
+
+#fps_display {
+  position: absolute; 
+  bottom: 20px; 
+  left: 100px; 
+  color: rgb(212, 6, 6);
+  font-family: monospace;
+  font-size: 10px;
+  text-align: left;
+  font-weight: bold;
+  pointer-events: none;
+  padding: 5px;
+}
+
+svg { 
+  border: 1px solid white; 
+}
+
+&lt;/style&gt;
+&lt;div class="CarouselWrap"&gt;
+    &lt;svg id="carousel" 
+         width="550" 
+         height="412.5" 
+         viewBox="-300 -100 800 400"
+         &gt;
+        &lt;!-- SVG Elements will be added dynamically --&gt;
+    &lt;/svg&gt;
+    &lt;div id="fps_display"&gt;FPS: &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The carousel comprises a root &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; element, which defines its viewport and several nested standalone SVG images and animations. If you click on the carousel viewport, you should see it start revolving. Noticed how the positioning and animation of all the nested SVG's are preserved!&lt;/p&gt;
+&lt;h1&gt;Discussion&lt;/h1&gt;
+&lt;p&gt;The carousel demonstrates the power and artistry that can be achieved using the SVG nesting approach. Generally speaking a lot can be achieved simply by grouping SVG elements using &lt;code&gt;&amp;lt;g&amp;gt;&lt;/code&gt; wrappers and applying transformations, but that can quickly become unwieldy and difficult to maintain for larger and more complex artworks. The capability to composite larger works through nesting offers so much greater flexibility and creative options over and above grouping that I hardly even know where to begin.&lt;/p&gt;
+&lt;p&gt;However, over the course of designing the component I did encounter a few gotchas which I feel obliged to address here. The biggest problem I had to work out concerns &lt;em&gt;stacking order&lt;/em&gt; and overlapping displays. To explain, I'll examine some of the design and implementation details around the carousel&lt;/p&gt;
+&lt;h2&gt;Architecture&lt;/h2&gt;
+&lt;p&gt;The carousel architecture takes advantage of &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; element nesting to dynamically display multiple embedded SVG documents. The documents are loaded dynamically and appended to the DOM composing the  structure shown in the following code fragment. &lt;/p&gt;
+&lt;h4&gt;Listing 1&lt;/h4&gt;
+&lt;pre class="CodeList"&gt;
+&amp;lt;svg id="carousel" 
+     width="550" 
+     height="412.5" 
+     viewBox="-300 -100 800 400"&gt;
+
+    &lt;span style="color:#8F8"&gt;&amp;lt;g class="svg-slide-wrapper" 
+       transform="..." 
+       data-current-rotation="102" &lt;/span&gt;
+       &lt;span style="color:red"&gt;data-depth="97.49279121818236"&lt;/span&gt; &lt;span style="color:#8F8"&gt;&gt;&lt;/span&gt;
+
+       &amp;lt;svg id="svg_slide_1"
+         width="300" height="170" viewBox="0 0 350 200" ... &gt;
+           ...
+       &amp;lt;/svg&gt;
+
+     &lt;span style="color:#8F8"&gt;&amp;lt;/g&gt;&lt;/span&gt;
+
+&amp;lt;/svg&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;The fragment (abridged for the sake of brevity) shows the nested structure of the SVG's. Note also the the use of &lt;code&gt;data-&lt;/code&gt; attributes and wrapper &lt;code&gt;g&lt;/code&gt; which I'll discuss below.&lt;/p&gt;
+&lt;p&gt;I achieved a faux 3D effect by revolving the carousel items (I called them "slides") on an elliptical path with major and minor axes on $x$ and $y$ respectively.&lt;/p&gt;
+&lt;pre class="CodeList"&gt;
+function revolveSvg ( svgGWrapper, theta ) {
+    const radians = theta * (Math.PI / 180);
+    let xTrans = carousel.SEMI_MAJOR_AXIS * Math.cos( radians ); 
+    let yTrans = carousel.SEMI_MINOR_AXIS * Math.sin( radians ); 
+    let scaleFactor = 0.25 + 0.15 * ( 1 + Math.sin( radians ) );
+    svgGWrapper.setAttribute( 
+        "transform", 
+        `translate( ${xTrans} ${yTrans} ) scale( ${ scaleFactor } )` 
+    );
+    svgGWrapper.setAttribute( "data-current-rotation", theta );
+    svgGWrapper.setAttribute( "data-depth", yTrans );
+}
+&lt;/pre&gt;
+
+&lt;p&gt;To complete the effect I used a simple heuristic -- scaling down the svg as a function of "depth" (really just $y$) to make them appear smaller and more distant the higher they are in the parent viewport. &lt;/p&gt;
+&lt;h2&gt;And You Thought it'd be that Easy ... gotcha!&lt;/h2&gt;
+&lt;p&gt;And now for the gotchas. Ever the optimist, when I conceived this demo I figured I could hammer it out before lunch. Sadly -- the devil's in the details and I got caught by a couple of "gotchas" that dragged out the timeline a bit.&lt;/p&gt;
+&lt;h3&gt;SVG Stacking&lt;/h3&gt;
+&lt;p&gt;SVG elements are declared hierarchically and displayed in the order they're declared. In cases of overlap that means that elements declared subsequent to earlier elements in document order will hide portions of those earlier elements where they overlap. &lt;/p&gt;
+&lt;p&gt;For example if I have: &lt;/p&gt;
+&lt;pre class="CodeList"&gt;
+&amp;lt;svg id="carousel" 
+     width="550" 
+     height="412.5" 
+     viewBox="-300 -100 800 400"&gt;
+
+    &amp;lt;g ...&gt;
+       &amp;lt;svg &lt;span style="color:red"&gt;id="svg_slide_1"&lt;/span&gt; ... &gt;
+           ...
+       &amp;lt;/svg&gt;
+     &amp;lt;/g&gt;
+
+    &amp;lt;g ...&gt;
+       &amp;lt;svg &lt;span style="color:#8F8"&gt;id="svg_slide_2"&lt;/span&gt; ... &gt;
+           ...
+       &amp;lt;/svg&gt;
+    &amp;lt;/g&gt;
+
+    ...
+
+&amp;lt;/svg&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;And &lt;code&gt;svg_slide_2&lt;/code&gt; overlaps &lt;code&gt;svg_slide_1&lt;/code&gt; then &lt;code&gt;svg_slide_2&lt;/code&gt; will hide the portion of &lt;code&gt;svg_slide_1&lt;/code&gt; with which it overlaps. The problem with the carousel is that as it revolves items have to overlap correctly to to give that 2.5D effect. I must confess, the 'gotcha' for me was I didn't initially visualize that in my mind's eye when I conceived the design. &lt;/p&gt;
+&lt;p&gt;At this point if you're versed in CSS you might be thinking "well just set the z-index". 'Problem is, SVG doesn't have the concept of a z-index.  And for this demo I was after a pure SVG solution. So I opted for an alternative approach, namely:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Periodically compute the stacking order based a "distance heuristic", and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Sort and shuffle the nested SVG's as needed.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class="CodeList"&gt;
+const sortSlides = ( a, b ) =&gt; {
+    const aDepth = a.getAttribute( &lt;span style="color:red"&gt;"data-depth"&lt;/span&gt; );
+    const bDepth = b.getAttribute( &lt;span style="color:red"&gt;"data-depth"&lt;/span&gt; );
+    return ( aDepth - bDepth ) ;
+};
+
+/**
+ * Restack the slides to INSURE THAT OVERLAPPING
+ * ELEMENTS ARE DISPLAYED CORRECTLY TO PRESERVE THE
+ * ILLUSION OF DEPTH...
+ */
+const reStackSlides = () =&gt; {
+    let stack = Array.from(
+        carouselGroup.querySelectorAll('.svg-slide-wrapper')
+    );
+    stack.sort( sortSlides );
+    carouselGroup.innerHTML = "";
+    for( let slide of stack ) {
+        carouselGroup.append( slide );
+    }
+ }
+&lt;/pre&gt;
+
+&lt;p&gt;If you take a moment to look at the listing you'll notice I store the depth information as an attribute on the SVG XML. I've been a fan of utilizing data- attributes since they were introduced in HTML5 and I find them particularly useful working with SVG.&lt;/p&gt;
+&lt;div class="admonition tip"&gt;
+&lt;p class="admonition-title"&gt;Pro Tip&lt;/p&gt;
+&lt;p&gt;Use &lt;code&gt;data-&lt;/code&gt; attributes to store small bits of info if you need to work on SVG DOM elements.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h3&gt;Performance&lt;/h3&gt;
+&lt;p&gt;Now if you're worried about performance at this point (I know I certainly was) your fear wouldn't be misplaced. It seems like a lot of DOM manipulation going on now. But, again -- nested &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt;'s to the rescue. The nested SVG DOM's don't have to be re-parsed and computed on the shuffle and the re-indexing didn't have much impact. &lt;span id="return_2"&gt;Even with non-trivially complex SVG's like the biome animation&lt;/span&gt; &lt;sup&gt;&lt;a href="#end_note_2"&gt;2&lt;/a&gt;&lt;/sup&gt; the carousel has no problem hitting the 60FPS target I usually aim for. And that's on my aging linux box. On my Samsung phone the carousel does 130 FPS or better.&lt;/p&gt;
+&lt;h2&gt;Browser Considerations&lt;/h2&gt;
+&lt;p&gt;The second thing that got me has to do with browser differences. I originally hammered out the carousel iteratively testing in Firefox. Over the course of doing so I applied the carousel transforms directly on the nested &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt;'s and everything worked as I expected. Buuut when I went and tested on Chrome at the end of the day I had a bit of a surprise. Chrome was not applying the transformations as expected to the nested &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt;s. Here's the story ...&lt;/p&gt;
+&lt;p&gt;&lt;span id="return_3"&gt;The way transforms like &lt;code&gt;translate&lt;/code&gt;, &lt;code&gt;rotate&lt;/code&gt; etc. work in SVG is they are applied to an element and inherited by it's children such that as you work your way down the SVG DOM you get a cumulative effect &lt;sup&gt;&lt;a href="#end_note_3"&gt;3&lt;/a&gt;&lt;/sup&gt;  &lt;/span&gt;&lt;ENDNOTE REF TO HELL&gt; . But sadly in SVG 1.1 the &lt;code&gt;transform&lt;/code&gt; attribute was not explicitly permitted on &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt;. That changed in SVG 2.&lt;/p&gt;
+&lt;p&gt;All that being said it looks like there are still browser differences with respect to compliance with the spec (not something I expected in 2025) and Chrome did not apply the transformations as expected. &lt;/p&gt;
+&lt;p&gt;The good news is there's a straight forward work around: *wrap the nested SVG's in a &lt;code&gt;&amp;lt;g&amp;gt;&lt;/code&gt; element if you need to apply transformations. The enclosing &lt;code&gt;&amp;lt;g&amp;gt;&lt;/code&gt;'s will be in the containing &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt;'s scope and Chrome respects that and applies them to the nested &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt;'s.&lt;/p&gt;
+&lt;p&gt;The bottom line is that's why we still need to test in every target browser and device.&lt;/p&gt;
+&lt;h1&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;So that brings us to the conclusion of this post. I sincerely hope you've found it educational and useful. But most of all, I hope you come away from this inspired to continue exploring SVG and all that it provides toward enabling the creation of beautiful artworks. &lt;/p&gt;
+&lt;h1&gt;Endnotes&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="end_note_1"&gt;I've written in greater depth about &lt;code&gt;viewports&lt;/code&gt; -- specifically with regard to &lt;a href="https://dr-nick-nagel.github.io/blog/trans-matrix.html"&gt;here&lt;/a&gt; for those interested more details &lt;a href='#return_1'&gt;&lt;img src='/svg/return_to_text.svg'&gt;&lt;/a&gt;  .&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="end_note_2"&gt;Special thanks to Tyhond (an SVG Artist's Collaborative member) for permission to use his &lt;a href="https://tyhond.newgrounds.com/"&gt;biome&lt;/a&gt; for this article &lt;a href='#return_2'&gt;&lt;img src='/svg/return_to_text.svg'&gt;&lt;/a&gt; .&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="end_note_3"&gt;For more details on deconvolving SVG transformations using the matrix &lt;a href="https://dr-nick-nagel.github.io/blog/svg-transform-matrix.html"&gt;visit...&lt;/a&gt; &lt;a href='#return_3'&gt;&lt;img src='/svg/return_to_text.svg'&gt;&lt;/a&gt;  &lt;/span&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Resources&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.w3.org/TR/SVG2/struct.html#NewDocument"&gt;Defining an SVG document fragment: the &lt;code&gt;svg&lt;/code&gt; element&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.sarasoueidan.com/blog/nesting-svgs/"&gt;Sara Soueidan&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://stackoverflow.com/questions/16890292/why-nest-an-svg-element-inside-another-svg-element"&gt;Stack Overflow: Why nest an &lt;svg&gt; element inside another &lt;svg&gt; element?&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="HTML5"></category><category term="artworks"></category><category term="framework"></category><category term="SVG Arists Collaborative"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category></entry><entry><title>Working with SVG Transformations</title><link href="https://dr-nick-nagel.github.io/blog/trans-matrix.html" rel="alternate"></link><published>2025-02-17T00:00:00-05:00</published><updated>2025-02-17T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-02-17:/blog/trans-matrix.html</id><summary type="html">&lt;p&gt;How to work with SVG transformations ...&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;Having recently re-engaged in a passion project of mine -- building an SVG/javascript &lt;em&gt;artworks framework&lt;/em&gt; -- I found myself needing to make use of &lt;em&gt;SVG transforms&lt;/em&gt;.  Transforms are a &lt;em&gt;very&lt;/em&gt; powerful feature of SVG that can be used to create and position shapes, move and deform elements, and modify paths to create amazing and beautiful effects and animations. But, in order to exploit this feature to its utmost potential, programmers and artists must make the effort to fully understand SVG coordinate systems and how transforms work!&lt;/p&gt;
 &lt;h1&gt;Coordinate Systems in SVG&lt;/h1&gt;
 &lt;p&gt;SVG was created to define images in terms of mathematical abstractions as opposed to bitmap representations. In so doing it opens up a whole new universe of possibilities for creative types to produce artworks -- art that can be beautifully rendered with full fidelity without concern for information loss due to resolution. Conceptually, as a creator you're still working with a canvas. But to produce your art you're manipulating lines and shapes in ways that, to me, feels more like sculpting than like painting. &lt;/p&gt;

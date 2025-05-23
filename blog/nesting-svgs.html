@@ -23,11 +23,11 @@
         <link 
             rel="stylesheet" 
             type="text/css" 
-            href="/theme/css/styles.css" />
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
         <link 
             rel="stylesheet" 
             type="text/css" 
-            href="/theme/css/admonitions.css" />
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
         <link 
             rel="stylesheet" 
             href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
@@ -41,12 +41,10 @@
     <meta name="tags" content="scalable vector graphics" />
     <meta name="tags" content="art" />
     <meta name="tags" content="artwork" />
-    <meta name="tags" content="motion" />
-    <meta name="tags" content="cartoon" />
-    <meta name="tags" content="physics" />
     <meta name="tags" content="HTML5" />
     <meta name="tags" content="artworks" />
     <meta name="tags" content="framework" />
+    <meta name="tags" content="SVG Arists Collaborative" />
     <meta name="tags" content="Inkscape" />
     <meta name="tags" content="Illustrator" />
     <meta name="tags" content="Adobe" />
@@ -61,19 +59,19 @@ Welcome to NickNagel.com
             <navbar class="navigation">
                 <div class='image_item' id="pallas-athena-container">
                     <img id="pallas-athena-image"
-                        src="/images/athena.svg" 
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
                         alt="Pallas Athena"
                     >
                 </div>
                 <ul>
                     <li>
-                        <a href="/pages/about-nick.html">About Nick</a>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
                     </li>
                     <li>
-                        <a href="/blog/index.html">Blog</a>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
                     </li>
                     <li>
-                        <a href="/pages/nn-cv.html">CV</a>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
                     </li>
                 </ul>
             </navbar>
@@ -81,7 +79,7 @@ Welcome to NickNagel.com
   <article>
     <header>
       <h2>
-        <a href="/drafts/nesting-svgs.html" rel="bookmark"
+        <a href="https://dr-nick-nagel.github.io/blog/nesting-svgs.html" rel="bookmark"
            title="Permalink to More on SVG Viewports: Nesting SVG's">More on SVG Viewports: Nesting SVG's</a></h2>
       
     </header>
@@ -128,7 +126,7 @@ Welcome to NickNagel.com
 <h1>Introduction</h1>
 <p>Having been engaged recently in the development of a Scalable Vector Graphics (SVG) framework for artists (the SVG Artists Collaborative(TM) ) I've come to appreciate more and more the creative benefits afforded to vector art by the SVG standard. Elsewhere I've discussed many aspects of the standard, especially those that relate to SVG transforms. In this post I want to focus mainly on one important aspect -- namely the capability and implications of nesting <code>svg</code> elements. </p>
 <h1>Nesting SVG's</h1>
-<p>The <code>&lt;svg&gt;</code> element is the top-level, or <em>root element</em> in an SVG document. The concept of a <em>root element</em> is particularly important in xml markup languages like SVG. It's also important in HTML. But what's interesting to me is that unlike HTML (where you can<em>not</em> nest the <code>&lt;html&gt;</code> element) nesting of <code>&lt;svg&gt;</code> elements is perfectly permissable. So what exactly does that mean? </p>
+<p>The <code>&lt;svg&gt;</code> element is the top-level, or <em>root element</em> in an SVG document. The concept of a <em>root element</em> is particularly important in xml markup languages like SVG. It's also important in HTML. But what's interesting to me is that unlike HTML (where you can<em>not</em> nest the <code>&lt;html&gt;</code> element) nesting of <code>&lt;svg&gt;</code> elements is perfectly permissible. So what exactly does that mean? </p>
 <style>
 #russian_doll_1 {
   display: inline-block;
@@ -163,19 +161,19 @@ Welcome to NickNagel.com
 </pre>
 
 <p>That's it. Pure and simple. Think of it like a Russian doll. Remember those? You have this beautiful craft piece -- an ornately decorated figure -- and you open it up and there's another one inside. And you open that up and there's another, and so on and so on. </p>
-<p>Same thing with <code>&lt;svg&gt;</code> elements. You can nest these guys as deeply as you need. In principle the recursion can be infinte. </p>
+<p>Same thing with <code>&lt;svg&gt;</code> elements. You can nest these guys as deeply as you need. In principle the recursion can be infinite. </p>
 <h1>What does Nesting SVG's Imply?</h1>
 <p>That sounds easy enough. But what are the implications of nesting SVG's? And why am I so excited about it? Well, the capability to nest <code>&lt;svg&gt;</code> elements is very cool and carries with it several powerful benefits. Let's take a moment to examine them.</p>
 <h4>Each SVG Has its Own ViewPort</h4>
-<p>First and foremost, each <code>&lt;svg&gt;</code> gets its own <em>viewport</em>. Remember, the SVG viewport is like a window into your creative SVG space. You can control aspects of the viewport using the <code>viewBox</code> attribute in concert with <code>width</code> <code>height</code> and <code>preserveAspectRatio</code>. Each <code>svg</code> node will essenstially have it's own independent <em>user coordinate system</em> opening up whole new avenues for creativity [endnote_1] . </p>
+<p><span id="return_1">First and foremost</span>, each <code>&lt;svg&gt;</code> gets its own <em>viewport</em>. Remember, the SVG viewport is like a window into your creative SVG space. You can control aspects of the viewport using the <code>viewBox</code> attribute in concert with <code>width</code> <code>height</code> and <code>preserveAspectRatio</code>. Each <code>svg</code> node will essentially have it's own independent <em>user coordinate system</em> opening up whole new avenues for creativity <sup><a href="#end_note_1">1</a></sup> . </p>
 <h4>Standalone SVG Rendering Contexts</h4>
-<p>Each SVG is inherently a standalone rendering context -- it's like its own canvas. This enables creators to design modular re-usable components (e.g., icons, charts, game backgrounds, characters, etc.) that can be shown in isolation and composited into larger figures and scenes. Importantly, the cabability to nest SVG documents facilitates collaboration and the use of third-party components or illustrations.</p>
+<p>Each SVG is inherently a standalone rendering context -- it's like its own canvas. This enables creators to design modular re-usable components (e.g., icons, charts, game backgrounds, characters, etc.) that can be shown in isolation and composited into larger figures and scenes. Importantly, the capability to nest SVG documents facilitates collaboration and the use of third-party components or illustrations.</p>
 <h4>Built-in Aspect Ratio Control</h4>
-<p>Nested <code>&lt;svg&gt;</code> elements respect <code>preserveAspectRatio</code> settings, allowing better control of layout and scaling behavior. This is increadibly useful in responsive web-design with flexible layouts. </p>
+<p>Nested <code>&lt;svg&gt;</code> elements respect <code>preserveAspectRatio</code> settings, allowing better control of layout and scaling behavior. This is incredibly useful in responsive web-design with flexible layouts. </p>
 <h4>Isolation of CSS and styles</h4>
-<p>A nested SVG can be isolated in terms of style scope. This makes it possible to create complex UIs where encapsulation is needed to prevent unintended inheritance or style bleed from parent SVGs or HTML.</p>
+<p>A nested SVG can be isolated in terms of style scope. This makes it possible to create complex UIs where encapsulation is needed to prevent unintended inheritance or style bleed from parent SVG's or HTML.</p>
 <h1>Demonstration: An SVG Carousel</h1>
-<p>To demonstrate these powerful benefits I've created an SVG <em>carousel</em> for use within the SVG Artists Collaborative (tm) <END NOTE 2> . Popular in web-deign and advertizing, carousels are dynamic user-interface designs that can be used to showcase multiple pieces of content -- in this case nested SVG's. </p>
+<p>To demonstrate these powerful benefits I've created an SVG <em>carousel</em> for use within the SVG Artists Collaborative&trade;. Popular in web-deign and advertising, carousels are dynamic user-interface designs that can be used to showcase multiple pieces of content -- in this case nested SVG's. </p>
 <style>
 
 .CarouselWrap { 
@@ -221,10 +219,10 @@ svg {
 
 <p>The carousel comprises a root <code>&lt;svg&gt;</code> element, which defines its viewport and several nested standalone SVG images and animations. If you click on the carousel viewport, you should see it start revolving. Noticed how the positioning and animation of all the nested SVG's are preserved!</p>
 <h1>Discussion</h1>
-<p>The carousel demonstrates the power and artistry that can be achieved using the SVG nesting approach. Generally speaking a lot can be achieved simply by grouping SVG elements using <code>&lt;g&gt;</code> wrappers and applying transformations, but that can quickly become unwieldly and difficult to maintain for larger and more complex artworks. The capability to composit larger works through nesting offers so much greater flexibility and creative options over and above grouping that I hardly even know where to begin.</p>
-<p>However, over the course of designing the component I did encounter a few gotcha's which I feel obliged to address here. The biggest problem I had to work out concerns <em>stacking order</em> and overlapping displays. To explain, I'll examine some of the design and implemention details around the carousel</p>
+<p>The carousel demonstrates the power and artistry that can be achieved using the SVG nesting approach. Generally speaking a lot can be achieved simply by grouping SVG elements using <code>&lt;g&gt;</code> wrappers and applying transformations, but that can quickly become unwieldy and difficult to maintain for larger and more complex artworks. The capability to composite larger works through nesting offers so much greater flexibility and creative options over and above grouping that I hardly even know where to begin.</p>
+<p>However, over the course of designing the component I did encounter a few gotchas which I feel obliged to address here. The biggest problem I had to work out concerns <em>stacking order</em> and overlapping displays. To explain, I'll examine some of the design and implementation details around the carousel</p>
 <h2>Architecture</h2>
-<p>The carousel architecture takes advantage of <code>&lt;svg&gt;</code> element nesting to dyamically display multiple embedded SVG documents. The documents are loaded dynamically and appended to the DOM composing the  structure shown in the following code fragment. </p>
+<p>The carousel architecture takes advantage of <code>&lt;svg&gt;</code> element nesting to dynamically display multiple embedded SVG documents. The documents are loaded dynamically and appended to the DOM composing the  structure shown in the following code fragment. </p>
 <h4>Listing 1</h4>
 <pre class="CodeList">
 &lt;svg id="carousel" 
@@ -248,7 +246,7 @@ svg {
 </pre>
 
 <p>The fragment (abridged for the sake of brevity) shows the nested structure of the SVG's. Note also the the use of <code>data-</code> attributes and wrapper <code>g</code> which I'll discuss below.</p>
-<p>I acheived a faux 3D effect by revolving the carousel items (I called them "slides") on an elliptical path with major and minor axes on $x$ and $y$ respectively.</p>
+<p>I achieved a faux 3D effect by revolving the carousel items (I called them "slides") on an elliptical path with major and minor axes on $x$ and $y$ respectively.</p>
 <pre class="CodeList">
 function revolveSvg ( svgGWrapper, theta ) {
     const radians = theta * (Math.PI / 180);
@@ -333,22 +331,25 @@ const reStackSlides = () => {
 <p>Use <code>data-</code> attributes to store small bits of info if you need to work on SVG DOM elements.</p>
 </div>
 <h3>Performance</h3>
-<p>Now if you're worried about performance at this point (I know I certainly was) your fear wouldn't be misplaced. It seems like a lot of DOM manipulation going on now. But, again -- nested <code>&lt;svg&gt;</code>'s to the rescue. The nested SVG DOM's don't have to be re-parsed and computed on the shuffle and the re-indexing didn't have much impact. Even with non-trivially complex SVG's like the biome animation <END_NOTE THOND> the carousel has no problem hitting the 60FPS target I usually aim for. And that's on my aging linux box. On my Samsung phone the carousel does 130 FPS or better.</p>
+<p>Now if you're worried about performance at this point (I know I certainly was) your fear wouldn't be misplaced. It seems like a lot of DOM manipulation going on now. But, again -- nested <code>&lt;svg&gt;</code>'s to the rescue. The nested SVG DOM's don't have to be re-parsed and computed on the shuffle and the re-indexing didn't have much impact. <span id="return_2">Even with non-trivially complex SVG's like the biome animation</span> <sup><a href="#end_note_2">2</a></sup> the carousel has no problem hitting the 60FPS target I usually aim for. And that's on my aging linux box. On my Samsung phone the carousel does 130 FPS or better.</p>
 <h2>Browser Considerations</h2>
 <p>The second thing that got me has to do with browser differences. I originally hammered out the carousel iteratively testing in Firefox. Over the course of doing so I applied the carousel transforms directly on the nested <code>&lt;svg&gt;</code>'s and everything worked as I expected. Buuut when I went and tested on Chrome at the end of the day I had a bit of a surprise. Chrome was not applying the transformations as expected to the nested <code>&lt;svg&gt;</code>s. Here's the story ...</p>
-<p>The way transforms like <code>translate</code>, <code>rotate</code> etc. work in SVG is they are applied to an element and inherited by it's children such that as you work your way down the SVG DOM you get a cumulative effect <ENDNOTE REF TO HELL> . But sadly in SVG 1.1 the <code>transform</code> attribute was not explicitly permitted on <code>&lt;svg&gt;</code>. That changed in SVG 2.</p>
-<p>All that being said it looks like there are still browser differences with repect to compliance with the spec (not something I expected in 2025) and Chrome did not apply the transformations as expected. </p>
-<p>The good news is there's a straight forward work around: *wrap the nested SVG's in a <code>&lt;g&gt;</code> element if you need to apply transformations. The enclosing <code>&lt;g&gt;</code>'s will be in the containing <code>&lt;svg&gt;</code>'s scope and Chrome respects that and applies them to the nested '<svg>`'s.</p>
+<p><span id="return_3">The way transforms like <code>translate</code>, <code>rotate</code> etc. work in SVG is they are applied to an element and inherited by it's children such that as you work your way down the SVG DOM you get a cumulative effect <sup><a href="#end_note_3">3</a></sup>  </span><ENDNOTE REF TO HELL> . But sadly in SVG 1.1 the <code>transform</code> attribute was not explicitly permitted on <code>&lt;svg&gt;</code>. That changed in SVG 2.</p>
+<p>All that being said it looks like there are still browser differences with respect to compliance with the spec (not something I expected in 2025) and Chrome did not apply the transformations as expected. </p>
+<p>The good news is there's a straight forward work around: *wrap the nested SVG's in a <code>&lt;g&gt;</code> element if you need to apply transformations. The enclosing <code>&lt;g&gt;</code>'s will be in the containing <code>&lt;svg&gt;</code>'s scope and Chrome respects that and applies them to the nested <code>&lt;svg&gt;</code>'s.</p>
 <p>The bottom line is that's why we still need to test in every target browser and device.</p>
 <h1>Conclusion</h1>
 <p>So that brings us to the conclusion of this post. I sincerely hope you've found it educational and useful. But most of all, I hope you come away from this inspired to continue exploring SVG and all that it provides toward enabling the creation of beautiful artworks. </p>
 <h1>Endnotes</h1>
 <ol>
 <li>
-<p><endnote_1> I've written in greater depth about viewports specifically with regard to <a href="TBD">transformations</a> and <a href="TBD">matrix operations</a>. Definitely worth a read if you're interested in more detail <back up SVG>^ .</p>
+<p><span id="end_note_1">I've written in greater depth about <code>viewports</code> -- specifically with regard to <a href="https://dr-nick-nagel.github.io/blog/trans-matrix.html">here</a> for those interested more details <a href='#return_1'><img src='/svg/return_to_text.svg'></a>  .</span></p>
 </li>
 <li>
-<p><NOTE 2> Special thanks to Tyhond a memember of the Collab for permission to use his <a href="TBD">biome</a> for this article. </p>
+<p><span id="end_note_2">Special thanks to Tyhond (an SVG Artist's Collaborative member) for permission to use his <a href="https://tyhond.newgrounds.com/">biome</a> for this article <a href='#return_2'><img src='/svg/return_to_text.svg'></a> .</span></p>
+</li>
+<li>
+<p><span id="end_note_3">For more details on deconvolving SVG transformations using the matrix <a href="https://dr-nick-nagel.github.io/blog/svg-transform-matrix.html">visit...</a> <a href='#return_3'><img src='/svg/return_to_text.svg'></a>  </span>.</p>
 </li>
 </ol>
 <h1>Resources</h1>
@@ -368,28 +369,26 @@ const reStackSlides = () => {
         Mon 17 March 2025
       </time></p>
         <address>
-          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
         </address>
         <p>
-          Category: <a href="/category/blog.html">blog</a>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">blog</a>
         </p>
         <p>
           Tags:
-            <a href="/tag/javascript.html">javascript</a>
-            <a href="/tag/animation.html">animation</a>
-            <a href="/tag/svg.html">svg</a>
-            <a href="/tag/scalable-vector-graphics.html">scalable vector graphics</a>
-            <a href="/tag/art.html">art</a>
-            <a href="/tag/artwork.html">artwork</a>
-            <a href="/tag/motion.html">motion</a>
-            <a href="/tag/cartoon.html">cartoon</a>
-            <a href="/tag/physics.html">physics</a>
-            <a href="/tag/html5.html">HTML5</a>
-            <a href="/tag/artworks.html">artworks</a>
-            <a href="/tag/framework.html">framework</a>
-            <a href="/tag/inkscape.html">Inkscape</a>
-            <a href="/tag/illustrator.html">Illustrator</a>
-            <a href="/tag/adobe.html">Adobe</a>
+            <a href="https://dr-nick-nagel.github.io/tag/javascript.html">javascript</a>
+            <a href="https://dr-nick-nagel.github.io/tag/animation.html">animation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
+            <a href="https://dr-nick-nagel.github.io/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/art.html">art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artwork.html">artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/html5.html">HTML5</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/framework.html">framework</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg-arists-collaborative.html">SVG Arists Collaborative</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape.html">Inkscape</a>
+            <a href="https://dr-nick-nagel.github.io/tag/illustrator.html">Illustrator</a>
+            <a href="https://dr-nick-nagel.github.io/tag/adobe.html">Adobe</a>
         </p>
     </footer>
   </article>

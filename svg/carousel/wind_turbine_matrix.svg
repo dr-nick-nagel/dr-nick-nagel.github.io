@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created (in part) with Inkscape (http://www.inkscape.org/) -->
+<svg
+   width="200"
+   height="200"
+   viewBox="0 0 200 200"
+   version="1.1"
+   id="svg_wind_anim"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+
+
+  <g 
+     id="windmill">
+    <path
+       style="fill:#ececec;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="m 97,200 h 6 V 100 h -6 z"
+       id="path2" />
+
+    <!-- Cylinder body -->
+    <rect x="90" y="98" width="20" height="5" fill="#ddd" stroke="#222" stroke-width="0.5" />
+  
+    <g
+       id="blades"
+       style="stroke-width:0.5;"
+       transform-origin="100 100"
+       transform="matrix(0.6, 0, 0, 1, 10, 0)"
+    >
+
+      <!-- Animate Rotation -->
+      <animateTransform 
+          attributeName="transform" 
+          type="rotate"
+          from="0" to="360" 
+          dur="2s" 
+          repeatCount="indefinite" additive="sum"/>
+
+      <path
+         style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+         d="M 98,97 V 30 l 12,55 -7.99719,5.783666 L 102,97 Z"
+         id="path3" />
+      <path
+         style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+         d="m 103.99327,99.205325 61.04097,27.622475 -55.05557,-11.74246 -1.97221,-9.67037 -5.66221,-2.56558 z"
+         id="path4" />
+      <path
+         style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+         d="m 98.234735,102.93367 -61.328823,26.97735 45.512789,-33.129855 8.514144,4.991495 5.691371,-2.500241 z"
+         id="path5" />
+      <circle
+         style="fill:#ececec;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+         id="path1"
+         cx="100"
+         cy="100"
+         r="5" />
+    </g>
+  </g>
+
+
+</svg>
