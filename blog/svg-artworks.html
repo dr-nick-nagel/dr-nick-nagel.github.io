@@ -110,7 +110,7 @@ Welcome to NickNagel.com
 }
 
 #shape_example {
-    width: 140px;
+    width: 240px;
 }
 
 #shape_caption {
@@ -118,7 +118,7 @@ Welcome to NickNagel.com
 }
 
 #pottery_ref, #pottery_caption {
-    width: 200px;
+    width: 256px;
     border: none;
     background-color: rgba( 255, 255, 255, 0 );
 }
@@ -128,19 +128,30 @@ Welcome to NickNagel.com
 <h1>Introduction</h1>
 <div>
     <div class='ArtExample' id='pottery_ref'>
+
+<a title="JoJan, Public domain, via Wikimedia Commons" 
+    href="https://commons.wikimedia.org/wiki/File:Firenze.Loggia.Perseus02.JPG">
+    <img width="256" 
+         alt="Perseus with the Head of Medusa (1554), by Benvenuto Cellini" 
+         src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Firenze.Loggia.Perseus02.JPG/256px-Firenze.Loggia.Perseus02.JPG?20051123165132">
+</a>    
+
+    </div>
+    <div class="Caption" id="pottery_caption">
+        <span style="font-weight:bold">Figure</span>"Perseus with the head of Medusa" (reference for the "legendary hero")
+     </div>
+</div>
+
+<!--
         <img id='shape'
           alt="Example svg library of shapes for the legendary hero"
           src="/svg/svg_art/perseus_pottery.jpg"
           width="200"
         >
-    </div>
-    <div class="Caption" id="pottery_caption">
-        <span style="font-weight:bold">Figure</span> Ancient Greek pottery style reference for the "legendary hero" 
-     </div>
-</div>
+-->
 
 <p>Recently I've had the good fortune to be able to devote effort to a long-time passion-project of mine revolving around art and SVG (Scalable Vector Graphics). Returning to this project (after somewhat of a hiatus) got me thinking about general art principles and how they might apply to the creation artworks using SVG. This post is my attempt to synthesize some of these concepts.</p>
-<p>Some time ago I was regularly attending life drawing sessions conducted by a local artist, Freeman Burns. Every couple of weeks He'd invite models to his studio and local artists would come and participate in drawing sessions. To me -- over and above the creation of the artwork itself -- this kind of activity is <em>very</em> important to train and exercise one's mind, and more generally to foster creativity and by extension innovation. </p>
+<p>Some time ago I was regularly attending life drawing sessions conducted by a local artist, Freeman Burns. Every couple of weeks He'd invite models to his studio and local artists would come and participate in drawing sessions. To me -- over and above the creation of the artwork itself -- this kind of activity is <em>very</em> important to train and exercise one's mind, and more generally to foster creativity and, by extension, innovation. </p>
 <p>While attending the life drawing sessions, Freeman helped me understand that all art in one way or another boils down to "making marks". Whether it's using charcoal, ink or oils -- or in the digital world pixels, brushes and strokes -- art is about getting your image from your mind to your medium. And one of the key insights I took away from these sessions was a crystallization of the core elements of art itself: <em>shape</em>, <em>line</em> and <em>color</em>. This post is about applying these core elements to create artworks using the medium of SVG. </p>
 <h1>SVG as an Artistic Medium</h1>
 <p>Details aside, SVG is an XML-based vector image format for defining two-dimensional graphics. In addition, SVG supports interactivity and animation<sup id="note_1"><a href="#en_1">1</a></sup>. It is widely used over the World-Wide-Web to create icons, logos and illustrations, and has many applications for data visualization. This post is about thinking of SVG more generally as an artistic medium. To illustrate, I'll walk through the process I've arrived at to draw figures for illustration and animation.</p>
@@ -164,7 +175,7 @@ Welcome to NickNagel.com
         >
     </div>
     <div class="Caption" id="shape_caption">
-        <span style="font-weight:bold">Figure i.</span> Component shapes for the legendary hero.
+        <span style="font-weight:bold">Figure 1.</span> Component shapes for the legendary hero.
      </div>
 </div>
 
@@ -172,7 +183,7 @@ Welcome to NickNagel.com
 <p class="admonition-title">A note on Modularity in Design</p>
 <p>Working in the medium of SVG often entails creating <em>modular libraries and components</em> -- in other words designing for re-use. Modular libraries comprise component parts that can be readily assembled in order to maintain consistency in sequential artworks and support animation. </p>
 </div>
-<p>Since the ultimate goal for this particular model is to enable animation for a computer game I designed the component shapes such that they can readily be arranged and composited to create to support a number of of poses. So, with this design I've achieved a level of <em>modularity</em> enabling component re-use down stream. </p>
+<p>Since the ultimate goal for this particular model is to enable animation for a computer game I designed the component shapes such that they can readily be arranged and composited to support a number of of poses. So, with this design I've achieved a level of <em>modularity</em> enabling component re-use down stream. </p>
 <h1>Line</h1>
 <p>Up to now I've sort of glossed over the point that inherent in our definition of shape is the notion that shapes have <em>perimeters</em> which can be called out with lines and curves. Perceptually, lines in vision are <em>synthetic</em> in the sense that they're a construct of the brain. As you gaze out into your world you perceive objects, and these objects can be described by lines and curves. And yet these perceived linear elements are <em>constructs</em> synthesized by the brain based on the detection of light gradients, and color contrasts. Conversely, artists can use line to 'suggest' shapes, relationships, negative space and ultimately give form to their ideas.</p>
 <p>To illustrate, consider the classic Rubin's vase (which I've reproduced below in SVG). </p>
@@ -202,7 +213,7 @@ Welcome to NickNagel.com
         >
     </div>
     <div class="Caption" id="rv_caption">
-        <span style="font-weight:bold">Figure i.</span> The famous Rubin's Vase example.
+        <span style="font-weight:bold">Figure 2.</span> The famous Rubin's Vase example.
      </div>
 </div>
 
@@ -211,7 +222,7 @@ Welcome to NickNagel.com
 <p>Getting back to the creation of the legendary hero; So far I've drawn my component shapes and arranged them in a "ready" pose. At this point in the process I'd say I've locked in the "broad strokes" that  define the model I'm after. Now is the point where I like to come in and add greater detail using linear elements. </p>
 <style>
 #line_example, #line_caption {
-    width: 300px;
+    width: 120px;
 }
 </style>
 
@@ -223,7 +234,7 @@ Welcome to NickNagel.com
         >
     </div>
     <div class="Caption" id="line_caption">
-        <span style="font-weight:bold">Figure i.</span> Component shapes for the legendary hero.
+        <span style="font-weight:bold">Figure 3.</span> Line art for the legendary hero.
      </div>
 </div>
 
@@ -254,14 +265,14 @@ Welcome to NickNagel.com
         >
     </div>
     <div class="Caption" id="eye_caption">
-        <span style="font-weight:bold">Figure i.</span> Structure of the human eye.
+        <span style="font-weight:bold">Figure 4.</span> Structure of the human eye.
      </div>
 </div>
 
 <p>This illustration I've created of the structure of the human eye shows how light passes through the lens, traverses the aqueous humor and falls on the <strong>retina</strong>. The retina is a thin sheet of nerve cells covering the interior of the eyeball. It is the retina that enables us to sense light. The retina is comprised of two main types of cell that respond to light; <em>rods</em> and <em>cones</em>. Rods are sensitive to light intensity. It's the cones that underly our perception of color. Different cone cells respond differently to different light frequencies. They respond differentially depending on whether light hitting them falls closer to the red, green or blue frequency ranges in the visible spectrum. </p>
 <p>So that's the biological underpinning of the red, green and blue primary color scheme. All the colors we perceive in the world around us are the result of combinations of red, green and blue intensity levels reflecting off of objects and landing on the retina. </p>
 <h2>Elements of Color</h2>
-<p>The qualitative perception different colors (i.e., red vs. green vs. blue etc.) isn't the only way to think about color. Artists describe color not only in terms of <em>hue</em> (the colors as they appear on the color wheel) but also in terms of <em>value</em> and <em>saturation</em>. Value refers to the lightness or darkness of a color. Saturation refers to intensity or purity. Highly saturated colors are vibrant. Low saturation is dull. </p>
+<p>The qualitative perception of different colors (i.e., red vs. green vs. blue etc.) isn't the only way to think about color. Artists describe color not only in terms of <em>hue</em> (the colors as they appear on the color wheel) but also in terms of <em>value</em> and <em>saturation</em>. Value refers to the lightness or darkness of a color. Saturation refers to intensity or purity. Highly saturated colors are vibrant. Low saturation is dull. </p>
 <h2>Palettes</h2>
 <p>In art the term <em>color palette</em> refers to the set of colors chosen by an artist for a particular piece. In creating SVG artworks the artist has virtually an infinite range of color possibilities to choose from. This is simultaneously a blessing and a curse! The color palette greatly impacts the mood and aesthetic of an artwork and subtle changes have huge impacts on the perceptual quality of a piece. </p>
 <h2>Highlight</h2>
@@ -271,7 +282,7 @@ Welcome to NickNagel.com
 <!-- ## Gradients -->
 
 <h1>The Legendary Hero Model</h1>
-<p>TODO: DISCUSSION</p>
+<p>And that brings us through to the completed version of this "legendary hero" model. It's important to have a good sense of completion in calling an artwork "done". "Done-ness", or, being done is often a subjective decision and there's no "one size fits all" answer to the question of when a piece is finished. The sense of completion can range from a feeling of satisfaction or the sense that the work has reached its natural conclusion to a feeling of indifference or a sense that any additions might detract from the piece. In this case, I've added just enough detail to call out the necessary features on this model. But given its purpose -- which is to serve as a basis for animation -- adding more detail would be problematic. Too much detail and the animation process gets bogged down. Part of the artistry is to find just the right sweet-spot between eye catching detail and simplicity in creating the right aesthetic.</p>
 <style>
 #DONE_example, #DONE_caption {
     width: 300px;
@@ -286,12 +297,12 @@ Welcome to NickNagel.com
         >
     </div>
     <div class="Caption" id="DONE_caption">
-        <span style="font-weight:bold">Figure i.</span> Model: The legendary hero.
+        <span style="font-weight:bold">Figure 5.</span> Model: The legendary hero.
      </div>
 </div>
 
 <h1>Conclusion</h1>
-<p>Lately I've put in a lot of effort trying to understand SVG not just as a technical specification for a graphics format but as an artistic medium. In physical art your <em>medium</em> is the material you're working with to create your artwork -- oil paints, water colors, clay in sculpture -- just to name a few. Digital art is also a medium and as a digital art form vector graphics opens up whole new worlds of possibilities for expression. I'm hoping that this whirl-wind tour demonstrating how SVG provides exquisite control over the use of shape, line color and other visual elements to achieve artistic expression helps get you creative juices flowing. But even beyond all that SVG adds a dimension procedural expression to the creation of imagery -- where algorithms and code can be applied to the generation of artworks for a wide range of applications.</p>
+<p>Lately I've put in a lot of effort trying to understand SVG not just as a technical specification for a graphics format but as an artistic medium. In physical art your <em>medium</em> is the material you're working with to create your artwork -- oil paints, water colors, clay in sculpture -- just to name a few. Digital art is also a medium and as a digital art form vector graphics opens up whole new worlds of possibilities for expression. I'm hoping that this whirl-wind tour demonstrating how SVG provides exquisite control over the use of shape, line color and other visual elements to achieve artistic expression helps get your creative juices flowing. But even beyond all that SVG adds a dimension procedural expression to the creation of imagery -- where algorithms and code can be applied to the generation of artworks for a wide range of applications.</p>
 <h1>End Notes</h1>
 <style>
 .EndnoteReturn {
@@ -302,24 +313,30 @@ Welcome to NickNagel.com
 
 <ol>
 <li>
-<p><span id="en_1">Scalable Vector Graphics (SVG) is a technological specification that enables the creation of digital images using a format defined over mathematical operations. That's <em>very</em> different from  bitmap formats originally used to represent digital images. I'm not going into much greater detail  on the format specifics in this post -- I'm afraid that will have to await another article. But -- long story short -- vector graphics is a digital art form well known to web developers and graphics designers and I've had a long-standing passion revolving around applying SVG to create art <a href="#note_1"><svg class="EndnoteReturn">
+<span id="en_1">Scalable Vector Graphics (SVG) is a technological specification that enables the creation of digital images using a format defined over mathematical operations. That's *very* different from  bitmap formats originally used to represent digital images. I'm not going into much greater detail  on the format specifics in this post -- I'm afraid that will have to await another article. But -- long story short -- vector graphics is a digital art form well known to web developers and graphics designers and I've had a long-standing passion revolving around applying SVG to create art <a href="#note_1"><svg class="EndnoteReturn">
   <use href="#en_return"></use>
-</svg></a></span>.</p>
-</li>
-<li>
-<p><span id="en_2">I created this character as an asset for a game demo I'm writing to demonstrate AI applications in game development <a href="#note_2"><svg class="EndnoteReturn">
-  <use href="#en_return"></use>
-</svg></a></span>. Spoiler alert; he battles Medusa.</p>
-</li>
-</ol>
-<!--
-INSERT MEDUSA
--->
+</svg></a></span>.
 
-<ol>
-<li><span id="en_3">Technically, the fill and stroke colors (along with other properties of these features) can be specified and modified using CSS styles as well as shape attributes <a href="#note_3"><svg class="EndnoteReturn">
+<img id='medusa_svg' style='display:block;float:right'
+  alt="Animated Medusa"
+  src="/svg/svg_art/medusa.svg"
+  width=75
+  height=90>
+
+<br /><br />
+
+<li>
+<span id="en_2">I created this character as an asset for a game demo I'm writing to demonstrate AI applications in game development <a href="#note_2"><svg class="EndnoteReturn">
   <use href="#en_return"></use>
-</svg></a> .</span> </li>
+</svg></a></span>. Spoiler alert; he battles Medusa.
+
+<br /><br />
+
+<li>
+<span id="en_3">Technically, the fill and stroke colors (along with other properties of these features) can be specified and modified using CSS styles as well as shape attributes <a href="#note_3"><svg class="EndnoteReturn">
+  <use href="#en_return"></use>
+</svg></a> .</span> 
+
 </ol>
     <footer>
       <p>Published: <time datetime="2025-04-01T00:00:00-04:00">
