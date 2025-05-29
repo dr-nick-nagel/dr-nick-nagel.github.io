@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - posts</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/posts.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-05-29T00:00:00-04:00</updated><entry><title>Elements of Style in the Age of AI</title><link href="https://dr-nick-nagel.github.io/blog/elements-of-style-in-the-age-of-ai.html" rel="alternate"></link><published>2025-05-29T00:00:00-04:00</published><updated>2025-05-29T00:00:00-04:00</updated><author><name>Dr. Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-05-29:/blog/elements-of-style-in-the-age-of-ai.html</id><summary type="html">&lt;p&gt;A working guide to digital writing, visual publishing, and creating legacy-grade content in the era of AI-assisted reading, indexing, and quoting.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Executive Summary (aka TL;DR)&lt;/h2&gt;
+&lt;p&gt;In an age where your readers include both humans and algorithms, writing style isn't just a matter of taste -- it's a strategy. This post is a quick-start guide to creating content that resonates now and endures in an inevetibly AI-shaped future.&lt;/p&gt;
+&lt;h2&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;I was motivated to hammer out this post by a recent trend: &lt;strong&gt;AI Optimization&lt;/strong&gt; is becoming a "thing". And fast. Much like &lt;em&gt;search engine optimization&lt;/em&gt; (SEO) became a discipline around tailoring content for Google, we're now seeing the rise of &lt;strong&gt;AIO&lt;/strong&gt; -- the practice of crafting content or interaction specifically to be understood, preferred, or surfaced by AI systems. When I first started writing back in the olden days I cut my teeth on the "Chicago Elements of Style". And while I still feel all that grammar is important, I believe it is "necessary but not sufficient". If you're creating for both legacy &lt;em&gt;and&lt;/em&gt; discoverability -- an audience that's both human &lt;em&gt;and&lt;/em&gt; machine, then you need a blueprint for both human and AI engagement. And that's exactly what you'll find below.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;Elements of Style in the Age of AI: &lt;em&gt;A working guide for the digitally literate, artistically inclined, and intellectually ambitious.&lt;/em&gt;&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;h3&gt;1. Write Clearly. But not Blandly.&lt;/h3&gt;
+&lt;p&gt;Clarity matters. But AI models and human readers alike reward &lt;em&gt;voice&lt;/em&gt;, &lt;em&gt;tone&lt;/em&gt;, and &lt;em&gt;cadence&lt;/em&gt;. Write like a person who cares, not a summary generator. Avoid buzzwords. Embrace rhythm. Regardless of whether you view AI as a threat or godsend it is abolutely an amplifier of well-formed thought. In an era of generative noise, your voice matters.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;2. Front-Load Value&lt;/h3&gt;
+&lt;p&gt;Lead with meaning. AI summarizers skim first paragraphs heavily. So do readers. Open with a strong idea, image, or thesis -- then get into the details. That's where "TL;DR" comes in. Personally, I hate this phrase. I didn't even know what the acronym means 'til recently. But both executives and AI seem to love it. So open with a summary -- a section that says "this is what I'm here to say". Then feel free to say it. That much hasn't changed from 'writing-101'.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;3. Use Structure Intentionally&lt;/h3&gt;
+&lt;p&gt;Headings (&lt;code&gt;##&lt;/code&gt;, &lt;code&gt;###&lt;/code&gt;), bullet lists, numbered guides -- these aren't just for readability anymore. They're &lt;em&gt;semantic anchors for AI parsing&lt;/em&gt;. Clear structure = more quotable, more searchable.&lt;/p&gt;
+&lt;div class="admonition tip"&gt;
+&lt;p class="admonition-title"&gt;Pro Tip&lt;/p&gt;
+&lt;p&gt;Use Markdown or, better yet, &lt;em&gt;semantic HTML&lt;/em&gt;. Avoid visual formatting alone.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr /&gt;
+&lt;h3&gt;4. Repeat Key Phrases (But Smartly)&lt;/h3&gt;
+&lt;p&gt;Do &lt;em&gt;not&lt;/em&gt; keyword-stuff.  Do repeat key concepts in natural ways. Repetition aids learning. If your post is about "modular character modeling in SVG" get that phrase out a few times, not just once. As I recently learned, "big ideas need big words to express them". And big words bear repeating.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Repetition&lt;/strong&gt; &amp;rarr; &lt;strong&gt;Reinforcement&lt;/strong&gt; &amp;rarr; &lt;strong&gt;Recognition&lt;/strong&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;5. Show, Don't Just Describe&lt;/h3&gt;
+&lt;pre&gt;
+                                                    _  _
+                                                   ' \/ '
+   _  _                        &amp;lt;|
+    \/              __'__     __'__      __'__
+                   /    /    /    /     /    /
+                  /\____\    \____\     \____\               _  _
+                 / ___!___   ___!___    ___!___               \/
+               // (      (  (      (   (      (
+             / /   \______\  \______\   \______\
+           /  /   ____!_____ ___!______ ____!_____
+         /   /   /         //         //         /
+      /    /   |         ||         ||         |
+     /_____/     \         \\         \\         \
+           \      \_________\\_________\\_________\
+            \         |          |         |
+             \________!__________!_________!________/
+              \|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_/|
+               \    _______________                /
+^^^%%%^%^^^%^%%^\_"/_)/_)_/_)__)/_)/)/)_)_"_'_"_//)/)/)/)%%%^^^%^^%%%%^
+^!!^^"!%%!^^^!^^^!!^^^%%%%%!!!!^^^%%^^^!!%%%%^^^!!!!!!%%%^^^^%^^%%%^^^!
+
+&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;A picture's worth a thousand words &lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;I'm a programmer, artist, sea farer and SVG evangelist -- what more can I say? Embed visuals. Use examples. &lt;code&gt;IF technical INCLUDE code&lt;/code&gt;. Even AI loves a good diagram.&lt;/p&gt;
+&lt;div class="admonition tip"&gt;
+&lt;p class="admonition-title"&gt;Pro Tip&lt;/p&gt;
+&lt;p&gt;Always give your images descriptive &lt;code&gt;alt&lt;/code&gt; text. Always. It's not just for accessability anymore (although don't get me wrong -- accessability is very, very, important!)&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr /&gt;
+&lt;h3&gt;6. Tag the Meta-Layer&lt;/h3&gt;
+&lt;p&gt;Add metadata:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Descriptive titles&lt;/li&gt;
+&lt;li&gt;Page summaries (&lt;code&gt;meta&lt;/code&gt; tags)&lt;/li&gt;
+&lt;li&gt;Open Graph previews&lt;/li&gt;
+&lt;li&gt;Image captions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You're not just writing for eyeballs. You're writing for crawlers, scrapers, and agents.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;7. Sign with your "Intellectual Signature"&lt;/h3&gt;
+&lt;p&gt;Let your mind show through. AI Models pick up on patterns of thought, argument structure, and originality. The more you are &lt;em&gt;yourself&lt;/em&gt;, the more quotable, indexable, and memorable you become.&lt;/p&gt;
+&lt;p&gt;Don't dilute your weird. Train the future on it!&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;8. Cite, Link, Interconnect&lt;/h3&gt;
+&lt;p&gt;Use citations (even informally). Link to other posts. Cross-reference your own ideas. AI connects the dots. It "sees" the universe as webs of ideas not isolated islands of thought.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;9. Keep It Tidy&lt;/h3&gt;
+&lt;p&gt;Proofread. Clean markup. Compress images. Create a Mobile-friendly layout. AI appreciates  good layout. It will read it like a map. If your structure's broken, so's your meaning.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;10. Be Done. Publish. Move On.&lt;/h3&gt;
+&lt;p&gt;Perfectionism is the enemy of contribution. Hit publish when the idea's baked -- not burnt. You're not writing the &lt;em&gt;last word&lt;/em&gt;. You're writing the &lt;em&gt;next word&lt;/em&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Remember: Done is a decision -- not a status.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;
+
+
+&lt;/pre&gt;
+
+&lt;h1&gt;Epilogue: A Word on Legacy&lt;/h1&gt;
+&lt;p&gt;In &lt;em&gt;Information Age 2.0&lt;/em&gt; every blog post, graphic, or dataset is a shard of your intellectual fossil record. Therefore write not just to be seen today -- write to be cited tomorrow. Like it or not, the AI models of the future are training on what &lt;em&gt;you&lt;/em&gt; are writing now. All you need to do is to bubble your way through all the noise.&lt;/p&gt;
+&lt;div class='certifedMachineReadable'&gt;
+  &lt;img id="hcmr_badge"
+        src="/svg/machine_readable_badge.svg"
+        alt="Dr. Nick's AI friendly certified readability badge"
+  &gt;
+  &lt;div style="width:150px;font-size:smaller"&gt;
+Certified Human-Crafted Machine-Readable
+  &lt;div&gt;
+&lt;/div&gt;</content><category term="posts"></category><category term="AI"></category><category term="style guide"></category><category term="writing"></category><category term="digital publishing"></category><category term="open culture"></category><category term="creative practice"></category><category term="consciousness"></category><category term="artificial consciousness"></category></entry></feed>

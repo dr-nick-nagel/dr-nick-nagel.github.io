@@ -6,35 +6,42 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://dr-nick-nagel.github.io/</loc>
-<lastmod>2025-05-28T16:39:04-00:00</lastmod>
+<lastmod>2025-05-29T15:01:33-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/archives.html</loc>
-<lastmod>2025-05-28T16:39:04-00:00</lastmod>
+<lastmod>2025-05-29T15:01:33-00:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.6</priority>
+</url>
+
+<url>
+<loc>https://dr-nick-nagel.github.io/author/dr-nick-nagel.html</loc>
+<lastmod>2025-05-29T15:01:33-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/author/nick-nagel.html</loc>
-<lastmod>2025-05-28T16:39:04-00:00</lastmod>
+<lastmod>2025-05-29T15:01:33-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/authors.html</loc>
-<lastmod>2025-05-28T16:39:04-00:00</lastmod>
+<lastmod>2025-05-29T15:01:33-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/blog/</loc>
-<lastmod>2025-05-28T16:39:04-00:00</lastmod>
+<lastmod>2025-05-29T15:01:33-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
@@ -84,6 +91,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://dr-nick-nagel.github.io/blog/discord-streaming.html</loc>
 <lastmod>2024-10-10T00:00:00-04:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://dr-nick-nagel.github.io/blog/elements-of-style-in-the-age-of-ai.html</loc>
+<lastmod>2025-05-29T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -230,7 +244,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://dr-nick-nagel.github.io/categories.html</loc>
-<lastmod>2025-05-28T16:39:04-00:00</lastmod>
+<lastmod>2025-05-29T15:01:33-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
@@ -251,7 +265,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://dr-nick-nagel.github.io/tags.html</loc>
-<lastmod>2025-05-28T16:39:04-00:00</lastmod>
+<lastmod>2025-05-29T15:01:33-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
