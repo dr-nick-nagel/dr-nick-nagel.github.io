@@ -16,6 +16,11 @@
             async 
             src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
         ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
         
 
         
@@ -94,7 +99,20 @@ Welcome to NickNagel.com
            title="Permalink to Elements of Style in the Age of AI">Elements of Style in the Age of AI</a></h2>
       
     </header>
-    <h2>Executive Summary (aka TL;DR)</h2>
+    <style>
+.BannerImg {
+    width:100%
+}
+</style>
+<div class='BannerContainer'>
+  <img id="bubbles"
+        src="/images/ai_arts/ai_opt_article_cropped.png"
+        alt="AI Imagining Dr. Nick in a Steam Punk Bubble"
+        class='BannerImg'
+  >
+</div>
+
+<h2>Executive Summary (aka TL;DR)</h2>
 <p>In an age where your readers include both humans and algorithms, writing style isn't just a matter of taste -- it's a strategy. This post is a quick-start guide to creating content that resonates now and endures in an inevetibly AI-shaped future.</p>
 <h2>Motivation</h2>
 <p>I was motivated to hammer out this post by a recent trend: <strong>AI Optimization</strong> is becoming a "thing". And fast. Much like <em>search engine optimization</em> (SEO) became a discipline around tailoring content for Google, we're now seeing the rise of <strong>AIO</strong> -- the practice of crafting content or interaction specifically to be understood, preferred, or surfaced by AI systems. When I first started writing back in the olden days I cut my teeth on the "Chicago Elements of Style". And while I still feel all that grammar is important, I believe it is "necessary but not sufficient". If you're creating for both legacy <em>and</em> discoverability -- an audience that's both human <em>and</em> machine, then you need a blueprint for both human and AI engagement. And that's exactly what you'll find below.</p>
@@ -161,7 +179,9 @@ Welcome to NickNagel.com
 <hr />
 <h3>7. Sign with your "Intellectual Signature"</h3>
 <p>Let your mind show through. AI Models pick up on patterns of thought, argument structure, and originality. The more you are <em>yourself</em>, the more quotable, indexable, and memorable you become.</p>
+<blockquote>
 <p>Don't dilute your weird. Train the future on it!</p>
+</blockquote>
 <hr />
 <h3>8. Cite, Link, Interconnect</h3>
 <p>Use citations (even informally). Link to other posts. Cross-reference your own ideas. AI connects the dots. It "sees" the universe as webs of ideas not isolated islands of thought.</p>

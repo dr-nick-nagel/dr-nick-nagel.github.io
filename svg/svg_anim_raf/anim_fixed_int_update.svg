@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="390"
+   height="150"
+   viewBox="0 0 260 100"
+   version="1.1"
+   id="svg_diagram_fi_update"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   sodipodi:docname="anim_fixed_int_update.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+
+  <title>Understanding JavaScript requestAnimationFrame Accumulators for Fixed Interval Updates</title>
+  <desc>
+An interactive animation explaining how accumulators are used with the requestAnimationFrame (RAF) API
+to achieve consistent, fixed-interval updates in JavaScript. Using accumulators mitigate issues caused by 
+variable frame rates. This is very important for synchronizing animation(s) to improve game logic enable
+simulations, etc..
+  </desc>
+
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="2"
+     inkscape:cx="138.75"
+     inkscape:cy="119.25"
+     inkscape:window-width="1770"
+     inkscape:window-height="985"
+     inkscape:window-x="86"
+     inkscape:window-y="41"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1"
+     showgrid="true">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="1"
+       spacingy="1"
+       empcolor="#3f3fff"
+       empopacity="0.25098039"
+       color="#3f3fff"
+       opacity="0.1254902"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <symbol id="delta_block_symbol" viewBox="0 0 15 15">
+        <rect 
+          x="0" y="0" 
+          width="15" 
+          height="15" 
+          fill="#666" 
+        />
+         <text 
+           x="7" y="8" 
+           font-size="8" 
+           font-family="serif" 
+           fill="#ececec" 
+           text-anchor="middle" 
+           dominant-baseline="middle">
+            Δt
+         </text>
+    </symbol>
+
+  </defs>
+
+<!-- GROUP ELEMENT FOR TREMOR EFFECT -->
+<g id="tremor_wrap" >
+
+  <g
+     inkscape:label="diagram"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#cccccc;fill-opacity:0.997616;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1"
+       width="75"
+       height="80"
+       x="92.751953"
+       y="10.681641"
+       ry="13.58325"
+       inkscape:label="box" />
+    
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 197.75195,20.681641 h 5 l 0.27211,60 h -5.35361"
+       id="path2"
+       inkscape:label="interval_line" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;opacity:1;vector-effect:none;fill:#333333;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       x="190"
+       y="115"
+       id="text3"
+       transform="rotate(-90,186.80644,83.154494)"
+       inkscape:label="interval_text"><tspan
+         sodipodi:role="line"
+         id="tspan3"
+         x="190"
+         y="115">INTERVAL</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;opacity:1;vector-effect:none;fill:#333333;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       x="130"
+       y="110"
+       id="text4"
+       transform="translate(-29.429811,-83.535156)"
+       inkscape:label="update_text"><tspan
+         sodipodi:role="line"
+         id="tspan4"
+         x="130"
+         y="110"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Monospace;-inkscape-font-specification:Monospace">update( )</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8px;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;opacity:1;vector-effect:none;fill:#333333;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       x="135"
+       y="130"
+       id="text6"
+       transform="translate(15.388337,-103.98633)"
+       inkscape:label="dt"><tspan
+         sodipodi:role="line"
+         id="tspan6"
+         x="135"
+         y="130"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8px;font-family:serif;-inkscape-font-specification:serif;fill:#d40000">&#916;t</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6px;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;opacity:1;vector-effect:none;fill:#d40000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       x="130"
+       y="110"
+       id="text7"
+       transform="translate(46.438974,-19.15332)"
+       inkscape:label="accumulator"><tspan
+         sodipodi:role="line"
+         id="tspan7"
+         x="130"
+         y="110"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6px;font-family:Monospace;-inkscape-font-specification:Monospace;fill:#d40000">accumulator</tspan></text>
+    
+    <g id="translate_text"
+       transform="translate(50 50)">
+    <g id="transform_text"
+        transform="scale( 0 )"
+    >
+      <animateTransform  id="text_group_anim"
+         attributeName="transform"
+         type="scale"
+         from="0"
+         to="1"
+         dur="1s"
+         fill="remove"
+         begin="indefinite"
+      /> 
+      <text 
+         x="0" y="0" 
+         font-size="12px" 
+         font-family="Monospace" 
+         font-weight="bold"
+         fill="#555" 
+         text-anchor="middle" 
+         dominant-baseline="middle"
+      >
+         <tspan>transform()</tspan>
+      </text>
+    </g>
+    </g> <!--TRANSLATE TEXT GROUP-->
+
+  </g>
+
+<!-- EMBEDDED ROTATING GEAR SVG -->
+<g transform="translate( 105 35 )" >
+
+<svg  id="rotating_gear"
+   width="50"
+   height="50"
+   viewBox="-25 -25 50 50"
+   version="1.1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   >
+
+  <defs
+     id="defs1">
+
+    <linearGradient
+       id="gear_gradient"
+       x1="-25"
+       y1="0"
+       x2="25"
+       y2="0"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="rotate(0)"
+       >
+
+      <stop
+         style="stop-color:#7c6a23;stop-opacity:1;"
+         offset="0"
+         id="stop2" />
+      <stop
+         style="stop-color:#e2d294;stop-opacity:1;"
+         offset="0.70297951"
+         id="stop4" />
+      <stop
+         style="stop-color:#bda032;stop-opacity:1;"
+         offset="1"
+         id="stop3" />
+
+      <animateTransform id="gradientAnim"
+        attributeName="gradientTransform"
+        type="rotate"
+        from="0 0 0"
+        to="-360 0 0"
+        dur="10s"
+        repeatCount="indefinite"
+        begin="indefinite"
+      />
+
+    </linearGradient>
+
+  </defs>
+
+  <g id="gear_group">
+
+      <animateTransform id="gearAnim"
+        attributeName="transform"
+        type="rotate"
+        from="0 0 0"
+        to="360 0 0"
+        dur="10s"
+        repeatCount="indefinite"
+        begin="indefinite"
+      />
+
+    <path
+       id="gear_shape"
+       style="fill:url(#gear_gradient);fill-opacity:1;stroke:#9e7b1a;stroke-width:0.3;stroke-opacity:1"
+       d="m -0.77450484,-24.499951 -0.97472406,2.285335 -0.2051021,1.365339 0.082041,0.880928 -2.5178743,0.400422 -0.193382,-0.863349 -0.6192136,-1.236423 -1.6330045,-1.87124 -1.470876,0.478554 -0.220729,2.472848 0.2265891,1.363387 0.3496505,0.812563 -2.2717522,1.158293 -0.451224,-0.761778 -0.968865,-0.984452 -2.131109,-1.275489 -1.254053,0.910227 0.554752,2.420109 0.638747,1.226658 0.584053,0.664115 -1.8049,1.802874 -0.66414,-0.584029 -1.224753,-0.636769 -2.422161,-0.55473 -0.910263,1.25205 1.27554,2.131025 0.986444,0.968825 0.759856,0.451207 -1.158339,2.2736142 -0.810643,-0.35159 -1.363442,-0.22658 -2.474901,0.2207203 -0.47857,1.4727706 1.871313,1.6329393 1.236474,0.6172355 0.863383,0.1933744 -0.398485,2.5197269 -0.880963,-0.082038 -1.367347,0.205094 -2.283473,0.974685 v 1.54699521 l 2.283473,0.97468509 1.367347,0.2050941 0.880963,-0.082037 0.398485,2.5197269 -0.863383,0.1933744 -1.236474,0.6172355 -1.871313,1.6329393 0.47857,1.4727708 2.474901,0.2207202 1.363442,-0.2265801 0.810643,-0.3515897 1.158339,2.2736141 -0.759856,0.449253 -0.986444,0.970778 -1.27554,2.131027 0.910263,1.252049 2.422161,-0.55473 1.224753,-0.636769 0.66414,-0.58403 1.8049,1.802875 -0.584053,0.664114 -0.638747,1.226659 -0.554752,2.420109 1.254053,0.910227 2.131109,-1.27549 0.968865,-0.984452 0.451224,-0.761778 2.2717525,1.158294 -0.3496505,0.812563 -0.2265891,1.363387 0.220729,2.472848 1.470876,0.478554 1.6330045,-1.87124 0.6192136,-1.236423 0.193382,-0.863349 2.5178743,0.400421 -0.082041,0.878974 0.2051021,1.367294 0.97472406,2.285335 H 0.7745057 l 0.974724,-2.285335 0.2051021,-1.367294 -0.082041,-0.878974 2.5178742,-0.400421 0.1933821,0.863349 0.6192135,1.236423 1.6330045,1.87124 1.470876,-0.478554 0.2207291,-2.472848 -0.2265891,-1.363387 -0.3496505,-0.812563 2.2717524,-1.158294 0.451224,0.761778 0.968865,0.984452 2.13111,1.27549 1.254053,-0.910227 -0.554753,-2.420109 -0.638746,-1.226659 -0.584054,-0.664114 1.804901,-1.802875 0.664139,0.58403 1.224754,0.636769 2.422161,0.55473 0.910263,-1.252049 -1.275541,-2.131027 -0.986445,-0.970778 -0.759856,-0.449253 1.15834,-2.2736144 0.810642,0.3515897 1.363443,0.2265801 2.4749,-0.22072 0.478571,-1.4727708 -1.873267,-1.6329393 -1.23452,-0.6172355 -0.863383,-0.1933744 0.398484,-2.5197269 0.880963,0.082037 1.367348,-0.2050941 2.283472,-0.97468509 V -0.7734984 l -2.283472,-0.9746852 -1.367348,-0.205094 -0.880963,0.082037 -0.398484,-2.5197269 0.863383,-0.1933744 1.23452,-0.6172355 1.873267,-1.6329393 -0.478571,-1.4727706 -2.4749,-0.2207203 -1.363443,0.22658 -0.810642,0.35159 -1.15834,-2.2736134 0.759856,-0.451208 0.986444,-0.968825 1.275541,-2.131025 -0.910263,-1.25205 -2.422161,0.55473 -1.224754,0.636768 -0.664139,0.58403 -1.804901,-1.802874 0.584054,-0.664115 0.638746,-1.226657 0.554753,-2.420109 -1.254053,-0.910227 -2.13111,1.275489 -0.968865,0.984451 -0.451224,0.761778 -2.2717516,-1.158292 0.3496505,-0.812563 0.2265891,-1.363388 -0.2207291,-2.472848 -1.470876,-0.478554 -1.6330045,1.871241 -0.6192135,1.236422 -0.1933821,0.863349 -2.5178742,-0.400422 0.082041,-0.880928 -0.2051021,-1.365339 -0.974724,-2.285335 z M -9.764048e-4,-2.5001948 A 2.500294,2.5001942 0 0 1 2.4993176,-6.1110714e-7 2.500294,2.5001942 0 0 1 -9.764048e-4,2.5001936 2.500294,2.5001942 0 0 1 -2.5012704,-6.1110714e-7 2.500294,2.5001942 0 0 1 -9.764048e-4,-2.5001948 Z"
+    />
+
+  </g>
+</svg>
+
+</g>
+
+</g> <!--end tremor wrap-->
+
+</svg>

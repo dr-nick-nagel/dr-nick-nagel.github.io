@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Time-Based Animation in Javascript using RequestAnimationFrame</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+
+    </head>
+
+    <body>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="nn_symbols"
+   version="1.1"
+   style="display:none"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs>
+    <symbol id="en_return"  viewBox="0 0 20 20">
+      <path
+        style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+        id="return_to_text_1"
+      />
+    </symbol>
+   </defs>
+</svg>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/blog/time-based-animation-in-javascript-using-requestanimationframe.html" rel="bookmark"
+           title="Permalink to Time-Based Animation in Javascript using RequestAnimationFrame">Time-Based Animation in Javascript using RequestAnimationFrame</a></h2>
+      
+    </header>
+    <p>Category: blog
+Tags: javascript, animation, svg, scalable vector graphics, art, artwork, motion, HTML5, artworks, framework, Inkscape, Illustrator, Adobe
+Slug: raf-time
+Author: Nick Nagel
+Status: published
+Summary: How to use javascript RAF for time-based animation...</p>
+<h1>Bonus: Animate a Billowing Cape with sine waves</h1>
+<!--
+ExtraHeader: <script src='/scripts/svg_artworks_v0.1.js'></script>
+-->
+
+<style>
+#svg_container_billow {
+    width:200px;
+    height:200px;
+    border:solid 3px red
+}
+</style>
+
+<div id="svg_container_billow" 
+    class="BillowContainer" >
+    <!-- INSERT WICKED CAPE SINE -->
+</div>
+
+<div  id="control_panel_billow">
+    <button id="play_billow">Play</button>
+    <button id="update_billow">Test</button>
+    <span id="fps_display">FPS: 000</span>
+</div>
+
+<h1>Introduction</h1>
+<p>In this article I'll discuss key aspects of web-based animation with javascript. In particular, I'll be focusing on time-dependent animation with <em>RequestAnimationFrame</em>. My purpose in doing so is to highlight some important points for anyone interested in web-based animation in general, but especially vis-à-vis SVG.</p>
+<p>TODO: ELABORATE VIS A VIS SVG ARTWORKS FRAMEWORK ...</p>
+<h2>The Animation Loop</h2>
+<p>All animation occurs within a very basic loop. This was true from the inception of animated artworks from the early days of film with handrawn images to modern day computer-based systems. At it's core the animation loop can be expressed with the following psuedo-code:</p>
+<pre>
+WHILE animating:
+
+    UPDATE animation state
+        MOVE objects
+        CHANGE properties 
+        etc...
+
+    RENDER the current frame
+        (RE)DRAW objects at new positions/states
+        DISPLAY the frame
+
+    WAIT for an interval of time to elapse
+</pre>
+
+<p>In other words, all animation involves rendering a scene, waiting for an interval of time to pass, updating the scene, and rendering the updated imagery over and over again. </p>
+<h2>Animation on the World Wide Web</h2>
+<p>Back in the olden days web-based animation could be implemented using javascript. The animation loop could be implemented in just a few lines of code: </p>
+<pre>
+function animate() {
+  while ( animating ) {
+    update();
+    render(); 
+    setTimeout(animate, 50);
+  }
+}
+</pre>
+
+<p>Here, <code>update</code> would be a function defined to move things around and/or change object properties and <code>render</code> would be a function to draw to a renderable area like a 2D canvas. The <em>wait</em> period was achieved using javascript's <code>setTimeout</code> function. </p>
+<p>Using this oldschool technique worked OK in the early years of WWW development but used today would probably result in janky animation. The reason is that <code>setTimeout</code> is not synchronized with the browser engine's rendering cycle, so using it to create delays can potentially lead to erratic updates and dropped frames appearing as flicker. </p>
+<h1>RequestAnimationFrame</h1>
+<p>The good news is that a better standard for animation was introduced way back in 2015 and has since become widely supported across all browser rendering engines. The approach relies on a function called <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame">requestAnimationFrame</a>. </p>
+<p>Specifically intended to enable smooth animation, <code>requestAnimationFrame</code> is optimized to operate in synch with the browser rendering cycle. It is also worth noting that animation loops using RAF will pause when a user switches tabs or minimizes the animation window in order to reduce CPU utilization and battery usage. RequestAnimationFrame is ideal for game-loops, simulations and any other use-cases requiring visual updates that need to be synchronized with browsers' rendering system.</p>
+<p>TODO: RESUME HERE</p>
+<p>Describe the process</p>
+<p>USE new animation controller example</p>
+<p>add examples for 
+  1. sprite motion</p>
+<p>wicked witch flying across screen...</p>
+<ol>
+<li>keyframe animation</li>
+</ol>
+<p>Use wicked examples cape billowing</p>
+<p>ADD appendix for billowing effect with sin math</p>
+<p>SEE: https://chatgpt.com/c/68014d38-e7d8-8010-9522-4cc19cec83f9</p>
+<p>REMOVE BELOW</p>
+<h1>Elementary Kinematics</h1>
+<p>I've always had a love of cartoon physics. Who can stop but to laugh out loud watching a <em>Tom 'n' Jerry cartoon</em> or a <em>Road Runner</em> short with Wile E. Coyote? But when I started working with computer graphics and simulations I quickly needed to ground myself in real-world physics. Before you can control and bend them to your will in your artworks you need to understand the basic laws of motion. So the purpose of this section is to quickly review basic kenetic principles in order to apply them to good effect in the context of the SVG framework. </p>
+<h2>What is Kinematics?</h2>
+<p><em>Kinematics</em> is the study of motion without worrying about the forces that cause it. The focus is on <em>position</em>, <em>velocity</em> and <em>acceleration</em> and how these aspects of motion change over time. Basic kinematic principles have been well-known since Newton. </p>
+<h3>Position, Velocity and Accelaration</h3>
+<ol>
+<li>
+<p><strong>Position.</strong> <em>Position</em> represents the location of an object in space relative to a reference point. Since the SVG Artworks Framework is mainly 2D we'll consider 2D descriptions in Cartesian coordinates. Position is represented as a <em>vector</em>, $\vec v$, with coordinates $x$ and $y$ (horizontal and vertical).</p>
+<p>&lt;&lt; INSERT IMAGE &gt;&gt;</p>
+<p><strong>Note:</strong> In order to be consisent with 2D rendering in web browsers this discussion treats positive y as down in the 2D space. </p>
+</li>
+<li>
+<p><strong>Velocity.</strong> <em>Velocity</em> is the <em>rate of change</em> of position with respect to time. In physics velocity represents both <em>speed</em> and <em>direction</em> (represented as a vector with <em>orientation</em> and <em>magnitude</em>). </p>
+<p>Mathematically, velocity is the first derivative of position. </p>
+<p>$$
+v = \frac{dx}{dt}
+$$</p>
+<p>If you integrate an object's velocity you get its position.</p>
+</li>
+<li>
+<p><strong>Acceleration.</strong> <em>Acceleration</em> if the rate of change in <em>velocity</em> over time. </p>
+<p>Acceleration is the first derivative of velocity and the second derviative of position. </p>
+<p>$$
+a = \frac{dv}{dt} = \frac{d^2x}{dt^2}
+$$</p>
+<p>If you integrate an object's acceleration you get its velocity, and as I just observed if you integrate that you get position.</p>
+</li>
+</ol>
+<h3>Example</h3>
+<p>Let's look at a simple example. Suppose we have an object in motion starting at position $x=0$ with an initial velocity $v_0$ of $5 m/s$ and a constant acceleration, $a$, of $2 m/s^2$ . Using the definitions above we can represent its motion as:</p>
+<ol>
+<li>
+<p><strong>Velocity over time:</strong>
+    $$
+    v(t) = v_0 + at
+    $$</p>
+</li>
+<li>
+<p><strong>Position over time:</strong>
+    $$
+    p(t) = x_0 + v_0t + \frac{1}{2}at^2
+    $$</p>
+</li>
+</ol>
+<p>Let's look at the object's motion over the course of a 3 second interval. Where is the object located after 3 seconds? </p>
+<div>
+$$
+\begin{align}
+p(3) &= 0 + (5 \times 3) + \frac{1}{2}(2 \times 3^2) \\
+     &= (15) + \frac{1}{2}(2 \times 9) \\
+     &= 15 + 9 \\
+     &= 24m 
+\end{align}
+$$
+</div>
+<p>So, after a 3 second interval we see the object has moved 24 meters. </p>
+<div class="admonition hint">
+<p class="admonition-title">An Important Note on Units</p>
+<p>In going over these computations you'll notice I've been using <em>meters</em>  as the unit of measure. And this brings up an important point. If you're working on efforts concerning simulations, games, etc., you have to keep your units in mind when working out computations necessary to simulate forces acting on your objects. For example, in creating a particle effect if I want to simulate forces like gravity and drag I can apply real-world formulas but will have to translate real-world units associated with those formulas to my artworks space. Since the SVG Artworks Framework is mainly concerned with rendering SVG graphics I'll typically consider pixels as units.  <strong>TODO: make this better. Look for units discussion in UNREAL?</strong></p>
+</div>
+<p>RESUME HERE...</p>
+<div style="display:none">
+SEE: 
+
+https://chatgpt.com/c/679bb3f6-8dc4-8010-9865-4cbac92ccaad
+https://chatgpt.com/c/6793b6c3-e21c-8010-b70c-f7f3dcb972be
+https://gemini.google.com/app/caa89c6776f23682
+https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
+
+</div>
+
+<h1>A Javascript Example</h1>
+<p>INSERT JAVASCRIPT IMPLEMENTATIONS</p>
+<h1>SVG Artworks in Action!</h1>
+<p>This demo of the NN SVG ARTWORKS FRAMEWORK illustrates the application of the kinematic expressions described in this artical to simulate gravitational forces and resistance acting on an object's velocity. Somewhere between a toy and a game... </p>
+<div id="viewport-container">
+    <svg id="viewport" 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="500" 
+        height="250" 
+        style="background-color: rgb(143, 202, 206);">
+    </svg>
+</div>
+<div class='Panel'>
+    <button id='start_anim'>Fire</button>
+    <button id='stop_anim'>Stop</button>
+    <button id='reset_anim'>Reload</button>
+    <span id='frame_rate'
+        style="display:inline-block;min-width: 180px; width: 180px">Frame Rate: 0 (Interval: 0)</span>
+    <span id='mouse_coords'
+        style="display:inline-block;min-width: 150px; width: 130px">mouse x=0, y=0</span>
+    <input type='text' id='vx' value='193'
+        style="display:inline-block;width: 30px" />
+    <input type='text' id='vy' value='-52'
+        style="display:inline-block;width: 30px" />
+</div>
+
+<h1>Discussion</h1>
+<p>As we've seen, RAF enables fine grained control over the animation loop for web base animations.</p>
+<p>IMPORTANT NOTES:</p>
+<p>I. RAF de-couples animation loop timing. 
+  a. In film you were tied to a fixed frame-rate (e.g., 18 FPS) . Same for using setTimeout on web. This meant you would have to time your key frames and tweens to the the fixed interval. So for cyclic animations like walk cycles the keys had to be tied to clicks on the beat. </p>
+<p>b. With RAF, you get a chance to render everytime the browser refreshes its view. this has a number of implications the most important being:</p>
+<pre><code> 1. you have to take steps to insure movement velocity is constant across varying frame rates, and
+
+ 2. you have to insure you maintain a constant interval for frame dependent animations.
+</code></pre>
+<p>This adds a bit of complexity to your calculations for different types of animation. And introduces an important concept: </p>
+<p>THE ANIMATION TIMELINE.</p>
+<p>But with the extra bit of complexity you get a bit of freedom as well. Depending on what your are trying to accomplish, you  can adjust your timeline independent the frames you're working with to speed up or slow an animation:</p>
+<p>SHOW EXAMPLE WITH THE WICKED BILLOWING EFFECT ... </p>
+<p>Call to stay TUNED</p>
+<p>In a subsequent entries I'll look a bit more closely at creating effects with animation frames ...</p>
+<p>NEXT UP</p>
+<ol>
+<li>
+<p>Walk Cycle,</p>
+</li>
+<li>
+<p>Cloth effects (Billowing etc.)</p>
+</li>
+<li>
+<p>MVC for SVG artworks...</p>
+</li>
+</ol>
+<h1>Conclusion</h1>
+<p>There are many applications of web-based animation...</p>
+<p>TODO ELABORATE</p>
+<h1>Resources</h1>
+<script type="module" src="/scripts/dist_anim_controller/main.js"></script>
+    <footer>
+      <p>Published: <time datetime="2025-02-10T00:00:00-05:00">
+        Mon 10 February 2025
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/posts.html">posts</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

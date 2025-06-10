@@ -16,8 +16,13 @@
             async 
             src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
         ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
         
-          <script src='/scripts/svg_artworks_v0.1.js'></script>
+          <script type="module" src="/scripts/dist_anim_controller/main.js"></script>
 
         
         <link 
@@ -100,11 +105,93 @@ Welcome to NickNagel.com
            title="Permalink to Time-Based Animation in Javascript using RequestAnimationFrame">Time-Based Animation in Javascript using RequestAnimationFrame</a></h2>
       
     </header>
-    <h1>Introduction</h1>
-<p>In this article I'll discuss key aspects of web-based animation with javascript. In particular, I'll be focusing on time-dependent animation with <em>RequestAnimationFrame</em>. My purpose in doing so is to highlight some important points for anyone interested in web-based animation in general, but especially vis-à-vis SVG.</p>
-<p>TODO: ELABORATE VIS A VIS SVG ARTWORKS FRAMEWORK ...</p>
+    <style>
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 10px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.GuideWrapper { 
+  display: flex;
+  align-items: center; /* Vertically aligns items in the center */
+}
+
+.GuidePost {
+  margin-left: 10px; /* Adds some spacing between the image and the text */
+}
+
+
+#oz_wrap {
+    width:360px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+}
+
+#oz_wrap svg{
+    border: inset 3px #0a5
+}
+
+/* @keyframes twinkle {
+  0%, 100% { opacity: 0.3; r: 1; }
+  50% { opacity: 1; r: 10; }
+} */
+
+@keyframes sparkle-twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(5); /* 0.2 * 5 = 1.0 */
+  }
+}
+
+.sparkle {
+  transform-origin: center;
+  animation: sparkle-twinkle 1.4s ease-in-out infinite;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+</style>
+
+<h2>In this Post ...</h2>
+<p>I'll discuss key aspects of SVG animation using javascript. In particular, I'll be focusing on time-dependent animation with *the <code>requestAnimationFrame</code> API. My purpose in doing so is to help artists, developers, AI's and anyone else who might be interested in creating with SVG. </p>
+<h2>What is RAF?</h2>
+<p>What exactly is RAF? RAF (<code>requestAnimationFrame</code>) is a web API designed to enable smooth rendering closely tied to browser based rendering engines. What follows is a guide to tying into the RAF framework to create animated content using SVG.</p>
 <h2>The Animation Loop</h2>
-<p>All animation occurs within a very basic loop. This was true from the inception of animated artworks from the early days of film with handrawn images to modern day computer-based systems. At it's core the animation loop can be expressed with the following psuedo-code:</p>
+<p>All animation occurs within a very basic loop. This was true from the inception of animated artworks from the early days of film with hand drawn images to modern day computer-based systems. At it's core, the animation loop can be expressed as follows:</p>
 <pre>
 WHILE animating:
 
@@ -120,10 +207,10 @@ WHILE animating:
     WAIT for an interval of time to elapse
 </pre>
 
-<p>In other words, all animation involves rendering a scene, waiting for an interval of time to pass, updating the scene, and rendering the updated imagery over and over again. </p>
+<p>In other words, all animation involves rendering a scene, waiting for an interval of time to pass, updating the scene, and rendering the updated imagery. Over and over again. </p>
 <h2>Animation on the World Wide Web</h2>
-<p>Back in the olden days web-based animation could be implemented using javascript. The animation loop could be implemented in just a few lines of code: </p>
-<pre>
+<p>Back in the olden days, web-based animation could be implemented using just a few lines of javascript: </p>
+<pre class="CodeList">
 function animate() {
   while ( animating ) {
     update();
@@ -134,153 +221,348 @@ function animate() {
 </pre>
 
 <p>Here, <code>update</code> would be a function defined to move things around and/or change object properties and <code>render</code> would be a function to draw to a renderable area like a 2D canvas. The <em>wait</em> period was achieved using javascript's <code>setTimeout</code> function. </p>
-<p>Using this oldschool technique worked OK in the early years of WWW development but used today would probably result in janky animation. The reason is that <code>setTimeout</code> is not synchronized with the browser engine's rendering cycle, so using it to create delays can potentially lead to erratic updates and dropped frames appearing as flicker. </p>
+<p>Using this oldschool technique worked OK in the early years of WWW development. But used today it would probably result in janky animation. The reason is that <code>setTimeout</code> is not synchronized with the browser engine's rendering cycle, so using it to create delays can potentially lead to erratic updates and dropped frames appearing as flicker. </p>
 <h1>RequestAnimationFrame</h1>
-<p>The good news is that a better standard for animation was introduced way back in 2015 and has since become widely supported across all browser rendering engines. The approach relies on a function called <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame">requestAnimationFrame</a>. </p>
-<p>Specifically intended to enable smooth animation, <code>requestAnimationFrame</code> is optimized to operate in synch with the browser rendering cycle. It is also worth noting that animation loops using RAF will pause when a user switches tabs or minimizes the animation window in order to reduce CPU utilization and battery usage. RequestAnimationFrame is ideal for game-loops, simulations and any other use-cases requiring visual updates that need to be synchronized with browsers' rendering system.</p>
-<p>TODO: RESUME HERE</p>
-<p>Describe the process</p>
-<p>USE new animation controller example</p>
-<p>add examples for 
-  1. sprite motion</p>
-<p>wicked witch flying across screen...</p>
-<ol>
-<li>keyframe animation</li>
-</ol>
-<p>Use wicked examples cape billowing</p>
-<p>ADD appendix for billowing effect with sin math</p>
-<p>SEE: https://chatgpt.com/c/68014d38-e7d8-8010-9522-4cc19cec83f9</p>
-<p>REMOVE BELOW</p>
-<h1>Elementary Kinematics</h1>
-<p>I've always had a love of cartoon physics. Who can stop but to laugh out loud watching a <em>Tom 'n' Jerry cartoon</em> or a <em>Road Runner</em> short with Wile E. Coyote? But when I started working with computer graphics and simulations I quickly needed to ground myself in real-world physics. Before you can control and bend them to your will in your artworks you need to understand the basic laws of motion. So the purpose of this section is to quickly review basic kenetic principles in order to apply them to good effect in the context of the SVG framework. </p>
-<h2>What is Kinematics?</h2>
-<p><em>Kinematics</em> is the study of motion without worrying about the forces that cause it. The focus is on <em>position</em>, <em>velocity</em> and <em>acceleration</em> and how these aspects of motion change over time. Basic kinematic principles have been well-known since Newton. </p>
-<h3>Position, Velocity and Accelaration</h3>
-<ol>
-<li>
-<p><strong>Position.</strong> <em>Position</em> represents the location of an object in space relative to a reference point. Since the SVG Artworks Framework is mainly 2D we'll consider 2D descriptions in Cartesian coordinates. Position is represented as a <em>vector</em>, $\vec v$, with coordinates $x$ and $y$ (horizontal and vertical).</p>
-<p>&lt;&lt; INSERT IMAGE &gt;&gt;</p>
-<p><strong>Note:</strong> In order to be consisent with 2D rendering in web browsers this discussion treats positive y as down in the 2D space. </p>
-</li>
-<li>
-<p><strong>Velocity.</strong> <em>Velocity</em> is the <em>rate of change</em> of position with respect to time. In physics velocity represents both <em>speed</em> and <em>direction</em> (represented as a vector with <em>orientation</em> and <em>magnitude</em>). </p>
-<p>Mathematically, velocity is the first derivative of position. </p>
-<p>$$
-v = \frac{dx}{dt}
-$$</p>
-<p>If you integrate an object's velocity you get its position.</p>
-</li>
-<li>
-<p><strong>Acceleration.</strong> <em>Acceleration</em> if the rate of change in <em>velocity</em> over time. </p>
-<p>Acceleration is the first derivative of velocity and the second derviative of position. </p>
-<p>$$
-a = \frac{dv}{dt} = \frac{d^2x}{dt^2}
-$$</p>
-<p>If you integrate an object's acceleration you get its velocity, and as I just observed if you integrate that you get position.</p>
-</li>
-</ol>
-<h3>Example</h3>
-<p>Let's look at a simple example. Suppose we have an object in motion starting at position $x=0$ with an initial velocity $v_0$ of $5 m/s$ and a constant acceleration, $a$, of $2 m/s^2$ . Using the definitions above we can represent its motion as:</p>
-<ol>
-<li>
-<p><strong>Velocity over time:</strong>
-    $$
-    v(t) = v_0 + at
-    $$</p>
-</li>
-<li>
-<p><strong>Position over time:</strong>
-    $$
-    p(t) = x_0 + v_0t + \frac{1}{2}at^2
-    $$</p>
-</li>
-</ol>
-<p>Let's look at the object's motion over the course of a 3 second interval. Where is the object located after 3 seconds? </p>
-<div>
-$$
-\begin{align}
-p(3) &= 0 + (5 \times 3) + \frac{1}{2}(2 \times 3^2) \\
-     &= (15) + \frac{1}{2}(2 \times 9) \\
-     &= 15 + 9 \\
-     &= 24m 
-\end{align}
-$$
-</div>
-<p>So, after a 3 second interval we see the object has moved 24 meters. </p>
-<div class="admonition hint">
-<p class="admonition-title">An Important Note on Units</p>
-<p>In going over these computations you'll notice I've been using <em>meters</em>  as the unit of measure. And this brings up an important point. If you're working on efforts concerning simulations, games, etc., you have to keep your units in mind when working out computations necessary to simulate forces acting on your objects. For example, in creating a particle effect if I want to simulate forces like gravity and drag I can apply real-world formulas but will have to translate real-world units associated with those formulas to my artworks space. Since the SVG Artworks Framework is mainly concerned with rendering SVG graphics I'll typically consider pixels as units.  <strong>TODO: make this better. Look for units discussion in UNREAL?</strong></p>
-</div>
-<p>RESUME HERE...</p>
-<div style="display:none">
-SEE: 
+<p>The good news is that a better standard for animation was introduced way back in 2015 and has since become widely supported across all browser rendering engines. That is RAF. Specifically intended to enable smooth animation, <code>requestAnimationFrame</code> is optimized to operate in sync with the browser engine's rendering cycle. It is also worth noting that animation loops using RAF will pause when a user switches tabs or minimizes the animation window in order to reduce CPU utilization and battery usage. RAF is ideal for game-loops, AI simulations and any other use-cases requiring visual updates that need to be synchronized with browsers' rendering systems.</p>
+<p>The following code shows an iteration of an animation controller I created early on to support interactive media experiences with SVG. </p>
+<pre class="CodeList"><code class="language-javascript">
+export const AnimationController = {
+    previousTimestamp : 0 ,
+    rafId : 0,
 
-https://chatgpt.com/c/679bb3f6-8dc4-8010-9865-4cbac92ccaad
-https://chatgpt.com/c/6793b6c3-e21c-8010-b70c-f7f3dcb972be
-https://gemini.google.com/app/caa89c6776f23682
-https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
+    update : function (timestamp)  {
+        // compute delta time in SECONDS 
+        const deltaTime = (timestamp - this.previousTimestamp) / 1000;
+        this.previousTimestamp = timestamp;
+        <span class='CodeHighlight'>GameController.updateSprites( deltaTime )</span>;
+        this.rafId = <span class='CodeHighlight'>requestAnimationFrame( this.update.bind(this) )</span>;
+    },
 
-</div>
+    startAnim : function  ()  {
+        const  startTime = performance.now() ;
+        this.previousTimestamp = startTime;
+        this.update( startTime ) ;
+    },
 
-<h1>A Javascript Example</h1>
-<p>INSERT JAVASCRIPT IMPLEMENTATIONS</p>
-<h1>SVG Artworks in Action!</h1>
-<p>This demo of the NN SVG ARTWORKS FRAMEWORK illustrates the application of the kinematic expressions described in this artical to simulate gravitational forces and resistance acting on an object's velocity. Somewhere between a toy and a game... </p>
-<div id="viewport-container">
-    <svg id="viewport" 
-        xmlns="http://www.w3.org/2000/svg" 
-        width="500" 
-        height="250" 
-        style="background-color: rgb(143, 202, 206);">
-    </svg>
-</div>
-<div class='Panel'>
-    <button id='start_anim'>Fire</button>
-    <button id='stop_anim'>Stop</button>
-    <button id='reset_anim'>Reload</button>
-    <span id='frame_rate'
-        style="display:inline-block;min-width: 180px; width: 180px">Frame Rate: 0 (Interval: 0)</span>
-    <span id='mouse_coords'
-        style="display:inline-block;min-width: 150px; width: 130px">mouse x=0, y=0</span>
-    <input type='text' id='vx' value='193'
-        style="display:inline-block;width: 30px" />
-    <input type='text' id='vy' value='-52'
-        style="display:inline-block;width: 30px" />
-</div>
+    stopAnim : function  ()  {
+        <span class='CodeHighlight'>cancelAnimationFrame ( this.rafId ) ;</span>
+        this.rafId = 0;
+        const  stopTime = performance.now();
+    },
 
-<h1>Discussion</h1>
-<p>As we've seen, RAF enables fine grained control over the animation loop for web base animations.</p>
-<p>IMPORTANT NOTES:</p>
-<p>I. RAF de-couples animation loop timing. 
-  a. In film you were tied to a fixed frame-rate (e.g., 18 FPS) . Same for using setTimeout on web. This meant you would have to time your key frames and tweens to the the fixed interval. So for cyclic animations like walk cycles the keys had to be tied to clicks on the beat. </p>
-<p>b. With RAF, you get a chance to render everytime the browser refreshes its view. this has a number of implications the most important being:</p>
-<pre><code> 1. you have to take steps to insure movement velocity is constant across varying frame rates, and
-
- 2. you have to insure you maintain a constant interval for frame dependent animations.
+}
 </code></pre>
-<p>This adds a bit of complexity to your calculations for different types of animation. And introduces an important concept: </p>
-<p>THE ANIMATION TIMELINE.</p>
-<p>But with the extra bit of complexity you get a bit of freedom as well. Depending on what your are trying to accomplish, you  can adjust your timeline independent the frames you're working with to speed up or slow an animation:</p>
-<p>SHOW EXAMPLE WITH THE WICKED BILLOWING EFFECT ... </p>
-<p>Call to stay TUNED</p>
-<p>In a subsequent entries I'll look a bit more closely at creating effects with animation frames ...</p>
-<p>NEXT UP</p>
+
+<p>The <code>AnimationController</code> exemplifies the application of the <code>requestAnimationFrame</code> API. It shows how the animation-loop can be implemented in javascript. Notice:</p>
 <ol>
 <li>
-<p>Walk Cycle,</p>
+<p>The <code>update</code> method (a callback) receives a timestamp as input.</p>
 </li>
 <li>
-<p>Cloth effects (Billowing etc.)</p>
+<p><code>update</code> uses the timestamp to compute <em>the time delta between the current update and the previous frame</em>.</p>
 </li>
 <li>
-<p>MVC for SVG artworks...</p>
+<p>It then invokes <code>GameController</code> -- an object in the SVG Creators Collaborative &trade; framework for SVG artists -- an object responsible for (among other things) updating sprites. Notice how the AC passes the time delta to the game controller.</p>
+</li>
+<li>
+<p>Finally, <code>update</code> calls <code>requestAnimationFrame</code> with a reference to itself, binding it as a <em>method</em> of the <code>AnimationController</code>.</p>
 </li>
 </ol>
+<p>As defined in its API, <code>requestAnimationFrame</code> returns an id for the update, which can be used elsewhere should the request need to be canceled. The one thing you might've noticed though, is that there isn't an explicit <em>wait</em> parameter in the loop. That's where <code>deltaTime</code> comes in as I'll show in a bit.</p>
+<h1>Examples</h1>
+<p>'Time to look a couple of concrete examples. In this post I've narrowed the discussion to two kinds of time-based updates; <strong>frame-rate-independent</strong> and <strong>fixed-interval</strong>.</p>
+<div class="admonition important">
+<p class="admonition-title">Frame Rate</p>
+<p><strong>Frame Rate</strong> refers to the frequency at which consecutive images, or <em>frames</em> are displayed in an animated sequence. Frame rate is measured in <em>frames per second</em> and taken as quotient of the number of frames divided by elapsed time:$$FPS = \frac{number\hspace{5px} of\hspace{5px} frames}{elapsed \hspace{5px} time}$$</p>
+</div>
+<h3>Frame-rate-independent updates</h3>
+<p><em>Frame-rate-independent updates</em> are scheduled independently of the frame rate and are used typically to animate motion and physics simulations. As an example, I've inlined an animation of a certain <em>wicked witch</em> flying on her broom.</p>
+<style>
+#flight_container {
+    width:350px;
+    height:117px;
+    border:inset 3px grey;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#flyer_control_panel {
+    width:350px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+</style>
+<div id="flight_container" 
+    class="FlightContainer"
+>
+    <!-- INSERT FLYER -->
+</div>
+<div  id="flyer_control_panel">
+    <button id="play_flight">Play</button>
+    <!--
+    <button id="update_button">Test</button>
+    -->
+    <span id="fps_display_move">FPS: 000</span>
+</div>
+
+<p>I created the animation by defining an SVG sprite and tapping into the animation controller logic through the SVG Creators Collaborative &trade; artists' framework. Within this framework, an SVG sprite can be defined by extending the <code>Moveable</code> class I've shown in the following diagram. </p>
+<style>
+.mermaid {
+  /*
+  transform: scale(0.85);
+  transform-origin: top left;
+  overflow: visible;
+  color: red;
+  */
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+<div class="mermaid" >
+classDiagram
+    class Moveable {
+        +Vector2D pos
+        +Vector2D vel
+        +Vector2D acceleration
+        +move(deltaTime)
+        +isInBounds(rect)
+    }
+
+    class WickedSprite {
+        +string id
+        +SVGElement svg
+        ...
+        +wrap()
+        +move(deltaTime)
+        +renderFrame()
+        +update(deltaTime)
+    }
+
+    Moveable <|-- WickedSprite
+</div>
+
+<p><span id="ret_1"><code>Moveable</code> encapsulates motion in the form of <em>position</em>, <em>velocity</em> and <em>acceleration</em> vectors. For frame-rate <em>independent</em> updates <code>move</code> can be called with <code>deltaTime</code> 
+to scale the motion so that it looks consistent regardless of the frame rate (which can vary considerably in web browsers) <a href="#end_1"><sup>1</sup></a> </span>. </p>
+<pre class="CodeList"><code class="language-javascript">
+move ( deltaTime ) {
+    this.vel.x += this.acceleration.x * deltaTime;
+    this.vel.y += this.acceleration.y * deltaTime;
+    this.pos.x += this.vel.x * deltaTime;
+    this.pos.y += this.vel.y * deltaTime;
+}
+</code></pre>
+
+<p>With this fedorated pattern, each sprite "knows" how it's supposed to move and can take care of itself on each update (as opposed to requiring "top down control" by the controller). </p>
+<h3>Fixed Interval Updates</h3>
+<style>
+#billow_wrap {
+    width: 200px;
+    float: right;
+    margin-left: 50px;
+    margin-top: -20px;
+}
+</style>
+<div id="billow_wrap">
+    <div id="svg_container_billow" 
+        class="BillowContainer" >
+        <!-- INSERT WICKED CAPE SINE -->
+    </div>
+    <div  id="control_panel_billow">
+        <button id="play_billow">Play</button>
+        <button id="update_billow">Test</button>
+        <span id="fps_display">FPS: 000</span>
+    </div>
+</div>
+
+<p>Sometimes you need animation updates to occur on a fixed interval, or, <em>time-step</em>. This is especially important if you're makeing use of key-frames. Take for example this animation of our wicked witch's cape billowing in the wind. The animation makes use of <em>key-frames</em> to achieve the effect. </p>
+<div class="admonition important">
+<p class="admonition-title">Key frame Animation</p>
+<p>Key frame animation is the technique of creating key <em>frames</em> depicting object shapes, poses, paths, etc. that occur over the course of a timeline. In the analog world animators create key-frames associated with key moments in a scene (e.g., a walk-cycle) and transition frames (referred to as "'tweens") are created to provide the illusion of motion. In the digital world key-frames are still needed to define key positions but interpolation <em>may</em> be achieved programmatically.</p>
+</div>
+<p><span id="ret_2">SVG artists might typically think of key-frame animation defined over SVG shapes. That's one of the beauties of SVG. It offers continuous path morphing (the capability to achieve perfectly smooth vector based transitions over time)  <a href="#end_2"><sup>2</sup></a> </span>. But with RAF you can also create sprite-based animation using the age-old approach of frame swapping as we see here. When might you want to do that in SVG? </p>
+<ul>
+<li>
+<p>When the animation involves complex, organic, or unpredictable shape changes that are impossible to define with a fixed point count (e.g., liquid splashes, fire, highly detailed cloth simulations).</p>
+</li>
+<li>
+<p>When you're going for a specific, non-interpolated "choppy" or traditional animation look for your aesthetic.</p>
+</li>
+<li>
+<p>When you already have pre-rendered assets from another source.</p>
+</li>
+<li>
+<p>When the performance of direct path morphing becomes an issue due to extreme path complexity.</p>
+</li>
+<li>
+<p>When you need to incorporate raster-specific effects not easily done with SVG filters.</p>
+</li>
+</ul>
+<p><span id="ret_3">Here are the keyframes I created for the billowing effect on Ms. Witch  <a href="#end_3"><sup>3</sup></a> </span> . </p>
+<figure style="margin-left: 0;">
+  <img src="/svg/svg_anim_raf/billow_keys.svg"
+      title="Keyframes to Billow the Witch's Cape"
+      alt="Key frames illustrating the sinusoidal billowing effect on the Wicked Witch of the West's Cape."
+  ><br>
+  <figurecaption>Figure: Keyframes used to achieve the billowing effect on the witch's cape.</figurecaption>
+</figure>
+
+<p>And now to the heart of it. <em>The trick to fixed-interval updates using the RAF API</em> is to: </p>
+<ol>
+<li>
+<p>Specify your <strong>interval</strong>, and</p>
+</li>
+<li>
+<p>Use an <strong>accumulator</strong> to trigger the changes.</p>
+</li>
+</ol>
+<p>In this example I do that in the witch sprite's <code>update method</code>: </p>
+<pre class="CodeList">
+update( deltaTime ) {
+    <span class='CodeHighlight'>this.accumulator += deltaTime;</span>
+    while( this.accumulator >= this.fixedInterval ) {
+        this.updateTransform();
+        this.accumulator -= this.fixedInterval;
+    }
+}
+</pre>
+
+<p>Below I've created an animated diagram to illustrate how the accumulator works. </p>
+<style>
+#svg_container_diagram {
+    /* width:200px;
+    height:200px; */
+    border:solid 3px red
+}
+</style>
+<div id="fixed_interval_diagram" 
+    class="SvgContainer" >
+    <!-- INSERT DIAGRAM -->
+</div>
+<div  id="control_panel_diagram">
+    <button id="play_widget">Run</button>
+</div>
+
+<p>The update function gets called in sync with browser update availability per the RAF specification. On each call the time delta between the current and previous calls is added to to the accumulator. Once the accumulator matches or exceeds the specified fixed interval the update function triggers changes to occur (e.g., sprite transformations) in lock-step with the interval. </p>
+<h2>Discussion</h2>
+<p>In this article my main intent was to focus on applying the javascript RAF API to animating SVG. Working through the examples showed how RAF provides an explicit mechanism to achieve smooth animation tied to the browser rendering-cycle. The API can be used to create anything from advertisments to production-quality video games for the Internet and World Wide Web.</p>
+<p>Indeed, <code>requestAnimationFrame</code> is the absolute core of any browser-based animation loop. In video games, for example, whether it's done with SVG, HTML5 Canvas, or even WebGL/WebGPU 3D <em>every frame that gets rendered ultimately relies on</em> requestAnimationFrame <em>to trigger the update and render cycle</em>. Even sophisticated JavaScript game frameworks and engines that abstract away many low-level details for developers (like <em>Phaser</em>, <em>PixiJS</em>, <em>Three.js</em>, etc.) use RAF internally as their primary game-loop mechanism. They build on top of it. So having a strong feel for how it works is essential to any non-trivial animated graphics development for the Web.</p>
+<h3>De-Coupling Timing From the Animation Loop</h3>
+<p>As I hope to have shown, the RAF API de-couples timing from the animation loop in the sense that as an artist you don't have a fixed interval imposed your animation. Back in the olden days, analog animators were tied to a fixed frame-rate (e.g., 18 FPS) -- which is why all cartoon characters walked at the same rate ;D . In other words, all your key frames and tweens had to be calculated against the the fixed interval, so for cyclic animations like walk-cycles the keys had to be tied to clicks on the beat. </p>
+<p>But as we saw, with RAF you get a chance to render everytime the browser refreshes its view. This carries with it a number of implications:</p>
+<ol>
+<li>
+<p>You have to take steps to insure movement velocity is constant across varying frame rates, and </p>
+</li>
+<li>
+<p>You have to insure you maintain a constant interval for frame-dependent animations. </p>
+</li>
+</ol>
+<p>This adds a bit of complexity to your calculations for different types of animation. And introduces an important concept: <em>the animation timeline</em>. Deep diving into timelines will have to await future posts. But the good news is that with the extra bit of complexity using RAF at a low level you get a <em>lot</em> of creative freedom. Depending on what you are trying to accomplish, you  can adjust your timeline <em>independent</em> of the frame-rate you're working with to speed up or slow down cyclic animations. Smooooth bebe!</p>
+<h3>A Few more things worth Noting</h3>
+<h4>Material Thinking</h4>
+<p>Here's a tip: </p>
+<div class="admonition tip pro tip">
+<p class="admonition-title">Tip</p>
+<p>As you work to develop your artistic style using SVG -- in addition to worrying about color -- think about <em>materials</em>.</p>
+</div>
+<p>Elsewhere I've discused line, shape, color etc. with regard to <a href="https://dr-nick-nagel.github.io/blog/svg-artworks.html">creating SVG art</a>. Here I want you to think about <em>light</em>. A huge part of the art of illustration in <em>any</em> medium involves understanding how light behaves. In creating the animations reflecting the nature of "real world objects" you want to think about what they're made of. By way of example, consider the rotating gear.</p>
+<div style="width:120px; margin-left:20px;float:right">
+    <img src="/svg/svg_anim_raf/gear_sprite_rotating.svg"
+        title="Spinning Gear in SVG"
+        alt="Thinking about light on a spinning gear."
+    >
+  </div>
+
+<p>In addition to using a flat color to create the widget I also applied a gradient to convey a sense that the object is made of a matallic <em>material</em>. But be forwarned, a naive approach to creating sprites might entail applying a lot of hightlights without thinking about the end-game. The goal in creating this sprite at the end of the day was to animate it. The problem is when you start using effects like gradients and highlights you have to worry about dynamic consequences. Having the gradient rotate along with the underlying shape would look unnatural and odd. Light simply doesn't behave that way. In the real world, the light source is usually fixed. When objects move the highlights and shadows stay in place, while the object shape moves beneath them. This creates the impression of consistent lighting.</p>
+<div class="admonition tip">
+<p class="admonition-title">Bonus Tips: Simulating Light from a Direction</p>
+<p>To make your SVG artworks look more natural match the gradient direction to the “light source” in your scene. Consider using <code>radialGradient</code>s, filter effects like <code>feDiffuseLighting</code>, and even <code>meshGradients</code>s to even greater effect. And in animation, <strong>decouple the animation of the shape from the gradient and associated highlights</strong>.</p>
+</div>
+<p>In other words, what if gradients in SVG (and other effects like blur, masking, etc.) were understood and structured more like virtual materials or surface shaders? Rather than binding them manually to IDs and linking them to shapes, what if your framework could introduce material descriptors -- reusable parameterized recipes that define how light behaves across a surface. And what if you had a framework and associated tooling and AI to make your life as an artist easier. Would you be interested?</p>
+<h4>Animating Sprites</h4>
+<p>In working through the creation of the <em>billowing cape effect</em> on the Wicked witch I briefly described the pattern where the fixed-interval for the animation was defined and managed <em>by the sprite herself</em> (as opposed to being implemented on the animation controller for example). Here's why this is a great idea:</p>
+<ol>
+<li>
+<p><strong>The Single Responsibility Principle</strong>. If a sprite is in charge of its own behavior, then:</p>
+<ul>
+<li>It knows what kind of update it needs (kinetic motion, key-frame animation, AI, etc.)</li>
+<li>It can decide whether to use <em>deltaTime</em>, a <em>fixed-step accumulator</em> SMIL, or any other means at is disposal to update.</li>
+</ul>
+</li>
+<li>
+<p><strong>Decoupling Modular Components</strong>. Your <em>Animation Controller</em> shouldn't have to know if a sprite is a particle, NPC, UI element, or a black hole for that matter. Each sprite can opt-in to the animation loop simply by providing an update to its view and thereby take charge of its own destiny.</p>
+</li>
+<li>
+<p><strong>Scalability and Performance</strong>. Again, RAF decouples the animation time-line from the frame rate. This allows fine grained control over scalability and performance. Some sprites might animate at 24fps, others at 12. Or 60. Some sprites might not animate at all. Some might animate only while visible (room for optimization!)</p>
+</li>
+</ol>
+<p>For these reasons I've adopted this pattern to create tooling and augment the framework for the SVG Creators Collaborative&trade;. Create thin controllers which notify and hand off reponsibilties to attentive observers. In essense, the controller can say: "It's time for the next tick, here's the time-delta from the last, go update yourself!" and leave it up to the sprite to figure out what to do. </p>
+<p>To me, that's object-oriented zen. With this architecture we have the spine for something seriously dynamic. Imagine entire performances choreographed via procedural animation and AI. With this approach you get </p>
+<ul>
+<li>
+<p>AI-driven behavioral refreshers based on simple behavioral principals (c.f., separation, alignment, cohesion)</p>
+</li>
+<li>
+<p>Shared keyframe or gesture-sync across sprites</p>
+</li>
+<li>
+<p>Blackboard/agent models for scalable decision-making</p>
+</li>
+<li>
+<p>AI driven behavior blending (e.g., idle + follow + animate + signal in sync)</p>
+</li>
+<li>
+<p>Procedural rhythm/sync engines (driven by tempo, music, emotional arc)</p>
+</li>
+</ul>
+<p>The possibilities are endless.</p>
 <h1>Conclusion</h1>
-<p>There are many applications of web-based animation...</p>
-<p>TODO ELABORATE</p>
-<h1>Conclusion</h1>
+<p>In conclusion I hope to have shown in this article how the RAF API in combination with SVG provides a powerful set of tools for creating animated content for HTML5 powered engines. There are countless applications for such content spanning a range of categories including advertising, data visualization, video-games, simulations, interactive story telling and education just to name the broadest. So let me leave you with this thought; while animating SVG content comes with a unique set of challenges good things are coming down the pike in the form of tools and frameworks to make life easier for artists. Stay tuned for more to come!</p>
+<div id="oz_wrap" >
+    <!-- INSERT ART -->
+</div>
+
+<h1>Endnotes</h1>
+<ol>
+<li>
+<p><span id="end_1">Please see my blog post on <a href="https://dr-nick-nagel.github.io/blog/kinematics.html">kinematics</a> for more details on "moveables" <a href="#ret_1"><svg class="EndnoteReturn">
+  <use href="#en_return"></use>
+</svg></a></span> .</p>
+</li>
+<li>
+<p><span id="end_2">It's both a blessing an a curse that SVG animation can be acheived in a number of ways. When the SVG spec was first release there was a grand vision of applying <strong>SMIL</strong> for animation <a href="https://dr-nick-nagel.github.io/blog/svg-anim.html">which I was very excited and wrote about back then</a> . Later, when CSS3 was released, confusion arose through lack of understanding and appreciation of the creative potential afforded by SVG + SMIL. Confusion continues to this day with reports of the deprecation and demise of SMIL being greatly exaggerated. Often questions are raised, and ill-advised "answers" are still being posted favoring the use of CSS and/or javascript over SMIL. The fact is these advisements are often advanced under the rubrik of a false dichotemy. Should I use SMIL or javascript? As if these was an either/or proposition <a href="#ret_2"><svg class="EndnoteReturn">
+  <use href="#en_return"></use>
+</svg></a></span> . </p>
+<p>The right answer is <em>both</em>. SMIL offer numerous benefits including:
+<ol> 
+  <li><strong>Portability.</strong> Since SMIL tags live inside the SVG animations can be defined in-line and dropped anywhere you can drop the SVG. Bang! Good to go!
+  <li><strong>Independent time-lines.</strong> With independent time-lines on SMIL tags you can abtract away from RAF micromanagment (consistent, among other things, with the sprite update patterns discussed in the body of this article).
+  <li><strong>Performance.</strong> SMIL is browser-native and automatically hardware-accelarated.
+</ol></p>
+<p>And if you are wondering whether SMIL is still supported look no further than this post. The animations I've created here contain a healthy mix of both RAF <em>and</em> SMIL and I can assure you they work great together.</p>
+</li>
+<li>
+<p><span id='end_3'>Creating the billowing cloak turned out to be somewhat challenging. You can't just randomly morph points to get a good effect. For those who may be interested in the details look for my upcoming book on the intersection of SVG, artwork and AI. To forshadow, the effect benefitted from the application of some simple trigonometry <a href="#ret_3"><svg class="EndnoteReturn">
+  <use href="#en_return"></use>
+</svg></a></span> .</p>
+</li>
+</ol>
 <h1>Resources</h1>
+<ol>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame">RAF Documentation</a></p>
+</li>
+<li>
+<p><a href="https://www.w3.org/TR/2001/REC-smil-animation-20010904/">SMIL Spec</a></p>
+</li>
+<li>
+<p><a href="https://www.thriftbooks.com/w/the-animators-survival-kit-a-manual-of-methods-principles-and-formulas-for-classical-computer-games-stop-motion-and-internet-animators_richard---williams/264365/item/10214414/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=us_shopping_zombies_hvs_21811042479&amp;utm_adgroup=&amp;utm_term=&amp;utm_content=717524850233&amp;gad_source=4&amp;gad_campaignid=21811042479&amp;gbraid=0AAAAADwY45i6tC3D52at4v5jPOAsCJ3qy&amp;gclid=Cj0KCQjwjJrCBhCXARIsAI5x66X7hbZZ7A2bP9Hk4b0ieVkU_i4HjCrqX9hXOyxfJLDRZParsExoTGUaArWEEALw_wcB#idiq=10214414&amp;edition=8430392">Animator's Survival Kit</a></p>
+</li>
+</ol>
     <footer>
       <p>Published: <time datetime="2025-02-10T00:00:00-05:00">
         Mon 10 February 2025

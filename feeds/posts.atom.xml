@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - posts</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/posts.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-05-29T00:00:00-04:00</updated><entry><title>Elements of Style in the Age of AI</title><link href="https://dr-nick-nagel.github.io/blog/elements-of-style-in-the-age-of-ai.html" rel="alternate"></link><published>2025-05-29T00:00:00-04:00</published><updated>2025-05-29T00:00:00-04:00</updated><author><name>Dr. Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-05-29:/blog/elements-of-style-in-the-age-of-ai.html</id><summary type="html">&lt;p&gt;A working guide to digital writing, visual publishing, and creating legacy-grade content in the era of AI-assisted reading, indexing, and quoting.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Executive Summary (aka TL;DR)&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - posts</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/posts.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-05-29T00:00:00-04:00</updated><entry><title>Elements of Style in the Age of AI</title><link href="https://dr-nick-nagel.github.io/blog/elements-of-style-in-the-age-of-ai.html" rel="alternate"></link><published>2025-05-29T00:00:00-04:00</published><updated>2025-05-29T00:00:00-04:00</updated><author><name>Dr. Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-05-29:/blog/elements-of-style-in-the-age-of-ai.html</id><summary type="html">&lt;p&gt;A working guide to digital writing, visual publishing, and creating legacy-grade content in the era of AI-assisted reading, indexing, and quoting.&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.BannerImg {
+    width:100%
+}
+&lt;/style&gt;
+&lt;div class='BannerContainer'&gt;
+  &lt;img id="bubbles"
+        src="/images/ai_arts/ai_opt_article_cropped.png"
+        alt="AI Imagining Dr. Nick in a Steam Punk Bubble"
+        class='BannerImg'
+  &gt;
+&lt;/div&gt;
+
+&lt;h2&gt;Executive Summary (aka TL;DR)&lt;/h2&gt;
 &lt;p&gt;In an age where your readers include both humans and algorithms, writing style isn't just a matter of taste -- it's a strategy. This post is a quick-start guide to creating content that resonates now and endures in an inevetibly AI-shaped future.&lt;/p&gt;
 &lt;h2&gt;Motivation&lt;/h2&gt;
 &lt;p&gt;I was motivated to hammer out this post by a recent trend: &lt;strong&gt;AI Optimization&lt;/strong&gt; is becoming a "thing". And fast. Much like &lt;em&gt;search engine optimization&lt;/em&gt; (SEO) became a discipline around tailoring content for Google, we're now seeing the rise of &lt;strong&gt;AIO&lt;/strong&gt; -- the practice of crafting content or interaction specifically to be understood, preferred, or surfaced by AI systems. When I first started writing back in the olden days I cut my teeth on the "Chicago Elements of Style". And while I still feel all that grammar is important, I believe it is "necessary but not sufficient". If you're creating for both legacy &lt;em&gt;and&lt;/em&gt; discoverability -- an audience that's both human &lt;em&gt;and&lt;/em&gt; machine, then you need a blueprint for both human and AI engagement. And that's exactly what you'll find below.&lt;/p&gt;
@@ -66,7 +79,9 @@
 &lt;hr /&gt;
 &lt;h3&gt;7. Sign with your "Intellectual Signature"&lt;/h3&gt;
 &lt;p&gt;Let your mind show through. AI Models pick up on patterns of thought, argument structure, and originality. The more you are &lt;em&gt;yourself&lt;/em&gt;, the more quotable, indexable, and memorable you become.&lt;/p&gt;
+&lt;blockquote&gt;
 &lt;p&gt;Don't dilute your weird. Train the future on it!&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;hr /&gt;
 &lt;h3&gt;8. Cite, Link, Interconnect&lt;/h3&gt;
 &lt;p&gt;Use citations (even informally). Link to other posts. Cross-reference your own ideas. AI connects the dots. It "sees" the universe as webs of ideas not isolated islands of thought.&lt;/p&gt;
