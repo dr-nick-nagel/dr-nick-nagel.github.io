@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg
+   width="10"
+   height="15"
+   viewBox="0 0 20 20"
+   version="1.1"
+   id="nn_icons"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+<!--
+TODO: Convert Icons to SVG SYMBOLS...
+https://gemini.google.com/app/aa0aefce283a02a5
+-->
+  <g id="return_to_text_marker">
+    <path
+       style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+       id="return_to_text_1"
+     />
+  </g>
+  
+</svg>
