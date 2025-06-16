@@ -118,12 +118,25 @@ Welcome to NickNagel.com
 <p>I've long been enthralled by nature-inspired art. Back in grad school I came across the works of Ernst Haeckel -- a famous biologist / artist and contemporary of Charles Darwin. Haeckel is renowned for his work, <em>Art Forms in Nature</em> in which he produced amazing depictions of a wide range of marine life with unbelievable detail achieved using line and color. </p>
 <figure style="width:300px">
 <a title="Ernst Haeckel, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Chiroteuthis_veranyi_Haeckel.jpg"><img width="300" alt="Chiroteuthis veranyi Haeckel" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chiroteuthis_veranyi_Haeckel.jpg/512px-Chiroteuthis_veranyi_Haeckel.jpg?20100219090007"></a>
-<figurecaption>Figure 2: An example work from Haeckle's *Art forms in Nature*.</figurecaption>
+<figurecaption><strong>Figure 2:</strong> An example work from Haeckle's *Art forms in Nature*.</figurecaption>
 </figure>
 
 <p>So when I saw the video of "Gonatus Antarcticus" I couldn't resist taking up an experiment in animation using SMIL. </p>
 <h2>The Animation</h2>
-<p>The video presents an ideal against which to test the limits of animating using SMIL. SMIL is one of several techniques that can be used to animate SVG content falling between CSS (good for fast simple animations of some web content) and Key-frame animation using sprite sheets and requestAnimationFrame. SMIL can be used to morph paths over time which provides rich support to create a wide range of effect. In this case, based on informal observation, I wanted to test the limits of SMIL by trying to animate 3 things increasing in complexity: (1) translation and rotation of the organism (to give the sense of the organism floating in the currents) (2) the flaps or fins on the creature's nose, and (3) the tentacles. The model is composed of largely organic shapes, for which in many cases SMIL is ideally suited. Here, I've in-lined the result.</p>
+<p>The subject of the squid in its natural habitat presents an ideal against which to test the limits of animating using SMIL. SMIL is one of several techniques that can be used to animate SVG content. Rather than thinking of SMIL as an "alternative", or, "competator" to CSS I see it as one of a number of technologies that can be brought to bear in creating SVG art. CSS  may suffice for creating simple animations. Javascript can be used for a far wider range of effects. To me, SMIL falls somewhere in between. SMIL is ideal for:</p>
+<ol>
+<li>
+<p>Using a declaritive style to specify animation parameters,</p>
+</li>
+<li>
+<p>Embedding animation to create self-contained modular SVG files,</p>
+</li>
+<li>
+<p>Animating mulitple component parts on independent timelines.</p>
+</li>
+</ol>
+<p>One of the greatest benefits of SMIL (and something you simply cannot achieve in CSS) is that it can be used to morph paths over time. This capability provides rich support for animating organic shapes and features as can be seen with the squid example.</p>
+<p>In this example, based on informal observation, I wanted to test the limits of SMIL by trying to animate 3 features increasing in complexity: (1) <strong>translation and rotation of the organism</strong> (to give the sense of the organism floating in the currents) (2) the <strong>flaps</strong> or fins on the creature's nose, and (3) the <strong>tentacles</strong>. The model is composed of largely organic shapes, for which SMIL is ideally suited. Below is the animation I created.</p>
 <p><picture id='squid_svg' >
     <source srcset="/svg/squid_anim/squid_anim_v2.svg" 
             type="image/svg+xml">
@@ -138,11 +151,11 @@ Welcome to NickNagel.com
 
 <h2>Reflecting on the Process</h2>
 <p>One of my goals in working through this animation was to understand and define a <em>process</em> for artists to animate content using SMIL. I find some things are simply best understood through hands-on experimentation.</p>
-<p>First, the SVG model I created is necessarily a simplification. Nowhere near as intricate and detailed as naturalist's illustration since my intent was a quick experiment in animation. Nonetheless, I tried to capture some of the interesting features like the bioluminescent outer skin, the underlying texture, etc. -- features well suited to expression with SVG.</p>
+<p>First, the SVG model I created is necessarily a simplification. Nowhere near as intricate and detailed as naturalist's illustration since my intent was a quick experiment in animation. Nonetheless, I tried to capture some of the interesting features of the specimen well-suited to expression with SVG -- features like the bioluminescent outer skin, the underlying texture, etc.. </p>
 <p>In order simplify the most challenging of the animations, I deliberately reduced the number of tentacles in the model. I wanted to animate a sort-of abstract <strong>propulsion stroke cycle</strong> with clear bio mechanical intention. I wanted to see what challenges I'd come up against working to achieve a  believable deformation across the key frames I created to represent the cycle:</p>
 <ol>
 <li>
-<p>A streamlined phase with state tentacles tightly and aligned (a sort of post-pulse gliding pose),</p>
+<p>A streamlined phase with tentacles tightly and aligned (a sort of post-pulse gliding state),</p>
 </li>
 <li>
 <p>A preparation phase with tentacles relaxing and spreading to gather potential energy preparatory to a pulse, and</p>
@@ -151,10 +164,10 @@ Welcome to NickNagel.com
 <p>A power stroke with tentacles contracting. </p>
 </li>
 </ol>
-<p>Again, make no mistake my aim wasn't so much to reflect the actual movements of the squid as to explore the challenges of creating a believable motion that "looks OK" given the constraints of morphing the Bézier paths I used to construct the model. </p>
-<p>What I found was simultaneously encouraging and intimidating. Animating the outermost tentacles using SMIL worked surprisingly well given the tooling I had on hand. Basically I used Inkscape to define key frames and manually converted the data to SMIL animation tags (an exercise not for the feint of heart!) Since their control points follow more-or-less predictable, arcing trajectories across the phases of the propulsion cycle, it was relatively straight forward to define keys such that the structures remained consistently shaped. Animating the intermediate tentacles using SMIL proved more problematic. As the motion nears the squid’s mid line, the Bézier paths become more tightly coupled in space, and achieving believable deformation across key-frames requires a delicate balance. In short I quickly discovered how sensitive SMIL path morphing is to even slight inconsistencies in control point placement and direction. Maintaining consistent shape and curvature across frames is critical—and surprisingly difficult.</p>
+<p>Again -- make no mistake -- my aim wasn't so much to reflect the actual movements of the squid as to explore the challenges of creating a believable motion that "looks OK" given the constraints of morphing the Bézier paths I used to construct the model. </p>
+<p>What I found was simultaneously encouraging and intimidating. Animating the outermost tentacles using SMIL worked surprisingly well given the tooling I had on hand. Basically I used Inkscape to define key frames and manually converted the data to SMIL animation tags (an exercise not for the feint of heart!) Since their control points follow more-or-less predictable, arcing trajectories across the phases of the propulsion cycle, it was relatively straight forward to define keys such that the structures remained consistently shaped. Animating the intermediate tentacles using SMIL proved more problematic. As the motion nears the squid’s mid-line, the Bézier paths become more tightly coupled in space, and achieving believable deformation across key-frames requires a delicate balance. In short I quickly discovered how sensitive SMIL path morphing is to even slight inconsistencies in control point placement and direction. Maintaining consistent shape and curvature across frames is critical -- and surprisingly difficult.</p>
 <h2>Looking Ahead</h2>
-<p>Despite these frustrations, the experience helped me clarify and better understand the strengths and limitations of SMIL animation. It helped me to further identify existing gaps in libraries and tooling currently available to support SVG. Going forward one of the key challenges in expanding the SVG Creators Collaborative Artworks Framework will be developing intuitive tools to make working with SMIL more efficient, flexible and expressive.</p>
+<p>Despite these frustrations, the experience helped me clarify and better understand the strengths and limitations of SMIL animation. It helped me to further identify existing gaps in libraries and tooling currently available to support SVG. Going forward, one of the key challenges in expanding the SVG Creators Collaborative &trade; Artworks Framework will be developing intuitive tools to make working with SMIL more efficient, flexible and expressive.</p>
 <h2>Resources</h2>
 <ol>
 <li><a href="https://archive.org/details/KunstformenDerNaturErnstHaeckel/page/n39/mode/2up">Art Forms in Nature</a></li>
