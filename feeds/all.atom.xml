@@ -1,5 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/all.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-05-29T00:00:00-04:00</updated><entry><title>Elements of Style in the Age of AI</title><link href="https://dr-nick-nagel.github.io/blog/elements-of-style-in-the-age-of-ai.html" rel="alternate"></link><published>2025-05-29T00:00:00-04:00</published><updated>2025-05-29T00:00:00-04:00</updated><author><name>Dr. Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-05-29:/blog/elements-of-style-in-the-age-of-ai.html</id><summary type="html">&lt;p&gt;A working guide to digital writing, visual publishing, and creating legacy-grade content in the era of AI-assisted reading, indexing, and quoting.&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/all.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-06-13T00:00:00-04:00</updated><entry><title>Nature Inspired Animation using SMIL</title><link href="https://dr-nick-nagel.github.io/blog/squid-smil.html" rel="alternate"></link><published>2025-06-13T00:00:00-04:00</published><updated>2025-06-13T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-06-13:/blog/squid-smil.html</id><summary type="html">&lt;p&gt;Using SMIL to animate a giant squid...&lt;/p&gt;</summary><content type="html">&lt;h2&gt;In this Post ...&lt;/h2&gt;
+&lt;p&gt;I experiment with using SMIL to animate SVG artwork inspired by nature. &lt;/p&gt;
+&lt;h2&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Continuing down the path of SVG Framework development I've recently been exploring the application of various techniques in an effort to catalog the different approaches to animating SVG. Recently, I was inspired by rare footage captured of a giant squid off the coast of Antarctica.&lt;/p&gt;
+&lt;div id="squid_vid" style="border: inset grey 3px; width:360px"&gt;
+&lt;iframe style="display:block" width="360" height="215" src="https://www.youtube.com/embed/0BaUbJ1J58U?si=iVl49Af704EIvaKq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I've long been enthralled by nature-inspired art. Back in grad school I came across the works of Ernst Haeckel -- a famous biologist / artist and contemporary of Charles Darwin. Haeckel is renowned for his work, &lt;em&gt;Art Forms in Nature&lt;/em&gt; in which he produced amazing depictions of a wide range of marine life with unbelievable detail achieved using line and color. &lt;/p&gt;
+&lt;figure style="width:300px"&gt;
+&lt;a title="Ernst Haeckel, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Chiroteuthis_veranyi_Haeckel.jpg"&gt;&lt;img width="300" alt="Chiroteuthis veranyi Haeckel" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chiroteuthis_veranyi_Haeckel.jpg/512px-Chiroteuthis_veranyi_Haeckel.jpg?20100219090007"&gt;&lt;/a&gt;
+&lt;figurecaption&gt;&lt;strong&gt;Figure 2:&lt;/strong&gt; An example work from Haeckle's *Art forms in Nature*.&lt;/figurecaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;So when I saw the video of "Gonatus Antarcticus" I couldn't resist taking up an experiment in animation using SMIL. &lt;/p&gt;
+&lt;h2&gt;The Animation&lt;/h2&gt;
+&lt;p&gt;The subject of the squid in its natural habitat presents an ideal against which to test the limits of animating using SMIL. SMIL is one of several techniques that can be used to animate SVG content. Rather than thinking of SMIL as an "alternative", or, "competator" to CSS I see it as one of a number of technologies that can be brought to bear in creating SVG art. CSS  may suffice for creating simple animations. Javascript can be used for a far wider range of effects. To me, SMIL falls somewhere in between. SMIL is ideal for:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Using a declaritive style to specify animation parameters,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Embedding animation to create self-contained modular SVG files,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Animating mulitple component parts on independent timelines.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;One of the greatest benefits of SMIL (and something you simply cannot achieve in CSS) is that it can be used to morph paths over time. This capability provides rich support for animating organic shapes and features as can be seen with the squid example.&lt;/p&gt;
+&lt;p&gt;In this example, based on informal observation, I wanted to test the limits of SMIL by trying to animate 3 features increasing in complexity: (1) &lt;strong&gt;translation and rotation of the organism&lt;/strong&gt; (to give the sense of the organism floating in the currents) (2) the &lt;strong&gt;flaps&lt;/strong&gt; or fins on the creature's nose, and (3) the &lt;strong&gt;tentacles&lt;/strong&gt;. The model is composed of largely organic shapes, for which SMIL is ideally suited. Below is the animation I created.&lt;/p&gt;
+&lt;p&gt;&lt;picture id='squid_svg' &gt;
+    &lt;source srcset="/svg/squid_anim/squid_anim_v2.svg" 
+            type="image/svg+xml"&gt;
+        &lt;img id='squid_svg_rastor' 
+          src="/path/to/your-animated-image-fallback.png" 
+          alt="A description of my animated SVG for search engines" 
+          width="300" 
+          height="250"
+          style='border:solid black 1px;margin-left:auto;margin-right:auto;display:block;' &gt;
+&lt;/picture&gt;&lt;/p&gt;
+&lt;div style="width:300px;margin-left:auto;margin-right:auto;font-size:small"&gt;&lt;strong&gt;SVG Animation:&lt;/strong&gt; Stylized model of &lt;em&gt;Gonatus Antarcticus&lt;/em&gt; -- a marine organism rarely seen in the wild.&lt;/div&gt;
+
+&lt;h2&gt;Reflecting on the Process&lt;/h2&gt;
+&lt;p&gt;One of my goals in working through this animation was to understand and define a &lt;em&gt;process&lt;/em&gt; for artists to animate content using SMIL. I find some things are simply best understood through hands-on experimentation.&lt;/p&gt;
+&lt;p&gt;First, the SVG model I created is necessarily a simplification. Nowhere near as intricate and detailed as naturalist's illustration since my intent was a quick experiment in animation. Nonetheless, I tried to capture some of the interesting features of the specimen well-suited to expression with SVG -- features like the bioluminescent outer skin, the underlying texture, etc.. &lt;/p&gt;
+&lt;p&gt;In order simplify the most challenging of the animations, I deliberately reduced the number of tentacles in the model. I wanted to animate a sort-of abstract &lt;strong&gt;propulsion stroke cycle&lt;/strong&gt; with clear bio mechanical intention. I wanted to see what challenges I'd come up against working to achieve a  believable deformation across the key frames I created to represent the cycle:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;A streamlined phase with tentacles tightly and aligned (a sort of post-pulse gliding state),&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A preparation phase with tentacles relaxing and spreading to gather potential energy preparatory to a pulse, and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A power stroke with tentacles contracting. &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Again -- make no mistake -- my aim wasn't so much to reflect the actual movements of the squid as to explore the challenges of creating a believable motion that "looks OK" given the constraints of morphing the Bézier paths I used to construct the model. &lt;/p&gt;
+&lt;p&gt;What I found was simultaneously encouraging and intimidating. Animating the outermost tentacles using SMIL worked surprisingly well given the tooling I had on hand. Basically I used Inkscape to define key frames and manually converted the data to SMIL animation tags (an exercise not for the feint of heart!) Since their control points follow more-or-less predictable, arcing trajectories across the phases of the propulsion cycle, it was relatively straight forward to define keys such that the structures remained consistently shaped. Animating the intermediate tentacles using SMIL proved more problematic. As the motion nears the squid’s mid-line, the Bézier paths become more tightly coupled in space, and achieving believable deformation across key-frames requires a delicate balance. In short I quickly discovered how sensitive SMIL path morphing is to even slight inconsistencies in control point placement and direction. Maintaining consistent shape and curvature across frames is critical -- and surprisingly difficult.&lt;/p&gt;
+&lt;h2&gt;Looking Ahead&lt;/h2&gt;
+&lt;p&gt;Despite these frustrations, the experience helped me clarify and better understand the strengths and limitations of SMIL animation. It helped me to further identify existing gaps in libraries and tooling currently available to support SVG. Going forward, one of the key challenges in expanding the SVG Creators Collaborative &amp;trade; Artworks Framework will be developing intuitive tools to make working with SMIL more efficient, flexible and expressive.&lt;/p&gt;
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://archive.org/details/KunstformenDerNaturErnstHaeckel/page/n39/mode/2up"&gt;Art Forms in Nature&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="motion"></category><category term="HTML5"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category><category term="SMIL"></category><category term="nature"></category><category term="marine biology"></category><category term="giant squid"></category></entry><entry><title>Elements of Style in the Age of AI</title><link href="https://dr-nick-nagel.github.io/blog/elements-of-style-in-the-age-of-ai.html" rel="alternate"></link><published>2025-05-29T00:00:00-04:00</published><updated>2025-05-29T00:00:00-04:00</updated><author><name>Dr. Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-05-29:/blog/elements-of-style-in-the-age-of-ai.html</id><summary type="html">&lt;p&gt;A working guide to digital writing, visual publishing, and creating legacy-grade content in the era of AI-assisted reading, indexing, and quoting.&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 .BannerImg {
     width:100%
 }

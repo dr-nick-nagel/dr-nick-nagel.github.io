@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Beauty is in the eye of the beholder -- or is it the artist?</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+        
+          <script type="module" src="/scripts/dist_face/main.js"></script>
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="javascript" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="motion" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="framework" />
+    <meta name="tags" content="Inkscape" />
+    <meta name="tags" content="Illustrator" />
+    <meta name="tags" content="Adobe" />
+    <meta name="tags" content="artificial intelligence" />
+    <meta name="tags" content="machine learning" />
+    <meta name="tags" content="face detection" />
+    <meta name="tags" content="face landmark detection" />
+    <meta name="tags" content="landmarks" />
+    <meta name="tags" content="avatars" />
+    <meta name="tags" content="emotion" />
+    <meta name="tags" content="beauty" />
+    <meta name="tags" content="aesthetics" />
+    <meta name="tags" content="face shape" />
+    <meta name="tags" content="face recognition" />
+    <meta name="tags" content="facial" />
+    <meta name="tags" content="facial recognition" />
+
+    </head>
+
+    <body>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="nn_symbols"
+   version="1.1"
+   style="display:none"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs>
+    <symbol id="en_return"  viewBox="0 0 20 20">
+      <path
+        style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+        id="return_to_text_1"
+      />
+    </symbol>
+   </defs>
+</svg>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/drafts/face-features.html" rel="bookmark"
+           title="Permalink to Beauty is in the eye of the beholder -- or is it the artist?">Beauty is in the eye of the beholder -- or is it the artist?</a></h2>
+      
+    </header>
+    <style>
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 10px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.CodeFragment{
+    font-size: 10px;
+    color: #ffe;
+    background-color: #444;
+    padding: 10px
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+
+/* ~~~~~~~~~~   DEMO STYLES   ~~~~~~~~~~~~~~~~~ */
+
+video {
+    display: block;
+    background-color: #eee;
+    margin-left: auto;
+    margin-right: auto;
+}
+svg {
+    display: block;
+    background-color: black;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.DemoView {
+    display: inline-block;
+    width:   340px;
+    border: 0.5px solid #666; 
+    border-radius: 15px; 
+    padding: 10px;
+}
+
+</style>
+
+<h2>In this Post ...</h2>
+<h2>Beauty through the Eyes of an Artist</h2>
+<p>Is beauty subjective? Or is it <em>ob</em>jective. Or is it a little bit of both? DISCUSS...</p>
+<p>&lt;&lt; INSERT THE CHARACTER EXAMPLE ART &gt;&gt;</p>
+<h2>Generative Art with Collaborative AI</h2>
+<p>A big part the vision for the SVG Creators' Collaborative &trade; is to foster artistic creativity through collaboration. Collaboration can be made <em>generative</em>. What does <em>that</em> mean? In particular I'm referring to generative <em>art</em>. </p>
+<blockquote>
+<p>Generative art is where artist(s) create through the application of an autonomous system. </p>
+</blockquote>
+<p>Just as a sculptor uses tools to carve their artistic vision into being, a generative artist uses rules, algorithms, and system parameters to create. Art becomes collaborative when artists work together to produce a unified piece. This collaboration can be intra-disciplinary or interdisciplinary -- as when visual artists and musicians unite across mediums.</p>
+<p>The beauty of collaboration lies in its potential to produce innovative, emotionally resonant works that might be impossible for a single artist to achieve alone. In that sense, collaboration can even extend to AI: when the generative system becomes complex or responsive enough, it can feel like a "co-creator". Generative collaboration explores the intersection of art, technology, and randomness, often leading to surprising and unique results.</p>
+<p>To illustrate, I am inlining a demonstration of what I call "SoulVector" (because is shows that vectors are a window to the soul). </p>
+<h3>SoulVector Demo</h3>
+<div class="DemoView">
+    <div id="ControlButtons">
+        <button id="starter">Start</button>
+        <button id="cam_select"
+            class="disabled" >Switch to Rear Cam</button>
+    </div>
+    <h2>WebCam</h2>
+    <div class="WebCamDiv">
+        <video id="video" 
+                autoplay 
+                playsinline 
+                muted 
+                width=320
+                height=240
+                >
+        </video>
+    </div>
+    <h2>SVG</h2>
+    <div>
+        <svg id="svg_root"
+            width="320"
+            height="240"
+            viewBox="0 0 640 480"></svg>
+    </div>
+</div>
+
+<p><em>SoulVector</em> uses a machine-learning model that identifies facial landmarks given human facial imagery as input. In this piece, I've used the model output to define contours that drive the dynamic generation of SVG shapes representing facial features. The result is a real-time, animated SVG avatar that can reflect expressions, mood, attention and other imaginative artistic interpretations. But of far greater importance is that the the system reflects an artistic <em>process</em> enabling artists to dream up myriad fantastical mappings from input to avatar. </p>
+<p>Going into this piece, I had only a vague idea of what I might achieve through SVG mapping. But I was delighted with the outcome -- and I knew I was delighted when I saw the avatar smiling back at me &lt;&lt; INSERT A MINI FRESCO FROM THE DEMO LIKE AN EMOJI SMILING&gt;&gt; .  </p>
+<p>This is important. </p>
+<p>The goal of art is to make the observer <em>feel</em> -- to connect, to care. Without feeling, art is just just marks on a canvas -- devoid of meaning. What this piece makes special is that it uses generative techniques to create an experience that couldn't exist without the underlying autonomous system. The SVG avatar is created <em>on the fly</em>, dynamically, in real time. Without the man-machine collaboration, this form of expression -- this new visage -- simply wouldn’t be possible.</p>
+<!--
+You're absolutely onto something powerful here -- this is a clean, elegant bridge between dynamic facial detection and expressive vector-based art. Let me break down what you’ve accomplished, why it's compelling, and ...
+-->
+
+<h3>Discussion: Emotion and Our (Human Hardwiredness): Are we Hardcoded to Smile?</h3>
+<p>It's definitely primal ... </p>
+<h2>Creating Avatar Art for the SVG Creative Collab &trade;  Framework</h2>
+<h3>Mappings</h3>
+<h3>Face shapes</h3>
+<h2>Next Steps and Beyond</h2>
+<p>Call to action to look for the book</p>
+<h1>Endnotes</h1>
+<ol>
+<li><span id="end_1">TBD   <a href="{filename}tbd.md">title</a> Yada yada... <a href="#ret_1"><svg class="EndnoteReturn">
+  <use href="#en_return"></use>
+</svg></a></span> .</li>
+</ol>
+<h1>Resources</h1>
+<ol>
+<li><a href="https://tbd.com">TBD</a></li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2025-06-22T00:00:00-04:00">
+        Sun 22 June 2025
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/javascript.html">javascript</a>
+            <a href="https://dr-nick-nagel.github.io/tag/animation.html">animation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
+            <a href="https://dr-nick-nagel.github.io/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/art.html">art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artwork.html">artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/motion.html">motion</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/framework.html">framework</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape.html">Inkscape</a>
+            <a href="https://dr-nick-nagel.github.io/tag/illustrator.html">Illustrator</a>
+            <a href="https://dr-nick-nagel.github.io/tag/adobe.html">Adobe</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artificial-intelligence.html">artificial intelligence</a>
+            <a href="https://dr-nick-nagel.github.io/tag/machine-learning.html">machine learning</a>
+            <a href="https://dr-nick-nagel.github.io/tag/face-detection.html">face detection</a>
+            <a href="https://dr-nick-nagel.github.io/tag/face-landmark-detection.html">face landmark detection</a>
+            <a href="https://dr-nick-nagel.github.io/tag/landmarks.html">landmarks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/avatars.html">avatars</a>
+            <a href="https://dr-nick-nagel.github.io/tag/emotion.html">emotion</a>
+            <a href="https://dr-nick-nagel.github.io/tag/beauty.html">beauty</a>
+            <a href="https://dr-nick-nagel.github.io/tag/aesthetics.html">aesthetics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/face-shape.html">face shape</a>
+            <a href="https://dr-nick-nagel.github.io/tag/face-recognition.html">face recognition</a>
+            <a href="https://dr-nick-nagel.github.io/tag/facial.html">facial</a>
+            <a href="https://dr-nick-nagel.github.io/tag/facial-recognition.html">facial recognition</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
