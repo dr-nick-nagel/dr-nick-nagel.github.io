@@ -87,16 +87,18 @@
 
     <symbol id="circle_symbol" viewBox="-7.5 -8 15 16">
       <circle id="circle_0"
-       style="display:inline;fill:#000000"
-       cx="0"
-       cy="0"
-       r="7.5"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        r="7.5"
       />
     </symbol>
 
     <symbol id="rectangle_symbol" viewBox="-7.5 -9 15 18">
       <rect
-        style="display:inline;fill:#000000;"
+        fill="currentColor"
+        style="display:inline;"
         id="rectangular_shape"
         width="15"
         height="18"
@@ -107,7 +109,8 @@
 
     <symbol id="diamond_symbol" viewBox="-7.5 -12 15 24">
       <rect
-       style="display:inline;fill:#000000"
+       fill="currentColor"
+       style="display:inline;"
        id="diamond_0"
        width="15"
        height="15"
@@ -118,14 +121,16 @@
 
     <symbol id="triangle_symbol" viewBox="-7.5 -7.5 15 20">
       <path id="triangle_0"
-        style="display:inline;fill:#000000"
+        fill="currentColor"
+        style="display:inline;"
         d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
       />
     </symbol>
 
     <symbol id="oval_symbol" viewBox="-7 -10 14 20">
       <ellipse id="oval_0"
-        style="display:inline;fill:#000000"
+        fill="currentColor"
+        style="display:inline;"
         cx="0"
         cy="0"
         rx="6"
@@ -134,7 +139,8 @@
 
     <symbol id="heart_face_symbol" viewBox="-7.5 -10 15 20">
       <path id="heart_face"
-          style="fill:#000;fill-rule:evenodd;stroke-width:8.77216;stroke-linecap:square"
+          fill="currentColor"
+          style="display:inline"
           d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
       />
     </symbol>
@@ -230,7 +236,6 @@ svg {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    background-color:black;
 }
 
 .DemoView {
@@ -323,27 +328,41 @@ Which variation speaks to you most? I'd love to hear your take.</p>
     border: solid grey 0.5px;
     border-radius: 15px;
     margin-bottom: 10px;
-    width: 320px;
+    width: 140px;
     height: 200px;
     overflow: hidden;
 }
+#face_shape_symbol {
+    display: inline-block;
+    width: 16px;
+    height: 20px;
+    vertical-align: middle;
+    color: red;
+}
+
+#fs_label {
+    margin-bottom: 15px;
+}
+
 </style>
 <div id="face_geometry">
     <div id="face_geometry_container" 
         class="ExampleContainer" >
         <!-- INSERT face shapes -->
     </div>
-    <!-- RESUME HERE: LABELS -->
+    <div id="fs_label">
+      <span style="font-weight: bold">Face Shape: </span>
+      <svg id='face_shape_symbol'>
+        <use id='shape_symbol'
+             href="#heart_face_symbol"></use>
+      </svg>
+    </div>
     <div  id="control_panel_faceshape">
-        <button id="change_face">Change Facial Features</button>
+        <button id="change_face">Change Features</button>
     </div>
 </div>
 
 <!-- 
-<svg style="background-color: grey">
-  <use href="#circle_symbol"></use>
-</svg>
-
 <svg style="background-color: grey">
   <use href="#rectangle_symbol"></use>
 </svg>
@@ -366,16 +385,18 @@ Which variation speaks to you most? I'd love to hear your take.</p>
 -->
 
 <p>TODO: RESUME HERE. </p>
-<ol>
-<li>
-<p>DO BRING IN THE FACE SHAPES DISCUSSION</p>
-</li>
-<li>
-<p>THEN TO SEGUAY INTO COLLAB ART WITH AI DISCUSS WHETHER AI CAN APPRECIATE AN AESTHETIC ...</p>
-</li>
-</ol>
-<p>EVENT TALK ABOUT JOHN OLIVER'S AND EVERYONE'S OBSESSION WITH AI ON SOCIAL MEDIA...</p>
-<p>SOMEHOW YOU NEED TO CONNECT THE DOTS. OR AT LEAST THESE SECTIONS. MAYBE ? </p>
+<!--
+
+
+1. DO BRING IN THE FACE SHAPES DISCUSSION
+
+2. THEN TO SEGUAY INTO COLLAB ART WITH AI DISCUSS WHETHER AI CAN APPRECIATE AN AESTHETIC ...
+
+EVENT TALK ABOUT JOHN OLIVER'S AND EVERYONE'S OBSESSION WITH AI ON SOCIAL MEDIA...
+
+SOMEHOW YOU NEED TO CONNECT THE DOTS. OR AT LEAST THESE SECTIONS. MAYBE ? 
+-->
+
 <h2>Generative Art with Collaborative AI</h2>
 <p>A big part the vision for the SVG Creators' Collaborative &trade; is to foster artistic creativity through collaboration. Collaboration can be made <em>generative</em>. What does <em>that</em> mean? In particular I'm referring to generative <em>art</em>. </p>
 <blockquote>
@@ -384,6 +405,15 @@ Which variation speaks to you most? I'd love to hear your take.</p>
 <p>Just as a sculptor uses tools to carve their artistic vision into being, a generative artist uses rules, algorithms, and system parameters to create. Art becomes collaborative when artists work together to produce a unified piece. This collaboration can be intra-disciplinary or interdisciplinary -- as when visual artists and musicians unite across mediums.</p>
 <p>The beauty of collaboration lies in its potential to produce innovative, emotionally resonant works that might be impossible for a single artist to achieve alone. In that sense, collaboration can even extend to AI: when the generative system becomes complex or responsive enough, it can feel like a collaborator. Generative collaboration explores the intersection of art, technology, and randomness, often leading to surprising and unique results.</p>
 <p>To illustrate, I am inlining a demonstration of what I call "SoulVector" (because is shows that vectors are a window to the soul). </p>
+<style>
+.DemoView svg {
+    background-color: black;
+
+}
+
+
+</style>
+
 <h3>SoulVector Demo</h3>
 <div class="DemoView">
     <div id="ControlButtons">
@@ -474,10 +504,6 @@ const faceShapeController = {
         // set initial face at HEART (in sync with svg)
         this._currentIndex = this._stateSequence.indexOf( "HEART" );
         this.faceState = this.faceTypes.HEART;
-
-
-
-
     },
 
     transNextState: function() {
@@ -498,24 +524,34 @@ const faceShapeController = {
       const newGrp = document.getElementById( this.faceState );
       newGrp.style.display="inline";
 
-      console.log( newFaceType )  ;
-
-
-
-
-
-
-
-
-
-
+      const useTag = document.getElementById( "shape_symbol" );
+      let symbol = null;
+      switch( this.faceState ) {
+          case this.faceTypes.ROUND :
+            symbol = "#circle_symbol";
+            break; 
+          case this.faceTypes.RECTANGULAR :
+            symbol = "#rectangle_symbol";
+            break; 
+          case this.faceTypes.DIAMOND :
+            symbol = "#diamond_symbol";
+            break; 
+          case this.faceTypes.TRIANGULAR :
+            symbol = "#triangle_symbol";
+            break; 
+          case this.faceTypes.OVAL :
+            symbol = "#oval_symbol";
+            break; 
+          case this.faceTypes.HEART :
+            symbol = "#heart_face_symbol";
+            break; 
+      }
+      useTag.setAttribute( "href", symbol );
+      // console.log( useTag )  ;
+      // console.log( newFaceType )  ;
     },
 
 }
-
-
-
-
 
 
 // ---- DEMO INITIALIZATION -------------------
@@ -542,7 +578,7 @@ async function loadSvgs () {
 
 await loadSvgs();
 faceShapeController.init();
-console.log(faceShapeController);
+// console.log(faceShapeController);
 
 function toggleFace( faceGroup ) {
   if( faceGroup.style.display === "inline"   ) {
@@ -568,18 +604,15 @@ const changeFaceButton = document.getElementById( "change_face" );
 changeFaceButton.addEventListener(
     'click',
     ( evt ) => {
-
         faceShapeController.changeFace( evt );
 
-        let faceGroupA = document.getElementById( "face_versionA" );
-        let faceGroupB = document.getElementById( "face_versionB" );
-        toggleFace( faceGroupA );
-        toggleFace( faceGroupB );
+        // let faceGroupA = document.getElementById( "face_versionA" );
+        // let faceGroupB = document.getElementById( "face_versionB" );
+        // toggleFace( faceGroupA );
+        // toggleFace( faceGroupB );
 
     }
 );
-
-
 
 </script>
     <footer>
