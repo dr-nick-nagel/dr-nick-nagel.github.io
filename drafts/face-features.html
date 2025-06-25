@@ -126,6 +126,7 @@ Welcome to NickNagel.com
     border-radius: 5px;
     font-size: 10px;
 }
+
 .AlignCenter {
   text-align: center;
 }
@@ -169,11 +170,12 @@ video {
     margin-left: auto;
     margin-right: auto;
 }
+
 svg {
     display: block;
-    background-color: black;
     margin-left: auto;
     margin-right: auto;
+    background-color:black;
 }
 
 .DemoView {
@@ -184,19 +186,96 @@ svg {
     padding: 10px;
 }
 
+.AvatarImg {
+  float:right;
+  margin-left: 10px;
+  width:50px;
+  height:50px;
+  border:solid  1px red;
+  background-color:black;
+}
+
 </style>
 
 <h2>In this Post ...</h2>
-<h2>Beauty through the Eyes of an Artist</h2>
-<p>Is beauty subjective? Or is it <em>ob</em>jective. Or is it a little bit of both? DISCUSS...</p>
-<p>&lt;&lt; INSERT THE CHARACTER EXAMPLE ART &gt;&gt;</p>
+<p>I'll be considering art and aesthetics in the context of evolving a creative process for a particular brand of generative art. Over the course of the discussion, I'll consider the nature beauty vis-à-vis human perception and explore some of the features artists might think about in the creation of their works. Finally I'll reveal a prototype I've developed as I continue exploring the intersection of art and technology in the new information age.</p>
+<h2>The Geometry of Beauty: An Artist's Perspective</h2>
+<p>Is beauty purely objective, entirely subjective, or somewhere in between?  Philosophers and artists have grappled with the elusive nature of beauty probably as long as humankind's engaged in philosophy and art. I've been thinking a lot about this lately as I continue to pour my energy into developing tools and a framework to support artists interested in working with SVG. </p>
+<p>In my mind, there are undoubtedly universal archetypes surrounding beauty. The ancient greeks, for example, developed the notion of the golden ratio. And certainly in their sculpture we get a sense of the underlying ideal of the "greek physique". Look at Michelangelo's David and it's hard not to feel awe. His vision of the human form continues to radiate beauty and power centuries after its manifestation.</p>
+<style>
+#michaelangeloz_david {
+border: inset 2px grey
+}
+</style>
+
+<p><a title="Jörg Bittner Unna, CC BY 3.0 &lt;https://creativecommons.org/licenses/by/3.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:%27David%27_by_Michelangelo_Fir_JBU004.jpg"><img width="256" alt="Michelangelo&#039;s David - right view, c. 1501–1504. Marble, 517 × 199 cm (17 × 6.5 ft). Galleria dell&#039;Accademia, Florence" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/%27David%27_by_Michelangelo_Fir_JBU004.jpg/256px-%27David%27_by_Michelangelo_Fir_JBU004.jpg?20170226175326" id="michaelangeloz_david"></a></p>
+<p>That being said, I was recently reminded of early studies I read back in grad school that tried to quantify beauty -- asking whether it lives in the eye of the beholder or in some universal geometry [[ ENDNOTE CITATION ]] . Using computer-generated composites, research demonstrated subjective preferences tending toward composite averages of facial features.</p>
+<div id="img1_container" 
+    class="ExampleContainer" >
+    <img id="study_image"
+      width="250px"
+      src="/images/faces/beauty_features_female.jpeg" 
+      alt="Image from a study showing two versions of a female face side-by-side with proportions of facial features tweaked slightly to excite 'beauty detectors'."
+      >
+      <div><strong>Figure 1:</strong> Side-by-side images of a caucasian female face depicting, on the one hand an average image, and on the other a "composite ideal" of beauty.</div>
+</div>
+
+<p>Inspired perhaps in part by such studies, I created a piece in an attempt to better understand the interplay between facial features and the beauty aesthetic using SVG. </p>
+<style>
+#char_portrait {
+    margin-left: 0px;
+    margin-top: 0px;
+    text-align: center;
+}
+#svg_container_char {
+    display: inline-block;
+    border: solid grey 0.5px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    width: 320px;
+    height: 200px;
+    overflow: hidden;
+}
+
+#rect1 [
+  fill: #000;
+]
+
+</style>
+<div id="char_portrait">
+    <div id="svg_container_char" 
+        class="ExampleContainer" >
+        <!-- INSERT CHARACTER PORTRAIT -->
+    </div>
+    <div  id="control_panel_portrait">
+        <button id="swap_face">Change Facial Features</button>
+    </div>
+</div>
+
+<p>This interactive graphic lets you change the features of the face to explore how subtle variations to the mouth and jaw affect the perceived beauty of the character.
+Which variation speaks to you most? I'd love to hear your take.</p>
+<p>So, yes, beauty can be in the eyes of the beholder. It is very much subjective in the sense that different people may have widely different preferences with regard to aesthetics (I learned this the hard way after many years working in UI design -- show one UI to three diffent stakeholders and you'll almost certainly get three wildly divergent opinions!). </p>
+<p>I think the perception of such aesthetic qualities particularly resonate with human faces. People seem "hard coded" to perceive <em>very</em> subtle distinctions in facial feature composition. Biologically speaking it's very important for human evolutionary success to readily grasp facial characteristics on many levels, and it gets even better when you factor in motion as I'll show in a bit. </p>
+<p>But before getting into that I just want to raise another consideration for the sake of art. Experienced artists can attest that human faces come in many shapes and sizes. And a big part of doing portrature is getting the proportions right. In doing character design with SVG I usually rough out a basic shape and then get into the details of all the features. Here I've in-lined a quick demo showing a general classification scheme of various face shapes generally employed for a range of applications.</p>
+<p>{{ FACE SHAPE DEMO }}</p>
+<p>TODO: RESUME HERE. </p>
+<ol>
+<li>
+<p>DO BRING IN THE FACE SHAPES DISCUSSION</p>
+</li>
+<li>
+<p>THEN TO SEGUAY INTO COLLAB ART WITH AI DISCUSS WHETHER AI CAN APPRECIATE AN AESTHETIC ...</p>
+</li>
+</ol>
+<p>EVENT TALK ABOUT JOHN OLIVER'S AND EVERYONE'S OBSESSION WITH SOCIAL MEDIA...</p>
+<p>SOMEHOW YOU NEED TO CONNECT THE DOTS. OR AT LEAST THESE SECTIONS. MAYBE ? </p>
 <h2>Generative Art with Collaborative AI</h2>
 <p>A big part the vision for the SVG Creators' Collaborative &trade; is to foster artistic creativity through collaboration. Collaboration can be made <em>generative</em>. What does <em>that</em> mean? In particular I'm referring to generative <em>art</em>. </p>
 <blockquote>
 <p>Generative art is where artist(s) create through the application of an autonomous system. </p>
 </blockquote>
 <p>Just as a sculptor uses tools to carve their artistic vision into being, a generative artist uses rules, algorithms, and system parameters to create. Art becomes collaborative when artists work together to produce a unified piece. This collaboration can be intra-disciplinary or interdisciplinary -- as when visual artists and musicians unite across mediums.</p>
-<p>The beauty of collaboration lies in its potential to produce innovative, emotionally resonant works that might be impossible for a single artist to achieve alone. In that sense, collaboration can even extend to AI: when the generative system becomes complex or responsive enough, it can feel like a "co-creator". Generative collaboration explores the intersection of art, technology, and randomness, often leading to surprising and unique results.</p>
+<p>The beauty of collaboration lies in its potential to produce innovative, emotionally resonant works that might be impossible for a single artist to achieve alone. In that sense, collaboration can even extend to AI: when the generative system becomes complex or responsive enough, it can feel like a collaborator. Generative collaboration explores the intersection of art, technology, and randomness, often leading to surprising and unique results.</p>
 <p>To illustrate, I am inlining a demonstration of what I call "SoulVector" (because is shows that vectors are a window to the soul). </p>
 <h3>SoulVector Demo</h3>
 <div class="DemoView">
@@ -226,9 +305,12 @@ svg {
 </div>
 
 <p><em>SoulVector</em> uses a machine-learning model that identifies facial landmarks given human facial imagery as input. In this piece, I've used the model output to define contours that drive the dynamic generation of SVG shapes representing facial features. The result is a real-time, animated SVG avatar that can reflect expressions, mood, attention and other imaginative artistic interpretations. But of far greater importance is that the the system reflects an artistic <em>process</em> enabling artists to dream up myriad fantastical mappings from input to avatar. </p>
-<p>Going into this piece, I had only a vague idea of what I might achieve through SVG mapping. But I was delighted with the outcome -- and I knew I was delighted when I saw the avatar smiling back at me &lt;&lt; INSERT A MINI FRESCO FROM THE DEMO LIKE AN EMOJI SMILING&gt;&gt; .  </p>
+<p><img id="avatar_smile" class="AvatarImg"
+  alt="Smiling avatar snapshop captured from 'SoulVector'"
+  src="/svg/svg_face/svg_smile.svg"></img></p>
+<p>Going into this piece, I had only a vague idea of what I might achieve through SVG mapping. But I was delighted with the outcome -- and I knew I was delighted when I saw the avatar smiling back at me. </p>
 <p>This is important. </p>
-<p>The goal of art is to make the observer <em>feel</em> -- to connect, to care. Without feeling, art is just just marks on a canvas -- devoid of meaning. What this piece makes special is that it uses generative techniques to create an experience that couldn't exist without the underlying autonomous system. The SVG avatar is created <em>on the fly</em>, dynamically, in real time. Without the man-machine collaboration, this form of expression -- this new visage -- simply wouldn’t be possible.</p>
+<p>The goal of art is to make the observer <em>feel</em> -- to connect, to care. Without feeling, art is just just marks on a canvas -- devoid of meaning. What this piece makes special is that it uses generative techniques to create an experience that couldn't exist without the underlying autonomous system. The SVG avatar is created <em>on the fly</em>, dynamically, in real time. Without the man-machine collaboration, this form of expression -- this new visage -- simply wouldn't be possible.</p>
 <!--
 You're absolutely onto something powerful here -- this is a clean, elegant bridge between dynamic facial detection and expressive vector-based art. Let me break down what you’ve accomplished, why it's compelling, and ...
 -->
@@ -250,6 +332,50 @@ You're absolutely onto something powerful here -- this is a clean, elegant bridg
 <ol>
 <li><a href="https://tbd.com">TBD</a></li>
 </ol>
+<script type="module">
+import {
+    svgDocCache,
+    loadSvgList
+} from "/scripts/dist_anim_controller/utilities.js";
+
+// ---- DEMO INITIALIZATION -------------------
+
+const svgList = [
+    'char_sheet.svg',
+    'head_shapes.svg',
+];
+const SVG_PATH = "/svg/svg_face/";
+
+let portraitSvg = null;
+async function loadSvgs () {
+    await loadSvgList(svgList, SVG_PATH);
+    portraitSvg = svgDocCache.svg_slide_0;
+    const container = document.getElementById( "svg_container_char" );
+    container.appendChild( portraitSvg );
+}
+
+await loadSvgs();
+
+function toggleFace( faceGroup ) {
+  if( faceGroup.style.display === "inline"   ) {
+    faceGroup.style.display = "none";
+  } else {
+    faceGroup.style.display = "inline";
+  }
+}
+
+const faceButton = document.getElementById( "swap_face" );
+faceButton.addEventListener(
+    'click',
+    ( evt ) => {
+        let faceGroupA = document.getElementById( "face_versionA" );
+        let faceGroupB = document.getElementById( "face_versionB" );
+        toggleFace( faceGroupA );
+        toggleFace( faceGroupB );
+    }
+);
+
+</script>
     <footer>
       <p>Published: <time datetime="2025-06-22T00:00:00-04:00">
         Sun 22 June 2025
