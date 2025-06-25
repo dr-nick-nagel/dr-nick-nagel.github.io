@@ -84,6 +84,61 @@
         id="return_to_text_1"
       />
     </symbol>
+
+    <symbol id="circle_symbol" viewBox="-7.5 -8 15 16">
+      <circle id="circle_0"
+       style="display:inline;fill:#000000"
+       cx="0"
+       cy="0"
+       r="7.5"
+      />
+    </symbol>
+
+    <symbol id="rectangle_symbol" viewBox="-7.5 -9 15 18">
+      <rect
+        style="display:inline;fill:#000000;"
+        id="rectangular_shape"
+        width="15"
+        height="18"
+        x="-7.5"
+        y="-9"
+      />
+    </symbol>
+
+    <symbol id="diamond_symbol" viewBox="-7.5 -12 15 24">
+      <rect
+       style="display:inline;fill:#000000"
+       id="diamond_0"
+       width="15"
+       height="15"
+       x="-7.5"
+       y="-7.5"
+       transform="rotate(45)" />
+    </symbol>
+
+    <symbol id="triangle_symbol" viewBox="-7.5 -7.5 15 20">
+      <path id="triangle_0"
+        style="display:inline;fill:#000000"
+        d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
+      />
+    </symbol>
+
+    <symbol id="oval_symbol" viewBox="-7 -10 14 20">
+      <ellipse id="oval_0"
+        style="display:inline;fill:#000000"
+        cx="0"
+        cy="0"
+        rx="6"
+        ry="9" />
+    </symbol>
+
+    <symbol id="heart_face_symbol" viewBox="-7.5 -10 15 20">
+      <path id="heart_face"
+          style="fill:#000;fill-rule:evenodd;stroke-width:8.77216;stroke-linecap:square"
+          d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
+      />
+    </symbol>
+
    </defs>
 </svg>
         <div class='banner'>
@@ -203,7 +258,7 @@ svg {
 <p>Is beauty purely objective, entirely subjective, or somewhere in between?  Philosophers and artists have grappled with the elusive nature of beauty probably as long as humankind's engaged in philosophy and art. I've been thinking a lot about this lately as I continue to pour my energy into developing tools and a framework to support artists interested in working with SVG. </p>
 <p>In my mind, there are undoubtedly universal archetypes surrounding beauty. The ancient greeks, for example, developed the notion of the golden ratio. And certainly in their sculpture we get a sense of the underlying ideal of the "greek physique". Look at Michelangelo's David and it's hard not to feel awe. His vision of the human form continues to radiate beauty and power centuries after its manifestation.</p>
 <style>
-#michaelangeloz_david {
+#michelangeloz_david {
 border: inset 2px grey
 }
 </style>
@@ -237,9 +292,9 @@ border: inset 2px grey
     overflow: hidden;
 }
 
-#rect1 [
+/* #rect1 [
   fill: #000;
-]
+] */
 
 </style>
 <div id="char_portrait">
@@ -257,7 +312,59 @@ Which variation speaks to you most? I'd love to hear your take.</p>
 <p>So, yes, beauty can be in the eyes of the beholder. It is very much subjective in the sense that different people may have widely different preferences with regard to aesthetics (I learned this the hard way after many years working in UI design -- show one UI to three diffent stakeholders and you'll almost certainly get three wildly divergent opinions!). </p>
 <p>I think the perception of such aesthetic qualities particularly resonate with human faces. People seem "hard coded" to perceive <em>very</em> subtle distinctions in facial feature composition. Biologically speaking it's very important for human evolutionary success to readily grasp facial characteristics on many levels, and it gets even better when you factor in motion as I'll show in a bit. </p>
 <p>But before getting into that I just want to raise another consideration for the sake of art. Experienced artists can attest that human faces come in many shapes and sizes. And a big part of doing portrature is getting the proportions right. In doing character design with SVG I usually rough out a basic shape and then get into the details of all the features. Here I've in-lined a quick demo showing a general classification scheme of various face shapes generally employed for a range of applications.</p>
-<p>{{ FACE SHAPE DEMO }}</p>
+<style>
+#face_geometry {
+    margin-left: 0px;
+    margin-top: 0px;
+    text-align: center;
+}
+#face_geometry_container {
+    display: inline-block;
+    border: solid grey 0.5px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    width: 320px;
+    height: 200px;
+    overflow: hidden;
+}
+</style>
+<div id="face_geometry">
+    <div id="face_geometry_container" 
+        class="ExampleContainer" >
+        <!-- INSERT face shapes -->
+    </div>
+    <!-- RESUME HERE: LABELS -->
+    <div  id="control_panel_faceshape">
+        <button id="change_face">Change Facial Features</button>
+    </div>
+</div>
+
+<!-- 
+<svg style="background-color: grey">
+  <use href="#circle_symbol"></use>
+</svg>
+
+<svg style="background-color: grey">
+  <use href="#rectangle_symbol"></use>
+</svg>
+
+<svg style="background-color: grey">
+  <use href="#diamond_symbol"></use>
+</svg>
+
+<svg style="background-color: grey">
+  <use href="#triangle_symbol"></use>
+</svg>
+
+<svg style="background-color: grey">
+  <use href="#oval_symbol"></use>
+</svg>
+
+<svg style="background-color: grey">
+  <use href="#heart_face_symbol"></use>
+</svg> 
+-->
+
 <p>TODO: RESUME HERE. </p>
 <ol>
 <li>
@@ -267,7 +374,7 @@ Which variation speaks to you most? I'd love to hear your take.</p>
 <p>THEN TO SEGUAY INTO COLLAB ART WITH AI DISCUSS WHETHER AI CAN APPRECIATE AN AESTHETIC ...</p>
 </li>
 </ol>
-<p>EVENT TALK ABOUT JOHN OLIVER'S AND EVERYONE'S OBSESSION WITH SOCIAL MEDIA...</p>
+<p>EVENT TALK ABOUT JOHN OLIVER'S AND EVERYONE'S OBSESSION WITH AI ON SOCIAL MEDIA...</p>
 <p>SOMEHOW YOU NEED TO CONNECT THE DOTS. OR AT LEAST THESE SECTIONS. MAYBE ? </p>
 <h2>Generative Art with Collaborative AI</h2>
 <p>A big part the vision for the SVG Creators' Collaborative &trade; is to foster artistic creativity through collaboration. Collaboration can be made <em>generative</em>. What does <em>that</em> mean? In particular I'm referring to generative <em>art</em>. </p>
@@ -338,6 +445,79 @@ import {
     loadSvgList
 } from "/scripts/dist_anim_controller/utilities.js";
 
+
+/**
+ * A simple state machine to control  the 
+ * transitions from one face state to the 
+ * next in the FACE GEOMETRY example ...
+ * 
+ * NOTE: the faceTypes piggy back off the 
+ * face id's in the SVG  and are used to 
+ * transition the faces.
+ */
+const faceShapeController = {
+    faceTypes : {
+        ROUND: "round_face",
+        RECTANGULAR: "rectangular",
+        DIAMOND: "diamond_face",
+        TRIANGULAR: "triangle",
+        OVAL: "oval",
+        HEART: "heart",
+    },
+    faceState: null,
+    _stateSequence: [],
+    _currentState: -1,
+
+    init: function() {
+        // initialize state machine props
+        this._stateSequence = Object.keys( this.faceTypes );
+        // set initial face at HEART (in sync with svg)
+        this._currentIndex = this._stateSequence.indexOf( "HEART" );
+        this.faceState = this.faceTypes.HEART;
+
+
+
+
+    },
+
+    transNextState: function() {
+      this._currentState ++ ;
+      if( this._currentState >= this._stateSequence.length ) {
+        this._currentState = 0;
+      }
+      const nextKey = this._stateSequence[this._currentState];
+      this.faceState = this.faceTypes[nextKey];
+      return this.faceState;
+    },
+
+    changeFace : function( evt  ) {
+      const currentGrp = document.getElementById( this.faceState );
+      currentGrp.style.display="none";
+
+      const newFaceType = this.transNextState();
+      const newGrp = document.getElementById( this.faceState );
+      newGrp.style.display="inline";
+
+      console.log( newFaceType )  ;
+
+
+
+
+
+
+
+
+
+
+    },
+
+}
+
+
+
+
+
+
 // ---- DEMO INITIALIZATION -------------------
 
 const svgList = [
@@ -347,14 +527,22 @@ const svgList = [
 const SVG_PATH = "/svg/svg_face/";
 
 let portraitSvg = null;
+let faceGeo = null;
 async function loadSvgs () {
     await loadSvgList(svgList, SVG_PATH);
     portraitSvg = svgDocCache.svg_slide_0;
-    const container = document.getElementById( "svg_container_char" );
+    let container = document.getElementById( "svg_container_char" );
     container.appendChild( portraitSvg );
+
+    faceGeo = svgDocCache.svg_slide_1;
+    container = document.getElementById( "face_geometry_container" );
+    container.appendChild( faceGeo );
+
 }
 
 await loadSvgs();
+faceShapeController.init();
+console.log(faceShapeController);
 
 function toggleFace( faceGroup ) {
   if( faceGroup.style.display === "inline"   ) {
@@ -374,6 +562,24 @@ faceButton.addEventListener(
         toggleFace( faceGroupB );
     }
 );
+
+
+const changeFaceButton = document.getElementById( "change_face" );
+changeFaceButton.addEventListener(
+    'click',
+    ( evt ) => {
+
+        faceShapeController.changeFace( evt );
+
+        let faceGroupA = document.getElementById( "face_versionA" );
+        let faceGroupB = document.getElementById( "face_versionB" );
+        toggleFace( faceGroupA );
+        toggleFace( faceGroupB );
+
+    }
+);
+
+
 
 </script>
     <footer>

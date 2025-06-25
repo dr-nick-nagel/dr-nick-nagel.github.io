@@ -4,7 +4,9 @@
 <svg
    width="140"
    height="200"
-   viewBox="0 0 140 200"
+   viewBox="0 40 140 140"
+   preserveAspectRatio="xMidYMin slice"
+
    version="1.1"
    id="svg1"
    inkscape:version="1.3.2 (091e20e, 2023-11-25)"
@@ -48,63 +50,10 @@
        x="0"
        y="0" />
   </g>
+
   <g
      inkscape:groupmode="layer"
-     id="layer8"
-     inkscape:label="symbols"
-     sodipodi:insensitive="true">
-    <circle
-       style="display:none;fill:#000000;fill-rule:evenodd;stroke-width:8.6189;stroke-linecap:square"
-       id="path4"
-       cx="0"
-       cy="0"
-       r="7.5"
-       sodipodi:insensitive="true"
-       inkscape:label="round" />
-    <rect
-       style="display:none;fill:#000000;fill-rule:evenodd;stroke-width:8.03458;stroke-linecap:square"
-       id="rect4"
-       width="15"
-       height="18"
-       x="-7.5"
-       y="-9"
-       inkscape:label="rectangular"
-       sodipodi:insensitive="true" />
-    <rect
-       style="display:none;fill:#000000;fill-rule:evenodd;stroke-width:5.83959;stroke-linecap:square"
-       id="rect5"
-       width="15"
-       height="15"
-       x="-7.5"
-       y="-7.5"
-       transform="rotate(44.839883)"
-       inkscape:label="diamond"
-       sodipodi:insensitive="true" />
-    <path
-       style="display:none;fill:#1a1a1a;stroke:none;stroke-width:1.18476px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
-       id="path5"
-       inkscape:label="triangle"
-       sodipodi:insensitive="true" />
-    <ellipse
-       style="display:none;fill:#1a1a1a;fill-rule:evenodd;stroke:none;stroke-width:8.33545;stroke-linecap:square"
-       id="path10"
-       cx="0"
-       cy="0"
-       rx="6"
-       ry="9"
-       inkscape:label="oval"
-       sodipodi:insensitive="true" />
-    <path
-       id="path11"
-       style="fill:#1a1a1a;fill-rule:evenodd;stroke-width:8.77216;stroke-linecap:square"
-       d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
-       sodipodi:nodetypes="scsss"
-       sodipodi:insensitive="true" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer6"
+     id="round_face"
      inkscape:label="round"
      sodipodi:insensitive="true"
      style="display:none">
@@ -291,7 +240,7 @@
   </g>
   <g
      inkscape:groupmode="layer"
-     id="g1"
+     id="diamond_face"
      inkscape:label="diamond"
      sodipodi:insensitive="true"
      style="display:none">
@@ -475,7 +424,7 @@
   </g>
   <g
      inkscape:groupmode="layer"
-     id="g2"
+     id="triangle"
      inkscape:label="triangle"
      sodipodi:insensitive="true"
      style="display:none">
@@ -659,7 +608,7 @@
   </g>
   <g
      inkscape:groupmode="layer"
-     id="g3"
+     id="oval"
      inkscape:label="oval"
      sodipodi:insensitive="true"
      style="display:none">
@@ -843,7 +792,7 @@
   </g>
   <g
      inkscape:groupmode="layer"
-     id="g4"
+     id="rectangular"
      inkscape:label="rectangular"
      sodipodi:insensitive="true"
      style="display:none">
@@ -1027,7 +976,7 @@
   </g>
   <g
      inkscape:groupmode="layer"
-     id="layer7"
+     id="heart"
      inkscape:label="heart"
      sodipodi:insensitive="true"
      style="display:inline">
