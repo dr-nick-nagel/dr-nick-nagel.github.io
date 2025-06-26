@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Beauty is in the eye of the beholder -- or is it the artist?</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+        
+          <script type="module" src="/scripts/dist_face/main.js"></script>
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="javascript" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="motion" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="framework" />
+    <meta name="tags" content="Inkscape" />
+    <meta name="tags" content="Illustrator" />
+    <meta name="tags" content="Adobe" />
+    <meta name="tags" content="artificial intelligence" />
+    <meta name="tags" content="machine learning" />
+    <meta name="tags" content="face detection" />
+    <meta name="tags" content="face landmark detection" />
+    <meta name="tags" content="landmarks" />
+    <meta name="tags" content="avatars" />
+    <meta name="tags" content="emotion" />
+    <meta name="tags" content="beauty" />
+    <meta name="tags" content="aesthetics" />
+    <meta name="tags" content="face shape" />
+    <meta name="tags" content="face recognition" />
+    <meta name="tags" content="facial" />
+    <meta name="tags" content="facial recognition" />
+
+    </head>
+
+    <body>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="nn_symbols"
+   version="1.1"
+   style="display:none"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs>
+    <symbol id="en_return"  viewBox="0 0 20 20">
+      <path
+        style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+        id="return_to_text_1"
+      />
+    </symbol>
+
+    <symbol id="circle_symbol" viewBox="-7.5 -8 15 16">
+      <circle id="circle_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        r="7.5"
+      />
+    </symbol>
+
+    <symbol id="rectangle_symbol" viewBox="-7.5 -9 15 18">
+      <rect
+        fill="currentColor"
+        style="display:inline;"
+        id="rectangular_shape"
+        width="15"
+        height="18"
+        x="-7.5"
+        y="-9"
+      />
+    </symbol>
+
+    <symbol id="diamond_symbol" viewBox="-7.5 -12 15 24">
+      <rect
+       fill="currentColor"
+       style="display:inline;"
+       id="diamond_0"
+       width="15"
+       height="15"
+       x="-7.5"
+       y="-7.5"
+       transform="rotate(45)" />
+    </symbol>
+
+    <symbol id="triangle_symbol" viewBox="-7.5 -7.5 15 20">
+      <path id="triangle_0"
+        fill="currentColor"
+        style="display:inline;"
+        d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
+      />
+    </symbol>
+
+    <symbol id="oval_symbol" viewBox="-7 -10 14 20">
+      <ellipse id="oval_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        rx="6"
+        ry="9" />
+    </symbol>
+
+    <symbol id="heart_face_symbol" viewBox="-7.5 -10 15 20">
+      <path id="heart_face"
+          fill="currentColor"
+          style="display:inline"
+          d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
+      />
+    </symbol>
+
+   </defs>
+</svg>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/blog/face-features.html" rel="bookmark"
+           title="Permalink to Beauty is in the eye of the beholder -- or is it the artist?">Beauty is in the eye of the beholder -- or is it the artist?</a></h2>
+      
+    </header>
+    <style>
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 10px;
+}
+
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.CodeFragment{
+    font-size: 10px;
+    color: #ffe;
+    background-color: #444;
+    padding: 10px
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+
+/* ~~~~~~~~~~   DEMO STYLES   ~~~~~~~~~~~~~~~~~ */
+
+video {
+    display: block;
+    background-color: #eee;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+svg {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.DemoView {
+    display: inline-block;
+    width:   340px;
+    border: 0.5px solid #666; 
+    border-radius: 15px; 
+    padding: 10px;
+}
+
+.AvatarImg {
+  float:right;
+  margin-left: 10px;
+  width:50px;
+  height:50px;
+  border:solid  1px red;
+  background-color:black;
+}
+
+</style>
+
+<h2>In this Post ...</h2>
+<p>I'll be considering art and aesthetics in the context of evolving a creative process for a particular brand of generative art. Over the course of the discussion, I'll consider the nature of beauty vis-&agrave;-vis human perception and explore some of the features artists might think about in the creation of their works. Finally I'll reveal a prototype I've developed as I continue exploring the intersection of art and technology in the <em>new</em> information age.</p>
+<h2>The Geometry of Beauty: An Artist's Perspective</h2>
+<p>Is beauty purely objective, entirely subjective, or somewhere in between?  Philosophers and artists have grappled with the elusive nature of beauty probably as long as humankind's engaged in philosophy and art. I've been thinking a lot about this lately as I continue to pour my energy into developing tools and a framework to support artists interested in working with SVG. </p>
+<p>In my mind, there are undoubtedly universal archetypes surrounding beauty. The ancient Greeks, for example, developed the notion of the golden ratio. And certainly in their sculpture we get a sense of the underlying ideal of the "Greek physique". Look at Michelangelo's David and it's hard not to feel awe. His vision of the human form continues to radiate beauty and power centuries after its manifestation.</p>
+<style>
+#michaelangeloz_david {
+display: block;
+border: inset 4px grey;
+margin-left: auto;
+margin-right: auto;
+
+}
+</style>
+<p><a title="Jörg Bittner Unna, CC BY 3.0 &lt;https://creativecommons.org/licenses/by/3.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:%27David%27_by_Michelangelo_Fir_JBU004.jpg"><img width="256" alt="Michelangelo&#039;s David - right view, c. 1501–1504. Marble, 517 × 199 cm (17 × 6.5 ft). Galleria dell&#039;Accademia, Florence" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/%27David%27_by_Michelangelo_Fir_JBU004.jpg/256px-%27David%27_by_Michelangelo_Fir_JBU004.jpg?20170226175326" id="michaelangeloz_david"></a></p>
+<p><span id="ret_1">That being said, I was recently reminded of early studies I read back in grad school that tried to quantify beauty -- asking whether it lives in the eye of the beholder or in some universal geometry <a href="#end_1"><sup>1</sup></a> . Using computer-generated composites, research demonstrated subjective preferences tending toward composite averages of facial features.</span></p>
+<style>
+#img1_container {
+
+}
+#study_image {
+    display: block;
+    margin-left:auto;
+    margin-right:auto;
+}
+#img1_container div {
+    width: 300px;
+    margin-left:auto;
+    margin-right:auto;
+    font-size: small;
+}
+</style>
+<div id="img1_container" 
+    class="ExampleContainer" >
+    <img id="study_image"
+      width="250px"
+      src="/images/faces/beauty_features_female.jpeg" 
+      alt="Image from a study showing two versions of a female face side-by-side with proportions of facial features tweaked slightly to excite 'beauty detectors'."
+      >
+      <div><strong>Figure 1:</strong> Side-by-side images of a caucasian female face depicting, on the one hand an average image, and on the other a "composite ideal" of beauty.</div>
+</div>
+
+<p>Inspired perhaps in part by such studies, I created a piece in an attempt to better understand the interplay between facial features and the beauty aesthetic using SVG. </p>
+<style>
+#char_portrait {
+    margin-left: 0px;
+    margin-top: 0px;
+    text-align: center;
+}
+#svg_container_char {
+    display: inline-block;
+    border: solid grey 0.5px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    width: 320px;
+    height: 200px;
+    overflow: hidden;
+}
+</style>
+<div id="char_portrait">
+    <div id="svg_container_char" 
+        class="ExampleContainer" >
+        <!-- INSERT CHARACTER PORTRAIT -->
+    </div>
+    <div  id="control_panel_portrait">
+        <button id="swap_face">Change Facial Features</button>
+    </div>
+</div>
+
+<p>This interactive graphic lets you change the features of the face to explore how subtle variations to the mouth and jaw affect the perceived beauty of the character.
+Which variation speaks to you most? I'd love to hear your take.</p>
+<p>So, yes, beauty can be in the eyes of the beholder. It is very much subjective in the sense that different people may have widely different preferences with regard to aesthetics (I learned this the hard way after many years working in UI design -- show one UI to three diffent stakeholders and you'll almost certainly get three wildly divergent opinions!). </p>
+<p>Over and above subtle facial features, an important consideration in character aesthetics concerns the overall shape of the head. Experienced artists know that human faces come in a rich variety of shapes and sizes. A big part of portraiture is capturing proportions accurately. When I do character design in SVG, I usually start by roughing out a basic facial shape, then gradually refine the individual features. Below, I've inlined a quick demo illustrating a general classification scheme of face shapes ( round, square, diamond, triangular, oval, and heart shaped ). These categories are commonly used across artistic, design, and cosmetic applications and can serve as a starting point for character design that can be evolved into a range of stylized depictions. </p>
+<style>
+#face_geometry {
+    margin-left: 0px;
+    margin-top: 0px;
+    text-align: center;
+}
+#face_geometry_container {
+    display: inline-block;
+    border: solid grey 0.5px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    width: 140px;
+    height: 200px;
+    overflow: hidden;
+}
+#face_shape_symbol {
+    display: inline-block;
+    width: 16px;
+    height: 20px;
+    vertical-align: middle;
+    color: red;
+}
+
+#fs_label {
+    margin-bottom: 15px;
+}
+
+</style>
+<div id="face_geometry">
+    <div id="face_geometry_container" 
+        class="ExampleContainer" >
+        <!-- INSERT face shapes -->
+    </div>
+    <div id="fs_label">
+      <span style="font-weight: bold">Face Shape: </span>
+      <svg id='face_shape_symbol'>
+        <use id='shape_symbol'
+             href="#heart_face_symbol"></use>
+      </svg>
+    </div>
+    <div  id="control_panel_faceshape">
+        <button id="change_face">Change Features</button>
+    </div>
+</div>
+
+<p>I think the perception of the aesthetic qualities associated with human faces  in particular resonates with most people. Human beings seem "hard coded" to perceive even the subtlest distinctions in facial feature composition. Biologically speaking, it seems to have been crucial to human evolutionary success to be able to rapidly assess facial characteristics --  expressions, familiarity, attractiveness, intent -- on many levels. And it gets even more compelling when motion is involved, as I'll show in a bit.</p>
+<p>A big part of what compelled me to write this post is the explosion of generative AI onto the art scene in recent years. With that and its attendant controversy, I think it's very important to reexamine art and aesthetics. Is the appreciation of art forms uniquely human? Or can a sense of aesthetics emerge in other species and even perhaps artificial systems? These questions become particularly important in consdering recent trends in generative art.</p>
+<h2>Generative Art with Collaborative AI</h2>
+<p>A big part the vision for the SVG Creators' Collaborative &trade; is to foster artistic creativity through collaboration. Collaboration can be made <em>generative</em>. What does <em>that</em> mean? </p>
+<blockquote>
+<p>Generative art is where artist(s) create through the application of an autonomous system. </p>
+</blockquote>
+<p>Just as a sculptor uses tools to carve their artistic vision into being, a generative artist uses rules, algorithms, and system parameters to create. Art becomes collaborative when artists work together to produce a unified piece. This collaboration can be intra-disciplinary or interdisciplinary -- as when visual artists and musicians unite across mediums.</p>
+<p>The beauty of collaboration lies in its potential to produce innovative, emotionally resonant works that might be impossible for a single artist to achieve alone. In that sense, collaboration can even extend to AI: when the generative system becomes complex or responsive enough, it can feel like a collaborator. Generative collaboration explores the intersection of art, technology, and randomness, often leading to surprising and unique results.</p>
+<p>To illustrate, I am inlining a demonstration of what I call "SoulVector" (because it shows that vectors are a window to the soul). </p>
+<style>
+.DemoView svg {
+    background-color: black;
+}
+
+</style>
+
+<h3>SoulVector Demo</h3>
+<div class="DemoView">
+    <div id="ControlButtons">
+        <button id="starter">Start</button>
+        <button id="cam_select"
+            class="disabled" >Switch to Rear Cam</button>
+    </div>
+    <h2>WebCam</h2>
+    <div class="WebCamDiv">
+        <video id="video" 
+                autoplay 
+                playsinline 
+                muted 
+                width=320
+                height=240
+                >
+        </video>
+    </div>
+    <h2>SVG</h2>
+    <div>
+        <svg id="svg_root"
+            width="320"
+            height="240"
+            viewBox="0 0 640 480"></svg>
+    </div>
+</div>
+
+<p><em>SoulVector</em> uses a machine-learning model that identifies facial landmarks given human facial imagery as input. In this piece, I've used the model output to define contours that drive the dynamic generation of SVG shapes representing facial features. The result is a real-time, animated SVG avatar that can reflect expressions, mood, attention and other imaginative artistic interpretations. But of far greater importance is that the the system reflects an artistic <em>process</em> enabling artists to dream up myriad fantastical mappings from input to avatar. </p>
+<p><img id="avatar_smile" class="AvatarImg"
+  alt="Smiling avatar snapshop captured from 'SoulVector'"
+  src="/svg/svg_face/svg_smile.svg"></img></p>
+<p>Going into this piece, I had only a vague idea of what I might achieve through SVG mapping. But I was delighted with the outcome -- and I knew I was delighted when I saw the avatar smiling back at me. </p>
+<p>The goal of art is to make the observer <em>feel</em> -- to connect, to care. Without feeling, art is just just marks on a canvas -- devoid of meaning. What makes <em>SoulVector</em>  special is that it uses generative techniques to create an experience that couldn't exist without the underlying autonomous system. The SVG avatar is created <em>on the fly</em>, dynamically, in real time. Without the man-machine collaboration, this form of expression -- this new visage -- simply wouldn't be possible. </p>
+<h2>Discussion: Aesthetics and the Generation of Art</h2>
+<p>Earlier, I posed the question: Is a sense of aesthetics uniquely human experience, or can qualia -- subjective experiences -- emerge from other complex systems? It's an important question. In an age of disruption, where AI is widely seen as replacing human roles and reshaping the workforce, philosophical inquiries into aesthetics, creativity, consciousness, and the nature of mind are more urgent than ever.</p>
+<p>If we accept that art is, at its core, about aesthetics -- and that aesthetics is both perceptual <em>and</em> emotional -- then how can AI be creative? In theory, AI lacks an "inner life". It has no phenomenological sense of form or feeling. What we call "AI" today refers mostly to large-scale systems trained on statistical correlations drawn from enormous datasets of human artistic production and reception. If those correlations produce forms that resonate with human perception, perhaps we can call it creativity. But can we call it art? Doesn't art imply <em>intent</em>?</p>
+<p>This question sits at the heart of a growing -- and often heated -- debate. Many traditional and digital artists perceive AI as a threat to their craft. Some even view it as an existential one. The flood of AI-generated content saturating our feeds can certainly feel overwhelming. But it's critical to recognize that AI-generated art need not be a replacement for human expression. Instead, art created in collaboration with AI can be meaningful. More than mere mimicry. More than data-driven pastiche.</p>
+<p>In my mind, the core issue isn't that AI will "replace" artists. A far deeper problem lies in how these systems are trained and deployed. Specifically, the exploitation of human-made works without consent or compensation. If AI systems are trained on copyrighted artworks created by hard-working artists, those artists deserve recognition -- and more importantly payment! <span id="ret_2">It's unconscionable that companies profiting from this technology claim they "can't" compensate creators, even as their top executives enjoy personal wealth <em>hundreds of thousands of times greater</em> than the average American <a href="#end_2"><sup>2</sup></a> </span> .</p>
+<div class="admonition danger">
+<p class="admonition-title">AI generated art -- in and of itself -- is not the problem!</p>
+<p>AI generated art isn't inherently the problem. <em>How</em> it's trained and used is. If AI is built on the back of artists' labor without consent or compensation, then we're facing systemic exploitation, not innovation. That's why supporting creators now is vital.</p>
+</div>
+<p>Unfortunately, these systemic issues are unlikely to be resolved any time soon. That's all the more reason to <strong>support your local artists now</strong>. Become a patron. Contribute to the content and creators you value. If we don't, we risk waking up to a future where the creative landscape has been hollowed out -- where the art we see is generated, but not <em>felt</em>.</p>
+<h2>Endnotes</h2>
+<ol>
+<li>
+<p><span id="end_1"><a href="https://www.sciencedirect.com/science/article/abs/pii/0162309593900053">Is beauty in the eye of the beholder?</a> <a href="#ret_1"><svg class="EndnoteReturn">
+  <use href="#en_return"></use>
+</svg></a></span> .</p>
+</li>
+<li>
+<p><span id="end_2">For more information on the broader ethical debate around art and AI see ... <a href="#ret_2"><svg class="EndnoteReturn">
+  <use href="#en_return"></use>
+</svg></a> </span></p>
+<ol>
+<li><a href="https://apnews.com/article/studio-ghibli-chatgpt-images-hayao-miyazaki-openai-0f4cb487ec3042dd5b43ad47879b91f4">ChatGPT's viral Studio Ghibli-style images highlight AI copyright concerns</a></li>
+<li><a href="https://www.theguardian.com/technology/2025/jun/26/meta-wins-ai-copyright-lawsuit-as-us-judge-rules-against-authors?utm_source=chatgpt.com">Meta wins AI copyright lawsuit as US judge rules against authors</a></li>
+<li><a href="https://youtu.be/ayK18h5oaB0?si=1Vfnh3t8rfQ-FGGf">Copyright, Theft, and AI: Why artists are protesting against AI art</a></li>
+</ol>
+</li>
+</ol>
+<h2>Resources</h2>
+<ol>
+<li>
+<p><a href="https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker">Face landmark detection guide</a></p>
+</li>
+<li>
+<p><a href="https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection">Face Landmarks Detection on GIT</a></p>
+</li>
+</ol>
+<script type="module">
+import {
+    svgDocCache,
+    loadSvgList
+} from "/scripts/dist_anim_controller/utilities.js";
+
+
+/**
+ * A simple state machine to control  the 
+ * transitions from one face state to the 
+ * next in the FACE GEOMETRY example ...
+ * 
+ * NOTE: the faceTypes piggy back off the 
+ * face id's in the SVG  and are used to 
+ * transition the faces.
+ */
+const faceShapeController = {
+    faceTypes : {
+        ROUND: "round_face",
+        RECTANGULAR: "rectangular",
+        DIAMOND: "diamond_face",
+        TRIANGULAR: "triangle",
+        OVAL: "oval",
+        HEART: "heart",
+    },
+    faceState: null,
+    _stateSequence: [],
+    _currentState: -1,
+
+    init: function() {
+        // initialize state machine props
+        this._stateSequence = Object.keys( this.faceTypes );
+        // set initial face at HEART (in sync with svg)
+        this._currentIndex = this._stateSequence.indexOf( "HEART" );
+        this.faceState = this.faceTypes.HEART;
+    },
+
+    transNextState: function() {
+      this._currentState ++ ;
+      if( this._currentState >= this._stateSequence.length ) {
+        this._currentState = 0;
+      }
+      const nextKey = this._stateSequence[this._currentState];
+      this.faceState = this.faceTypes[nextKey];
+      return this.faceState;
+    },
+
+    changeFace : function( evt  ) {
+      const currentGrp = document.getElementById( this.faceState );
+      currentGrp.style.display="none";
+      const newFaceType = this.transNextState();
+      const newGrp = document.getElementById( this.faceState );
+      newGrp.style.display="inline";
+      const useTag = document.getElementById( "shape_symbol" );
+      let symbol = null;
+      switch( this.faceState ) {
+          case this.faceTypes.ROUND :
+            symbol = "#circle_symbol";
+            break; 
+          case this.faceTypes.RECTANGULAR :
+            symbol = "#rectangle_symbol";
+            break; 
+          case this.faceTypes.DIAMOND :
+            symbol = "#diamond_symbol";
+            break; 
+          case this.faceTypes.TRIANGULAR :
+            symbol = "#triangle_symbol";
+            break; 
+          case this.faceTypes.OVAL :
+            symbol = "#oval_symbol";
+            break; 
+          case this.faceTypes.HEART :
+            symbol = "#heart_face_symbol";
+            break; 
+      }
+      useTag.setAttribute( "href", symbol );
+    },
+}
+
+// ---- DEMO INITIALIZATION -------------------
+
+const svgList = [
+    'char_sheet.svg',
+    'head_shapes.svg',
+];
+const SVG_PATH = "/svg/svg_face/";
+
+let portraitSvg = null;
+let faceGeo = null;
+async function loadSvgs () {
+    await loadSvgList(svgList, SVG_PATH);
+    portraitSvg = svgDocCache.svg_slide_0;
+    let container = document.getElementById( "svg_container_char" );
+    container.appendChild( portraitSvg );
+
+    faceGeo = svgDocCache.svg_slide_1;
+    container = document.getElementById( "face_geometry_container" );
+    container.appendChild( faceGeo );
+
+}
+
+await loadSvgs();
+faceShapeController.init();
+
+function toggleFace( faceGroup ) {
+  if( faceGroup.style.display === "inline"   ) {
+    faceGroup.style.display = "none";
+  } else {
+    faceGroup.style.display = "inline";
+  }
+}
+
+const faceButton = document.getElementById( "swap_face" );
+faceButton.addEventListener(
+    'click',
+    ( evt ) => {
+        let faceGroupA = document.getElementById( "face_versionA" );
+        let faceGroupB = document.getElementById( "face_versionB" );
+        toggleFace( faceGroupA );
+        toggleFace( faceGroupB );
+    }
+);
+
+const changeFaceButton = document.getElementById( "change_face" );
+changeFaceButton.addEventListener(
+    'click',
+    ( evt ) => {
+        faceShapeController.changeFace( evt );
+
+        // let faceGroupA = document.getElementById( "face_versionA" );
+        // let faceGroupB = document.getElementById( "face_versionB" );
+        // toggleFace( faceGroupA );
+        // toggleFace( faceGroupB );
+
+    }
+);
+</script>
+    <footer>
+      <p>Published: <time datetime="2025-06-22T00:00:00-04:00">
+        Sun 22 June 2025
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="/tag/javascript.html">javascript</a>
+            <a href="/tag/animation.html">animation</a>
+            <a href="/tag/svg.html">svg</a>
+            <a href="/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="/tag/art.html">art</a>
+            <a href="/tag/artwork.html">artwork</a>
+            <a href="/tag/motion.html">motion</a>
+            <a href="/tag/artworks.html">artworks</a>
+            <a href="/tag/framework.html">framework</a>
+            <a href="/tag/inkscape.html">Inkscape</a>
+            <a href="/tag/illustrator.html">Illustrator</a>
+            <a href="/tag/adobe.html">Adobe</a>
+            <a href="/tag/artificial-intelligence.html">artificial intelligence</a>
+            <a href="/tag/machine-learning.html">machine learning</a>
+            <a href="/tag/face-detection.html">face detection</a>
+            <a href="/tag/face-landmark-detection.html">face landmark detection</a>
+            <a href="/tag/landmarks.html">landmarks</a>
+            <a href="/tag/avatars.html">avatars</a>
+            <a href="/tag/emotion.html">emotion</a>
+            <a href="/tag/beauty.html">beauty</a>
+            <a href="/tag/aesthetics.html">aesthetics</a>
+            <a href="/tag/face-shape.html">face shape</a>
+            <a href="/tag/face-recognition.html">face recognition</a>
+            <a href="/tag/facial.html">facial</a>
+            <a href="/tag/facial-recognition.html">facial recognition</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
