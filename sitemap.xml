@@ -5,281 +5,288 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>/</loc>
-<lastmod>2025-06-25T11:06:45-00:00</lastmod>
+<loc>https://dr-nick-nagel.github.io/</loc>
+<lastmod>2025-06-28T12:02:09-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>/archives.html</loc>
-<lastmod>2025-06-25T11:06:45-00:00</lastmod>
+<loc>https://dr-nick-nagel.github.io/archives.html</loc>
+<lastmod>2025-06-28T12:02:09-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>/author/dr-nick-nagel.html</loc>
-<lastmod>2025-06-25T11:06:45-00:00</lastmod>
+<loc>https://dr-nick-nagel.github.io/author/dr-nick-nagel.html</loc>
+<lastmod>2025-06-28T12:02:09-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>/author/nick-nagel.html</loc>
-<lastmod>2025-06-25T11:06:45-00:00</lastmod>
+<loc>https://dr-nick-nagel.github.io/author/nick-nagel.html</loc>
+<lastmod>2025-06-28T12:02:09-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>/authors.html</loc>
-<lastmod>2025-06-25T11:06:45-00:00</lastmod>
+<loc>https://dr-nick-nagel.github.io/authors.html</loc>
+<lastmod>2025-06-28T12:02:09-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>/blog/</loc>
-<lastmod>2025-06-25T11:06:45-00:00</lastmod>
+<loc>https://dr-nick-nagel.github.io/blog/</loc>
+<lastmod>2025-06-28T12:02:09-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>/blog/bandai.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/ac-game.html</loc>
+<lastmod>2025-06-27T00:00:00-04:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://dr-nick-nagel.github.io/blog/bandai.html</loc>
 <lastmod>2009-10-29T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/baysean-statistics.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/baysean-statistics.html</loc>
 <lastmod>2025-01-08T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/blaze-pose.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/blaze-pose.html</loc>
 <lastmod>2025-04-26T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/cape2cape.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/cape2cape.html</loc>
 <lastmod>2007-10-08T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/convolution-operator.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/convolution-operator.html</loc>
 <lastmod>2024-09-30T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/creative-ai.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/creative-ai.html</loc>
 <lastmod>2024-08-21T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/discord-streaming.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/discord-streaming.html</loc>
 <lastmod>2024-10-10T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/elements-of-style-in-the-age-of-ai.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/elements-of-style-in-the-age-of-ai.html</loc>
 <lastmod>2025-05-29T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/face-features.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/face-features.html</loc>
 <lastmod>2025-06-22T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/gui-asynchronous.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/gui-asynchronous.html</loc>
 <lastmod>2024-10-23T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/kinematics.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/kinematics.html</loc>
 <lastmod>2025-02-07T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/kung_fu.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/kung_fu.html</loc>
 <lastmod>2010-12-20T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/latex-pelican.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/latex-pelican.html</loc>
 <lastmod>2024-07-25T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/mobile-testing.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/mobile-testing.html</loc>
 <lastmod>2025-04-01T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/nesting-svgs.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/nesting-svgs.html</loc>
 <lastmod>2025-03-17T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/paestum.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/paestum.html</loc>
 <lastmod>2025-02-08T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/pelican-themes.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/pelican-themes.html</loc>
 <lastmod>2024-07-29T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/python_process_management_1.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/python_process_management_1.html</loc>
 <lastmod>2024-11-08T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/python_process_management_2.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/python_process_management_2.html</loc>
 <lastmod>2024-11-16T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/python_web_rtc_1.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/python_web_rtc_1.html</loc>
 <lastmod>2024-12-20T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/raf-time.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/raf-time.html</loc>
 <lastmod>2025-02-10T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/seo.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/seo.html</loc>
 <lastmod>2025-01-23T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/simple-advice.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/simple-advice.html</loc>
 <lastmod>2024-08-01T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/squid-smil.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/squid-smil.html</loc>
 <lastmod>2025-06-13T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/svg-anim.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/svg-anim.html</loc>
 <lastmod>2010-01-20T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/svg-artworks.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/svg-artworks.html</loc>
 <lastmod>2025-04-01T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/svg-transform-matrix.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/svg-transform-matrix.html</loc>
 <lastmod>2025-05-14T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/thin-veil.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/thin-veil.html</loc>
 <lastmod>2024-12-08T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/trans-matrix.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/trans-matrix.html</loc>
 <lastmod>2025-02-17T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/blog/trump-tariffs.html</loc>
+<loc>https://dr-nick-nagel.github.io/blog/trump-tariffs.html</loc>
 <lastmod>2025-04-07T00:00:00-04:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/categories.html</loc>
-<lastmod>2025-06-25T11:06:45-00:00</lastmod>
+<loc>https://dr-nick-nagel.github.io/categories.html</loc>
+<lastmod>2025-06-28T12:02:09-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
-<loc>/pages/about-nick.html</loc>
+<loc>https://dr-nick-nagel.github.io/pages/about-nick.html</loc>
 <lastmod>2024-07-30T00:00:00-04:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>/pages/nn-cv.html</loc>
+<loc>https://dr-nick-nagel.github.io/pages/nn-cv.html</loc>
 <lastmod>2024-07-30T00:00:00-04:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>/tags.html</loc>
-<lastmod>2025-06-25T11:06:45-00:00</lastmod>
+<loc>https://dr-nick-nagel.github.io/tags.html</loc>
+<lastmod>2025-06-28T12:02:09-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>

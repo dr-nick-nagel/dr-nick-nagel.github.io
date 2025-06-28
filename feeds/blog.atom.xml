@@ -1,5 +1,512 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-06-13T00:00:00-04:00</updated><entry><title>Nature Inspired Animation using SMIL</title><link href="https://dr-nick-nagel.github.io/blog/squid-smil.html" rel="alternate"></link><published>2025-06-13T00:00:00-04:00</published><updated>2025-06-13T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-06-13:/blog/squid-smil.html</id><summary type="html">&lt;p&gt;Using SMIL to animate a giant squid...&lt;/p&gt;</summary><content type="html">&lt;h2&gt;In this Post ...&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-06-27T00:00:00-04:00</updated><entry><title>The Zero Sum Soul: A Thought Experiment</title><link href="https://dr-nick-nagel.github.io/blog/ac-game.html" rel="alternate"></link><published>2025-06-27T00:00:00-04:00</published><updated>2025-06-27T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-06-27:/blog/ac-game.html</id><summary type="html">&lt;p&gt;Let's play a game exploring artificial consciousness...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+#cyborg_img {
+    width: 360px;
+    border: solid brown 1px;
+    border-radius: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+&lt;/style&gt;
+&lt;div id='cyborg_img_wrap'&gt;
+  &lt;img id= 'cyborg_img' 
+      src="/images/augmentation/cyborg_prothsetic_eye.jpg"
+      alt="Splash image of a steampunk cyborg with lots of gears and prosthetic eye in vector style..."
+  &gt;&lt;/img&gt;
+&lt;/div&gt;
+
+&lt;h2&gt;The Augmentation Gambit&lt;/h2&gt;
+&lt;p&gt;So here's a game I like to play on occasion. &lt;/p&gt;
+&lt;p&gt;Let's pretend we have advanced our understanding of prosthetics technology, robotics and neuroscience well beyond our current knowledge and communal experience.&lt;/p&gt;
+&lt;p&gt;Now imagine a person who, sadly, needs a hip replacement. They get a titanium hip. We'd not stop calling them a person right?&lt;/p&gt;
+&lt;p&gt;Now imagine that this same individual gets their leg replaced with a prosthetic limb. Neuroscience has advanced enough to enable parietal lobe connections to circuits so advanced that the individual can stand on that one leg, walk, wiggle their toes -- do all the things they did before. And some even better. We'd still say they have the same consciousness, right? &lt;/p&gt;
+&lt;p&gt;Now, what if, a few years later this individual has their eyes replaced? Again, with the advancements in neuroscience they can &lt;em&gt;see&lt;/em&gt; -- via inserts to the occipital region of the brain. &lt;/p&gt;
+&lt;p&gt;And then, sadly, they suffer a stroke impacting Broca's region of the brain. But, luckily, neuroscience is so advanced they are able to replace the necrotic tissue with nano-technology prewired to enable speech output. The individual can express themselves linguistically just as well as they could before suffering the brain damage. Are they the same person? Do they have the same consciousness they had before?&lt;/p&gt;
+&lt;p&gt;Now imagine that, in a tragic accident, a steel rod pierces the same individual's fore brain obliterating the frontal lobe in its entirety. Luckily, brain surgeons are able to replace the affected area with an artificial neural-network that functionally performs in a manner analogous to the biological neurons the individual lost. &lt;/p&gt;
+&lt;style&gt;
+#limbic {
+    float: right;
+}
+&lt;/style&gt;
+&lt;p&gt;&lt;a title="Original:  teens.drugabuse.gov Vector:  Pixelsquid🎱, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Brain_limbicsystem.svg"&gt;&lt;img width="128" alt="Brain limbicsystem" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Brain_limbicsystem.svg/128px-Brain_limbicsystem.svg.png?20210201004742" id='limbic'&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I think you see where this is going? &lt;/p&gt;
+&lt;p&gt;When do we say the individual ceases to be the same person? When do we say they no longer have consciousnesses? If they express themselves with the artificial network as they had before, have the same memories, and feelings, is it fair to say they are the same person after 10% of their brain is replaced? 50%?  99%?&lt;/p&gt;
+&lt;h2&gt;Discussion&lt;/h2&gt;
+&lt;p&gt;I'm sure some readers may have recognized the augmentation concept -- it's a theme made popular in science fiction that's increasingly becoming science fact as advances are made in neuroscience and technology. &lt;/p&gt;
+&lt;style&gt;
+#motoko {
+    float: right;
+    width: 120px;
+    margin-left: 10px;
+    border: solid grey 1px;
+}
+&lt;/style&gt;
+&lt;div id='kusanagi_img_wrap'&gt;
+  &lt;img id= 'motoko' 
+      src="/images/augmentation/kusanagi.jpg"
+      alt="Cosplay image of a Matoko Kusanagi from Ghost in the Shell..."
+  &gt;&lt;/img&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Research into memory prosthetics is ongoing even today to develop devices that could restore or enhance memory function in people with brain damage. Neuromodulation techniques are currently available enabling interfacing with brain regions to influence emotional and motivational circuits. And research into computational neuroscience is producing detailed and biologically realistic computational models of brain regions and networks, including those in the limbic system, to better understand their function.&lt;/p&gt;
+&lt;p&gt;But what I like about &lt;em&gt;the augmentation gambit&lt;/em&gt; is that in pursuing the progression to the ultimate end, the scenario delves into the very core of what it means to be a person -- to have consciousness and to retain identity in the face of radical technological transformation. What I find fascinating is that even in this day and age of scientific advancement where we see amazing advances in medicine, space exploration, understanding the bounds of our shared universe -- we still don't have a definitive answer to this question. When our hypothetical cyborg reaches the end of the line are they the same person? &lt;em&gt;Do they have the same consciousness&lt;/em&gt;? Is the search for soul a zero-sum game at the end of the day? &lt;/p&gt;
+&lt;p&gt;Over the years I've played this game over lunch hour, at cocktail parties and so forth and have seen a lot of reactions ranging from dawning comprehension as people start to see where the line of inquiry leads to downright discomfort as people start to see where the line of inquiry leads. Without a doubt, the questions begged by this thought experiment are quite profound and simply becoming more and more relevant at the dawn of the &lt;em&gt;new&lt;/em&gt; information age. I'd love to hear &lt;em&gt;your&lt;/em&gt; thoughts on it!&lt;/p&gt;
+&lt;p&gt;ADD the GITS SVG LAUGHING MAN...&lt;/p&gt;
+&lt;p&gt;[INSERTT ENDNOTE  ____ https://gemini.google.com/app/0c03f5df9777e014 ]&lt;/p&gt;
+&lt;p&gt;The "Artificial Consciousness" game &lt;/p&gt;
+&lt;p&gt;RESUME HERE&lt;/p&gt;
+&lt;p&gt;https://gemini.google.com/app/7b1dc3ac6c7008bd
+https://gemini.google.com/app/5c8038540d1fd300
+https://gemini.google.com/app/0c03f5df9777e014&lt;/p&gt;
+&lt;h1&gt;Resources&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Special Thanks&lt;/h1&gt;
+&lt;p&gt;Immense gratitude to Wikimedia commons for kusanagi&lt;/p&gt;
+&lt;p&gt;GET THE COMMONS KUSANAGI COSPLAY IMAGE&lt;/p&gt;
+&lt;p&gt;LINK DO ATTRIBUTION:
+https://commons.wikimedia.org/wiki/Category:Motoko_Kusanagi&lt;/p&gt;
+&lt;p&gt;ALSO DROP A COMMENT AND LINK TO BLOG...&lt;/p&gt;</content><category term="Blog"></category><category term="philosophy"></category><category term="artificial intelligence"></category><category term="creativity"></category><category term="consciousness"></category><category term="thought experiment"></category><category term="artificial consciousness"></category></entry><entry><title>Beauty is in the eye of the beholder -- or is it the artist?</title><link href="https://dr-nick-nagel.github.io/blog/face-features.html" rel="alternate"></link><published>2025-06-22T00:00:00-04:00</published><updated>2025-06-22T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-06-22:/blog/face-features.html</id><summary type="html">&lt;p&gt;Drawing the face in SVG with an eye toward avatar creation...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 10px;
+}
+
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.CodeFragment{
+    font-size: 10px;
+    color: #ffe;
+    background-color: #444;
+    padding: 10px
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+
+/* ~~~~~~~~~~   DEMO STYLES   ~~~~~~~~~~~~~~~~~ */
+
+video {
+    display: block;
+    background-color: #eee;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+svg {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.DemoView {
+    display: inline-block;
+    width:   340px;
+    border: 0.5px solid #666; 
+    border-radius: 15px; 
+    padding: 10px;
+}
+
+.AvatarImg {
+  float:right;
+  margin-left: 10px;
+  width:50px;
+  height:50px;
+  border:solid  1px red;
+  background-color:black;
+}
+
+&lt;/style&gt;
+
+&lt;h2&gt;In this Post ...&lt;/h2&gt;
+&lt;p&gt;I'll be considering art and aesthetics in the context of evolving a creative process for a particular brand of generative art. Over the course of the discussion, I'll consider the nature of beauty vis-&amp;agrave;-vis human perception and explore some of the features artists might think about in the creation of their works. Finally I'll reveal a prototype I've developed as I continue exploring the intersection of art and technology in the &lt;em&gt;new&lt;/em&gt; information age.&lt;/p&gt;
+&lt;h2&gt;The Geometry of Beauty: An Artist's Perspective&lt;/h2&gt;
+&lt;p&gt;Is beauty purely objective, entirely subjective, or somewhere in between?  Philosophers and artists have grappled with the elusive nature of beauty probably as long as humankind's engaged in philosophy and art. I've been thinking a lot about this lately as I continue to pour my energy into developing tools and a framework to support artists interested in working with SVG. &lt;/p&gt;
+&lt;p&gt;In my mind, there are undoubtedly universal archetypes surrounding beauty. The ancient Greeks, for example, developed the notion of the golden ratio. And certainly in their sculpture we get a sense of the underlying ideal of the "Greek physique". Look at Michelangelo's David and it's hard not to feel awe. His vision of the human form continues to radiate beauty and power centuries after its manifestation.&lt;/p&gt;
+&lt;style&gt;
+
+#david_container {
+    width:  264px;
+    height: 180px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    border: inset 4px grey;
+}
+
+#michaelangeloz_david {
+    display: block;
+    width:  100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+&lt;/style&gt;
+
+&lt;div id='david_container'&gt;
+    &lt;img 
+        width="256" 
+        height="384"
+        alt="Michelangelo&amp;#039;s David - right view, c. 1501–1504. Marble, 517 × 199 cm (17 × 6.5 ft). Galleria dell&amp;#039;Accademia, Florence" 
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/%27David%27_by_Michelangelo_Fir_JBU004.jpg/256px-%27David%27_by_Michelangelo_Fir_JBU004.jpg?20170226175326" id="michaelangeloz_david"&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;span id="ret_1"&gt;That being said, I was recently reminded of early studies I read back in grad school that tried to quantify beauty -- asking whether it lives in the eye of the beholder or in some universal geometry &lt;a href="#end_1"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; . Using computer-generated composites, research demonstrated subjective preferences tending toward composite averages of facial features.&lt;/span&gt;&lt;/p&gt;
+&lt;style&gt;
+#img1_container {
+
+}
+#study_image {
+    display: block;
+    margin-left:auto;
+    margin-right:auto;
+}
+#img1_container div {
+    width: 300px;
+    margin-left:auto;
+    margin-right:auto;
+    font-size: small;
+}
+&lt;/style&gt;
+&lt;div id="img1_container" 
+    class="ExampleContainer" &gt;
+    &lt;img id="study_image"
+      width="250px"
+      src="/images/faces/beauty_features_female.jpeg" 
+      alt="Image from a study showing two versions of a female face side-by-side with proportions of facial features tweaked slightly to excite 'beauty detectors'."
+      &gt;
+      &lt;div&gt;&lt;strong&gt;Figure 1:&lt;/strong&gt; Side-by-side images of a caucasian female face depicting, on the one hand an average image, and on the other a "composite ideal" of beauty.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Inspired perhaps in part by such studies, I created a piece in an attempt to better understand the interplay between facial features and the beauty aesthetic using SVG. &lt;/p&gt;
+&lt;style&gt;
+#char_portrait {
+    margin-left: 0px;
+    margin-top: 0px;
+    text-align: center;
+}
+#svg_container_char {
+    display: inline-block;
+    border: solid grey 0.5px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    width: 320px;
+    height: 200px;
+    overflow: hidden;
+}
+&lt;/style&gt;
+&lt;div id="char_portrait"&gt;
+    &lt;div id="svg_container_char" 
+        class="ExampleContainer" &gt;
+        &lt;!-- INSERT CHARACTER PORTRAIT --&gt;
+    &lt;/div&gt;
+    &lt;div  id="control_panel_portrait"&gt;
+        &lt;button id="swap_face"&gt;Change Facial Features&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This interactive graphic lets you change the features of the face to explore how subtle variations to the mouth and jaw affect the perceived beauty of the character.
+Which variation speaks to you most? I'd love to hear your take.&lt;/p&gt;
+&lt;p&gt;So, yes, beauty can be in the eyes of the beholder. It is very much subjective in the sense that different people may have widely different preferences with regard to aesthetics (I learned this the hard way after many years working in UI design -- show one UI to three diffent stakeholders and you'll almost certainly get three wildly divergent opinions!). &lt;/p&gt;
+&lt;p&gt;Over and above subtle facial features, an important consideration in character aesthetics concerns the overall shape of the head. Experienced artists know that human faces come in a rich variety of shapes and sizes. A big part of portraiture is capturing proportions accurately. When I do character design in SVG, I usually start by roughing out a basic facial shape, then gradually refine the individual features. Below, I've inlined a quick demo illustrating a general classification scheme of face shapes ( round, square, diamond, triangular, oval, and heart shaped ). These categories are commonly used across artistic, design, and cosmetic applications and can serve as a starting point for character design that can be evolved into a range of stylized depictions. &lt;/p&gt;
+&lt;style&gt;
+#face_geometry {
+    margin-left: 0px;
+    margin-top: 0px;
+    text-align: center;
+}
+#face_geometry_container {
+    display: inline-block;
+    border: solid grey 0.5px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    width: 140px;
+    height: 200px;
+    overflow: hidden;
+}
+#face_shape_symbol {
+    display: inline-block;
+    width: 16px;
+    height: 20px;
+    vertical-align: middle;
+    color: red;
+}
+
+#fs_label {
+    margin-bottom: 15px;
+}
+
+&lt;/style&gt;
+&lt;div id="face_geometry"&gt;
+    &lt;div id="face_geometry_container" 
+        class="ExampleContainer" &gt;
+        &lt;!-- INSERT face shapes --&gt;
+    &lt;/div&gt;
+    &lt;div id="fs_label"&gt;
+      &lt;span style="font-weight: bold"&gt;Face Shape: &lt;/span&gt;
+      &lt;svg id='face_shape_symbol'&gt;
+        &lt;use id='shape_symbol'
+             href="#heart_face_symbol"&gt;&lt;/use&gt;
+      &lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;div  id="control_panel_faceshape"&gt;
+        &lt;button id="change_face"&gt;Change Features&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I think the perception of the aesthetic qualities associated with human faces  in particular resonates with most people. Human beings seem "hard coded" to perceive even the subtlest distinctions in facial feature composition. Biologically speaking, it seems to have been crucial to human evolutionary success to be able to rapidly assess facial characteristics --  expressions, familiarity, attractiveness, intent -- on many levels. And it gets even more compelling when motion is involved, as I'll show in a bit.&lt;/p&gt;
+&lt;p&gt;A big part of what compelled me to write this post is the explosion of generative AI onto the art scene in recent years. With that and its attendant controversy, I think it's very important to reexamine art and aesthetics. Is the appreciation of art forms uniquely human? Or can a sense of aesthetics emerge in other species and even perhaps artificial systems? These questions become particularly important in consdering recent trends in generative art.&lt;/p&gt;
+&lt;h2&gt;Generative Art with Collaborative AI&lt;/h2&gt;
+&lt;p&gt;A big part the vision for the SVG Creators' Collaborative &amp;trade; is to foster artistic creativity through collaboration. Collaboration can be made &lt;em&gt;generative&lt;/em&gt;. What does &lt;em&gt;that&lt;/em&gt; mean? &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Generative art is where artist(s) create through the application of an autonomous system. &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Just as a sculptor uses tools to carve their artistic vision into being, a generative artist uses rules, algorithms, and system parameters to create. Art becomes collaborative when artists work together to produce a unified piece. This collaboration can be intra-disciplinary or interdisciplinary -- as when visual artists and musicians unite across mediums.&lt;/p&gt;
+&lt;p&gt;The beauty of collaboration lies in its potential to produce innovative, emotionally resonant works that might be impossible for a single artist to achieve alone. In that sense, collaboration can even extend to AI: when the generative system becomes complex or responsive enough, it can feel like a collaborator. Generative collaboration explores the intersection of art, technology, and randomness, often leading to surprising and unique results.&lt;/p&gt;
+&lt;p&gt;To illustrate, I am inlining a demonstration of what I call "SoulVector" (because it shows that vectors are a window to the soul). &lt;/p&gt;
+&lt;style&gt;
+.DemoView svg {
+    background-color: black;
+}
+
+&lt;/style&gt;
+
+&lt;h3&gt;SoulVector Demo&lt;/h3&gt;
+&lt;div class="DemoView"&gt;
+    &lt;div id="ControlButtons"&gt;
+        &lt;button id="starter"&gt;Start&lt;/button&gt;
+        &lt;button id="cam_select"
+            class="disabled" &gt;Switch to Rear Cam&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;h2&gt;WebCam&lt;/h2&gt;
+    &lt;div class="WebCamDiv"&gt;
+        &lt;video id="video" 
+                autoplay 
+                playsinline 
+                muted 
+                width=320
+                height=240
+                &gt;
+        &lt;/video&gt;
+    &lt;/div&gt;
+    &lt;h2&gt;SVG&lt;/h2&gt;
+    &lt;div&gt;
+        &lt;svg id="svg_root"
+            width="320"
+            height="240"
+            viewBox="0 0 640 480"&gt;&lt;/svg&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;SoulVector&lt;/em&gt; uses a machine-learning model that identifies facial landmarks given human facial imagery as input. In this piece, I've used the model output to define contours that drive the dynamic generation of SVG shapes representing facial features. The result is a real-time, animated SVG avatar that can reflect expressions, mood, attention and other imaginative artistic interpretations. But of far greater importance is that the the system reflects an artistic &lt;em&gt;process&lt;/em&gt; enabling artists to dream up myriad fantastical mappings from input to avatar. &lt;/p&gt;
+&lt;p&gt;&lt;img id="avatar_smile" class="AvatarImg"
+  alt="Smiling avatar snapshop captured from 'SoulVector'"
+  src="/svg/svg_face/svg_smile.svg"&gt;&lt;/img&gt;&lt;/p&gt;
+&lt;p&gt;Going into this piece, I had only a vague idea of what I might achieve through SVG mapping. But I was delighted with the outcome -- and I knew I was delighted when I saw the avatar smiling back at me. &lt;/p&gt;
+&lt;p&gt;The goal of art is to make the observer &lt;em&gt;feel&lt;/em&gt; -- to connect, to care. Without feeling, art is just just marks on a canvas -- devoid of meaning. What makes &lt;em&gt;SoulVector&lt;/em&gt;  special is that it uses generative techniques to create an experience that couldn't exist without the underlying autonomous system. The SVG avatar is created &lt;em&gt;on the fly&lt;/em&gt;, dynamically, in real time. Without the man-machine collaboration, this form of expression -- this new visage -- simply wouldn't be possible. &lt;/p&gt;
+&lt;h2&gt;Discussion: Aesthetics and the Generation of Art&lt;/h2&gt;
+&lt;p&gt;Earlier, I posed the question: Is a sense of aesthetics uniquely human experience, or can qualia -- subjective experiences -- emerge from other complex systems? It's an important question. In an age of disruption, where AI is widely seen as replacing human roles and reshaping the workforce, philosophical inquiries into aesthetics, creativity, consciousness, and the nature of mind are more urgent than ever.&lt;/p&gt;
+&lt;p&gt;If we accept that art is, at its core, about aesthetics -- and that aesthetics is both perceptual &lt;em&gt;and&lt;/em&gt; emotional -- then how can AI be creative? In theory, AI lacks an "inner life". It has no phenomenological sense of form or feeling. What we call "AI" today refers mostly to large-scale systems trained on statistical correlations drawn from enormous datasets of human artistic production and reception. If those correlations produce forms that resonate with human perception, perhaps we can call it creativity. But can we call it art? Doesn't art imply &lt;em&gt;intent&lt;/em&gt;?&lt;/p&gt;
+&lt;p&gt;This question sits at the heart of a growing -- and often heated -- debate. Many traditional and digital artists perceive AI as a threat to their craft. Some even view it as an existential one. The flood of AI-generated content saturating our feeds can certainly feel overwhelming. But it's critical to recognize that AI-generated art need not be a replacement for human expression. Instead, art created in collaboration with AI can be meaningful. More than mere mimicry. More than data-driven pastiche.&lt;/p&gt;
+&lt;p&gt;In my mind, the core issue isn't that AI will "replace" artists. A far deeper problem lies in how these systems are trained and deployed. Specifically, the exploitation of human-made works without consent or compensation. If AI systems are trained on copyrighted artworks created by hard-working artists, those artists deserve recognition -- and more importantly payment! &lt;span id="ret_2"&gt;It's unconscionable that companies profiting from this technology claim they "can't" compensate creators, even as their top executives enjoy personal wealth &lt;em&gt;hundreds of thousands of times greater&lt;/em&gt; than the average American &lt;a href="#end_2"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt; &lt;/span&gt; .&lt;/p&gt;
+&lt;div class="admonition danger"&gt;
+&lt;p class="admonition-title"&gt;AI generated art -- in and of itself -- is not the problem!&lt;/p&gt;
+&lt;p&gt;AI generated art isn't inherently the problem. &lt;em&gt;How&lt;/em&gt; it's trained and used is. If AI is built on the back of artists' labor without consent or compensation, then we're facing systemic exploitation, not innovation. That's why supporting creators now is vital.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Unfortunately, these systemic issues are unlikely to be resolved any time soon. That's all the more reason to &lt;strong&gt;support your local artists now&lt;/strong&gt;. Become a patron. Contribute to the content and creators you value. If we don't, we risk waking up to a future where the creative landscape has been hollowed out -- where the art we see is generated, but not &lt;em&gt;felt&lt;/em&gt;.&lt;/p&gt;
+&lt;h2&gt;Endnotes&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="end_1"&gt;&lt;a href="https://www.sciencedirect.com/science/article/abs/pii/0162309593900053"&gt;Is beauty in the eye of the beholder?&lt;/a&gt; &lt;a href="#ret_1"&gt;&lt;svg class="EndnoteReturn"&gt;
+  &lt;use href="#en_return"&gt;&lt;/use&gt;
+&lt;/svg&gt;&lt;/a&gt;&lt;/span&gt; .&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="end_2"&gt;For more information on the broader ethical debate around art and AI see ... &lt;a href="#ret_2"&gt;&lt;svg class="EndnoteReturn"&gt;
+  &lt;use href="#en_return"&gt;&lt;/use&gt;
+&lt;/svg&gt;&lt;/a&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://apnews.com/article/studio-ghibli-chatgpt-images-hayao-miyazaki-openai-0f4cb487ec3042dd5b43ad47879b91f4"&gt;ChatGPT's viral Studio Ghibli-style images highlight AI copyright concerns&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.theguardian.com/technology/2025/jun/26/meta-wins-ai-copyright-lawsuit-as-us-judge-rules-against-authors?utm_source=chatgpt.com"&gt;Meta wins AI copyright lawsuit as US judge rules against authors&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://youtu.be/ayK18h5oaB0?si=1Vfnh3t8rfQ-FGGf"&gt;Copyright, Theft, and AI: Why artists are protesting against AI art&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker"&gt;Face landmark detection guide&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection"&gt;Face Landmarks Detection on GIT&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script type="module"&gt;
+import {
+    svgDocCache,
+    loadSvgList
+} from "/scripts/dist_anim_controller/utilities.js";
+
+
+/**
+ * A simple state machine to control  the 
+ * transitions from one face state to the 
+ * next in the FACE GEOMETRY example ...
+ * 
+ * NOTE: the faceTypes piggy back off the 
+ * face id's in the SVG  and are used to 
+ * transition the faces.
+ */
+const faceShapeController = {
+    faceTypes : {
+        ROUND: "round_face",
+        RECTANGULAR: "rectangular",
+        DIAMOND: "diamond_face",
+        TRIANGULAR: "triangle",
+        OVAL: "oval",
+        HEART: "heart",
+    },
+    faceState: null,
+    _stateSequence: [],
+    _currentState: -1,
+
+    init: function() {
+        // initialize state machine props
+        this._stateSequence = Object.keys( this.faceTypes );
+        // set initial face at HEART (in sync with svg)
+        this._currentIndex = this._stateSequence.indexOf( "HEART" );
+        this.faceState = this.faceTypes.HEART;
+    },
+
+    transNextState: function() {
+      this._currentState ++ ;
+      if( this._currentState &gt;= this._stateSequence.length ) {
+        this._currentState = 0;
+      }
+      const nextKey = this._stateSequence[this._currentState];
+      this.faceState = this.faceTypes[nextKey];
+      return this.faceState;
+    },
+
+    changeFace : function( evt  ) {
+      const currentGrp = document.getElementById( this.faceState );
+      currentGrp.style.display="none";
+      const newFaceType = this.transNextState();
+      const newGrp = document.getElementById( this.faceState );
+      newGrp.style.display="inline";
+      const useTag = document.getElementById( "shape_symbol" );
+      let symbol = null;
+      switch( this.faceState ) {
+          case this.faceTypes.ROUND :
+            symbol = "#circle_symbol";
+            break; 
+          case this.faceTypes.RECTANGULAR :
+            symbol = "#rectangle_symbol";
+            break; 
+          case this.faceTypes.DIAMOND :
+            symbol = "#diamond_symbol";
+            break; 
+          case this.faceTypes.TRIANGULAR :
+            symbol = "#triangle_symbol";
+            break; 
+          case this.faceTypes.OVAL :
+            symbol = "#oval_symbol";
+            break; 
+          case this.faceTypes.HEART :
+            symbol = "#heart_face_symbol";
+            break; 
+      }
+      useTag.setAttribute( "href", symbol );
+    },
+}
+
+// ---- DEMO INITIALIZATION -------------------
+
+const svgList = [
+    'char_sheet.svg',
+    'head_shapes.svg',
+];
+const SVG_PATH = "/svg/svg_face/";
+
+let portraitSvg = null;
+let faceGeo = null;
+async function loadSvgs () {
+    await loadSvgList(svgList, SVG_PATH);
+    portraitSvg = svgDocCache.svg_slide_0;
+    let container = document.getElementById( "svg_container_char" );
+    container.appendChild( portraitSvg );
+
+    faceGeo = svgDocCache.svg_slide_1;
+    container = document.getElementById( "face_geometry_container" );
+    container.appendChild( faceGeo );
+
+}
+
+await loadSvgs();
+faceShapeController.init();
+
+function toggleFace( faceGroup ) {
+  if( faceGroup.style.display === "inline"   ) {
+    faceGroup.style.display = "none";
+  } else {
+    faceGroup.style.display = "inline";
+  }
+}
+
+const faceButton = document.getElementById( "swap_face" );
+faceButton.addEventListener(
+    'click',
+    ( evt ) =&gt; {
+        let faceGroupA = document.getElementById( "face_versionA" );
+        let faceGroupB = document.getElementById( "face_versionB" );
+        toggleFace( faceGroupA );
+        toggleFace( faceGroupB );
+    }
+);
+
+const changeFaceButton = document.getElementById( "change_face" );
+changeFaceButton.addEventListener(
+    'click',
+    ( evt ) =&gt; {
+        faceShapeController.changeFace( evt );
+
+        // let faceGroupA = document.getElementById( "face_versionA" );
+        // let faceGroupB = document.getElementById( "face_versionB" );
+        // toggleFace( faceGroupA );
+        // toggleFace( faceGroupB );
+
+    }
+);
+&lt;/script&gt;</content><category term="blog"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="motion"></category><category term="artworks"></category><category term="framework"></category><category term="Inkscape"></category><category term="Illustrator"></category><category term="Adobe"></category><category term="artificial intelligence"></category><category term="machine learning"></category><category term="face detection"></category><category term="face landmark detection"></category><category term="landmarks"></category><category term="avatars"></category><category term="emotion"></category><category term="beauty"></category><category term="aesthetics"></category><category term="face shape"></category><category term="face recognition"></category><category term="facial"></category><category term="facial recognition"></category></entry><entry><title>Nature Inspired Animation using SMIL</title><link href="https://dr-nick-nagel.github.io/blog/squid-smil.html" rel="alternate"></link><published>2025-06-13T00:00:00-04:00</published><updated>2025-06-13T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-06-13:/blog/squid-smil.html</id><summary type="html">&lt;p&gt;Using SMIL to animate a giant squid...&lt;/p&gt;</summary><content type="html">&lt;h2&gt;In this Post ...&lt;/h2&gt;
 &lt;p&gt;I experiment with using SMIL to animate SVG artwork inspired by nature. &lt;/p&gt;
 &lt;h2&gt;Motivation&lt;/h2&gt;
 &lt;p&gt;Continuing down the path of SVG Framework development I've recently been exploring the application of various techniques in an effort to catalog the different approaches to animating SVG. Recently, I was inspired by rare footage captured of a giant squid off the coast of Antarctica.&lt;/p&gt;
