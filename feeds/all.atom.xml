@@ -172,6 +172,7 @@ svg {
 
 &lt;/style&gt;
 
+&lt;!--
 &lt;div id='david_container'&gt;
     &lt;img 
         width="256" 
@@ -179,6 +180,7 @@ svg {
         alt="Michelangelo&amp;#039;s David - right view, c. 1501–1504. Marble, 517 × 199 cm (17 × 6.5 ft). Galleria dell&amp;#039;Accademia, Florence" 
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/%27David%27_by_Michelangelo_Fir_JBU004.jpg/256px-%27David%27_by_Michelangelo_Fir_JBU004.jpg?20170226175326" id="michaelangeloz_david"&gt;
 &lt;/div&gt;
+--&gt;
 
 &lt;p&gt;&lt;span id="ret_1"&gt;That being said, I was recently reminded of early studies I read back in grad school that tried to quantify beauty -- asking whether it lives in the eye of the beholder or in some universal geometry &lt;a href="#end_1"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; . Using computer-generated composites, research demonstrated subjective preferences tending toward composite averages of facial features.&lt;/span&gt;&lt;/p&gt;
 &lt;style&gt;
