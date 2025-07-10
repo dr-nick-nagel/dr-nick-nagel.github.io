@@ -1,5 +1,379 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - Blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-06-27T00:00:00-04:00</updated><entry><title>The Zero Sum Soul: A Thought Experiment</title><link href="https://dr-nick-nagel.github.io/blog/ac-game.html" rel="alternate"></link><published>2025-06-27T00:00:00-04:00</published><updated>2025-06-27T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-06-27:/blog/ac-game.html</id><summary type="html">&lt;p&gt;Let's play a game exploring artificial consciousness...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-07-05T00:00:00-04:00</updated><entry><title>Inspired Animation Effects with Sine Waves</title><link href="https://dr-nick-nagel.github.io/blog/billow-effect.html" rel="alternate"></link><published>2025-07-05T00:00:00-04:00</published><updated>2025-07-05T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-07-05:/blog/billow-effect.html</id><summary type="html">&lt;p&gt;Create a Seamless Billowing Animation with Sine Waves ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 10px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+
+
+/*    --------  TOOL ------------    */
+
+.ToolContainer {
+    padding: 10px;
+    border: solid grey 1px;
+    border-radius: 12px; 
+    max-width: 600px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Spacing between sections */
+}
+
+#sineWaveSvg {
+    border: 1px solid #999; 
+    background-color: #efe; 
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.axis {
+    stroke: #585;
+    stroke-width: 1;
+}
+.tick {
+    stroke: #698;
+    stroke-width: 0.5;
+}
+
+#tool_params {
+    margin-bottom: 10px;
+}
+
+.ToolContainer h2 {
+    font-size: 12px;
+}
+
+.ToolContainer div {
+    margin-bottom: 5px;
+}
+
+.ToolContainer label {
+    display: inline-block;
+    min-width: 100px;
+}
+
+&lt;/style&gt;
+
+&lt;h2&gt;In this Post ...&lt;/h2&gt;
+&lt;p&gt;I'll show how I applied some simple trigonometry to create a seamless billowing effect using SVG and &lt;code&gt;requestAnimationFrame&lt;/code&gt;. Then, as an added bonus I'll provide a tool for the SVG Creators Collaborative to make SVG waves for creating similar effects. &lt;/p&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Not long ago I published a post on animating Scalable Vector Graphics (SVG) with javascript's &lt;code&gt;requestAnimationFrame&lt;/code&gt; framework. In that post, I illustrated the technique of sprite-based frame-by-frame animation by animating the cape on a character inspired by Frank Baum's &lt;em&gt;wicked witch of the west&lt;/em&gt;.&lt;/p&gt;
+&lt;style&gt;
+#billow_wrap {
+    width: 200px;
+    float: right;
+    margin-left: 50px;
+}
+&lt;/style&gt;
+&lt;div id="billow_wrap"&gt;
+    &lt;div id="svg_container_billow" 
+        class="BillowContainer" &gt;
+        &lt;!-- INSERT WICKED CAPE SINE --&gt;
+    &lt;/div&gt;
+    &lt;div  id="control_panel_billow"&gt;
+        &lt;button id="play_billow"&gt;Play&lt;/button&gt;
+        &lt;button id="update_billow"&gt;Test&lt;/button&gt;
+        &lt;span id="fps_display"&gt;FPS: 000&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;span id="link_back_raf"&gt;When I published that post, I sort of promised some more details on the techniques I used to acheive the &lt;a href="https://dr-nick-nagel.github.io/blog/raf-time.html#end_3"&gt;billowing effect&lt;/a&gt; and, well, here we are.&lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;Animation Effects Inspired by Math&lt;/h2&gt;
+&lt;p&gt;I created the billowing effect on the wicked witch sprite using &lt;em&gt;key-frame animation&lt;/em&gt; with frame swaps. In other words, the animation is analogous to traditional hand-drawn animation where separate drawings are created to be shown on a fixed interval at a rate that for the human eye achieves &lt;em&gt;apparent motion&lt;/em&gt;. But in order to achieve a good effect, you can't just randomly draw a bunch if images. To get good apparent motion you have to simulate &lt;em&gt;real&lt;/em&gt; motion. You have to impose some order on the chaos. &lt;/p&gt;
+&lt;p&gt;The billow-effect is one of a broader class of effects arising due to the wind element. Artists know you can't actually &lt;em&gt;draw&lt;/em&gt; wind. But you can get good compelling art if you can draw its &lt;em&gt;effect&lt;/em&gt;. Faced with this problem, I tried a couple of times to get a good billow -- only to realize it's not so trivial! Even if they're not always adept at saying why, human beings are pretty good at discriminating between believable animation and models that just don't make sense. That's key. Experienced animators agree that the key to distinguishing poor quality cheap animation from amazing animated art experiences is understanding how things behave.&lt;/p&gt;
+&lt;div class="admonition information pro tip"&gt;
+&lt;p class="admonition-title"&gt;Information&lt;/p&gt;
+&lt;p&gt;In order to distinguish your animation efforts it's really important to go out into the world and &lt;em&gt;see&lt;/em&gt;. Don't assume you can just pull an effect out from nowhere. Faced with a challenge, go out into the world and make some observations. Once you have an idea of how things behave in the real world, then you can impart your stylized model to create &lt;em&gt;un&lt;/em&gt;believable effects that are &lt;em&gt;believable&lt;/em&gt;. Even for fantastical unreal effects in art to pull them off successfully there often has to be an element of believability.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;span id="ret_1"&gt;So finally I realized that billowing cloth -- and many other effects ranging from waves on the sea surface to reeds bending in the wind -- can be modeled with a little basic trigonometry &lt;sup&gt;&lt;a href="#end_1"&gt; 1 &lt;/a&gt;&lt;/sup&gt; . So what follows is the formula that I applied to get the effect I was after.&lt;/span&gt; &lt;/p&gt;
+&lt;h2&gt;Here's the Math&lt;/h2&gt;
+&lt;p&gt;You don't have to be a math wiz to understand what a wave is. Nevertheless, It may be a while since you've sat through a math class so here's a quick refresher that'll bring back everything you need.&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img src="/svg/billow_math/sin.png"
+      title="Exemplar Sine Wave"
+      alt="Graph of y = sin(x) with annotations; period wave, length, amplitude."
+  &gt;&lt;br&gt;
+  &lt;figurecaption&gt;&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Anatomy of a sine wave&lt;/em&gt;. This figure shows a graph of $y=sin(x)$ denoting wavelength, period, and amplitude of the wave.&lt;/figurecaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Figure two illustrates &lt;em&gt;the anatomy of a sine wave&lt;/em&gt;. I've called out the key features; namely the &lt;em&gt;period&lt;/em&gt;, &lt;em&gt;amplitude&lt;/em&gt; and &lt;em&gt;wavelength&lt;/em&gt;. &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;strong&gt;period&lt;/strong&gt; is the &lt;em&gt;duration&lt;/em&gt; of the wave (i.e., the amount of &lt;em&gt;time&lt;/em&gt; it takes the wave to traverse the length of a cycle). &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;strong&gt;amplitude&lt;/strong&gt; is the difference between the peak and the midline.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="ret_2"&gt;And finally I've labeled the &lt;strong&gt;wavelength ($\lambda$)&lt;/strong&gt; which is the &lt;em&gt;spatial distance&lt;/em&gt; spanning one cycle. &lt;sup&gt;&lt;a href="#end_2"&gt; 2 &lt;/a&gt;&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;So with this in mind I simply modeled the billowing cape by sliding a wave like this across the hem of the cape. Believe it or not, understanding and using this technique can make life much much easier when you want to create these kinds of animation effects.&lt;/p&gt;
+&lt;p&gt;For a resting state animation the artist is looking for something that will loop seamlessly. You don't want a jarring discontinuity on every cycle of your loop. Instead of just guessing at it, it pays off to do some quick calculations up front. And here's how.&lt;/p&gt;
+&lt;h3&gt;The formula.&lt;/h3&gt;
+&lt;p&gt;Sliding the wave essentially amounts to &lt;em&gt;traveling a sinusoid&lt;/em&gt;. In other words, we want to slide the sine wave across the viewport window like so:&lt;/p&gt;
+&lt;div&gt;
+    &lt;img id='traveling_wave_anim'
+        width=300
+        height=80
+        src="/svg/billow_math/sin_anim.svg"
+        alt="SVG animation (visualization) of a traveling sine wave"
+    &gt;
+&lt;/div&gt;
+
+&lt;p&gt;Let's start with the general equation for a traveling wave. &lt;/p&gt;
+&lt;p&gt;$$
+y(x, t) = \sin\left(\frac{2\pi(x - vt)}{P}\right)
+$$&lt;/p&gt;
+&lt;p&gt;Don't panic! All you need to know to use this are the parameters you can tweak -- the levers you can pull to get your wave. So to make your wave you all you need is:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;$P$ (the &lt;em&gt;period&lt;/em&gt;), and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;em&gt;range&lt;/em&gt; for x&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Since we only need the initial state of the waveform to use it for our effect we can hold time ($t$) constant at 0 (which cancels out velocity ($v$)). As described above, you can think of the period here spatially (same as wavelength) -- with pixels being the unit of measure. Given that, we can draw a sine wave for any range in x (i.e., length in pixels).&lt;/p&gt;
+&lt;h3&gt;Example&lt;/h3&gt;
+&lt;p&gt;Back to our wicked sprite, let's use her as an example. Again I created the sprite in a 50 X 50 bounding box. So let's just set the period:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Let P = 50. &lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;And I want a wave to travel across that bounding box. So to make the visiualiztion easier I'll draw &lt;em&gt;two&lt;/em&gt; periods and pull the start point back by the length of one:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Let x-range = [-50, 50]&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You can visualize the resultant wave if you play with the tool I've inlined below.&lt;/p&gt;
+&lt;h3&gt;Applying the waveform.&lt;/h3&gt;
+&lt;p&gt;But remember ...&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The goal is to travel the wave across several frames, such that after a certain number them the wave returns to its initial position -- effectively creating a &lt;strong&gt;perfect loop&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In order to achieve that we still need the amount by which to displace the wave on each frame. For that we need $v$ from the equation; the wave's velocity ($v$) per frame. And with this approach, that's easy to get, simply divide the period, $P$, by the number of frames in the loop:&lt;/p&gt;
+&lt;p&gt;$$
+v = \frac{P}{number \hspace{1mm} of \hspace{1mm} frames}
+$$&lt;/p&gt;
+&lt;p&gt;Soooo for the &lt;em&gt;wicked sprite&lt;/em&gt;: &lt;/p&gt;
+&lt;div&gt;
+$$
+\begin{align}
+v &amp;= \frac{50}{8} \\
+v &amp;= 6.25
+\end{align}
+$$
+&lt;/div&gt;
+
+&lt;h3&gt;The Visualization&lt;/h3&gt;
+&lt;p&gt;Below I've reproduced the key frames I created for the billowing effect on Ms. Witch. I've highlighted the hem of the cape where if you look close you can visualize the form of the sinusoid as it's traveled across the the viewport.&lt;/p&gt;
+&lt;figure style="margin-left: 0;"&gt;
+  &lt;img src="/svg/billow_math/billow_keys.svg"
+      title="Keyframes to Billow the Witch's Cape"
+      alt="Key frames illustrating the sinusoidal billowing effect on the Wicked Witch of the West's Cape."
+  &gt;&lt;br&gt;
+  &lt;figurecaption&gt;&lt;strong&gt;Figure:&lt;/strong&gt; Keyframes used to achieve the billowing effect on the witch's cape. Notice how I sculpted the hem to conform to the sinusoidal curve travelled across the viewport.&lt;/figurecaption&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Bonus! Here's the Tool&lt;/h2&gt;
+&lt;p&gt;And finally, here's the tool I promised for the SVG Collab&amp;trade;. To use the tool, simply tweak the parameters to generate your wave and copy the result to your clipboard. When you do the copy you'll get an SVG path of the form:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;path id="sineWavePath" 
+    fill="none" stroke="red" 
+    stroke-width="1" 
+    d="M -50 -6.123233995736766e-15 L -49.5 -1.5697629882328317 ..."&amp;gt;
+&amp;lt;/path&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Simply drop it your SVG document and take it from there. Use it in good health! &lt;/p&gt;
+&lt;div class="ToolContainer"&gt;
+    &lt;h2&gt;SVG Creators Collaborative &amp;trade; Sine Wave Generator&lt;/h1&gt;
+    &lt;div id="tool_params"&gt;
+        &lt;div class="input-group"&gt;
+            &lt;label for="period"&gt;Period (P):&lt;/label&gt;
+            &lt;input type="number" id="period" value="50" min="1" step="1"&gt;
+        &lt;/div&gt;
+        &lt;div class="input-group"&gt;
+            &lt;label for="amplitude"&gt;Amplitude:&lt;/label&gt;
+            &lt;input type="number" id="amplitude" value="25" min="1" step="1"&gt;
+        &lt;/div&gt;
+        &lt;div class="input-group"&gt;
+            &lt;label for="xMin"&gt;X Range Min:&lt;/label&gt;
+            &lt;input type="number" id="xMin" value="-50" step="1"&gt;
+        &lt;/div&gt;
+        &lt;div class="input-group"&gt;
+            &lt;label for="xMax"&gt;X Range Max:&lt;/label&gt;
+            &lt;input type="number" id="xMax" value="50" step="1"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;svg id="sineWaveSvg" 
+        width="300" 
+        height="100" 
+        viewBox="-50 -50 300 100"
+        xmlns="http://www.w3.org/2000/svg"
+        &gt;
+        &lt;g id="axes"&gt;
+            &lt;line x1="-50" y1="0" x2="250" y2="0" class="axis" /&gt;
+            &lt;line x1="0" y1="-50" x2="0" y2="50" class="axis" /&gt;
+            &lt;line x1="-50" y1="-2.5" x2="-50" y2="2.5" class="tick" /&gt;
+            &lt;line x1="0" y1="-2.5" x2="0" y2="2.5" class="tick" /&gt;
+            &lt;line x1="50" y1="-2.5" x2="50" y2="2.5" class="tick" /&gt;
+            &lt;line x1="100" y1="-2.5" x2="100" y2="2.5" class="tick" /&gt;
+            &lt;line x1="150" y1="-2.5" x2="150" y2="2.5" class="tick" /&gt;
+            &lt;line x1="200" y1="-2.5" x2="200" y2="2.5" class="tick" /&gt;
+            &lt;line x1="250" y1="-2.5" x2="250" y2="2.5" class="tick" /&gt;
+            &lt;line x1="-2.5" y1="-50" x2="2.5" y2="-50" class="tick" /&gt;
+            &lt;line x1="-2.5" y1="-25" x2="2.5" y2="-25" class="tick" /&gt;
+            &lt;line x1="-2.5" y1="25" x2="2.5" y2="25" class="tick" /&gt;
+            &lt;line x1="-2.5" y1="50" x2="2.5" y2="50" class="tick" /&gt;
+        &lt;/g&gt;
+        &lt;path id="sineWavePath" fill="none" stroke="red" stroke-width="1" /&gt;
+    &lt;/svg&gt;
+    &lt;div id="cp_sinner" class='ControlPanel'&gt;
+        &lt;button id='sin_copy'&gt;Copy to Clipboard&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script type="module"&gt;
+
+import {
+    Sinner
+} from "/scripts/dist_billow_sin/sinner.js" ;
+
+// Initilizations should ALWAYS go on the page (i.e., the view). 
+// First, get references to DOM elements...
+
+const periodInput = document.getElementById('period');
+const amplitudeInput = document.getElementById('amplitude');
+const xMinInput = document.getElementById('xMin');
+const xMaxInput = document.getElementById('xMax');
+const sineWavePathElement = document.getElementById('sineWavePath');
+const sineWaveSvgElement = document.getElementById('sineWaveSvg');
+
+/**
+ * Object literal to mange the view updates...
+ */
+const sinView = {
+
+    svgWidth  : 300,
+    svgHeight : 100,
+
+    updateView: function () {
+        const p = parseInt( document.getElementById('period').value ) ;
+        const a = parseInt( document.getElementById('amplitude').value );
+        const xMin = parseInt( document.getElementById('xMin').value );
+        const xMax = parseInt( document.getElementById('xMax').value );
+        const newData = sinner.updateSineWave( a, p, xMin, xMax );
+        sineWavePathElement.setAttribute('d', newData);
+    }
+
+};
+
+// Next, add event listeners. These are for the sinner tool... 
+periodInput.addEventListener('input', sinView.updateView);
+amplitudeInput.addEventListener('input', sinView.updateView);
+xMinInput.addEventListener('input', sinView.updateView);
+xMaxInput.addEventListener('input', sinView.updateView);
+
+// Initial call to c-tor gives module scoped MVC instance...
+let sinner = null; 
+
+document.addEventListener(
+    'DOMContentLoaded', 
+    (evt) =&gt; {
+        // counting on default initializations ...
+        sinner = new Sinner( );
+        sinView.updateView();
+    }
+);
+
+&lt;/script&gt;
+
+&lt;script type="module"&gt;
+import {
+    copySvgToClipboard
+} from "/scripts/dist_billow_sin/copy_svg_to_clipboard.js" ;
+const copyButton = document.getElementById( "sin_copy" );
+copyButton.addEventListener( 
+    'click',
+    ( evt ) =&gt; {
+        const sinePathElement = document.getElementById('sineWavePath');
+        const sinePathStr     = sinePathElement.outerHTML;
+        const svgStr = `&lt;svg id="svg_cc_singen"
+  xmlns="http://www.w3.org/2000/svg" 
+  width="300" 
+  height="100" 
+  viewBox="-50 -50 300 100"&gt;
+    ${sinePathStr}
+&lt;/svg&gt;`;
+        copySvgToClipboard( svgStr );
+    }
+ );
+&lt;/script&gt;
+
+&lt;h2&gt;Discussion&lt;/h2&gt;
+&lt;p&gt;In this post I explained an approach to creating SVG animation effects inspired by trigonometry. Without a doubt, drawing out the many keys required for key frame animation is always time consuming, and can be downright excruciating. And relying solely on intuition to dream up effects like billowing cloth can lead to nothing but frustration at the end of the day.&lt;/p&gt;
+&lt;p&gt;So, rather than randomly render a bunch of cells only to end up with an effect that doesn't make visual sense, why not apply a little math and get a &lt;em&gt;much&lt;/em&gt; better outcome in the end. Drawing animation frames can take many many hours of effort. Use a little math and get it right the first time!&lt;/p&gt;
+&lt;p&gt;The technique I've exemplified in this post can be used in SVG, canvas animations, or WebGL shaders -- anywhere basically where you want to simulate smooth, cyclical motion. It's simple, efficient, and math-driven, which keeps your animation clean and loopable. Use it in good health!&lt;/p&gt;
+&lt;p&gt;In conclusion let me leave you with this thought. For many people, math can be intimidating. Especially if you're under the pressure of an educational system that values competition over cooperation and crams exams down your throat in order to filter the "haves" from the "have nots" to create a class of "gonna gets". But if you can overcome the trauma induced by a broken system to embrace mathematics you can absolutely use it to your advantage to create beautiful artworks!&lt;/p&gt;
+&lt;h2&gt;Endnotes&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="end_1"&gt;For many, math is a "four-letter word". Believe me I understand that initial aversion. However, I truly hope you'll look past any fear of terms like &lt;em&gt;trigonometry&lt;/em&gt;. It's my absolute favorite math, and my experience has shown me time and time again how powerful even a basic grasp of trig can be in crafting remarkable and beautiful works of art  &lt;a href="#ret_1"&gt;&lt;svg class="EndnoteReturn"&gt;
+  &lt;use href="#en_return"&gt;&lt;/use&gt;
+&lt;/svg&gt;&lt;/a&gt;&lt;/span&gt; .&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="end_2"&gt;At first glance it's easy to conflate the &lt;em&gt;period&lt;/em&gt; of a wave with the concept of &lt;em&gt;wavelength&lt;/em&gt; and, indeed, the concepts are closely related. But there's a subtle distinction that can become important. While both describe aspects of a repeating wave cycles, they refer to different dimensions &lt;/span&gt; :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Wavelength ($\lambda$)&lt;/strong&gt; is a spatial measurement. It's the &lt;em&gt;distance&lt;/em&gt; a wave covers in one complete cycle. If you are creating an effect like ripples on a pond you're thinking spatially and talking wavelength.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;The Period (T)&lt;/strong&gt; is a &lt;em&gt;temporal&lt;/em&gt; measurement. It's the &lt;em&gt;time&lt;/em&gt; that it takes for one complete cycle of a wave to pass a fixed point. In creating the billowing effect we're concerned with the time it takes a wave to move across a fixed interval so I've used the term period to describe the length of the cycle  &lt;a href="#ret_2"&gt;&lt;svg class="EndnoteReturn"&gt; &lt;use href="#en_return"&gt;&lt;/use&gt; &lt;/svg&gt;&lt;/a&gt;. &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://phys.libretexts.org/Bookshelves/Waves_and_Acoustics/Waves%3A_An_Interactive_Tutorial_(Forinash_and_Christian)/1%3A_Basic_Properties/1.1%3A_Sine_Wave"&gt;Sine Waves from Libre Texts&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=rCuAM5q-lUY&amp;amp;t=583s"&gt;Wave Principle in Inkscape&lt;/a&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://svg-artists-collective.vercel.app/artists/tools/sin_generator/sin_gen.html"&gt;SVG Creators Collaborative&amp;amp;trade -- Sine Wave Generator&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="Inkscape"></category><category term="SVG Creators Collaborative"></category><category term="trigonometry"></category><category term="sine"></category><category term="waves"></category></entry><entry><title>The Zero Sum Soul: A Thought Experiment</title><link href="https://dr-nick-nagel.github.io/blog/ac-game.html" rel="alternate"></link><published>2025-06-27T00:00:00-04:00</published><updated>2025-06-27T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-06-27:/blog/ac-game.html</id><summary type="html">&lt;p&gt;Let's play a game exploring artificial consciousness...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 #cyborg_img {
     width: 360px;
     border: solid brown 1px;
@@ -35,40 +409,42 @@
 &lt;h2&gt;Discussion&lt;/h2&gt;
 &lt;p&gt;I'm sure some readers may have recognized the augmentation concept -- it's a theme made popular in science fiction that's increasingly becoming science fact as advances are made in neuroscience and technology. &lt;/p&gt;
 &lt;style&gt;
-#motoko {
-    float: right;
+
+#kusanagi_img_wrap {
+    display: inline-block;
     width: 120px;
+    float: right;
     margin-left: 10px;
+    font-size: 8px;
+}
+
+#motoko {
+    width: 120px;
     border: solid grey 1px;
 }
+
 &lt;/style&gt;
+
 &lt;div id='kusanagi_img_wrap'&gt;
   &lt;img id= 'motoko' 
       src="/images/augmentation/kusanagi.jpg"
       alt="Cosplay image of a Matoko Kusanagi from Ghost in the Shell..."
   &gt;&lt;/img&gt;
+  &lt;div&gt;&lt;strong&gt;Image: &lt;/strong&gt;Motoko Kusangi from *Ghost in the Shell*. &lt;a href="https://commons.wikimedia.org/wiki/Category:Motoko_Kusanagi"&gt;Licensed under Creative Commons&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;Research into memory prosthetics is ongoing even today to develop devices that could restore or enhance memory function in people with brain damage. Neuromodulation techniques are currently available enabling interfacing with brain regions to influence emotional and motivational circuits. And research into computational neuroscience is producing detailed and biologically realistic computational models of brain regions and networks, including those in the limbic system, to better understand their function.&lt;/p&gt;
 &lt;p&gt;But what I like about &lt;em&gt;the augmentation gambit&lt;/em&gt; is that in pursuing the progression to the ultimate end, the scenario delves into the very core of what it means to be a person -- to have consciousness and to retain identity in the face of radical technological transformation. What I find fascinating is that even in this day and age of scientific advancement where we see amazing advances in medicine, space exploration, understanding the bounds of our shared universe -- we still don't have a definitive answer to this question. When our hypothetical cyborg reaches the end of the line are they the same person? &lt;em&gt;Do they have the same consciousness&lt;/em&gt;? Is the search for soul a zero-sum game at the end of the day? &lt;/p&gt;
 &lt;p&gt;Over the years I've played this game over lunch hour, at cocktail parties and so forth and have seen a lot of reactions ranging from dawning comprehension as people start to see where the line of inquiry leads to downright discomfort as people start to see where the line of inquiry leads. Without a doubt, the questions begged by this thought experiment are quite profound and simply becoming more and more relevant at the dawn of the &lt;em&gt;new&lt;/em&gt; information age. I'd love to hear &lt;em&gt;your&lt;/em&gt; thoughts on it!&lt;/p&gt;
-&lt;p&gt;ADD the GITS SVG LAUGHING MAN...&lt;/p&gt;
-&lt;p&gt;[INSERTT ENDNOTE  ____ https://gemini.google.com/app/0c03f5df9777e014 ]&lt;/p&gt;
-&lt;p&gt;The "Artificial Consciousness" game &lt;/p&gt;
-&lt;p&gt;RESUME HERE&lt;/p&gt;
-&lt;p&gt;https://gemini.google.com/app/7b1dc3ac6c7008bd
-https://gemini.google.com/app/5c8038540d1fd300
-https://gemini.google.com/app/0c03f5df9777e014&lt;/p&gt;
-&lt;h1&gt;Resources&lt;/h1&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h1&gt;Special Thanks&lt;/h1&gt;
-&lt;p&gt;Immense gratitude to Wikimedia commons for kusanagi&lt;/p&gt;
-&lt;p&gt;GET THE COMMONS KUSANAGI COSPLAY IMAGE&lt;/p&gt;
-&lt;p&gt;LINK DO ATTRIBUTION:
-https://commons.wikimedia.org/wiki/Category:Motoko_Kusanagi&lt;/p&gt;
-&lt;p&gt;ALSO DROP A COMMENT AND LINK TO BLOG...&lt;/p&gt;</content><category term="Blog"></category><category term="philosophy"></category><category term="artificial intelligence"></category><category term="creativity"></category><category term="consciousness"></category><category term="thought experiment"></category><category term="artificial consciousness"></category></entry><entry><title>Beauty is in the eye of the beholder -- or is it the artist?</title><link href="https://dr-nick-nagel.github.io/blog/face-features.html" rel="alternate"></link><published>2025-06-22T00:00:00-04:00</published><updated>2025-06-22T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-06-22:/blog/face-features.html</id><summary type="html">&lt;p&gt;Drawing the face in SVG with an eye toward avatar creation...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+&lt;div class='certifedMachineReadable'&gt;
+  &lt;img id="hcmr_badge"
+        src="/svg/machine_readable_badge.svg"
+        alt="Dr. Nick's AI friendly certified readability badge"
+  &gt;
+  &lt;div style="width:150px;font-size:smaller"&gt;
+Certified Human-Crafted Machine-Readable
+  &lt;div&gt;
+&lt;/div&gt;</content><category term="Blog"></category><category term="philosophy"></category><category term="artificial intelligence"></category><category term="creativity"></category><category term="consciousness"></category><category term="thought experiment"></category><category term="artificial consciousness"></category></entry><entry><title>Beauty is in the eye of the beholder -- or is it the artist?</title><link href="https://dr-nick-nagel.github.io/blog/face-features.html" rel="alternate"></link><published>2025-06-22T00:00:00-04:00</published><updated>2025-06-22T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-06-22:/blog/face-features.html</id><summary type="html">&lt;p&gt;Drawing the face in SVG with an eye toward avatar creation...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 .CodeList {
     background-color: #333;
     color: #FFE;
@@ -3256,7 +3632,33 @@ $$
 &lt;li&gt;
 &lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=HZGCoVF3YvM"&gt;3Blue1Brown&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;</content><category term="Blog"></category><category term="math"></category><category term="Bayes Theorem"></category><category term="probability"></category><category term="statistics"></category><category term="neural networks"></category><category term="machine learning"></category></entry><entry><title>Implementing WebRTC Applications in Python Part I: Session Description Protocol</title><link href="https://dr-nick-nagel.github.io/blog/python_web_rtc_1.html" rel="alternate"></link><published>2024-12-20T00:00:00-05:00</published><updated>2024-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-12-20:/blog/python_web_rtc_1.html</id><summary type="html">&lt;p&gt;First is a series of blog posts exploring WebRTC application development in python.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Objective&lt;/h1&gt;
+&lt;/ol&gt;</content><category term="Blog"></category><category term="math"></category><category term="Bayes Theorem"></category><category term="probability"></category><category term="statistics"></category><category term="neural networks"></category><category term="machine learning"></category></entry><entry><title>Finding Stuff on Linux Systems</title><link href="https://dr-nick-nagel.github.io/blog/find-linux.html" rel="alternate"></link><published>2025-01-05T00:00:00-05:00</published><updated>2025-01-05T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-01-05:/blog/find-linux.html</id><summary type="html">&lt;p&gt;How to find stuff on linux systems.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;How to Find Stuff on Linux&lt;/h1&gt;
+&lt;p&gt;This is a placeholder for a future linux article. The article is sketched out and published as "hidden" for now to make it accessable...&lt;/p&gt;
+&lt;p&gt;There are a number of ways to find things on &lt;em&gt;linux&lt;/em&gt;, including; &lt;em&gt;locate&lt;/em&gt;, &lt;em&gt;find&lt;/em&gt;, and &lt;em&gt;grep&lt;/em&gt;.&lt;/p&gt;
+&lt;h2&gt;&lt;code&gt;locate&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;'used to quickly find files by their name. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;... 'relies on a database that contains a snapshot of all files and directories on your system (updated roughly daily by chron-job).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Usage&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;locate myfile.txt&lt;/code&gt;
+&lt;code&gt;-r&lt;/code&gt; Use regex.&lt;/p&gt;
+&lt;h2&gt;&lt;code&gt;find&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Find files within a specified directory and its subdirectories based on various criteria.&lt;/p&gt;
+&lt;h3&gt;Usage&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;find [path] [expression]&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Examples&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;find . -name "*texture*"&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;&lt;code&gt;grep&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;grep&lt;/code&gt; is a VASTLY powerful command-line utility in Linux and Unix-like systems used to search for patterns within text data. &lt;/p&gt;
+&lt;h3&gt;Usage&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;grep [options] pattern [file(s)]&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Examples&lt;/h3&gt;
+&lt;p&gt;Can be used to find files &lt;em&gt;containing&lt;/em&gt; target patters. For example, find files containing the word 'texture' ...&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;1. grep -E -r ".*[Tt]exture\s*" .&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;2. grep -Erl ".*[Tt]exture\s*" . | xargs grep -l ".*[Nn]oise\s*"&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Where &lt;code&gt;-E&lt;/code&gt; flags the use of &lt;em&gt;extended&lt;/em&gt; regular expressions. &lt;/p&gt;
+&lt;p&gt;To be cont'd ... &lt;/p&gt;</content><category term="Blog"></category><category term="linux"></category><category term="unix"></category><category term="find"></category><category term="grep"></category><category term="regular"></category><category term="expressions"></category><category term="regex"></category><category term="locate"></category></entry><entry><title>Implementing WebRTC Applications in Python Part I: Session Description Protocol</title><link href="https://dr-nick-nagel.github.io/blog/python_web_rtc_1.html" rel="alternate"></link><published>2024-12-20T00:00:00-05:00</published><updated>2024-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-12-20:/blog/python_web_rtc_1.html</id><summary type="html">&lt;p&gt;First is a series of blog posts exploring WebRTC application development in python.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Objective&lt;/h1&gt;
 &lt;p&gt;The purpose of this article is to introduce a series blog-posts I'm writing on Web Real-Time Communications (known as WebRTC). WebRTC embodies a set of free and open  standards that enable devices connected over the Internet to communicate in real time. Taken together, WebRTC standards and protocols enable voice and video calls, live streaming, file sharing and much, much more.&lt;/p&gt;
 &lt;p&gt;A detailed discussion of all the standards used in WebRTC would be quite an undertaking -- definitely too much to cover in a single blog post. So I'm carving out the coverage of this large topic into a series in which I'll explore implementations of these standards in the context of developing a streaming-media reference-application using python. &lt;/p&gt;
 &lt;h1&gt;Introduction&lt;/h1&gt;

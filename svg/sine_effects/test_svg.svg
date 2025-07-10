@@ -1,0 +1,23 @@
+<svg id="canvas" 
+    width="300" 
+    height="300" 
+    viewBox="0 0 300 300" 
+    xmlns="http://www.w3.org/2000/svg">
+
+
+<path 
+  d="M 0,50 C 20,30 40,70 60,50 C 80,30 100,70 120,50" 
+  fill="red"
+  stroke="brown">
+
+</path>
+
+<!-- <path 
+  d="M 0,50 C 20,30 40,70 60,50 C 80,30 100,70 120,50 L 120,100 L 0,100 Z" 
+  fill="red"
+  stroke="brown">
+  
+</path> -->
+
+
+</svg>

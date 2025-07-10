@@ -1,0 +1,62 @@
+<svg width="600" height="150" viewBox="0 0 600 100" xmlns="http://www.w3.org/2000/svg">
+  <path id="wave" stroke="lime" fill="none" stroke-width="2">
+    <animate id="smilWave" attributeName="d" dur="2.5s" repeatCount="indefinite"/>
+  </path>
+
+  <script type="module">
+
+<![CDATA[
+  
+    const wave = document.getElementById("wave");
+    const anim = document.getElementById("smilWave");
+
+    const NUM_SEGMENTS = 20;
+    const NUM_FRAMES = 32;
+    const WIDTH = 600;
+    const HEIGHT = 100;
+    const AMPLITUDE = 20;
+    const WAVELENGTH = WIDTH;
+
+    function genPath(frame) {
+      const phase = (2 * Math.PI * frame) / NUM_FRAMES;
+      const dx = WIDTH / NUM_SEGMENTS;
+      let d = `M 0 ${HEIGHT/2}`;
+      for (let i = 1; i <= NUM_SEGMENTS; i++) {
+        const x0 = (i - 1) * dx;
+        const x1 = i * dx;
+        const xm = (x0 + x1) / 2;
+
+        // Get y-values using sine at midpoint for control point
+        const theta0 = ((x0 + phase * WAVELENGTH / (2 * Math.PI)) * 2 * Math.PI) / WAVELENGTH;
+        const theta1 = ((x1 + phase * WAVELENGTH / (2 * Math.PI)) * 2 * Math.PI) / WAVELENGTH;
+        const thetaM = ((xm + phase * WAVELENGTH / (2 * Math.PI)) * 2 * Math.PI) / WAVELENGTH;
+
+        const y0 = HEIGHT / 2 - AMPLITUDE * Math.sin(theta0);
+        const y1 = HEIGHT / 2 - AMPLITUDE * Math.sin(theta1);
+        const ym = HEIGHT / 2 - AMPLITUDE * Math.sin(thetaM);
+
+        d += ` C ${xm},${ym} ${xm},${ym} ${x1},${y1}`;
+      }
+      return d;
+    }
+
+    // Generate all frames
+    const frames = [];
+    for (let i = 0; i < NUM_FRAMES; i++) {
+      frames.push(genPath(i));
+    }
+    // Loop smoothly
+    frames.push(frames[0]);
+
+    // Inject into SMIL values
+    anim.setAttribute("values", frames.join(";"));
+    anim.setAttribute("keyTimes", frames.map((_, i) => (i / (frames.length - 1)).toFixed(4)).join(";"));
+
+
+]]>
+
+
+
+  </script>
+</svg>
+

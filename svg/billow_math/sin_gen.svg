@@ -1,0 +1,53 @@
+<svg width="100" height="50" viewBox="-50 0 100 50" xmlns="http://www.w3.org/2000/svg">
+    <metadata>
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:dc="http://purl.org/dc/elements/1.1/">
+        <rdf:Description rdf:about="">
+          <dc:title>Dr. Nick's SVG Sine Generator</dc:title>
+          <dc:creator>Dr. Nick Nagel</dc:creator>
+          <dc:Description>Original harness for svg sine wave generator.</dc:Description>
+        </rdf:Description>
+      </rdf:RDF>
+    </metadata>
+  <path id="sineWave" fill="none" stroke="blue" stroke-width="1"/>
+  <script>
+    // Get the path element
+    const sineWavePath = document.getElementById('sineWave');
+
+    // Parameters for the sine wave
+    const P = 50; // Period
+    const amplitude = 25; // Amplitude
+    const t = 0; // Time (fixed for static SVG)
+    const v = 0; // Velocity (not used since t=0)
+
+    // Range for x values
+    const xMin = -50;
+    const xMax = 50;
+
+    // Step size for drawing the curve (smaller step = smoother curve)
+    const step = 0.5;
+
+    // Function to calculate the y-coordinate for a given x
+    // The equation is y(x, t) = amplitude * sin(2*pi*(x - v*t)/P)
+    // For SVG, the y-axis typically goes downwards, and we want to center the wave.
+    // The viewBox is -50 0 100 50, so the center of the 50 unit height is at y=25.
+    // A sine wave with amplitude 25 will go from -25 to 25.
+    // So, SVG_y = center_y - wave_y = 25 - (amplitude * sin(...))
+    function calculateSvgY(x) {
+      const waveY = amplitude * Math.sin((2 * Math.PI * (x - v * t)) / P);
+      // Adjust for SVG coordinate system (y=0 is top, y=50 is bottom)
+      // and center the wave vertically within the 50 unit height.
+      return 25 - waveY;
+    }
+
+    // Generate the path data
+    let pathData = `M ${xMin} ${calculateSvgY(xMin)}`; // Move to the starting point
+
+    for (let x = xMin + step; x <= xMax; x += step) {
+      pathData += ` L ${x} ${calculateSvgY(x)}`; // Line to the next point
+    }
+
+    // Set the generated path data to the SVG path element
+    sineWavePath.setAttribute('d', pathData);
+  </script>
+</svg>

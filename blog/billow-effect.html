@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Inspired Animation Effects with Sine Waves</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+        
+          <script type="module" src="/scripts/dist_billow_sin/main.js"></script>
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="javascript" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="Inkscape" />
+    <meta name="tags" content="SVG Creators Collaborative" />
+    <meta name="tags" content="trigonometry" />
+    <meta name="tags" content="sine" />
+    <meta name="tags" content="waves" />
+
+    </head>
+
+    <body>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="nn_symbols"
+   version="1.1"
+   style="display:none"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs>
+    <symbol id="en_return"  viewBox="0 0 20 20">
+      <path
+        style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+        id="return_to_text_1"
+      />
+    </symbol>
+
+    <symbol id="circle_symbol" viewBox="-7.5 -8 15 16">
+      <circle id="circle_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        r="7.5"
+      />
+    </symbol>
+
+    <symbol id="rectangle_symbol" viewBox="-7.5 -9 15 18">
+      <rect
+        fill="currentColor"
+        style="display:inline;"
+        id="rectangular_shape"
+        width="15"
+        height="18"
+        x="-7.5"
+        y="-9"
+      />
+    </symbol>
+
+    <symbol id="diamond_symbol" viewBox="-7.5 -12 15 24">
+      <rect
+       fill="currentColor"
+       style="display:inline;"
+       id="diamond_0"
+       width="15"
+       height="15"
+       x="-7.5"
+       y="-7.5"
+       transform="rotate(45)" />
+    </symbol>
+
+    <symbol id="triangle_symbol" viewBox="-7.5 -7.5 15 20">
+      <path id="triangle_0"
+        fill="currentColor"
+        style="display:inline;"
+        d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
+      />
+    </symbol>
+
+    <symbol id="oval_symbol" viewBox="-7 -10 14 20">
+      <ellipse id="oval_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        rx="6"
+        ry="9" />
+    </symbol>
+
+    <symbol id="heart_face_symbol" viewBox="-7.5 -10 15 20">
+      <path id="heart_face"
+          fill="currentColor"
+          style="display:inline"
+          d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
+      />
+    </symbol>
+
+   </defs>
+</svg>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/billow-effect.html" rel="bookmark"
+           title="Permalink to Inspired Animation Effects with Sine Waves">Inspired Animation Effects with Sine Waves</a></h2>
+      
+    </header>
+    <style>
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 10px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+
+
+/*    --------  TOOL ------------    */
+
+.ToolContainer {
+    padding: 10px;
+    border: solid grey 1px;
+    border-radius: 12px; 
+    max-width: 600px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Spacing between sections */
+}
+
+#sineWaveSvg {
+    border: 1px solid #999; 
+    background-color: #efe; 
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.axis {
+    stroke: #585;
+    stroke-width: 1;
+}
+.tick {
+    stroke: #698;
+    stroke-width: 0.5;
+}
+
+#tool_params {
+    margin-bottom: 10px;
+}
+
+.ToolContainer h2 {
+    font-size: 12px;
+}
+
+.ToolContainer div {
+    margin-bottom: 5px;
+}
+
+.ToolContainer label {
+    display: inline-block;
+    min-width: 100px;
+}
+
+</style>
+
+<h2>In this Post ...</h2>
+<p>I'll show how I applied some simple trigonometry to create a seamless billowing effect using SVG and <code>requestAnimationFrame</code>. Then, as an added bonus I'll provide a tool for the SVG Creators Collaborative to make SVG waves for creating similar effects. </p>
+<h2>Introduction</h2>
+<p>Not long ago I published a post on animating Scalable Vector Graphics (SVG) with javascript's <code>requestAnimationFrame</code> framework. In that post, I illustrated the technique of sprite-based frame-by-frame animation by animating the cape on a character inspired by Frank Baum's <em>wicked witch of the west</em>.</p>
+<style>
+#billow_wrap {
+    width: 200px;
+    float: right;
+    margin-left: 50px;
+}
+</style>
+<div id="billow_wrap">
+    <div id="svg_container_billow" 
+        class="BillowContainer" >
+        <!-- INSERT WICKED CAPE SINE -->
+    </div>
+    <div  id="control_panel_billow">
+        <button id="play_billow">Play</button>
+        <button id="update_billow">Test</button>
+        <span id="fps_display">FPS: 000</span>
+    </div>
+</div>
+
+<p><span id="link_back_raf">When I published that post, I sort of promised some more details on the techniques I used to acheive the <a href="https://dr-nick-nagel.github.io/blog/raf-time.html#end_3">billowing effect</a> and, well, here we are.</span></p>
+<h2>Animation Effects Inspired by Math</h2>
+<p>I created the billowing effect on the wicked witch sprite using <em>key-frame animation</em> with frame swaps. In other words, the animation is analogous to traditional hand-drawn animation where separate drawings are created to be shown on a fixed interval at a rate that for the human eye achieves <em>apparent motion</em>. But in order to achieve a good effect, you can't just randomly draw a bunch if images. To get good apparent motion you have to simulate <em>real</em> motion. You have to impose some order on the chaos. </p>
+<p>The billow-effect is one of a broader class of effects arising due to the wind element. Artists know you can't actually <em>draw</em> wind. But you can get good compelling art if you can draw its <em>effect</em>. Faced with this problem, I tried a couple of times to get a good billow -- only to realize it's not so trivial! Even if they're not always adept at saying why, human beings are pretty good at discriminating between believable animation and models that just don't make sense. That's key. Experienced animators agree that the key to distinguishing poor quality cheap animation from amazing animated art experiences is understanding how things behave.</p>
+<div class="admonition information pro tip">
+<p class="admonition-title">Information</p>
+<p>In order to distinguish your animation efforts it's really important to go out into the world and <em>see</em>. Don't assume you can just pull an effect out from nowhere. Faced with a challenge, go out into the world and make some observations. Once you have an idea of how things behave in the real world, then you can impart your stylized model to create <em>un</em>believable effects that are <em>believable</em>. Even for fantastical unreal effects in art to pull them off successfully there often has to be an element of believability.</p>
+</div>
+<p><span id="ret_1">So finally I realized that billowing cloth -- and many other effects ranging from waves on the sea surface to reeds bending in the wind -- can be modeled with a little basic trigonometry <sup><a href="#end_1"> 1 </a></sup> . So what follows is the formula that I applied to get the effect I was after.</span> </p>
+<h2>Here's the Math</h2>
+<p>You don't have to be a math wiz to understand what a wave is. Nevertheless, It may be a while since you've sat through a math class so here's a quick refresher that'll bring back everything you need.</p>
+<figure>
+  <img src="/svg/billow_math/sin.png"
+      title="Exemplar Sine Wave"
+      alt="Graph of y = sin(x) with annotations; period wave, length, amplitude."
+  ><br>
+  <figurecaption><strong>Figure 2:</strong> <em>Anatomy of a sine wave</em>. This figure shows a graph of $y=sin(x)$ denoting wavelength, period, and amplitude of the wave.</figurecaption>
+</figure>
+
+<p>Figure two illustrates <em>the anatomy of a sine wave</em>. I've called out the key features; namely the <em>period</em>, <em>amplitude</em> and <em>wavelength</em>. </p>
+<ol>
+<li>
+<p>The <strong>period</strong> is the <em>duration</em> of the wave (i.e., the amount of <em>time</em> it takes the wave to traverse the length of a cycle). </p>
+</li>
+<li>
+<p>The <strong>amplitude</strong> is the difference between the peak and the midline.</p>
+</li>
+<li>
+<p><span id="ret_2">And finally I've labeled the <strong>wavelength ($\lambda$)</strong> which is the <em>spatial distance</em> spanning one cycle. <sup><a href="#end_2"> 2 </a></sup></span></p>
+</li>
+</ol>
+<p>So with this in mind I simply modeled the billowing cape by sliding a wave like this across the hem of the cape. Believe it or not, understanding and using this technique can make life much much easier when you want to create these kinds of animation effects.</p>
+<p>For a resting state animation the artist is looking for something that will loop seamlessly. You don't want a jarring discontinuity on every cycle of your loop. Instead of just guessing at it, it pays off to do some quick calculations up front. And here's how.</p>
+<h3>The formula.</h3>
+<p>Sliding the wave essentially amounts to <em>traveling a sinusoid</em>. In other words, we want to slide the sine wave across the viewport window like so:</p>
+<div>
+    <img id='traveling_wave_anim'
+        width=300
+        height=80
+        src="/svg/billow_math/sin_anim.svg"
+        alt="SVG animation (visualization) of a traveling sine wave"
+    >
+</div>
+
+<p>Let's start with the general equation for a traveling wave. </p>
+<p>$$
+y(x, t) = \sin\left(\frac{2\pi(x - vt)}{P}\right)
+$$</p>
+<p>Don't panic! All you need to know to use this are the parameters you can tweak -- the levers you can pull to get your wave. So to make your wave you all you need is:</p>
+<ol>
+<li>
+<p>$P$ (the <em>period</em>), and</p>
+</li>
+<li>
+<p>The <em>range</em> for x</p>
+</li>
+</ol>
+<p>Since we only need the initial state of the waveform to use it for our effect we can hold time ($t$) constant at 0 (which cancels out velocity ($v$)). As described above, you can think of the period here spatially (same as wavelength) -- with pixels being the unit of measure. Given that, we can draw a sine wave for any range in x (i.e., length in pixels).</p>
+<h3>Example</h3>
+<p>Back to our wicked sprite, let's use her as an example. Again I created the sprite in a 50 X 50 bounding box. So let's just set the period:</p>
+<ol>
+<li>Let P = 50. </li>
+</ol>
+<p>And I want a wave to travel across that bounding box. So to make the visiualiztion easier I'll draw <em>two</em> periods and pull the start point back by the length of one:</p>
+<ol>
+<li>Let x-range = [-50, 50]</li>
+</ol>
+<p>You can visualize the resultant wave if you play with the tool I've inlined below.</p>
+<h3>Applying the waveform.</h3>
+<p>But remember ...</p>
+<blockquote>
+<p>The goal is to travel the wave across several frames, such that after a certain number them the wave returns to its initial position -- effectively creating a <strong>perfect loop</strong>.</p>
+</blockquote>
+<p>In order to achieve that we still need the amount by which to displace the wave on each frame. For that we need $v$ from the equation; the wave's velocity ($v$) per frame. And with this approach, that's easy to get, simply divide the period, $P$, by the number of frames in the loop:</p>
+<p>$$
+v = \frac{P}{number \hspace{1mm} of \hspace{1mm} frames}
+$$</p>
+<p>Soooo for the <em>wicked sprite</em>: </p>
+<div>
+$$
+\begin{align}
+v &= \frac{50}{8} \\
+v &= 6.25
+\end{align}
+$$
+</div>
+
+<h3>The Visualization</h3>
+<p>Below I've reproduced the key frames I created for the billowing effect on Ms. Witch. I've highlighted the hem of the cape where if you look close you can visualize the form of the sinusoid as it's traveled across the the viewport.</p>
+<figure style="margin-left: 0;">
+  <img src="/svg/billow_math/billow_keys.svg"
+      title="Keyframes to Billow the Witch's Cape"
+      alt="Key frames illustrating the sinusoidal billowing effect on the Wicked Witch of the West's Cape."
+  ><br>
+  <figurecaption><strong>Figure:</strong> Keyframes used to achieve the billowing effect on the witch's cape. Notice how I sculpted the hem to conform to the sinusoidal curve travelled across the viewport.</figurecaption>
+</figure>
+
+<h2>Bonus! Here's the Tool</h2>
+<p>And finally, here's the tool I promised for the SVG Collab&trade;. To use the tool, simply tweak the parameters to generate your wave and copy the result to your clipboard. When you do the copy you'll get an SVG path of the form:</p>
+<p><code>&lt;path id="sineWavePath" 
+    fill="none" stroke="red" 
+    stroke-width="1" 
+    d="M -50 -6.123233995736766e-15 L -49.5 -1.5697629882328317 ..."&gt;
+&lt;/path&gt;</code></p>
+<p>Simply drop it your SVG document and take it from there. Use it in good health! </p>
+<div class="ToolContainer">
+    <h2>SVG Creators Collaborative &trade; Sine Wave Generator</h1>
+    <div id="tool_params">
+        <div class="input-group">
+            <label for="period">Period (P):</label>
+            <input type="number" id="period" value="50" min="1" step="1">
+        </div>
+        <div class="input-group">
+            <label for="amplitude">Amplitude:</label>
+            <input type="number" id="amplitude" value="25" min="1" step="1">
+        </div>
+        <div class="input-group">
+            <label for="xMin">X Range Min:</label>
+            <input type="number" id="xMin" value="-50" step="1">
+        </div>
+        <div class="input-group">
+            <label for="xMax">X Range Max:</label>
+            <input type="number" id="xMax" value="50" step="1">
+        </div>
+    </div>
+    <svg id="sineWaveSvg" 
+        width="300" 
+        height="100" 
+        viewBox="-50 -50 300 100"
+        xmlns="http://www.w3.org/2000/svg"
+        >
+        <g id="axes">
+            <line x1="-50" y1="0" x2="250" y2="0" class="axis" />
+            <line x1="0" y1="-50" x2="0" y2="50" class="axis" />
+            <line x1="-50" y1="-2.5" x2="-50" y2="2.5" class="tick" />
+            <line x1="0" y1="-2.5" x2="0" y2="2.5" class="tick" />
+            <line x1="50" y1="-2.5" x2="50" y2="2.5" class="tick" />
+            <line x1="100" y1="-2.5" x2="100" y2="2.5" class="tick" />
+            <line x1="150" y1="-2.5" x2="150" y2="2.5" class="tick" />
+            <line x1="200" y1="-2.5" x2="200" y2="2.5" class="tick" />
+            <line x1="250" y1="-2.5" x2="250" y2="2.5" class="tick" />
+            <line x1="-2.5" y1="-50" x2="2.5" y2="-50" class="tick" />
+            <line x1="-2.5" y1="-25" x2="2.5" y2="-25" class="tick" />
+            <line x1="-2.5" y1="25" x2="2.5" y2="25" class="tick" />
+            <line x1="-2.5" y1="50" x2="2.5" y2="50" class="tick" />
+        </g>
+        <path id="sineWavePath" fill="none" stroke="red" stroke-width="1" />
+    </svg>
+    <div id="cp_sinner" class='ControlPanel'>
+        <button id='sin_copy'>Copy to Clipboard</button>
+    </div>
+</div>
+
+<script type="module">
+
+import {
+    Sinner
+} from "/scripts/dist_billow_sin/sinner.js" ;
+
+// Initilizations should ALWAYS go on the page (i.e., the view). 
+// First, get references to DOM elements...
+
+const periodInput = document.getElementById('period');
+const amplitudeInput = document.getElementById('amplitude');
+const xMinInput = document.getElementById('xMin');
+const xMaxInput = document.getElementById('xMax');
+const sineWavePathElement = document.getElementById('sineWavePath');
+const sineWaveSvgElement = document.getElementById('sineWaveSvg');
+
+/**
+ * Object literal to mange the view updates...
+ */
+const sinView = {
+
+    svgWidth  : 300,
+    svgHeight : 100,
+
+    updateView: function () {
+        const p = parseInt( document.getElementById('period').value ) ;
+        const a = parseInt( document.getElementById('amplitude').value );
+        const xMin = parseInt( document.getElementById('xMin').value );
+        const xMax = parseInt( document.getElementById('xMax').value );
+        const newData = sinner.updateSineWave( a, p, xMin, xMax );
+        sineWavePathElement.setAttribute('d', newData);
+    }
+
+};
+
+// Next, add event listeners. These are for the sinner tool... 
+periodInput.addEventListener('input', sinView.updateView);
+amplitudeInput.addEventListener('input', sinView.updateView);
+xMinInput.addEventListener('input', sinView.updateView);
+xMaxInput.addEventListener('input', sinView.updateView);
+
+// Initial call to c-tor gives module scoped MVC instance...
+let sinner = null; 
+
+document.addEventListener(
+    'DOMContentLoaded', 
+    (evt) => {
+        // counting on default initializations ...
+        sinner = new Sinner( );
+        sinView.updateView();
+    }
+);
+
+</script>
+
+<script type="module">
+import {
+    copySvgToClipboard
+} from "/scripts/dist_billow_sin/copy_svg_to_clipboard.js" ;
+const copyButton = document.getElementById( "sin_copy" );
+copyButton.addEventListener( 
+    'click',
+    ( evt ) => {
+        const sinePathElement = document.getElementById('sineWavePath');
+        const sinePathStr     = sinePathElement.outerHTML;
+        const svgStr = `<svg id="svg_cc_singen"
+  xmlns="http://www.w3.org/2000/svg" 
+  width="300" 
+  height="100" 
+  viewBox="-50 -50 300 100">
+    ${sinePathStr}
+</svg>`;
+        copySvgToClipboard( svgStr );
+    }
+ );
+</script>
+
+<h2>Discussion</h2>
+<p>In this post I explained an approach to creating SVG animation effects inspired by trigonometry. Without a doubt, drawing out the many keys required for key frame animation is always time consuming, and can be downright excruciating. And relying solely on intuition to dream up effects like billowing cloth can lead to nothing but frustration at the end of the day.</p>
+<p>So, rather than randomly render a bunch of cells only to end up with an effect that doesn't make visual sense, why not apply a little math and get a <em>much</em> better outcome in the end. Drawing animation frames can take many many hours of effort. Use a little math and get it right the first time!</p>
+<p>The technique I've exemplified in this post can be used in SVG, canvas animations, or WebGL shaders -- anywhere basically where you want to simulate smooth, cyclical motion. It's simple, efficient, and math-driven, which keeps your animation clean and loopable. Use it in good health!</p>
+<p>In conclusion let me leave you with this thought. For many people, math can be intimidating. Especially if you're under the pressure of an educational system that values competition over cooperation and crams exams down your throat in order to filter the "haves" from the "have nots" to create a class of "gonna gets". But if you can overcome the trauma induced by a broken system to embrace mathematics you can absolutely use it to your advantage to create beautiful artworks!</p>
+<h2>Endnotes</h2>
+<ol>
+<li>
+<p><span id="end_1">For many, math is a "four-letter word". Believe me I understand that initial aversion. However, I truly hope you'll look past any fear of terms like <em>trigonometry</em>. It's my absolute favorite math, and my experience has shown me time and time again how powerful even a basic grasp of trig can be in crafting remarkable and beautiful works of art  <a href="#ret_1"><svg class="EndnoteReturn">
+  <use href="#en_return"></use>
+</svg></a></span> .</p>
+</li>
+<li>
+<p><span id="end_2">At first glance it's easy to conflate the <em>period</em> of a wave with the concept of <em>wavelength</em> and, indeed, the concepts are closely related. But there's a subtle distinction that can become important. While both describe aspects of a repeating wave cycles, they refer to different dimensions </span> :</p>
+<ul>
+<li>
+<p><strong>Wavelength ($\lambda$)</strong> is a spatial measurement. It's the <em>distance</em> a wave covers in one complete cycle. If you are creating an effect like ripples on a pond you're thinking spatially and talking wavelength.</p>
+</li>
+<li>
+<p><strong>The Period (T)</strong> is a <em>temporal</em> measurement. It's the <em>time</em> that it takes for one complete cycle of a wave to pass a fixed point. In creating the billowing effect we're concerned with the time it takes a wave to move across a fixed interval so I've used the term period to describe the length of the cycle  <a href="#ret_2"><svg class="EndnoteReturn"> <use href="#en_return"></use> </svg></a>. </p>
+</li>
+</ul>
+</li>
+</ol>
+<h2>Resources</h2>
+<ol>
+<li>
+<p><a href="https://phys.libretexts.org/Bookshelves/Waves_and_Acoustics/Waves%3A_An_Interactive_Tutorial_(Forinash_and_Christian)/1%3A_Basic_Properties/1.1%3A_Sine_Wave">Sine Waves from Libre Texts</a></p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=rCuAM5q-lUY&amp;t=583s">Wave Principle in Inkscape</a> </p>
+</li>
+<li>
+<p><a href="https://svg-artists-collective.vercel.app/artists/tools/sin_generator/sin_gen.html">SVG Creators Collaborative&amp;trade -- Sine Wave Generator</a></p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2025-07-05T00:00:00-04:00">
+        Sat 05 July 2025
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/javascript.html">javascript</a>
+            <a href="https://dr-nick-nagel.github.io/tag/animation.html">animation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
+            <a href="https://dr-nick-nagel.github.io/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/art.html">art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artwork.html">artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape.html">Inkscape</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg-creators-collaborative.html">SVG Creators Collaborative</a>
+            <a href="https://dr-nick-nagel.github.io/tag/trigonometry.html">trigonometry</a>
+            <a href="https://dr-nick-nagel.github.io/tag/sine.html">sine</a>
+            <a href="https://dr-nick-nagel.github.io/tag/waves.html">waves</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
