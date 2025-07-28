@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="simple_wave"
+   viewBox="0 0 300 80"
+   version="1.1"
+   sodipodi:docname="simple_wave_data.svg"
+   width="300"
+   height="80"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="2.6369644"
+     inkscape:cx="152.0688"
+     inkscape:cy="70.535651"
+     inkscape:window-width="1452"
+     inkscape:window-height="752"
+     inkscape:window-x="372"
+     inkscape:window-y="32"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="data paths"
+     showgrid="true"
+     showguides="true">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="1"
+       spacingy="1"
+       empcolor="#3f3fff"
+       empopacity="0.25098039"
+       color="#3f3fff"
+       opacity="0.12549"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       visible="true" />
+    <sodipodi:guide
+       position="309.0675,-0.39547292"
+       orientation="1,0"
+       id="guide1"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <style
+     type="text/css"
+     id="style1">
+	.st1{opacity:0.6;fill:#0C3157;enable-background:new;}
+</style>
+  <g
+     inkscape:groupmode="layer"
+     id="data paths"
+     inkscape:label="data paths">
+    <path
+       id="init"
+       style="display:none;fill:#008080;fill-rule:evenodd;stroke-width:0.472063;stroke-linecap:square"
+       d="m 0,40 c 50,-12 94,-13 150,0 58,14 93,12 150,0 V 80 H 0 Z"
+       sodipodi:nodetypes="cscccc"
+       inkscape:label="init" />
+    <path
+       id="path1"
+       style="display:inline;fill:#008080;fill-rule:evenodd;stroke-width:0.472063;stroke-linecap:square"
+       d="m 0,40 c 48,16 98,15 150,0 53,-16 105,-14 150,0 V 80 H 0 Z"
+       sodipodi:nodetypes="cscccc"
+       inkscape:label="antiphase" />
+    <path
+       id="re-init"
+       style="display:none;fill:#008080;fill-rule:evenodd;stroke-width:0.472063;stroke-linecap:square"
+       d="m 0,40 c 50,-12 94,-13 150,0 58,14 93,12 150,0 V 80 H 0 Z"
+       sodipodi:nodetypes="cscccc"
+       inkscape:label="re_init" />
+  </g>
+</svg>

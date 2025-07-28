@@ -1,0 +1,233 @@
+<svg id="ribbon_effect" 
+    viewBox="-50 -10 350 120" 
+    width="800"
+    height="240" 
+    xmlns="http://www.w3.org/2000/svg" >
+
+  <rect x="0" y="0" width="300" height="100" fill="#eee" />
+
+  <!-- Ribbon path to animate -->
+  <path id="ribbon"   display="inline"
+    fill="#999" 
+    stroke="none"
+    d="M 50,40 L 250,40 L 250,60 L 50,60 Z"
+  ></path>
+
+  <!-- sprite's spine -->
+  <path id="spine" 
+    fill="none" 
+    stroke="#555"
+    d="M 50,50 L 250,50"
+  ></path>
+
+
+
+  <path id="spine_test" 
+    fill="none" 
+    stroke="#f00"
+    display="none"
+    d="M 50,50 L 250,50"
+  ></path>
+
+    <text id="fps_display" 
+        x="10" y="10" 
+        font-family="Arial, sans-serif" 
+        font-size="8px" 
+        fill="red">FPS: 0</text>
+
+
+  <script type="text/ecmascript">
+  <![CDATA[
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+class RibbonSprite  {
+
+  constructor( 
+    svgRibbonShape, 
+    ribbonWidth  = 10,
+    ribbonLength = 200,
+    numSamples   = 10,
+  ) {
+    
+    this.svgRibbonShape = svgRibbonShape;
+    this.numSamples = numSamples;
+
+    this.upperPoints  = [];
+    this.lowerPoints  = [];
+    this.spine = [];
+
+    this. ribbonWidth  = ribbonWidth; 
+    this. ribbonLength = ribbonLength;
+    this. midline      = 50;
+
+    this.phase = 0;
+    this.shift = 0.05;
+    this. amplitude    = 10;
+    this. wavelength   = 200;
+
+  }
+
+  /**
+   * 
+   * SVG CC update function for a RibbonSprite. This function updates
+   * this sprites spine, upper and lower points by:
+   * 
+   * 1. shifting the phase,  and
+   * 2. recalculating the tangents and normals off the spine, and
+   * 3. obtaining the the new edge points of the ribbon shape.
+   * 
+   * see: https://https://dr-nick-nagel.github.io/blog/ribbon-effect.html
+   * 
+   * for deets...
+   * 
+   */
+  updateSamples() {
+
+    this.upperPoints.length = 0;
+    this.lowerPoints.length = 0;
+    this.spine.length       = 0;
+  
+    this.phase += this.shift; 
+  
+    for ( let i = 0; i <= this.numSamples; i++ ) {
+      const x = i / this.numSamples * this.ribbonLength ; 
+      // compute the spine data sample 
+      const yCenter =  
+        this.midline + this.amplitude * Math.sin( 
+          ( 2 * Math.PI * x / this.wavelength ) + this.phase 
+        ); 
+      this.spine.push( {x: x, y: yCenter} );
+
+      // get the upper and lower edge points...
+      // Calculate derivative dy/dx
+      // dy/dx = A * (2pi/lambda) * cos( (2pi*x/lambda) + phi )
+      const B = (2 * Math.PI / this.wavelength); 
+      const dy_dx = this.amplitude * B * Math.cos( (B * x) + this.phase );
+
+      // Tangent vector (Tx, Ty) = (1, dy_dx)
+      const Tx = 1;
+      const Ty = dy_dx;
+      const TanVector = [ Tx, dy_dx ];
+      // GET THE  Perpendicular vector (Px, Py) = (-Ty, Tx)
+      let Px = -Ty;
+      let Py = Tx;
+      const PerpVector = [ Px, Py ];
+      // Normalize the PERPS to get the NORMALS 
+      const magnitudeP = Math.sqrt(Px*Px + Py*Py);
+      let Nx = Px;
+      let Ny = Py;
+      Nx /= magnitudeP;
+      Ny /= magnitudeP;
+      const NormalVector = [ Nx, Ny ];
+
+      // Calculate upper and lower points. SCALE the normal vector by width / 2
+      const upperX = x + Nx * this.ribbonWidth / 2;
+      const upperY = yCenter + Ny * this.ribbonWidth / 2;
+      const lowerX = x - Nx * this.ribbonWidth / 2;
+      const lowerY = yCenter - Ny * this.ribbonWidth / 2;
+      this.upperPoints.push({x: upperX, y: upperY});
+      this.lowerPoints.push({x: lowerX, y: lowerY});
+  
+    }
+  }
+  
+
+
+
+
+  /**
+  * Gives you the path data for rendering the ribbon part 
+  * of this sprite...
+  */
+  getRenderData() {
+      // SAMPLE RECT DATA
+      // d="M 50,40 L 250,40 L 250,60 L 50,60 Z"
+      let dStr = "";
+      dStr += "M "
+      const { x, y } = this.upperPoints[0];
+      dStr += `${x}, ${y} `;
+      for( let i=1; i < this.upperPoints.length; i++ ) {
+          const { x, y } = this.upperPoints[ i ];
+          dStr += `L ${x}, ${y} `;
+      }
+      // reverse the arraydirection for lowerpoints 
+      for( let i = this.upperPoints.length-1; i >= 0; i-- ) {
+          const { x, y } = this.lowerPoints[ i ];
+          dStr += `L ${x}, ${y} `;
+      }
+      dStr += "Z";
+      return dStr;
+  }
+
+  /**
+   *  The SVG CC sprite render function. A sprite must 
+   *  know how to render itself ... 
+   */
+  render() {
+    // get the render data
+    const svgPathData = this.getRenderData();
+    // trigger the (re)rendering of SVG 
+    this.svgRibbonShape.setAttribute('d', svgPathData );
+  }
+
+}
+
+  ]]>
+  </script>
+
+  <script type="text/ecmascript">
+
+<![CDATA[
+/*
+    FROM  GEMINI DISCUSSION: https://gemini.google.com/app/10bf757421fb4883
+*/
+
+// CREATE A SPRITE AND TEST FUNCTIONS
+const ribbonPath = document.getElementById('ribbon');
+const ribbonSprite = new RibbonSprite(
+    ribbonPath, 
+    5,
+    200,
+    10
+);
+console.log( ribbonSprite );
+ribbonSprite.updateSamples();
+ribbonSprite.render();
+
+// test anicontroller...
+let t_previous = 0; 
+let t = 0;
+
+function animate( timeStamp ) {
+    
+    const deltaT = timeStamp - t_previous; // msec
+    const fps    = 1000 / deltaT; 
+    t_previous = timeStamp;
+    const display = document.getElementById( "fps_display" );
+    display.textContent = `FPS: ${ Math.round( fps )   }`;
+
+    // TODO: RESUME HERE 
+    // goal AT END OF ARTICLE I WANT A GALLERY PIECE WITH 
+    // 10 WAVE EFFECT SPRITES...
+    // THEN ABSTRACT OUT TO SPRITE RENDERING ... 
+
+    // BUT DON'T PUT OFF OUTDOOR STUFF 
+    // SHED TAKES TOP PRIORITY + MID MONTH PAYEMENTS...
+
+  ribbonSprite.updateSamples();
+  ribbonSprite.render();
+
+  requestAnimationFrame(animate); 
+
+}
+
+// Start the animation
+animate();
+
+]]>
+
+
+  </script>
+
+</svg>

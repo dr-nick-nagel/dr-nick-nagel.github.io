@@ -1,0 +1,25 @@
+<svg  id="ribbon_effect" 
+  viewBox="-50 0 300 100" 
+  width="320" 
+  height="107"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+>
+
+  <metadata id="metadata_block">
+    <rdf:RDF>
+      <rdf:Description>
+        <dc:title>Tan Lines and Normals for y = A * sin(2πx / λ + ϕ) </dc:title>
+        <dc:description>SVG showing tangent and normal vectors over the curve y = A * sin(2πx / λ + ϕ) . The tecnique is used to generate a ribbon shape for SVG artworks.</dc:description>
+        <dc:creator>Nick Nagel</dc:creator>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
+
+  <rect  x="-50" y="0" width="300" height="100" fill="#eee"/>
+  <!-- Ribbon path to animate -->
+  <path id="ribbon" display="none" fill="#999" stroke="none" d="M 50,40 L 250,40 L 250,60 L 50,60 Z"/>
+  <path id="spine_test" fill="none" stroke="#f00" d="M 0, 50.499791692706786 L 20, 56.27484671088149 L 40, 59.65312355969496 L 60, 59.344235306307326 L 80, 55.466166764787076 L 100, 49.50020830729322 L 120, 43.72515328911851 L 140, 40.34687644030504 L 160, 40.655764693692674 L 180, 44.533833235212924 L 200, 50.49979169270678 "/>
+  <circle cx="0" cy="50.499791692706786" r="2" fill="blue"/><circle cx="20" cy="56.27484671088149" r="2" fill="blue"/><circle cx="40" cy="59.65312355969496" r="2" fill="blue"/><circle cx="60" cy="59.344235306307326" r="2" fill="blue"/><circle cx="80" cy="55.466166764787076" r="2" fill="blue"/><circle cx="100" cy="49.50020830729322" r="2" fill="blue"/><circle cx="120" cy="43.72515328911851" r="2" fill="blue"/><circle cx="140" cy="40.34687644030504" r="2" fill="blue"/><circle cx="160" cy="40.655764693692674" r="2" fill="blue"/><circle cx="180" cy="44.533833235212924" r="2" fill="blue"/><circle cx="200" cy="50.49979169270678" r="2" fill="blue"/><line x1="0" y1="50.499791692706786" x2="10" y2="53.637458173534505" stroke="green"/><line x1="20" y1="56.27484671088149" x2="30" y2="58.72098159067351" stroke="green"/><line x1="40" y1="59.65312355969496" x2="50" y2="60.473386455437364" stroke="green"/><line x1="60" y1="59.344235306307326" x2="70" y2="58.22531367153693" stroke="green"/><line x1="80" y1="55.466166764787076" x2="90" y2="52.83545063323857" stroke="green"/><line x1="100" y1="49.50020830729322" x2="110" y2="46.3625418264655" stroke="green"/><line x1="120" y1="43.72515328911851" x2="130" y2="41.27901840932649" stroke="green"/><line x1="140" y1="40.34687644030504" x2="150" y2="39.526613544562636" stroke="green"/><line x1="160" y1="40.655764693692674" x2="170" y2="41.77468632846307" stroke="green"/><line x1="180" y1="44.533833235212924" x2="190" y2="47.16454936676143" stroke="green"/><line x1="200" y1="50.49979169270678" x2="210" y2="53.6374581735345" stroke="green"/><line x1="0" y1="50.499791692706786" x2="-2.9937582573347328" y2="60.04114440061147" stroke="red"/><line x1="20" y1="56.27484671088149" x2="17.62391968605144" y2="65.98845790042712" stroke="red"/><line x1="40" y1="59.65312355969496" x2="39.18248274924923" y2="69.61965081570169" stroke="red"/><line x1="60" y1="59.344235306307326" x2="61.11198235726859" y2="69.28221775935701" stroke="red"/><line x1="80" y1="55.466166764787076" x2="82.5441526026495" y2="65.13711746957468" stroke="red"/><line x1="100" y1="49.50020830729322" x2="102.99375825733473" y2="59.04156101519791" stroke="red"/><line x1="120" y1="43.72515328911851" x2="122.37608031394856" y2="53.43876447866414" stroke="red"/><line x1="140" y1="40.34687644030504" x2="140.81751725075077" y2="50.31340369631177" stroke="red"/><line x1="160" y1="40.655764693692674" x2="158.88801764273143" y2="50.59374714674236" stroke="red"/><line x1="180" y1="44.533833235212924" x2="177.45584739735048" y2="54.204783940000524" stroke="red"/><line x1="200" y1="50.49979169270678" x2="197.00624174266528" y2="60.041144400611465" stroke="red"/>
+</svg>

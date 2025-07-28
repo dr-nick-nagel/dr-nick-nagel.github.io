@@ -23,23 +23,23 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
-     inkscape:zoom="6.58"
+     inkscape:zoom="3.29"
      inkscape:cx="118.08511"
      inkscape:cy="34.802432"
-     inkscape:window-width="1848"
-     inkscape:window-height="1016"
-     inkscape:window-x="72"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:window-width="1452"
+     inkscape:window-height="773"
+     inkscape:window-x="263"
+     inkscape:window-y="77"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="dragon_sprite" />
   <defs
      id="defs1" />
   <g
-     inkscape:label="Layer 1"
+     inkscape:label="dragon_sprite"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="dragon_sprite">
     <g
-       id="g16"
+       id="tail_quills"
        inkscape:label="tail_quills"
        transform="rotate(24.433262,89.417017,320.14948)">
       <path
@@ -67,7 +67,7 @@
     <path
        style="color:#000000;fill:#ff2a2a;-inkscape-stroke:none"
        d="m 30.998535,11.978142 0.03857,1.377327 c 14.283863,-0.02408 24.045327,4.78078 32.927735,9.61914 8.882407,4.838361 16.899519,9.741213 27.535156,9.667969 12.597794,-0.08676 20.808904,-4.972656 30.519534,-9.730469 9.25952,-4.536788 19.91371,-8.994323 37.27714,-9.277822 0.84591,-0.01381 1.78023,0.08558 2.87489,-0.02577 l -0.45788,-0.800563 c -1.12631,-0.02612 -1.55317,-0.190867 -2.39736,-0.183655 -17.61964,0.150533 -29.22717,3.237561 -38.53431,7.797681 -9.75307,4.778607 -16.81319,8.753412 -29.156052,8.838412 -10.324716,0.0711 -17.35864,-4.203508 -26.26751,-9.056283 C 54.510189,13.303871 44.18469,11.968457 30.998535,11.978142 Z"
-       id="path1"
+       id="body_ribbon"
        sodipodi:nodetypes="ccssssccssssc"
        inkscape:label="body" />
     <g

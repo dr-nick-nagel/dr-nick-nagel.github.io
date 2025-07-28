@@ -1,0 +1,84 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+
+  <path id="ribbon" fill="blue" />
+
+  <script type="text/ecmascript">
+    <![CDATA[
+      // Your JavaScript code goes here.
+      // This is where you'll define your animation loop,
+      // calculate points, and update the SVG path.
+
+      const ribbonPath = document.getElementById('ribbon');
+
+      let amplitude = 50;
+      let wavelength = 200;
+      let phase = 0;
+      let speed = 0.05; // Adjust speed of wave
+      let ribbonWidth = 30; // Width of the ribbon
+      const halfWidth = ribbonWidth / 2;
+
+      const numSamples = 100; // Number of points along the path
+
+      function animate() {
+        phase += speed; // Increment phase for traveling wave effect
+
+        let pathData = "M"; // Start SVG path data string
+        const upperPoints = [];
+        const lowerPoints = [];
+
+        for (let i = 0; i <= numSamples; i++) {
+          const x = (i / numSamples) * 600; // Assuming SVG width of 600 for x-range
+          const y_center = 300 + amplitude * Math.sin((2 * Math.PI * x / wavelength) + phase); // 300 is center Y
+
+          // Calculate derivative dy/dx
+          // dy/dx = A * (2pi/lambda) * cos( (2pi*x/lambda) + phi )
+          const B = (2 * Math.PI / wavelength);
+          const dy_dx = amplitude * B * Math.cos((B * x) + phase);
+
+          // Tangent vector (Tx, Ty) = (1, dy_dx)
+          const Tx = 1;
+          const Ty = dy_dx;
+
+          // Perpendicular vector (Px, Py) = (-Ty, Tx)
+          let Px = -Ty;
+          let Py = Tx;
+
+          // Normalize perpendicular vector
+          const magnitudeP = Math.sqrt(Px*Px + Py*Py);
+          Px /= magnitudeP;
+          Py /= magnitudeP;
+
+          // Calculate upper and lower points
+          const upperX = x + Px * halfWidth;
+          const upperY = y_center + Py * halfWidth;
+
+          const lowerX = x - Px * halfWidth;
+          const lowerY = y_center - Py * halfWidth;
+
+          upperPoints.push({x: upperX, y: upperY});
+          lowerPoints.push({x: lowerX, y: lowerY});
+        }
+
+        // Construct the path data string
+        for (let i = 0; i < upperPoints.length; i++) {
+          pathData += `${upperPoints[i].x},${upperPoints[i].y}${i === 0 ? "" : "L"}`;
+        }
+
+        // Append lower points in reverse order
+        for (let i = lowerPoints.length - 1; i >= 0; i--) {
+          pathData += `L${lowerPoints[i].x},${lowerPoints[i].y}`;
+        }
+
+        pathData += "Z"; // Close the path
+
+        ribbonPath.setAttribute("d", pathData);
+
+        requestAnimationFrame(animate);
+      }
+
+      // Start the animation
+      animate();
+
+    ]]>
+  </script>
+</svg>

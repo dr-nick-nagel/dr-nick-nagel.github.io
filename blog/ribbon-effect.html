@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Making More with Waves: Trig Inspired SVG Artworks Part II</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+        
+          <script type="module" src="tbd"></script>
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="javascript" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="Inkscape" />
+    <meta name="tags" content="SVG Creators Collaborative" />
+    <meta name="tags" content="trigonometry" />
+    <meta name="tags" content="sine" />
+    <meta name="tags" content="waves" />
+    <meta name="tags" content="math" />
+    <meta name="tags" content="calculus" />
+    <meta name="tags" content="tangent" />
+    <meta name="tags" content="tangent lines" />
+    <meta name="tags" content="normals" />
+    <meta name="tags" content="perpendicular" />
+    <meta name="tags" content="spine" />
+    <meta name="tags" content="ribs" />
+    <meta name="tags" content="ribbon" />
+    <meta name="tags" content="effect" />
+    <meta name="tags" content="motion" />
+    <meta name="tags" content="apparent motion" />
+
+    </head>
+
+    <body>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="nn_symbols"
+   version="1.1"
+   style="display:none"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs>
+    <symbol id="en_return"  viewBox="0 0 20 20">
+      <path
+        style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+        id="return_to_text_1"
+      />
+    </symbol>
+
+    <symbol id="circle_symbol" viewBox="-7.5 -8 15 16">
+      <circle id="circle_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        r="7.5"
+      />
+    </symbol>
+
+    <symbol id="rectangle_symbol" viewBox="-7.5 -9 15 18">
+      <rect
+        fill="currentColor"
+        style="display:inline;"
+        id="rectangular_shape"
+        width="15"
+        height="18"
+        x="-7.5"
+        y="-9"
+      />
+    </symbol>
+
+    <symbol id="diamond_symbol" viewBox="-7.5 -12 15 24">
+      <rect
+       fill="currentColor"
+       style="display:inline;"
+       id="diamond_0"
+       width="15"
+       height="15"
+       x="-7.5"
+       y="-7.5"
+       transform="rotate(45)" />
+    </symbol>
+
+    <symbol id="triangle_symbol" viewBox="-7.5 -7.5 15 20">
+      <path id="triangle_0"
+        fill="currentColor"
+        style="display:inline;"
+        d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
+      />
+    </symbol>
+
+    <symbol id="oval_symbol" viewBox="-7 -10 14 20">
+      <ellipse id="oval_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        rx="6"
+        ry="9" />
+    </symbol>
+
+    <symbol id="heart_face_symbol" viewBox="-7.5 -10 15 20">
+      <path id="heart_face"
+          fill="currentColor"
+          style="display:inline"
+          d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
+      />
+    </symbol>
+
+   </defs>
+</svg>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/ribbon-effect.html" rel="bookmark"
+           title="Permalink to Making More with Waves: Trig Inspired SVG Artworks Part II">Making More with Waves: Trig Inspired SVG Artworks Part II</a></h2>
+      
+    </header>
+    <style>
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 10px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.ImageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+figcaption {
+    font-size: smaller;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+/*    --------  DEMOS ------------    */
+
+#dragon_demo svg {
+  display: block;
+  margin: auto;
+  background-color: #000;
+  margin-bottom: 20px;
+}
+
+#dragon_demo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+/*    --------  TOOL ------------    */
+
+.ToolContainer {
+    padding: 10px;
+    border: solid grey 1px;
+    border-radius: 12px; 
+    max-width: 600px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Spacing between sections */
+}
+
+#sineWaveSvg {
+    border: 1px solid #999; 
+    background-color: #efe; 
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.axis {
+    stroke: #585;
+    stroke-width: 1;
+}
+.tick {
+    stroke: #698;
+    stroke-width: 0.5;
+}
+
+#tool_params {
+    margin-bottom: 10px;
+}
+
+.ToolContainer h2 {
+    font-size: 12px;
+}
+
+.ToolContainer div {
+    margin-bottom: 5px;
+}
+
+.ToolContainer label {
+    display: inline-block;
+    min-width: 100px;
+}
+
+</style>
+
+<h2>In this Post ...</h2>
+<p>In this follow-up to my previous post using trigonometry to animate SVG I'll show how I extended the math to enable more <em>traveling wave effects</em>. Then I'll demonstrate the technique by creating a gallery of SVG artworks using the SVG Creators Collaborative framework. </p>
+<h2>Introduction</h2>
+<p>I've been thinking a lot about waves lately... </p>
+<h2>More Animation Effects Inspired by Math: Making Waves</h2>
+<p>DOCUMENT THE travelling wave and water</p>
+<p>To be completely transparent, this blog post started as an exploration of creating watery wave effects using pure SVG. My intent was to push the wave effect to it's limits in order to provide the right tooling and infrastructure for the SVG Creators Collaborative&trade;. In attempting to create a compelling wave effect for my personal artwork I was having trouble reaching a completely satisfying solution. </p>
+<p>Here's the problem. You can create some <em>very nice wave effects</em> using simple SMIL animation. For example, here's a nice watery effect achieved simply by animating a bezier path. </p>
+<p><img 
+width=300
+height=60
+src="/svg/sine_effects/simple_wave.svg"></p>
+<p>But what I was after was something more like a 'traveling wave' .</p>
+<blockquote>
+<p>A <strong>traveling wave</strong> is a wave that propagates through a medium transferring energy and momentum <em>without the net movement of the medium itself</em>. </p>
+</blockquote>
+<p>In other words, it's a wave that <em>appears</em> to move from one point to another (as opposed to a standing wave which remains in a fixed position). </p>
+<h2>The Painful Path of Discovery...</h2>
+<p>At the outset I assumed SVG -- with it's beautiful Bezier curves and SMIL animation -- would provide ready means to achieve my watery effect and I'd quickly be able to share the results in my blog. Sadly, the only thing quick about it was for me to find out getting a good traveling wave effect in SVG is not trivial. </p>
+<p>My initial assumption was that I'd be able to gin up a quick SMIL animation if I could just get the right Bezier path going with the right handles. And that's what you see in the above simple wave animation. Here's the code.</p>
+<pre>
+&lt;path id="init" fill="#088" >
+   &lt;animate id="SMIL_ANIMATION"
+      attributeName="d" 
+      dur="3s" 
+      repeatCount="indefinite" 
+      values="
+   m 0,40 c 50,-12 94,-13 150,0 58,14 93,12 150,0 V 80 H 0 Z;
+   m 0,40 c 48,16 98,15 150,0 53,-16 105,-14 150,0 V 80 H 0 Z;
+   m 0,40 c 50,-12 94,-13 150,0 58,14 93,12 150,0 V 80 H 0 Z
+   " 
+      keyTimes="0.00;0.50;1.00" />
+&lt;/path>
+</pre>
+
+<p>I don't want to spend to much time on this -- the point here is that the simple wave effect I achieved by animating the Bezier nodes and handles under the (mistaken) assumption that I could simulate a traveling wave with this approach. But if you look at the animation -- while the "water" looks like it's rising and falling you don't get the aparrent motion I was after with the wave energy. </p>
+<p>Fine, I thought. Maybe if I try adding a few more key frames I can get my traveling wave. If you do look closely at the SMIL code you'll see that I have three keyframes, an initial path, a path in "antiphase" for the sort of sinusoid I created and a final key back to the initial morphology. I figured by adding some 'tweens I could get the right aparent motion still using Bezier handles. And, indeed, the result got me a little closer to where I wanted to be. Here's something that looks a little closer to the end game I was after, but still it has it's problems.</p>
+<p><img src="/svg/sine_effects/travelling_wave_v3_test.svg"></p>
+<p>Here we do see the <em>apparent motion</em> seen with a traveling wave. The above animation simulated the sort of wave propagation you might observe for example with water in a tank. The waves appear to be moving, and the flow of "energy" has speed and direction. But, alas we don't see that perfect continuity you might get with a pure traveling wave effect. Instead, the wave morphology degenerates and gets all "wobbly". Like traveling jello. </p>
+<p>Normally I wouldn't spend time documenting a fail like this. But in this case, I feel it's worth it to understand <em>why</em> the current approach can't work before getting into the right approach to achieve this class of effect. </p>
+<p>What we have here does <em>travel</em>, but it suffers from the classic "morph wobble": when keyframes are too sparse or inconsistent in control point behavior, SMIL interpolates Bézier curves in a naïve way, leading to:</p>
+<ul>
+<li>Amplitude warping</li>
+<li>Non-uniform phase velocity</li>
+</ul>
+<p>which is just a fancy way of saying lumpy/wobbly distortion as we see above. If you really want a clean, smooth traveling wave effect, you need more frames. And after a certain limit generating keys by hand becomes excruciating. </p>
+<h2>Procedural Wave Animation with SVG</h2>
+<p>So having seen what doesn't work let's talk about what <em>does</em>. Elswhere I've written about the virtues of using SMIL to animate SVG [[CROSS REFERENCE CHESIRE CAT]]. You can create a lot of great art using Bezier paths and SMIL key frames. But as we just saw there are some cases where manually creating keys is just not an option -- and that's where procedural techniques come into play. </p>
+<blockquote>
+<p><strong>Procedural art</strong> is a form of artistic expression where artwork is created with the use of algorithms and mathematical formulas to dynamically generate content.</p>
+</blockquote>
+<p>At the heart of procedural art lies the development of rules, procedures, mathematical functions etc. that determine the nature of the artwork that is produced. In addition to traditional methods analogous to drawing and sculpting, procedural artists manifest their intent through application of procedures and processes that enable them to generate and composite results. Here we'll look at the application of <strong>sine-based parametric procedural morphing</strong> to create SVG artworks inspired by the traveling wave. It sounds like a mouthful but the core idea is beautiful in its simplicity: </p>
+<ol>
+<li>
+<p>Procedurally generate a waveform using basic trigonometry, </p>
+</li>
+<li>
+<p>Generate animation keys by convering points to cubic B&eacute;zier segments using a simple heuristic. </p>
+</li>
+</ol>
+<p>This gives us the keys necessary to create the intended animation insuring that we have enough segments and uniform B&eacute;zier paths obtain the desired effect. The result is visually clean, easily tunable, and free of the morph wobble you get with naive Bezier interpolation. </p>
+<p><img width='360'src='/svg/sine_effects/wave_demo_2.svg'></img></p>
+<p>Figure 3 shows a wave animation I created using this approach. Just for fun I included a diver sprite "surfing the swell" to show how the wave now has an amplitude and velocity. You can see the diver moving along with the peak of the wave. </p>
+<h3>The Math behind the Morph</h3>
+<p>The math behind this particular procedural morph is relatively straightforward. To begin, we generate a curve by sampling points using the equation for a sine wave (see also [[ cross reference nn's sine effects blog part I ]]):</p>
+<p>$$
+y = Amplitude \cdot sin(2 \pi x / \lambda + \Phi)
+$$</p>
+<p>In this equation,  $\lambda$ (pronounced | <strong>lamb</strong> da |)  is the <em>wavelength</em> and $\Phi$ (pronounced | fi |) is the phase shift (the amount by which the samples are shifted along x). To generate the keys for the animation I've used an algorithm to: (1) shift the wave across a predetermined number of intervals, and (2) sample the wave across a predefined period to create the segments. As an added bonus for this blog, below I've inlined an interface to the tool I developed to implement the algorithm. You can play with the tool to explore the effect of varying the paremeters from the equation.</p>
+<h3>Wave Effects Continued: The Serpentine Skeleton</h3>
+<p>Up to this point I've shown how to render "traveling wave energy" with pure trigonometry and SVG. But waves aren't just for water any more! In fact, the techniques we've developed up to this point can be used to create a large class of animated artworks based on the apparent motion of the traveling wave. By way of example, let's work through <em>the serpentine skeleton</em> I created for this piece (seen inlined below).</p>
+<figure id="dragon_demo" class="SvgDemo">
+<div id="svg_container">
+  <svg id="ribbon_effect" 
+    viewBox="-50 -10 350 120" 
+    width="300"
+    height="90" 
+    xmlns="http://www.w3.org/2000/svg" >
+    <title>Serpentine Skeleton</title>
+    <desc>An animated eastern style dragon sprite exemplifying Nick Nagel's serpentine skeleton rig</desc>
+    <metadata>
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:dc="http://purl.org/dc/elements/1.1/">
+        <rdf:Description rdf:about="">
+          <dc:title>Serpentine Skeleton</dc:title>
+          <dc:creator>Dr. Nick Nagel</dc:creator>
+          <dc:Description>An animated eastern style dragon sprite exemplifying Nick Nagel's serpentine skeleton rig</dc:Description>
+        </rdf:Description>
+      </rdf:RDF>
+    </metadata>
+    <rect x="0" y="0" width="300" height="100" fill="#eee" display="none"/>
+    <g id="dragon_sprite" >
+      <path id="dragon_sprite_body_skin"   display="inline"
+        fill="#f00" 
+        stroke="none"
+        d="M 50,40 L 250,40 L 250,60 L 50,60 Z"
+      ></path>
+      <g  id="head" >
+        <path id="head_path"
+            fill="#F00"
+            d="m -11.611328,-21.388672 c -0.07644,0.02374 -0.146826,0.06021 -0.208984,0.109375 0.06774,-0.03785 0.136685,-0.07447 0.208984,-0.109375 z m -0.208984,0.109375 c -5.279378,2.94996 3.1412649,14.731084 4.2089839,14.7929689 C -9.1009735,-4.7401138 -10,-2.4751814 -10,0 c 0,5.522842 4.6509862,9.4394531 10.17382812,9.4394531 1.67104468,0 3.22955728,-0.3605673 4.59179688,-1.0136719 l 15.384766,8.1621098 0.175781,3.728515 7.46875,5.296875 -4.791016,-6.193359 11.726563,5.957031 -7.785157,-5.185547 -1.691406,-8.341797 C 16.334217,11.033912 13.261972,7.3930614 13.263672,2.2675781 c 2.251825,-7.7647535 9.162822,-5.3437041 17.425781,0.03125 L 27.451172,-7.3828125 7.2285156,-6.90625 C 5.4077359,-8.8115319 2.8434844,-10 0,-10 c -9.0687572,2.9120104 -13.702615,-9.790562 -11.820312,-11.279297 z"
+        />
+      </g>
+      <g id="tail"
+        transform="translate( 0, 50  )"
+        >
+        <path id="tail_path"
+          fill="#f00"
+          d="M -2.7258003,-3.1932304 -11.958704,-22.027854 5.2529056,-3.1932304 6.737149,4.3221314 -2.7258003,4.6962764 -30.515779,-0.26447726 Z"
+        />
+      </g>
+      <g id="leg_rear"
+            transform="translate( 60, 60 )">
+          <path id="leg_rear_path"
+              fill="#d00"
+              d="m 0.1171875,-4.6230469 c -3.3451139,4.267e-4 -6.056609,2.3219422 -6.0566406,5.1855469 0.00295,0.4418964 0.071865,0.881658 0.2050781,1.3085938 l -7.714844,6.5019531 -11.010827,4.3909051 11.98739,-1.123327 18.1627819,16.329222 C 4.3878637,36.310798 8.7358903,34.709445 13.934018,38.47917 5.8229604,28.077552 6.6150537,30.544125 10.867814,28.918056 25.194252,21.876501 19.993615,27.129892 23.498272,35.561291 25.815313,23.679704 23.262374,18.83675 7.8247165,27.115618 L -7.546875,9.2890625 -2.6503906,5.1621094 C -1.7954571,5.5431297 -0.84665501,5.7440053 0.1171875,5.7480469 3.4630641,5.7485436 6.1757496,3.4267576 6.1757812,0.5625 6.1757496,-2.3017576 3.4630641,-4.6235436 0.1171875,-4.6230469 Z"
+          />
+        </g>
+      <g id="leg_front"
+          transform="translate( 140, 40 )"
+          >
+        <path id="leg_front_path"
+            fill="#d00"
+            d="m 0.1171875,-4.6230469 c -3.3451139,4.267e-4 -6.056609,2.3219422 -6.0566406,5.1855469 0.00295,0.4418964 0.071865,0.881658 0.2050781,1.3085938 l -7.714844,6.5019531 -11.010827,4.3909051 11.98739,-1.123327 18.1627819,16.329222 C 4.3878637,36.310798 8.7358903,34.709445 13.934018,38.47917 5.8229604,28.077552 6.6150537,30.544125 10.867814,28.918056 25.194252,21.876501 19.993615,27.129892 23.498272,35.561291 25.815313,23.679704 23.262374,18.83675 7.8247165,27.115618 L -7.546875,9.2890625 -2.6503906,5.1621094 C -1.7954571,5.5431297 -0.84665501,5.7440053 0.1171875,5.7480469 3.4630641,5.7485436 6.1757496,3.4267576 6.1757812,0.5625 6.1757496,-2.3017576 3.4630641,-4.6235436 0.1171875,-4.6230469 Z"
+              />
+      </g>
+    </g>
+    <text id="fps_display" 
+        x="-60" y="10" 
+        font-family="Arial, sans-serif" 
+        font-size="18px" 
+        fill="red">FPS: 0</text>
+  </svg>
+</div>
+<div id="control_panel">
+  <button id="anim_control" >Play</button>
+</div>
+<figcaption><strong>Demo:</strong> An animated eastern style dragon sprite exemplifying an SVG *serpentine skeleton* rig. Created by Nick Nagel.</figcaption>
+</figure>
+
+<h3>The Conceptual Approach</h3>
+<p>The core idea behind <em>the serpentine skeleton</em> was to turn the traveling wave curve into a 2D shape to animate the dragon. To do that we need to get a bit more creative with the trigonometry. But the core  idea is eloquent in its simplicity: think of the rig as a skeleton and the animated shape(s) as an outer skin. </p>
+<ol>
+<li>Create a center line or <strong>spine</strong> (think of it like the spine of a fish).</li>
+<li>Sample the line along it's length and get <strong>tangent lines</strong> (which gives you the slope of the curve at those points).</li>
+<li>Get perpendicular vectors normalized to unit length -- <strong>the normals</strong> . This makes it easy to scale them outward, allowing you to derive edge points which can be used to create an SVG path for the final shape.</li>
+</ol>
+<p>Here's some art to help with a visualization.</p>
+<figure class="ImageContainer">
+    <picture>
+        <source srcset="/svg/sine_effects/tan_lines.svg" type="image/svg+xml">
+        <img src="/svg/sine_effects/  tan_lines.png" 
+            alt="SVG graphic showing a curved path with associated tangent lines and normals to crate a serpentine 'skeleton' (i.e., the ribbon shape for the wave motion effect).">
+    </picture>
+    <figcaption style="width:320px"><strong>Figure 1:</strong> SVG showing a curved path with associated tangent lines and normals to crate a serpentine 'skeleton'. Illustration by: Nick Nagel.</figcaption>
+</figure>
+
+<p>To illustrate the approach, I created an SVG artwork showing a sinusoid over which I've overlaid a set of samples (the blue circles) and drawn the tangents (as green vectors) and the normals (in red). So how do we get the tangents and normals? For that we need to apply a little math. </p>
+<h3>Doing the Math</h3>
+<p>Once again, we apply the wave equation to generate the curve (Inlined below for convenience):</p>
+<p>$$
+y = Amplitude \cdot sin(2 \pi x / \lambda + \Phi)
+$$</p>
+<p>Once we have the curve, we can compute the tangent vectors using a wee bit of calculus. If you've not seen the calc before <em>don't worry</em>! That's why I'm explaining it here. And once I've made the framework and tooling for the SVG Creators Collaborative&trade; widely avalable the math is handled "under the hood". Still, it's good to understand at some level what's happening in order to get creative with the framework. </p>
+<p>So, to compute the tangents we apply a bit of calculus:</p>
+<p>Let ...</p>
+<p>$$
+B = \frac{ 2 \pi }{\lambda}
+$$ </p>
+<p>This substition gives us:</p>
+<p>$$
+y = Amplitude \cdot sin( B x + \Phi)
+$$</p>
+<p>Then we can compute the derivative $\frac{dy}{dx}$ at each sample using [[APPENDIX: GETTING THE DERIVATIVE]] :</p>
+<p>$$
+\frac{d}{dx} y = Amplitude \cdot B \cdot cos( B x + \Phi)
+$$</p>
+<div class="admonition information">
+<p class="admonition-title">Definition</p>
+<p>In 2D and 3D computer graphics, <strong>normals</strong> are normalized vectors (lines of length = 1) sampled over an edge or surface and used in a range of applications (e.g., shading artwork).</p>
+</div>
+<h2>Fixing the Endpoint</h2>
+<p><em>The Serpentine Skeleton</em> works great for animation where movement follows a sinusoidal path. But another similar pattern requires one end of the wave path to be fixed. Think seaweed flowing in ocean currents, hair blowing in the wind or flags billowing on a pole.</p>
+<p>To get a fixed endpoint effect like that we have to adjust our formula. To get a proper "free end" effect (like a flag flapping or seaweed swaying), the wave's amplitude needs to be zero at the fixed end and grow progressively towards the free end. One way to do this is to multiply the wave function by a factor that scales up with $x$. A nice way to do this and get another tunable parameter for our effect is to use a positive exponent -- let's call it the <em>amplitude growth power</em>. That would give us the following formula:</p>
+<p>$$
+y = \text{Amplitude} \times \left( \frac{x}{\lambda} \right)^P \cdot \sin( kx - \Phi )
+$$</p>
+<p>The $\left(\frac{x}{\lambda}\right)^P$ term ensures the amplitude starts at 0 when $x$ is 0 (giving us our fixed endpoint) and grows as $x$ increases giving us our flapping or swaying end. But the change impacts our calculations for the tangents. The derivative gets a bit more complex. We have to use the <em>product rule</em>: </p>
+<p>$$
+(f \cdot g)'(x) = f'(x)g(x) + f(x)g'(x)
+$$</p>
+<p>where
+$$
+f(x) = \left( \frac{x}{\lambda} \right)^P
+$$
+and 
+$$
+g(x) = \sin( kx - \Phi )
+$$</p>
+<p>Then:</p>
+<p>$$
+\frac{d}{dx} y = \text{Amplitude} \left[ k \left( \frac{x}{\lambda} \right)^P \cos( kx - \Phi ) + P \frac{x^{P-1}}{\lambda^P} \sin( kx - \Phi ) \right]
+$$</p>
+<h2>Bonus!</h2>
+<p>More Tooling here ? Maybe with an AI interface ... ? Explaining the math ... ?</p>
+<style>
+iframe {
+  width:  550px;
+  height: 680px;
+
+}
+</style>
+
+<p><iframe
+  src="https://svg-artists-collective.vercel.app/artists/tools/bezier_wave_gen/default.html"
+  frameborder="0"
+  allowfullscreen
+  title="Bezier Wave Generator Tool"
+></iframe>
+</p>
+<h2>Gallery</h2>
+<p>INSERT GALLERY OF SVG ARTWORKS</p>
+<style>
+
+    #frame {
+      margin: 20px;
+    }
+
+    svg {
+      border: solid red 1px;
+      display: block;
+      margin: auto;
+    }
+
+    #main_div{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #control_panel {
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+  </style>
+
+<div id="frame">
+  <div id="main_div">
+    <div id="svg_container_mermaid">
+    </div>
+    <div id="control_panel">
+      <button id="anim_control_mermaid" >Play Mermaid</button>
+    </div>
+  </div>
+</div>
+
+<!--          CENTIPEDE              -->
+<div id="frame_pede">
+  <div id="main_div_pede">
+    <div id="svg_container_centipede">
+<!--          CENTIPEDE              -->
+<svg id="ribbon_effect" 
+  viewBox="-50 -10 350 120" 
+  width="800"
+  height="240" 
+  xmlns="http://www.w3.org/2000/svg" >
+  <rect x="0" y="0" width="300" height="100" fill="#eee" />
+
+<g transform="translate( 50 70 )"  >
+  <g transform="rotate( -90 )"  >
+    <g transform="scale( 0.5 )"  >
+
+<g id="centi_sprite">   
+
+     <g id="leg_front_lower"
+        inkscape:groupmode="layer"
+        inkscape:label="leg_front_lower"
+     >
+       <path
+          id="path6"
+          style="fill:#a05a2c;fill-opacity:1;fill-rule:evenodd;stroke-width:0.5;stroke-linecap:square"
+          d="m 6.7940231,-11.640422 0.8900531,-17.147647 8.0478328,-6.884966 13.471482,-17.718065 -12.412945,18.09963 -7.97507,7.01986 0.043635,17.283005 -7.4038109,9.9724847 -0.51235266,1.31885696 -0.86234984,0.405082 -0.84542538,-0.465865 -0.27804102,-1.26608996 0.93963103,-0.730567 z"
+          sodipodi:nodetypes="cccccccccccccc"
+          inkscape:label="leg_front_lower" />
+     </g>
+     <g id="leg_front_upper"
+        inkscape:groupmode="layer"
+        inkscape:label="leg_front_upper"
+     >
+       <path
+          id="path3"
+          style="fill:#a05a2c;fill-opacity:1;fill-rule:evenodd;stroke-width:0.5;stroke-linecap:square"
+          d="M 6.6843025,11.243509 7.5743556,28.391156 15.622188,35.276122 29.09367,52.994187 16.680725,34.894557 8.7056554,27.874697 8.7492901,10.591692 1.3454792,0.61920648 0.8331265,-0.69964967 -0.02922334,-1.1047321 -0.87464872,-0.63886699 -1.1526897,0.62722268 -0.21305871,1.3577902 Z"
+          sodipodi:nodetypes="cccccccccccccc"
+          inkscape:label="leg_front_upper" />
+     </g>
+     <g id="body"
+        inkscape:groupmode="layer"
+        inkscape:label="body">
+       <path
+          id="body_path"
+          style="display:inline;fill:#c87137;fill-rule:evenodd;stroke:#a05a2c;stroke-width:0.5;stroke-linecap:square;stroke-dasharray:none"
+          d="m -7.5783298,-4.3309183 c 6.0042674,-2.1895533 9.7793371,-1.8639463 15.7096807,0.9376852 0.4617823,2.3457958 1.1992464,4.6544587 -0.1275573,7.2411657 -5.6791349,2.521336 -8.90038424,2.5052725 -15.4058617,0.2458621 -1.4640381,-2.4958433 -2.065732,-5.1833861 -0.1762617,-8.424713 z"
+          sodipodi:nodetypes="ccccc" />
+       <path
+          id="path5"
+          style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:0.485163;stroke-linecap:square"
+          d="m 8.6409186,-1.8817848 c 0.4187499,1.0954135 0.543347,3.053354 -0.021662,4.1879042 -3.7974747,1.5785369 -12.4151986,1.5220551 -16.89776,0.2403866 -0.6504871,-1.1769476 -1.1250467,-3.03343868 -0.2226645,-4.5604693 2.178636,-1.7191966 12.3746169,-2.2767504 17.14209,0.1321785 z"
+          sodipodi:nodetypes="ccccc" />
+     </g>
+     <g id="tail"
+        inkscape:groupmode="layer"
+        inkscape:label="tail"
+     >
+       <path
+          id="tail_path"
+          style="fill:#a05a2c;fill-rule:evenodd;stroke-width:0.5;stroke-linecap:square"
+          d="m -4.634066,-0.0297464 c -14.470092,-7.5946635 -46.646461,-21.9563766 -50.587948,-36.2377116 5.21621,12.493946 40.282238,31.9225714 55.30152565,31.1975242 L 6.8799373,0.5402487 -0.09611896,5.3054842 C -14.538983,-0.32975239 -47.226845,10.17684 -58.001987,21.259108 -50.414455,10.130624 -31.741435,3.3225827 -4.634066,-0.0297464 Z"
+          sodipodi:nodetypes="ccccccc"
+          inkscape:label="tail" />
+     </g>
+     <g id="head">
+       <path
+          id="path1"
+          style="fill:#c87137;fill-rule:evenodd;stroke:#895416;stroke-width:0.5;stroke-linecap:square"
+          inkscape:label="head"
+          d="M 9.2110468,0.28013275 C 9.2110468,4.146126 4.6880518,4.7821304 0,7 -3.4946476,8.6532822 -7,3.8659932 -7,0 c 0,-3.8659932 3.4396169,-8.5065112 7,-7 3.6353789,1.5382443 9.2110468,3.4141395 9.2110468,7.28013275 z"
+          sodipodi:nodetypes="sssss" />
+       <path
+          id="circle1"
+          style="fill:#1a1a1a;fill-rule:evenodd;stroke-width:0.203571;stroke-linecap:square"
+          inkscape:label="head"
+          d="M 3.8781375,-5.1084022 A 4.0250378,1.9443616 14.596657 0 1 -0.50699183,-4.2411586 4.0250378,1.9443616 14.596657 0 1 -3.9121128,-7.137125 4.0250378,1.9443616 14.596657 0 1 0.47301657,-8.0043687 4.0250378,1.9443616 14.596657 0 1 3.8781375,-5.1084022 Z" />
+       <path
+          id="rect1"
+          style="fill:#895416;fill-opacity:1;fill-rule:evenodd;stroke-width:0.5;stroke-linecap:square"
+          d="M 3.9375005,-5.366216 C 25.953439,-10.671852 39.910909,-35.543484 43.96533,-37.147733 40.580262,-33.905137 24.591992,-9.3033257 5.158655,-4.6024093 Z"
+          sodipodi:nodetypes="cccc" />
+       <path
+          id="path2"
+          style="fill:#1a1a1a;fill-rule:evenodd;stroke-width:0.203571;stroke-linecap:square"
+          inkscape:label="head"
+          d="M 3.9625488,4.809159 A 1.9443616,4.0250378 77.717946 0 1 0.44324811,7.565242 1.9443616,4.0250378 77.717946 0 1 -3.9032786,6.5216062 1.9443616,4.0250378 77.717946 0 1 -0.38397801,3.7655231 1.9443616,4.0250378 77.717946 0 1 3.9625488,4.809159 Z" />
+       <path
+          id="path4"
+          style="fill:#895416;fill-opacity:1;fill-rule:evenodd;stroke-width:0.5;stroke-linecap:square"
+          d="M 3.812488,5.6531156 C 25.828426,10.958752 39.785896,35.830383 43.840317,37.434632 40.455249,34.192036 24.466979,9.5902246 5.0336425,4.8893086 Z"
+          sodipodi:nodetypes="cccc" />
+       <path
+          id="rect4"
+          style="fill-rule:evenodd;stroke-width:0.5;stroke-linecap:square"
+          d="M 0.42986383,-2.2804971 8.9006044,-0.38108642 0.32100441,1.7877373 -6.856581,0.69035197 -6.8295144,-1.1227926 Z"
+          sodipodi:nodetypes="cccccc" />
+     </g>
+
+</g>
+
+    </g>
+  </g>
+</g>
+
+
+
+  <text id="fps_display" 
+      x="10" y="10" 
+      font-family="Arial, sans-serif" 
+      font-size="8px" 
+      fill="red">FPS: 0</text>
+</svg>
+
+<!--          CENTIPEDE              -->
+    </div>
+    <div id="control_panel">
+      <button id="anim_control_centipede" >Play Centipede</button>
+    </div>
+  </div>
+</div>
+
+<!--          CENTIPEDE              -->
+
+<p>INSERT CENTIPEDE SPRITE
+<a title="Rosier-HR, CC BY-SA 3.0 &lt;https://creativecommons.org/licenses/by-sa/3.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Scutigera_coleoptrata_2.jpg"><img width="112" alt="Scutigera coleoptrata 2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Scutigera_coleoptrata_2.jpg/512px-Scutigera_coleoptrata_2.jpg?20110420211728"></a></p>
+<p>CAT tail
+https://www.youtube.com/shorts/FjUqfhNEycM</p>
+<p>mermaid references</p>
+<p>nice to have sparkle texture ... </p>
+<p>real
+  seel 49sec into it
+https://www.youtube.com/watch?v=dN6FSKdKL3s</p>
+<p>gorgeous animation
+  13 seconds
+  https://www.tiktok.com/@anukitsu/video/7310313085548498183?lang=en</p>
+<p>nice anim
+  https://www.instagram.com/reel/DJmbiJYxtfN/?hl=en</p>
+<p>funny animation
+https://www.instagram.com/reel/DKS3gmjhd_0/</p>
+<h2>Endnotes</h2>
+<ol>
+<li>
+<p><span id="end_1">For many, math is a "four-letter word". Believe me I understand that initial aversion. However, I truly hope you'll look past any fear of terms like <em>trigonometry</em>. It's my absolute favorite math, and my experience has shown me time and time again how powerful even a basic grasp of trig can be in crafting remarkable and beautiful works of art  <a href="#ret_1"><svg class="EndnoteReturn">
+  <use href="#en_return"></use>
+</svg></a></span> .</p>
+</li>
+<li>
+<p>ENDNOTE THIS: Part of the inspiration for this article was from coming across this <em>SnowWeb</em> blog -- in particular <a href="https://www.snoweb.io/en/web-design/svg-animation/#wave">their wave effect</a>. It's what got me to thinking about doing a traveling wave in SVG.</p>
+</li>
+</ol>
+<h2>Appendix A: Deriving the Tangent Using the Chain Rule</h2>
+<p>Since the starting point for abstracting the traveling wave effects is a periodic function (a sine wave) it's easy to get tangent lines at any point by applying some calculus. Since we start with the sine function:</p>
+<p>$$
+y = f(x) = A \cdot \sin( B x + \Phi ) 
+$$</p>
+<p>Where: </p>
+<ul>
+<li>$A$ is the amplitude, 
+<li>$B = \frac{2\pi}{\lambda}$ is  constant (derived from the wavelength), and 
+<li>$\Phi$, also a constant, is the phase shift (horizontal offset).
+</ul>
+
+<p>We can compute the tangent at any point, $x$, along the curve by taking the <strong>derivative</strong> of the function, $\frac{dy}{dx}$, at that point.</p>
+<p>We can take the derivative by applying <strong>the chain rule</strong>: If a function is <em>composed</em> of two functions ( like $y = f( u(x))$ ), then its derivative is:</p>
+<p>$$
+\frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx} 
+$$</p>
+<p>Let the inner function be:</p>
+<p>$$
+u(x) = B \cdot x + \Phi 
+$$</p>
+<p>Then: </p>
+<p>$$
+y(x) = A \cdot \sin( u(x) ) 
+$$</p>
+<p>The derivative of $\sin( x )$ is $\cos( x )$ so:</p>
+<p>$$
+\frac{d}{dx} y = A \cdot \cos( u(x) ) \cdot \frac{d}{dx} u
+$$</p>
+<p>The derivative of $u$ is $\frac{d}{dx} u = B$. So substitute:</p>
+<p>$$
+\frac{d}{dx} y= A \cdot \cos( B x + \Phi ) \cdot B 
+$$</p>
+<p>Rearrange for clarity by commutative property:</p>
+<p>$$
+\frac{dy}{dx} = A \cdot B \cdot \cos(Bx + \Phi)
+$$</p>
+<p>This derivative gives us the operation we need to compute the <strong>slope</strong> tangent (the line giving us the slope of the curve) at each sampled point $x$ along our sine wave. Then it's all downhill to compute the <strong>normals</strong> using algebra creating the SVG shapes for our artwork.</p>
+<h2>Resources</h2>
+<ol>
+<li>
+<p><a href="https://www.artstation.com/blogs/pixunegroup/2l1O/procedural-art-generation-and-dynamic-content-creation-in-games">Procedural Art Generation and Dynamic Content Creation in Games</a></p>
+</li>
+<li>
+<p><a href="https://www.selfawaresoup.com/notes/2021/12/18/procedural-art/">Procedural Art</a> </p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=oTmW3YdXmWQ">Wave Principles in Animation</a></p>
+</li>
+<li>
+<p><a href="https://youtu.be/8kZlbMPSw0c?si=EeHVPju3TK_fihUo">Hand Drawn Wave Animations</a></p>
+</li>
+<li>
+<p><a href="https://youtu.be/dN6FSKdKL3s">Mermaid Reference</a></p>
+</li>
+</ol>
+<script type="module">
+
+import{
+    animationController
+} from "/scripts/dist_sin_effects/animation_controller.js"
+
+import{
+  SerpentineSkeleton,
+  DragonSprite,
+  mermaidConfig,
+  FixedPointSkeleton,
+  MermaidSprite,
+  centipedeSkeletonConfig,
+  CentipedeSprite
+} from "/scripts/dist_sin_effects/dragon/nn_sprites.js"
+
+import {
+    svgDocCache,
+    loadSvgList,
+} from "/scripts/dist_anim_controller/utilities.js";
+
+
+// ---- DEMO INITIALIZATION -------------------
+
+// ---- SVG DOCS TO LOAD ----------------------
+
+const svgList = [
+    'mermaid.svg',
+];
+const SVG_PATH = "/scripts/dist_sin_effects/gallery/";
+// ------  LOAD SVG  --------------------
+
+let MermaidSvg  = null;
+async function loadSvgs () {
+    await loadSvgList(svgList, SVG_PATH);
+    MermaidSvg = svgDocCache.svg_slide_0;
+    MermaidSvg.setAttribute( "width", "400"  );
+    MermaidSvg.setAttribute( "height", "160" );
+    MermaidSvg.setAttribute( "viewBox",  "-80 -40 200 80" ); 
+    const container = document.getElementById( "svg_container_mermaid" );
+    container.appendChild( svgDocCache.svg_slide_0 );
+}
+await loadSvgs();
+// console.log( svgDocCache );
+
+
+// ________   LITTLE MERMAID   _______________
+
+// CREATE A SPRITE AND TEST FUNCTIONS
+const mSkel = new FixedPointSkeleton( mermaidConfig );
+// COMPOSE THE Mermaid SPRITE  
+let mSpriteSVG = document.getElementById( "mermaid_sprite" );
+
+const mermaidSprite = new MermaidSprite(
+  mSpriteSVG,
+  mSkel
+);
+
+console.log( "TEST SPRITE", mermaidSprite );
+animationController.sprites.push( mermaidSprite );
+// ______________________________________________
+
+
+// ______________________________________________
+// CENTIPEDE
+// CREATE A SPRITE AND TEST FUNCTIONS
+const pedeSkel = new SerpentineSkeleton( centipedeSkeletonConfig );
+// COMPOSE THE CENTIPEDE SPRITE  
+let pedeSpriteSVG = document.getElementById( "centi_sprite" );
+const pedeSprite = new CentipedeSprite(
+  pedeSpriteSVG,
+  pedeSkel
+);
+
+animationController.sprites.push( pedeSprite );
+
+
+
+
+// ______________________________________________
+
+
+// CREATE A SPRITE AND TEST FUNCTIONS
+const testSkel = new SerpentineSkeleton({
+    numSamples: 100,
+});
+// COMPOSE THE DRAGON SPRITE  
+let testSpriteSVG = document.getElementById( "dragon_sprite" );
+const testSprite = new DragonSprite(
+  testSpriteSVG,
+  testSkel
+);
+
+animationController.sprites.push( testSprite );
+
+// ----  UI  HACKS --------------------
+// ANIMATION CONTROL BUTTONS
+const pb = document.getElementById( "anim_control" );
+const mb = document.getElementById( "anim_control_mermaid" );
+const cb = document.getElementById( "anim_control_centipede" );
+
+
+
+/**
+ * Animation toggle event handler. Buttons will control
+ * animation toggle via animation controller. 
+ * @param {*} evt 
+ */
+const toggleAnimation = ( evt ) => {
+    if ( animationController.rafId == 0 ) {
+        animationController.startAnim();
+        pb.innerText = "Stop";
+        mb.innerText = "Stop";
+        cb.innerText = "Stop";
+
+    }  else {
+        animationController.stopAnim();
+        pb.innerText = "Play";
+        mb.innerText = "Play Mermaid";
+        cb.innerText = "Crawl";
+    }
+}
+
+
+pb.addEventListener(
+    "click",
+    ( evt ) => {
+        toggleAnimation( evt );
+    }
+);
+
+
+mb.addEventListener(
+    "click",
+    ( evt ) => {
+        toggleAnimation( evt );
+    }
+);
+
+cb.addEventListener(
+    "click",
+    ( evt ) => {
+        toggleAnimation( evt );
+    }
+);
+
+</script>
+    <footer>
+      <p>Published: <time datetime="2025-07-14T00:00:00-04:00">
+        Mon 14 July 2025
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/javascript.html">javascript</a>
+            <a href="https://dr-nick-nagel.github.io/tag/animation.html">animation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
+            <a href="https://dr-nick-nagel.github.io/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/art.html">art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artwork.html">artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape.html">Inkscape</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg-creators-collaborative.html">SVG Creators Collaborative</a>
+            <a href="https://dr-nick-nagel.github.io/tag/trigonometry.html">trigonometry</a>
+            <a href="https://dr-nick-nagel.github.io/tag/sine.html">sine</a>
+            <a href="https://dr-nick-nagel.github.io/tag/waves.html">waves</a>
+            <a href="https://dr-nick-nagel.github.io/tag/math.html">math</a>
+            <a href="https://dr-nick-nagel.github.io/tag/calculus.html">calculus</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tangent.html">tangent</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tangent-lines.html">tangent lines</a>
+            <a href="https://dr-nick-nagel.github.io/tag/normals.html">normals</a>
+            <a href="https://dr-nick-nagel.github.io/tag/perpendicular.html">perpendicular</a>
+            <a href="https://dr-nick-nagel.github.io/tag/spine.html">spine</a>
+            <a href="https://dr-nick-nagel.github.io/tag/ribs.html">ribs</a>
+            <a href="https://dr-nick-nagel.github.io/tag/ribbon.html">ribbon</a>
+            <a href="https://dr-nick-nagel.github.io/tag/effect.html">effect</a>
+            <a href="https://dr-nick-nagel.github.io/tag/motion.html">motion</a>
+            <a href="https://dr-nick-nagel.github.io/tag/apparent-motion.html">apparent motion</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

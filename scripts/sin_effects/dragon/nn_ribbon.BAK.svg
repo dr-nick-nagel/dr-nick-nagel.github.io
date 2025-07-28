@@ -1,0 +1,303 @@
+<svg id="ribbon_effect" 
+    viewBox="-50 -10 350 120" 
+    width="800"
+    height="240" 
+    xmlns="http://www.w3.org/2000/svg" >
+
+  <rect x="0" y="0" width="300" height="100" fill="#eee" />
+
+  <!-- Ribbon path to animate -->
+  <path id="ribbon"   display="none"
+    fill="#999" 
+    stroke="none"
+    d="M 50,40 L 250,40 L 250,60 L 50,60 Z"
+  ></path>
+
+  <!-- sprite's spine -->
+  <path id="spine" 
+    fill="none" 
+    stroke="#555"
+    d="M 50,50 L 250,50"
+  ></path>
+
+
+
+  <path id="spine_test" 
+    fill="none" 
+    stroke="#f00"
+    d="M 50,50 L 250,50"
+  ></path>
+
+
+  <script type="text/ecmascript">
+<![CDATA[
+
+/*
+    FROM  GEMINI DISCUSSION: https://gemini.google.com/app/10bf757421fb4883
+*/
+
+const ribbonPath = document.getElementById('ribbon');
+
+let amplitude    = 10;
+let wavelength   = 200;
+let phase        = 0  // Math.PI / 2 ;
+let speed        = 0.05; 
+let ribbonWidth  = 10; 
+let ribbonLength = 200;
+let midline      = 50;
+
+let xOffset      = 0;
+
+// INCREASE TO 100 ON COMPLETION
+const numSamples = 10; 
+
+function updateSamples() {
+
+
+
+}
+
+
+
+
+
+function animate() {
+
+  const upperPoints = [];
+  const lowerPoints = [];
+  const centerPoints = [];
+  const tanVectors   = [];
+  const perpVectors  = [];
+  const normalVectors = [];
+
+  phase += speed; 
+
+  let pathData = "M"; 
+  
+  for ( let i = 0; i <= numSamples; i++ ) {
+
+    const x = i / numSamples * ribbonLength ; 
+    // if you don't want x to start at 0?
+    //const x = xOffset + ( ( i / numSamples) * ribbonLength ) ; 
+
+    // subtract from midline cuz y is down in CG coords...
+    const yCenter =  midline + amplitude * Math.sin( ( 2 * Math.PI * x / wavelength ) + phase ); 
+    // const yCenter =  midline - amplitude * Math.sin( ( 2 * Math.PI * x / wavelength ) + phase ); 
+
+    centerPoints.push( {x: x, y: yCenter} );
+
+
+
+    // Calculate derivative dy/dx
+    // dy/dx = A * (2pi/lambda) * cos( (2pi*x/lambda) + phi )
+
+    const B = (2 * Math.PI / wavelength); 
+    const dy_dx = amplitude * B * Math.cos( (B * x) + phase );
+
+    // Tangent vector (Tx, Ty) = (1, dy_dx)
+    const Tx = 1;
+    const Ty = dy_dx;
+    const TanVector = [ 1, dy_dx ];
+    // console.log ( TanVector ) ;
+    tanVectors.push( TanVector );
+
+    // GET THE  Perpendicular vector (Px, Py) = (-Ty, Tx)
+    let Px = -Ty;
+    let Py = Tx;
+    const PerpVector = [ Px, Py ];
+    // console.log ( PerpVector ) ;
+    perpVectors.push( PerpVector );
+
+    // Normalize the PERPS to get the NORMALS  length = 1
+    // EUCLIDEAN DISTANCE
+    const magnitudeP = Math.sqrt(Px*Px + Py*Py);
+    let Nx = Px;
+    let Ny = Py;
+    Nx /= magnitudeP;
+    Ny /= magnitudeP;
+    const NormalVector = [ Nx, Ny ];
+    // console.log ( PerpVector ) ;
+    normalVectors.push( NormalVector );
+
+    // Calculate upper and lower points
+    const upperX = x + Nx * ribbonWidth / 2;
+    const upperY = yCenter + Ny * ribbonWidth / 2;
+
+    const lowerX = x - Nx * ribbonWidth / 2;
+    const lowerY = yCenter - Ny * ribbonWidth / 2;
+
+    upperPoints.push({x: upperX, y: upperY});
+    lowerPoints.push({x: lowerX, y: lowerY});
+
+
+  }
+
+  //console.log( centerPoints );
+  render( centerPoints );
+
+  // DEV DEBUGGINS
+  // renderPoints( centerPoints );
+  // renderTanVectors( centerPoints, tanVectors );
+  // renderPerpVectors( centerPoints, perpVectors );
+  // renderNormalVectors( centerPoints, normalVectors );
+
+  renderRibbon1( upperPoints, lowerPoints );
+
+
+    // TODO: RESUME HERE 
+
+    // goal AT END OF ARTICLE I WANT A GALLERY PIECE WITH 
+    // 10 WAVE EFFECT SPRITES...
+    // THEN ABSTRACT OUT TO SPRITE RENDERING ... 
+
+    // BUT DON'T PUT OFF OUTDOOR STUFF 
+    // SHED TAKES TOP PRIORITY + MID MONTH PAYEMENTS...
+
+
+  /*
+  // Construct the path data string
+  for (let i = 0; i < upperPoints.length; i++) {
+    pathData += `${upperPoints[i].x},${upperPoints[i].y}${i === 0 ? "" : "L"}`;
+  }
+  // Append lower points in reverse order
+  for (let i = lowerPoints.length - 1; i >= 0; i--) {
+    pathData += `L${lowerPoints[i].x},${lowerPoints[i].y}`;
+  }
+  pathData += "Z"; // Close the path
+  ribbonPath.setAttribute("d", pathData);
+
+
+  // TODO: BEFORE YOU START THE ANIMATION 
+  // SET UP DOM CLEARNING (ELSE LEAK LEAK LEAK!!!)
+
+  requestAnimationFrame(animate);
+*/
+
+}
+
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+function render( pathData ) {
+    // d="M 50,40 L 250,40 L 250,60 L 50,60 Z"
+    let dStr = "";
+    dStr += "M "
+    const { x, y } = pathData[0];
+
+    dStr += `${x}, ${y} `;
+    for( let i=1; i<pathData.length; i++ ) {
+        const { x, y } = pathData[i];
+        dStr += `L ${x}, ${y} `;
+    }
+  
+    const testPathElem = document.getElementById( "spine_test" );
+    testPathElem.setAttribute( "d", dStr );
+} 
+
+
+
+function renderPoints( pathData ) {
+    const svg = document.getElementById( "ribbon_effect" );
+    const RADIUS = "2";
+    for( let i=0; i<pathData.length; i++ ) {
+      const { x, y } = pathData[i];
+      const pt = document.createElementNS( SVG_NS, "circle");
+      pt.setAttribute( "cx", `${ x }` );
+      pt.setAttribute( "cy", `${ y }` );
+      pt.setAttribute( "r", `${ RADIUS }` );
+      pt.setAttribute( "fill", "blue" );
+      svg.appendChild( pt );
+
+    }
+
+}
+
+
+function renderTanVectors( pathData, tanVecs ) {
+    const svg = document.getElementById( "ribbon_effect" );
+
+    for( let i=0; i<pathData.length; i++ ) {
+      const { x, y } = pathData[i];
+      const tanVec   = tanVecs[i];
+      const TanVector = document.createElementNS( SVG_NS, "line" );
+      TanVector.setAttribute("x1", `${x}`);
+      TanVector.setAttribute("y1", `${y}`);
+      TanVector.setAttribute("x2", `${x + 10*tanVec[0]}`);
+      TanVector.setAttribute("y2", `${y + 10*tanVec[1]}`);
+      TanVector.setAttribute("stroke", "green");
+      svg.appendChild( TanVector );
+    }
+}
+
+
+function renderPerpVectors( pathData, perpVecs ) {
+    const svg = document.getElementById( "ribbon_effect" );
+
+    for( let i=0; i<pathData.length; i++ ) {
+      const { x, y } = pathData[i];
+      const perpVec  = perpVecs[i];
+      const PerpVector = document.createElementNS( SVG_NS, "line" );
+      PerpVector.setAttribute("x1", `${x}`);
+      PerpVector.setAttribute("y1", `${y}`);
+      PerpVector.setAttribute("x2", `${x + 10*perpVec[0]}`);
+      PerpVector.setAttribute("y2", `${y + 10*perpVec[1]}`);
+      PerpVector.setAttribute("stroke", "red");
+      svg.appendChild( PerpVector );
+    }
+}
+
+function renderNormalVectors( pathData, normalVecs ) {
+    const svg = document.getElementById( "ribbon_effect" );
+
+    for( let i=0; i<pathData.length; i++ ) {
+      const { x, y } = pathData[i];
+      const normVec  = normalVecs[i];
+      const NormalVector = document.createElementNS( SVG_NS, "line" );
+      NormalVector.setAttribute("x1", `${x}`);
+      NormalVector.setAttribute("y1", `${y}`);
+      NormalVector.setAttribute("x2", `${x + 10 * normVec[0]}`);
+      NormalVector.setAttribute("y2", `${y + 10 * normVec[1]}`);
+      NormalVector.setAttribute("stroke", "red");
+      svg.appendChild( NormalVector );
+    }
+}
+
+function renderRibbon1( upperPoints, lowerPoints ) {
+
+    const svg = document.getElementById( "ribbon_effect" );
+    const RADIUS = "1";
+
+    for( let i=0; i<upperPoints.length; i++ ) {
+
+      let x = y = 0;
+
+      x = upperPoints[i].x;
+      y = upperPoints[i].y;
+      let pt = document.createElementNS( SVG_NS, "circle");
+      pt.setAttribute( "cx", `${ x }` );
+      pt.setAttribute( "cy", `${ y }` );
+      pt.setAttribute( "r", `${ RADIUS }` );
+      pt.setAttribute( "fill", "green" );
+      svg.appendChild( pt );
+
+      x = lowerPoints[i].x;
+      y = lowerPoints[i].y;
+      pt = document.createElementNS( SVG_NS, "circle");
+      pt.setAttribute( "cx", `${ x }` );
+      pt.setAttribute( "cy", `${ y }` );
+      pt.setAttribute( "r", `${ RADIUS }` );
+      pt.setAttribute( "fill", "green" );
+      svg.appendChild( pt );
+
+    }
+
+}
+
+
+// Start the animation
+animate();
+
+]]>
+  </script>
+
+</svg>

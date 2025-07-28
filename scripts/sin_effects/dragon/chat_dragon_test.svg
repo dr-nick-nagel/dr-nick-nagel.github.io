@@ -1,0 +1,67 @@
+<svg viewBox="0 0 320 180" width="320" height="180" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sky background -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#87CEEB"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+
+    <!-- Water gradient -->
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#66c2a5" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#014636" stop-opacity="0.25"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="320" height="180" fill="url(#sky)" />
+
+  <!-- Ribbon path to animate -->
+  <path id="ribbon" fill="url(#water)" stroke="none">
+    <animate 
+      id="waveAnim"
+      attributeName="d" 
+      dur="4s" 
+      repeatCount="indefinite"
+      values="
+        M0,90 
+        Q40,80 80,90 
+        Q120,100 160,90 
+        Q200,80 240,90 
+        Q280,100 320,90 
+        L320,180 L0,180 Z;
+
+        M0,90 
+        Q40,100 80,90 
+        Q120,80 160,90 
+        Q200,100 240,90 
+        Q280,80 320,90 
+        L320,180 L0,180 Z;
+
+        M0,90 
+        Q40,80 80,90 
+        Q120,100 160,90 
+        Q200,80 240,90 
+        Q280,100 320,90 
+        L320,180 L0,180 Z
+      "
+      keyTimes="0;0.5;1"
+    />
+  </path>
+
+  <!-- Placeholder sprite: circle riding the wave -->
+  <circle r="6" fill="red">
+    <animate 
+      attributeName="cx" 
+      values="0;320" 
+      dur="4s" 
+      repeatCount="indefinite"
+    />
+    <animate 
+      attributeName="cy" 
+      values="90;90;90" 
+      keyTimes="0;0.5;1" 
+      dur="4s"
+      repeatCount="indefinite"
+    />
+  </circle>
+</svg>
