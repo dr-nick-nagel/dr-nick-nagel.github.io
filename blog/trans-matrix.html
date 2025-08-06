@@ -198,12 +198,13 @@ Welcome to NickNagel.com
 </div>
 
 <p>The renderable region of the canvas is defined by <code>width</code> and <code>height</code> attributes on the <code>svg</code> <em>document element</em> as shown in the following snippit. </p>
-<p><code>&lt;svg id='example_1'
-   width="300"
-   height="400"
-   viewBox="0 0 300 400"&gt;
+<pre><code>&lt;svg id='example_1'
+   width=&quot;300&quot;
+   height=&quot;400&quot;
+   viewBox=&quot;0 0 300 400&quot;&gt;
    ...
-&lt;/svg&gt;</code></p>
+&lt;/svg&gt;
+</code></pre>
 <p>The <code>viewBox</code> attribute defines a coordinate system as a basis for transforming SVG canvas coordinates to fit a specific display area. The syntax is <em>minX minY width</em> and <em>height</em>. The SVG elements in the defined region will be mapped to the client display area. If the width and height values are the same for the canvas and viewBox the mapping is 1:1. If the values differ between the two the client will translate and scale the canvas elements to fit the viewBox coordinate system. For example, if the <code>viewBox</code> values above were changed to 0, 0, 600, 800 the SVG elements would be scaled down by half. If they were changed to 0, 0, 150, 200 they'd be scaled up by a factor of 2.</p>
 <h1>Client and SVG Viewports</h1>
 <p>Understanding these concepts becomes even more important when you embed your SVG in HTML Web Pages and other applications. In such cases you have to worry about not just your SVG but also the <strong>client viewport</strong>. Here I've created an illustration depicting an SVG viewport embedded in a client webpage. </p>
@@ -283,11 +284,12 @@ Welcome to NickNagel.com
 </div>
 
 <p>To demonstrate this I've translated the needle by 200 pixels in both the x and y directions using the following code:</p>
-<p><code>&lt;g  id="needle"
-        transform="translate(200, 200)"
+<pre><code>    &lt;g  id=&quot;needle&quot;
+        transform=&quot;translate(200, 200)&quot;
     &gt;
     &lt;!-- SVG CODE DEFINING THE NEEDLE --&gt;
-    &lt;/g&gt;</code></p>
+    &lt;/g&gt;
+</code></pre>
 <h3>Important!</h3>
 <blockquote>
 <p>It's important to note that <strong>when a transform is applied to an element in SVG technically it's applied to the element's <em>local coordinate system</em></strong>. </p>

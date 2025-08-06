@@ -196,20 +196,24 @@ Welcome to NickNagel.com
 <ol>
 <li>Verify that PulseAudio is available on your system (it will usually be installed and operating on linux distros).</li>
 </ol>
-<p><code>$ pulseaudio --version</code>
-2. PulseAudio should be running as a process which can be verified with:
-<code>$ ps aux | grep pulseaudio</code></p>
+<pre><code>$ pulseaudio --version
+</code></pre>
 <ol>
-<li>
-<p>Install <em>pavucontrol</em>
-<code>sudo apt update
-sudo apt install pavucontrol</code></p>
-</li>
-<li>
-<p>And, of course, it's assumed you have Discord installed on your system (the easiest way as of this writing is with snap since it doesn't seem to be registered as a APT repository)...
-<code>sudo snap install discord</code></p>
-</li>
+<li>PulseAudio should be running as a process which can be verified with:</li>
 </ol>
+<pre><code>$ ps aux | grep pulseaudio
+</code></pre>
+<ol>
+<li>Install <em>pavucontrol</em></li>
+</ol>
+<pre><code>sudo apt update
+sudo apt install pavucontrol
+</code></pre>
+<ol>
+<li>And, of course, it's assumed you have Discord installed on your system (the easiest way as of this writing is with snap since it doesn't seem to be registered as a APT repository)...</li>
+</ol>
+<pre><code>sudo snap install discord
+</code></pre>
 <h3>Routine Use</h3>
 <p>Once you've completed the initial setup, you can use the following procedure to stream audio and video through discord as desired. My use-case that prompted this post concerns streaming video in a browser but I'm guessing it will generalize to other application windows.</p>
 <ol>

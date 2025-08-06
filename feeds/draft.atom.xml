@@ -29,12 +29,13 @@
 &lt;/div&gt;
 
 &lt;p&gt;The renderable region of the canvas is defined by &lt;code&gt;width&lt;/code&gt; and &lt;code&gt;height&lt;/code&gt; attributes on the &lt;code&gt;svg&lt;/code&gt; &lt;em&gt;document element&lt;/em&gt; as shown in the following snippit. &lt;/p&gt;
-&lt;p&gt;&lt;code&gt;&amp;lt;svg id='example_1'
-   width="300"
-   height="400"
-   viewBox="0 0 300 400"&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;svg id='example_1'
+   width=&amp;quot;300&amp;quot;
+   height=&amp;quot;400&amp;quot;
+   viewBox=&amp;quot;0 0 300 400&amp;quot;&amp;gt;
    ...
-&amp;lt;/svg&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&amp;lt;/svg&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;viewBox&lt;/code&gt; attribute defines a coordinate system as a basis for transforming SVG canvas coordinates to fit a specific display area. The syntax is &lt;em&gt;minX minY width&lt;/em&gt; and &lt;em&gt;height&lt;/em&gt;. The SVG elements in the defined region will be mapped to the client display area. If the width and height values are the same for the canvas and viewBox the mapping is 1:1. If the values differ between the two the client will translate and scale the canvas elements to fit the viewBox coordinate system. For example, if the &lt;code&gt;viewBox&lt;/code&gt; values above were changed to 0, 0, 600, 800 the SVG elements would be scaled down by half. If they were changed to 0, 0, 150, 200 they'd be scaled up by a factor of 2.&lt;/p&gt;
 &lt;h1&gt;Client and SVG Viewports&lt;/h1&gt;
 &lt;p&gt;Understanding these concepts becomes even more important when you embed your SVG in HTML Web Pages and other applications. In such cases you have to worry about not just your SVG but also the &lt;strong&gt;client viewport&lt;/strong&gt;. Here I've created an illustration depicting an SVG viewport embedded in a client webpage. &lt;/p&gt;
@@ -114,11 +115,12 @@
 &lt;/div&gt;
 
 &lt;p&gt;To demonstrate this I've translated the needle by 200 pixels in both the x and y directions using the following code:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;&amp;lt;g  id="needle"
-        transform="translate(200, 200)"
+&lt;pre&gt;&lt;code&gt;    &amp;lt;g  id=&amp;quot;needle&amp;quot;
+        transform=&amp;quot;translate(200, 200)&amp;quot;
     &amp;gt;
     &amp;lt;!-- SVG CODE DEFINING THE NEEDLE --&amp;gt;
-    &amp;lt;/g&amp;gt;&lt;/code&gt;&lt;/p&gt;
+    &amp;lt;/g&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Important!&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;It's important to note that &lt;strong&gt;when a transform is applied to an element in SVG technically it's applied to the element's &lt;em&gt;local coordinate system&lt;/em&gt;&lt;/strong&gt;. &lt;/p&gt;

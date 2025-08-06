@@ -200,34 +200,39 @@ $$</p>
 <p>Essentially, as defined above, convolving the lists simply means applying the operation to generate a new list given the two input lists. In other words we flip one operand and slide, or, shift it along the second to generate the output...</p>
 <div  >
     <div style="background-color: #888; color: #ffe; padding:0.5em;" >
-```
-    1 2 3
+
+<pre><code>    1 2 3
 4 3 2           1*2                2
-```
+</code></pre>
+
     </div>
     <div style="background-color: #555; color: #ffe; padding:0.5em;" >
-```
-    1 2 3
+
+<pre><code>    1 2 3
   4 3 2         1*3 + 2*2          7
-```
+</code></pre>
+
     </div>
     <div style="background-color: #888; color: #ffe; padding:0.5em;" >
-```
-    1 2 3
+
+<pre><code>    1 2 3
     4 3 2       1*4 + 2*3 + 3*2    16
-```
+</code></pre>
+
     </div>
     <div style="background-color: #555; color: #ffe; padding:0.5em;" >
-```
-    1 2 3
+
+<pre><code>    1 2 3
       4 3 2     2*4 + 3*3          17
-```
+</code></pre>
+
     </div>
     <div style="background-color: #888; color: #ffe; padding:0.5em;" >
-```
-    1 2 3
+
+<pre><code>    1 2 3
         4 3 2   3*4                12
-```
+</code></pre>
+
     </div>
 </div>
 
@@ -446,8 +451,8 @@ $$
 
 <p>And just to be sure, we can check the answer we obtained using python ...</p>
 <div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
-```
-import numpy as np
+
+<pre><code>import numpy as np
 from scipy.signal import convolve2d
 input = [
     [1, 2, 0, 3],
@@ -464,12 +469,14 @@ kernel = [
 output = convolve2d( input, kernel, mode='valid')
 print ( output )
 
-```
+</code></pre>
+
 </div>
 
-<p><code>[[11 14]
- [11  9]]</code>
-Notice how we set the mode to <em>valid</em>. scipy uses padding by default for <code>convolve2d</code>.</p>
+<pre><code>[[11 14]
+ [11  9]]
+</code></pre>
+<p>Notice how we set the mode to <em>valid</em>. scipy uses padding by default for <code>convolve2d</code>.</p>
 <p>So, the above example walks through the convolution of a 2d matrix and a kernel -- an operation commonly applied in image processing. Next let's consider application of convolutions to machine learning -- let's draw the connection to CNN's, or, <em>convolutional neural networks</em>.</p>
 <h1>Convolutional Neural Networks</h1>
 <p>So having done a bit of a deep dive into the mathematics of the convolution operation it's worth considering its application to machine learning. Again, convolution is ubiquitous in machine learning, but to launch into discussion here let's look at a very basic example from image processing. </p>
@@ -477,20 +484,21 @@ Notice how we set the mode to <em>valid</em>. scipy uses padding by default for 
 <h2>The Models</h2>
 <p>To better understand CNN's and the impact of the application of <em>convolutional layers</em>  I created two models in order to make some comparisons; a <em>multi-layer peceptron</em> and a convolutional variant of the model. A multi layer perceptron (MLP) is an artificial neural network that can be used to learn complex patterns in data. Here's some sample python code which defines an MLP using tensorflow:</p>
 <div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
-```
-# Define a simple Multi Layer Perceptron model
+
+<pre><code># Define a simple Multi Layer Perceptron model
 model_mlp = models.Sequential([
     layers.Dense(64*64, activation='relu', input_shape=(128 * 128,)),
     layers.Dense(4, activation='softmax')
 ])
-```
+</code></pre>
+
 </div>
 
 <p>If you aren't familiar with tensorflow don't sweat it. For now, the point is that this code defines a neural network with three layers; an input layer (which is capable of processing 128 X 128 pixel images), a <em>hidden activation layer</em>, and an output layer with 4 units (enabling classification into 4 categories). </p>
 <p>MLP's can be enhanced through the addition of convolutional layers in the network architecture. Here's some code which enhances the basic MLP with a convolutional layer. </p>
 <div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller">
-```
-# Define a CNN model
+
+<pre><code># Define a CNN model
 model_cnn_4 = models.Sequential([
     layers.Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 1)),
     layers.MaxPooling2D((2, 2)),
@@ -498,7 +506,8 @@ model_cnn_4 = models.Sequential([
     layers.Dense(128, activation='relu'),
     layers.Dense(4, activation='softmax')
 ])
-```
+</code></pre>
+
 </div>
 
 <p>The convolutional layer is defined with set of 32 3 X 3 filters. The filters are convolved across the input to generate <em>feature maps</em>. Randomly determined initially, the filter values are updated over the course of training (through <em>backpropagation</em>) -- enabling the system to settle into a state that optimizes classification for the training set. In other words, convolutional layers enable the system to extract features from the input which can enhance learning analogous to the ways in which we as humans perceive and learn!</p>
@@ -523,8 +532,8 @@ model_cnn_4 = models.Sequential([
 <h1>Appendix 1: My Naive Pass at Convolution -- An Exercise in Algorithm Implementation</h1>
 <p>This is just a naive python implementation -- an exercise solely intended to get those synapses firing. But, again, my philosophy is that in the same way doing push-ups enables you to exercise your muscles implementing algorithms enables you to exercise your brain. </p>
 <div style="background-color: #555; color: #ffe; padding:0.5em;" >
-```
-def nn_convolve( a, b ) :
+
+<pre><code>def nn_convolve( a, b ) :
   '''
   My naive implementation of convolution ...
   '''
@@ -537,26 +546,28 @@ def nn_convolve( a, b ) :
     j_range = range ( start, stop )
     for j in  j_range  :
       k += a[ i - (len(b)-1) + j ] * b_flipped[j]
-    if start > 0 :
+    if start &gt; 0 :
       start -= 1
-    if i >= len( a )-1 :
+    if i &gt;= len( a )-1 :
       stop -= 1
     convolution.append(k)
   return np.array( convolution )
-```
+</code></pre>
+
 </div>
 
 <p>And some tests</p>
 <div style="background-color: #555; color: #ffe; padding:0.5em;" >
-```
-a = np.array( [1, 2, 3] )
+
+<pre><code>a = np.array( [1, 2, 3] )
 b = np.array( [2, 3, 4] )
 print( nn_convolve ( a, b ) )
 a3 = np.array( [1, 2, 3, 4, 1, 2, 3, 4] )
 b2 = np.array( [0.1, 0.5] )
 print( nn_convolve ( a3, b2 ) )
 print( np.convolve ( a3, b2 ) )
-```
+</code></pre>
+
 </div>
 
 <p>The key highlights regarding the solution are that it (1) flips the kernel and then computes the sum of element-wise multiplications as you slide the kernel across the signal (again, the essence of convolution).</p>

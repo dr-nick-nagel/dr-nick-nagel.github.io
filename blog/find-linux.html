@@ -169,22 +169,28 @@ Welcome to NickNagel.com
 <li>... 'relies on a database that contains a snapshot of all files and directories on your system (updated roughly daily by chron-job).</li>
 </ul>
 <h3>Usage</h3>
-<p><code>locate myfile.txt</code>
-<code>-r</code> Use regex.</p>
+<pre><code>locate myfile.txt
+</code></pre>
+<p><code>-r</code> Use regex.</p>
 <h2><code>find</code></h2>
 <p>Find files within a specified directory and its subdirectories based on various criteria.</p>
 <h3>Usage</h3>
-<p><code>find [path] [expression]</code></p>
+<pre><code>find [path] [expression]  
+</code></pre>
 <h3>Examples</h3>
-<p><code>find . -name "*texture*"</code></p>
+<pre><code>find . -name &quot;*texture*&quot;
+</code></pre>
 <h2><code>grep</code></h2>
 <p><code>grep</code> is a VASTLY powerful command-line utility in Linux and Unix-like systems used to search for patterns within text data. </p>
 <h3>Usage</h3>
-<p><code>grep [options] pattern [file(s)]</code></p>
+<pre><code>grep [options] pattern [file(s)]
+</code></pre>
 <h3>Examples</h3>
 <p>Can be used to find files <em>containing</em> target patters. For example, find files containing the word 'texture' ...</p>
-<p><code>1. grep -E -r ".*[Tt]exture\s*" .</code></p>
-<p><code>2. grep -Erl ".*[Tt]exture\s*" . | xargs grep -l ".*[Nn]oise\s*"</code></p>
+<pre><code>1. grep -E -r &quot;.*[Tt]exture\s*&quot; .
+</code></pre>
+<pre><code>2. grep -Erl &quot;.*[Tt]exture\s*&quot; . | xargs grep -l &quot;.*[Nn]oise\s*&quot;
+</code></pre>
 <p>Where <code>-E</code> flags the use of <em>extended</em> regular expressions. </p>
 <p>To be cont'd ... </p>
     <footer>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Inkscape Art: Interpolate Subpaths</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+        
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="inkscape" />
+    <meta name="tags" content="tools" />
+    <meta name="tags" content="features" />
+    <meta name="tags" content="inkscape features" />
+    <meta name="tags" content="techniques" />
+    <meta name="tags" content="tips" />
+    <meta name="tags" content="tricks" />
+    <meta name="tags" content="patterns" />
+    <meta name="tags" content="procedural art" />
+    <meta name="tags" content="pattern along path" />
+    <meta name="tags" content="svg artworks" />
+    <meta name="tags" content="svg artwork" />
+    <meta name="tags" content="svg art" />
+    <meta name="tags" content="interpolate subpaths" />
+
+    </head>
+
+    <body>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="nn_symbols"
+   version="1.1"
+   style="display:none"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs>
+    <symbol id="en_return"  viewBox="0 0 20 20">
+      <path
+        style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+        id="return_to_text_1"
+      />
+    </symbol>
+
+    <symbol id="circle_symbol" viewBox="-7.5 -8 15 16">
+      <circle id="circle_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        r="7.5"
+      />
+    </symbol>
+
+    <symbol id="rectangle_symbol" viewBox="-7.5 -9 15 18">
+      <rect
+        fill="currentColor"
+        style="display:inline;"
+        id="rectangular_shape"
+        width="15"
+        height="18"
+        x="-7.5"
+        y="-9"
+      />
+    </symbol>
+
+    <symbol id="diamond_symbol" viewBox="-7.5 -12 15 24">
+      <rect
+       fill="currentColor"
+       style="display:inline;"
+       id="diamond_0"
+       width="15"
+       height="15"
+       x="-7.5"
+       y="-7.5"
+       transform="rotate(45)" />
+    </symbol>
+
+    <symbol id="triangle_symbol" viewBox="-7.5 -7.5 15 20">
+      <path id="triangle_0"
+        fill="currentColor"
+        style="display:inline;"
+        d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
+      />
+    </symbol>
+
+    <symbol id="oval_symbol" viewBox="-7 -10 14 20">
+      <ellipse id="oval_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        rx="6"
+        ry="9" />
+    </symbol>
+
+    <symbol id="heart_face_symbol" viewBox="-7.5 -10 15 20">
+      <path id="heart_face"
+          fill="currentColor"
+          style="display:inline"
+          d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
+      />
+    </symbol>
+
+   </defs>
+</svg>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/inkscape-features-interpolate-paths.html" rel="bookmark"
+           title="Permalink to Inkscape Art: Interpolate Subpaths">Inkscape Art: <em>Interpolate Subpaths</em></a></h2>
+      
+    </header>
+    <style>
+.ArtExample {
+    background-color: #eee;
+    border: solid #800 2px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Caption {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 9px;
+    margin-bottom: 20px
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}figure
+
+figure {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    img {
+        width: 480px;
+    }
+    figcaption {
+
+    }
+    @media (max-width: 450px) {
+        /* CSS rules for screen widths 450px and below go here */
+        width: 320px;
+        img {
+            width: 320px;
+        }
+    }
+}
+
+picture {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    svg, img {
+        width: 360px;
+        @media (max-width: 450px) {
+            /* CSS rules for screen widths 450px and below go here */
+            width: 320px;
+        }
+    }
+}
+
+</style>
+
+<h3>Nick Nagel's <em>Procedural Art with Inkscape</em> Series</h3>
+<ol>
+<li><a href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html">Pattern along path</a></li>
+<li><a href="https://dr-nick-nagel.github.io/blog/inkscape-features-interpolate-paths.html">Sub-path Interpolation</a>
+...</li>
+</ol>
+<h2>Featured in this Post ...</h2>
+<p>Inkscape's <em>Path Interpolation</em> .</p>
+<h2>Introduction</h2>
+<p>TBD</p>
+<p>POST SHOULD COVER PATH INTERPOLATION WITH AN EYE TOWARD</p>
+<ol>
+<li>
+<p>procedural art (show the surf wave example with wave spine ... </p>
+</li>
+<li>
+<p>path generation for SMIL animation (do the jellyfish motion ... ) </p>
+</li>
+</ol>
+<!--
+
+<figure>
+    <img id='inkscape_mindmap'
+      src='/assets/inkscape-features-mindmap.svg' 
+      alt='An SVG graph showing relationships among inkscape features from shapes to LPEs and everything between'
+    >
+    <figcaption></figcaption>
+</figure>
+
+-->
+
+<p>So I started this blog series in order to catelog and provide references to Inkscape features as I continue to explore the intersection of vector graphics, procedural art, animation and AI. Like I always say -- the faintest ink is truer than the sharpest memory!</p>
+<h2>Path interpolation ...</h2>
+<p>Wave Skeleton ... </p>
+<h3>Procedure</h3>
+<h2>Artwork</h2>
+<figure>
+    <picture>
+      <source id='rainbow_svg'
+         srcset="/svg/inkscape_art/rainbow_connection.svg" 
+         type="image/svg+xml">
+      <img id='rainbow_bitmap'
+           src="/svg/inkscape_art/rainbow_connection.png" 
+           alt="Abstract line art exemplifying stitching subpaths by Nick Nagel">
+    </picture>
+    <figcaption><strong>Figure N.</strong> Abstract artwork created by stitching subpaths in Inkscape. Image by <em>N</em> .</figcaption>
+</figure>
+
+<h2>Endnotes</h2>
+<ol>
+<li><span id="end_1">BLah blah blah<a href="#ret_1"><svg class="EndnoteReturn">
+  <use href="#en_return"></use>
+</svg></a></span></li>
+</ol>
+<h2>Resources</h2>
+<ol>
+<li>
+<p><a href="">TBD</a>. </p>
+</li>
+<li>
+<p>STITCH SUB-PATHS Path Effect In INSCAPE 1.3
+https://youtu.be/QopkW1kMk1o?si=DOfwvPR3DuXr7Dzs</p>
+</li>
+<li>
+<p>More Path Stitching ("Cool Abstract Lines")
+https://www.youtube.com/watch?v=vZF1ye0c4P4</p>
+</li>
+<li>
+<p>Interpolate Sub-Paths &amp; Lattice Deformation
+https://www.youtube.com/watch?v=rliF81fKVzI</p>
+</li>
+<li>
+<p>Inkscape Tutorial: Abstract Waves Background
+https://youtu.be/osuhoJl97VA?si=ocXdBH3gqBcUNXH4</p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2025-08-04T00:00:00-04:00">
+        Mon 04 August 2025
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
+            <a href="https://dr-nick-nagel.github.io/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/art.html">art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artwork.html">artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape.html">inkscape</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tools.html">tools</a>
+            <a href="https://dr-nick-nagel.github.io/tag/features.html">features</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape-features.html">inkscape features</a>
+            <a href="https://dr-nick-nagel.github.io/tag/techniques.html">techniques</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tips.html">tips</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tricks.html">tricks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/patterns.html">patterns</a>
+            <a href="https://dr-nick-nagel.github.io/tag/procedural-art.html">procedural art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/pattern-along-path.html">pattern along path</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg-artworks.html">svg artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg-artwork.html">svg artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg-art.html">svg art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/interpolate-subpaths.html">interpolate subpaths</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

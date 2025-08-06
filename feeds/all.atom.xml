@@ -1,5 +1,303 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/all.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-07-14T00:00:00-04:00</updated><entry><title>Making More with Waves: Trig Inspired SVG Artworks Part II</title><link href="https://dr-nick-nagel.github.io/blog/ribbon-effect.html" rel="alternate"></link><published>2025-07-14T00:00:00-04:00</published><updated>2025-07-14T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-07-14:/blog/ribbon-effect.html</id><summary type="html">&lt;p&gt;Create compelling web animations with simple trigonometry and SVG  ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/all.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-08-04T00:00:00-04:00</updated><entry><title>Inkscape Art: Interpolate Subpaths</title><link href="https://dr-nick-nagel.github.io/blog/inkscape-features-interpolate-paths.html" rel="alternate"></link><published>2025-08-04T00:00:00-04:00</published><updated>2025-08-04T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-08-04:/blog/inkscape-features-interpolate-paths.html</id><summary type="html">&lt;p&gt;Catalog of inkscape features and techniques: Interpolate Subpaths&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.ArtExample {
+    background-color: #eee;
+    border: solid #800 2px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Caption {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 9px;
+    margin-bottom: 20px
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}figure
+
+figure {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    img {
+        width: 480px;
+    }
+    figcaption {
+
+    }
+    @media (max-width: 450px) {
+        /* CSS rules for screen widths 450px and below go here */
+        width: 320px;
+        img {
+            width: 320px;
+        }
+    }
+}
+
+picture {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    svg, img {
+        width: 360px;
+        @media (max-width: 450px) {
+            /* CSS rules for screen widths 450px and below go here */
+            width: 320px;
+        }
+    }
+}
+
+&lt;/style&gt;
+
+&lt;h3&gt;Nick Nagel's &lt;em&gt;Procedural Art with Inkscape&lt;/em&gt; Series&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html"&gt;Pattern along path&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-features-interpolate-paths.html"&gt;Sub-path Interpolation&lt;/a&gt;
+...&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Featured in this Post ...&lt;/h2&gt;
+&lt;p&gt;Inkscape's &lt;em&gt;Path Interpolation&lt;/em&gt; .&lt;/p&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;TBD&lt;/p&gt;
+&lt;p&gt;POST SHOULD COVER PATH INTERPOLATION WITH AN EYE TOWARD&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;procedural art (show the surf wave example with wave spine ... &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;path generation for SMIL animation (do the jellyfish motion ... ) &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!--
+
+&lt;figure&gt;
+    &lt;img id='inkscape_mindmap'
+      src='/assets/inkscape-features-mindmap.svg' 
+      alt='An SVG graph showing relationships among inkscape features from shapes to LPEs and everything between'
+    &gt;
+    &lt;figcaption&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+--&gt;
+
+&lt;p&gt;So I started this blog series in order to catelog and provide references to Inkscape features as I continue to explore the intersection of vector graphics, procedural art, animation and AI. Like I always say -- the faintest ink is truer than the sharpest memory!&lt;/p&gt;
+&lt;h2&gt;Path interpolation ...&lt;/h2&gt;
+&lt;p&gt;Wave Skeleton ... &lt;/p&gt;
+&lt;h3&gt;Procedure&lt;/h3&gt;
+&lt;h2&gt;Artwork&lt;/h2&gt;
+&lt;figure&gt;
+    &lt;picture&gt;
+      &lt;source id='rainbow_svg'
+         srcset="/svg/inkscape_art/rainbow_connection.svg" 
+         type="image/svg+xml"&gt;
+      &lt;img id='rainbow_bitmap'
+           src="/svg/inkscape_art/rainbow_connection.png" 
+           alt="Abstract line art exemplifying stitching subpaths by Nick Nagel"&gt;
+    &lt;/picture&gt;
+    &lt;figcaption&gt;&lt;strong&gt;Figure N.&lt;/strong&gt; Abstract artwork created by stitching subpaths in Inkscape. Image by &lt;em&gt;N&lt;/em&gt; .&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Endnotes&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;span id="end_1"&gt;BLah blah blah&lt;a href="#ret_1"&gt;&lt;svg class="EndnoteReturn"&gt;
+  &lt;use href="#en_return"&gt;&lt;/use&gt;
+&lt;/svg&gt;&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=""&gt;TBD&lt;/a&gt;. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;STITCH SUB-PATHS Path Effect In INSCAPE 1.3
+https://youtu.be/QopkW1kMk1o?si=DOfwvPR3DuXr7Dzs&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;More Path Stitching ("Cool Abstract Lines")
+https://www.youtube.com/watch?v=vZF1ye0c4P4&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Interpolate Sub-Paths &amp;amp; Lattice Deformation
+https://www.youtube.com/watch?v=rliF81fKVzI&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Inkscape Tutorial: Abstract Waves Background
+https://youtu.be/osuhoJl97VA?si=ocXdBH3gqBcUNXH4&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="inkscape"></category><category term="tools"></category><category term="features"></category><category term="inkscape features"></category><category term="techniques"></category><category term="tips"></category><category term="tricks"></category><category term="patterns"></category><category term="procedural art"></category><category term="pattern along path"></category><category term="svg artworks"></category><category term="svg artwork"></category><category term="svg art"></category><category term="interpolate subpaths"></category></entry><entry><title>Inkscape Art: Pattern Along Path</title><link href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html" rel="alternate"></link><published>2025-07-31T00:00:00-04:00</published><updated>2025-07-31T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-07-31:/blog/inkscape-features-pattern.html</id><summary type="html">&lt;p&gt;Catalog of inkscape features and techniques: procedural effects for hair.&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.ArtExample {
+    background-color: #eee;
+    border: solid #800 2px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Caption {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 9px;
+    margin-bottom: 20px
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+figure {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    img {
+        width: 480px;
+    }
+    figcaption {
+
+    }
+    @media (max-width: 450px) {
+        /* CSS rules for screen widths 450px and below go here */
+        width: 320px;
+        img {
+            width: 320px;
+        }
+    }
+}
+
+picture {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    svg, img {
+        width: 360px;
+        @media (max-width: 450px) {
+            /* CSS rules for screen widths 450px and below go here */
+            width: 320px;
+        }
+    }
+}
+
+&lt;/style&gt;
+
+&lt;h3&gt;Nick Nagel's &lt;em&gt;Procedural Art with Inkscape&lt;/em&gt; Series&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html"&gt;Pattern along path&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-features-interpolate-paths.html"&gt;Sub-path Interpolation&lt;/a&gt;
+...&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Featured in this Post ...&lt;/h2&gt;
+&lt;p&gt;Inkscape's &lt;em&gt;pattern along path&lt;/em&gt; .&lt;/p&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;This post is one in an ongoing series of mine on Inkscape features and techniques for creating SVG artworks. Even though I've been using Inkscape for more years than I care to count, the SVG creation software is so feature-rich that I continue to discover new techniques and processes for creating SVG art all the time. With such a vast array of functionality it can be hard to keep all of it in mind.&lt;/p&gt;
+&lt;figure&gt;
+    &lt;img id='inkscape_mindmap'
+      src='/assets/inkscape-features-mindmap.svg' 
+      alt='An SVG graph showing relationships among inkscape features from shapes to LPEs and everything between'
+    &gt;
+    &lt;figcaption&gt;&lt;strong&gt;Figure 1:&lt;/strong&gt; Inkscape Feature Map.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;So I started this blog series in order to catalog and provide references to Inkscape features as I continue to explore the intersection of vector graphics, procedural art, animation and AI. Like I always say -- the faintest ink is truer than the sharpest memory!&lt;/p&gt;
+&lt;h2&gt;On Hair&lt;/h2&gt;
+&lt;figure&gt;
+    &lt;img id='hair_realistic'
+      src='/svg/inkscape_art/haare2.png' 
+      alt='An SVG graph showing relationships among inkscape features from shapes to LPEs and everything between'
+    &gt;
+    &lt;figcaption&gt;&lt;strong&gt;Figure 2:&lt;/strong&gt; An inkscape vector image in realistic style showing detailed hair. Image due to Chrisdesign.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;One of the earliest challenges I faced way back when I started creating SVG artworks
+was doing hair. Any artist will tell you -- when you're drawing hair don't worry about all the individual strands. Instead, the best artists are successful at creating a seamless blend of light and shadow to create depth, and then adding details and texture to suggest the hair's appearance without getting overwhelmed by each and every strand.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Pro Tip:&lt;/strong&gt; When you want to create hair focus on capturing the overall shape and flow of the mass, and then use shading and highlights to create depth and texture. &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;span id="ret_1"&gt;All this is true even if your end game is hyper-realism. Even then, you're never going to reproduce every strand with true fidelity -- so don't worry about it! The question here is how can you achieve a seamless blend of abstracted detail to achieve your artistic intent with SVG. There are many different techniques that can be used. Here I'll focus on an approach to create highlights procedurally using Inkscape &lt;sup&gt;&lt;a href="#end_1"&gt; 1 &lt;/a&gt;&lt;/sup&gt; . &lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;Adding Depth and Body to your Hair&lt;/h3&gt;
+&lt;p&gt;The approach essentially boils down to: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Creating a texture with &lt;code&gt;jitter&lt;/code&gt; and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Shaping it with &lt;code&gt;pattern along path&lt;/code&gt; . &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If you're drawing a figure and create a shape to represent the hair in SVG it will look flat and very 2D. There's nothing wrong with that but if you want to add body and provide the illusion of depth you'll want to add shade and highlights. Adding highlights that look like hair means creating shapes with potentially hundreds of nodes. And it would be impossible to do that manually. Luckily, Inkscape lets us do that procedurally.&lt;/p&gt;
+&lt;h3&gt;Procedure&lt;/h3&gt;
+&lt;p&gt;First, create a pseudo random shape to use for highlights.&lt;/p&gt;
+&lt;div id='jitter_nodes' 
+  class='Floater' 
+  style="float:right;width:80px;margin-top:20px;margin-bottom:10px"&gt;
+  &lt;img src='/svg/inkscape_art/jitter_nodes.svg' &gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Start with a simple line using the Bézier tool.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Convert the line to a path: &lt;code&gt;Path &amp;gt; Stroke to Path&lt;/code&gt; .&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add nodes to the path: &lt;code&gt;Extensions &amp;gt; Modify Path &amp;gt; Add Nodes&lt;/code&gt; .&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use &lt;em&gt;jitter&lt;/em&gt; to pseudo randomly "shake up" the nodes: &lt;code&gt;Extensions &amp;gt; Modify Path &amp;gt; Jitter Nodes&lt;/code&gt; .&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;That gives you the jagged shape which you can use as input to create the highlights you want for the hair. &lt;/p&gt;
+&lt;p&gt;To create those highlights use &lt;code&gt;Pattern along Path&lt;/code&gt; :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Extensions &amp;gt; Generate from Path &amp;gt; Pattern along Path
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To use &lt;code&gt;Pattern along Path&lt;/code&gt; for this ...&lt;/p&gt;
+&lt;div id='jitter_nodes' 
+  class='Floater' 
+  style="float:right;width:80px;margin-left:10px;margin-top:-20px;"&gt;
+  &lt;img src='/svg/inkscape_art/highlights.svg' &gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;First, create a Bézier path. Make sure to add the path &lt;em&gt;after&lt;/em&gt; you create the jagged shape (in order for the &lt;code&gt;Pattern along Path&lt;/code&gt; tool to correctly structure its inputs). &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Squeeze and stretch the jagged shape as shown to the right.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Finally, apply &lt;code&gt;Pattern along Path&lt;/code&gt; to 'bend' the highlight pattern to your needs for a seamless composition .&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;And voil&amp;agrave; there you have it. A pure SVG solution to achieving textured highlights. &lt;/p&gt;
+&lt;figure&gt;
+    &lt;picture&gt;
+      &lt;source id='hair_effect'
+         srcset="/svg/inkscape_art/hair_effect.svg" 
+         type="image/svg+xml"&gt;
+      &lt;img id='hair_effect_bitmap'
+           src="/svg/inkscape_art/hair_effect.png" 
+           alt="An example of the hair effect achieved with procedural highlights in Inkscape. Image by Nick Nagel"&gt;
+    &lt;/picture&gt;
+    &lt;figcaption&gt;&lt;strong&gt;Figure 3.&lt;/strong&gt; Example character art with highlights  applied to simulate hair. Note the crown highlight and simulated strands achieved with *jitter* and *pattern along path*. Image by &lt;em&gt;N&lt;/em&gt; .&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Summary and Conclusion&lt;/h2&gt;
+&lt;p&gt;This post is the first in a series on &lt;em&gt;procedural art with Inkscape&lt;/em&gt;. In this post I focused on &lt;code&gt;jitter nodes&lt;/code&gt; and &lt;code&gt;pattern along path&lt;/code&gt;.  Inkscape is a fantastic and feature-rich system which has been around for many years. It is 100% open-source and freely available -- and it enjoys fantastic community support. If you haven't already, I highly recommend you download and start using &lt;a href="https://inkscape.org/"&gt;Inkscape&lt;/a&gt; today! What's stopping you? &lt;/p&gt;
+&lt;h2&gt;Endnotes&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;span id="end_1"&gt;The technique I'm focusing on in this particular post was inspired by a classic Inkscape tutorial I first discovered many years ago. The core procedural approach of using &lt;code&gt;Jitter Nodes&lt;/code&gt; and &lt;code&gt;Pattern along Path&lt;/code&gt; was originally outlined in the blog post "Drawing hairs" by Chrisdesign which, at the time of writing, can be viewed &lt;a href="https://chrisdesign.wordpress.com/2007/12/29/drawing-hairs/"&gt;here ...&lt;/a&gt;&lt;a href="#ret_1"&gt;&lt;svg class="EndnoteReturn"&gt;
+  &lt;use href="#en_return"&gt;&lt;/use&gt;
+&lt;/svg&gt;&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://design.tutsplus.com/tutorials/how-to-vector-hair-with-brushes-in-adobe-illustrator--cms-28886"&gt;Hair Brushes in Adobe Illustrator&lt;/a&gt;. Even though this is an Adobe Illustrator tut I'm listing it here because the illustration techniques it describes are compatible with this post's topic and can easily be adapted to work in Inkscape.&lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="inkscape"></category><category term="tools"></category><category term="features"></category><category term="inkscape features"></category><category term="techniques"></category><category term="tips"></category><category term="tricks"></category><category term="patterns"></category><category term="procedural art"></category><category term="pattern along path"></category><category term="svg artworks"></category><category term="svg artwork"></category><category term="svg art"></category></entry><entry><title>Making More with Waves: Trig Inspired SVG Artworks Part II</title><link href="https://dr-nick-nagel.github.io/blog/ribbon-effect.html" rel="alternate"></link><published>2025-07-14T00:00:00-04:00</published><updated>2025-07-14T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-07-14:/blog/ribbon-effect.html</id><summary type="html">&lt;p&gt;Create compelling web animations with simple trigonometry and SVG  ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 .CodeList {
     background-color: #333;
     color: #FFE;
@@ -928,11 +1226,12 @@ $$
 
 &lt;h2&gt;Bonus! Here's the Tool&lt;/h2&gt;
 &lt;p&gt;And finally, here's the tool I promised for the SVG Collab&amp;trade;. To use the tool, simply tweak the parameters to generate your wave and copy the result to your clipboard. When you do the copy you'll get an SVG path of the form:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;&amp;lt;path id="sineWavePath" 
-    fill="none" stroke="red" 
-    stroke-width="1" 
-    d="M -50 -6.123233995736766e-15 L -49.5 -1.5697629882328317 ..."&amp;gt;
-&amp;lt;/path&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;path id=&amp;quot;sineWavePath&amp;quot; 
+    fill=&amp;quot;none&amp;quot; stroke=&amp;quot;red&amp;quot; 
+    stroke-width=&amp;quot;1&amp;quot; 
+    d=&amp;quot;M -50 -6.123233995736766e-15 L -49.5 -1.5697629882328317 ...&amp;quot;&amp;gt;
+&amp;lt;/path&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Simply drop it your SVG document and take it from there. Use it in good health! &lt;/p&gt;
 &lt;div class="ToolContainer"&gt;
     &lt;h2&gt;SVG Creators Collaborative &amp;trade; Sine Wave Generator&lt;/h1&gt;
@@ -3774,12 +4073,13 @@ const reStackSlides = () =&gt; {
 &lt;/div&gt;
 
 &lt;p&gt;The renderable region of the canvas is defined by &lt;code&gt;width&lt;/code&gt; and &lt;code&gt;height&lt;/code&gt; attributes on the &lt;code&gt;svg&lt;/code&gt; &lt;em&gt;document element&lt;/em&gt; as shown in the following snippit. &lt;/p&gt;
-&lt;p&gt;&lt;code&gt;&amp;lt;svg id='example_1'
-   width="300"
-   height="400"
-   viewBox="0 0 300 400"&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;svg id='example_1'
+   width=&amp;quot;300&amp;quot;
+   height=&amp;quot;400&amp;quot;
+   viewBox=&amp;quot;0 0 300 400&amp;quot;&amp;gt;
    ...
-&amp;lt;/svg&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&amp;lt;/svg&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;viewBox&lt;/code&gt; attribute defines a coordinate system as a basis for transforming SVG canvas coordinates to fit a specific display area. The syntax is &lt;em&gt;minX minY width&lt;/em&gt; and &lt;em&gt;height&lt;/em&gt;. The SVG elements in the defined region will be mapped to the client display area. If the width and height values are the same for the canvas and viewBox the mapping is 1:1. If the values differ between the two the client will translate and scale the canvas elements to fit the viewBox coordinate system. For example, if the &lt;code&gt;viewBox&lt;/code&gt; values above were changed to 0, 0, 600, 800 the SVG elements would be scaled down by half. If they were changed to 0, 0, 150, 200 they'd be scaled up by a factor of 2.&lt;/p&gt;
 &lt;h1&gt;Client and SVG Viewports&lt;/h1&gt;
 &lt;p&gt;Understanding these concepts becomes even more important when you embed your SVG in HTML Web Pages and other applications. In such cases you have to worry about not just your SVG but also the &lt;strong&gt;client viewport&lt;/strong&gt;. Here I've created an illustration depicting an SVG viewport embedded in a client webpage. &lt;/p&gt;
@@ -3859,11 +4159,12 @@ const reStackSlides = () =&gt; {
 &lt;/div&gt;
 
 &lt;p&gt;To demonstrate this I've translated the needle by 200 pixels in both the x and y directions using the following code:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;&amp;lt;g  id="needle"
-        transform="translate(200, 200)"
+&lt;pre&gt;&lt;code&gt;    &amp;lt;g  id=&amp;quot;needle&amp;quot;
+        transform=&amp;quot;translate(200, 200)&amp;quot;
     &amp;gt;
     &amp;lt;!-- SVG CODE DEFINING THE NEEDLE --&amp;gt;
-    &amp;lt;/g&amp;gt;&lt;/code&gt;&lt;/p&gt;
+    &amp;lt;/g&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Important!&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;It's important to note that &lt;strong&gt;when a transform is applied to an element in SVG technically it's applied to the element's &lt;em&gt;local coordinate system&lt;/em&gt;&lt;/strong&gt;. &lt;/p&gt;
@@ -5033,8 +5334,9 @@ class Movable {
 &lt;h1&gt;Number One: Verify Indexing&lt;/h1&gt;
 &lt;p&gt;Search engines work by indexing websites. Programs called &lt;em&gt;web crawlers&lt;/em&gt; scour the Internet daily discovering and indexing hyperlinks to web-sites to create a sort of catalog. Content is indexed by keywords which then can be used to retrieve information. "Googling" -- using key words to search for and retrieve information on the Internet has become a fundamental skill here at the dawn of the new millennium. So the first thing you want to do to make sure your site comes up in a search is verify that it has been indexed. The easiest way to do that is use the &lt;code&gt;site:&lt;/code&gt; operator the Google search bar (or pick the search engine of your choice). &lt;/p&gt;
 &lt;p&gt;For example, enter: &lt;/p&gt;
-&lt;p&gt;&lt;code&gt;site:mywebsite.com&lt;/code&gt;
-And you should see a list of pages that the search engine has indexed from your site.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;site:mywebsite.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And you should see a list of pages that the search engine has indexed from your site.&lt;/p&gt;
 &lt;h1&gt;Number Two: Submit Your Site to Google&lt;/h1&gt;
 &lt;p&gt;If you're not sure whether your site or some specific set of "pages" on your site have been indexed you can submit them for indexing using &lt;a href="https://search.google.com/search-console/about"&gt;Google Search Console&lt;/a&gt;. In general, GSC us a great tool to know about since you can get a lot of information about your site indexes, statistics related to visits, inbound hyperlinks, etc..&lt;/p&gt;
 &lt;h1&gt;Three: Get External Links to your Site&lt;/h1&gt;
@@ -5198,22 +5500,28 @@ $$
 &lt;li&gt;... 'relies on a database that contains a snapshot of all files and directories on your system (updated roughly daily by chron-job).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Usage&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;locate myfile.txt&lt;/code&gt;
-&lt;code&gt;-r&lt;/code&gt; Use regex.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;locate myfile.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;-r&lt;/code&gt; Use regex.&lt;/p&gt;
 &lt;h2&gt;&lt;code&gt;find&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;Find files within a specified directory and its subdirectories based on various criteria.&lt;/p&gt;
 &lt;h3&gt;Usage&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;find [path] [expression]&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;find [path] [expression]  
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Examples&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;find . -name "*texture*"&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;find . -name &amp;quot;*texture*&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;&lt;code&gt;grep&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;grep&lt;/code&gt; is a VASTLY powerful command-line utility in Linux and Unix-like systems used to search for patterns within text data. &lt;/p&gt;
 &lt;h3&gt;Usage&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;grep [options] pattern [file(s)]&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;grep [options] pattern [file(s)]
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Examples&lt;/h3&gt;
 &lt;p&gt;Can be used to find files &lt;em&gt;containing&lt;/em&gt; target patters. For example, find files containing the word 'texture' ...&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;1. grep -E -r ".*[Tt]exture\s*" .&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;2. grep -Erl ".*[Tt]exture\s*" . | xargs grep -l ".*[Nn]oise\s*"&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1. grep -E -r &amp;quot;.*[Tt]exture\s*&amp;quot; .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;2. grep -Erl &amp;quot;.*[Tt]exture\s*&amp;quot; . | xargs grep -l &amp;quot;.*[Nn]oise\s*&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Where &lt;code&gt;-E&lt;/code&gt; flags the use of &lt;em&gt;extended&lt;/em&gt; regular expressions. &lt;/p&gt;
 &lt;p&gt;To be cont'd ... &lt;/p&gt;</content><category term="Blog"></category><category term="linux"></category><category term="unix"></category><category term="find"></category><category term="grep"></category><category term="regular"></category><category term="expressions"></category><category term="regex"></category><category term="locate"></category></entry><entry><title>Implementing WebRTC Applications in Python Part I: Session Description Protocol</title><link href="https://dr-nick-nagel.github.io/blog/python_web_rtc_1.html" rel="alternate"></link><published>2024-12-20T00:00:00-05:00</published><updated>2024-12-20T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2024-12-20:/blog/python_web_rtc_1.html</id><summary type="html">&lt;p&gt;First is a series of blog posts exploring WebRTC application development in python.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Objective&lt;/h1&gt;
 &lt;p&gt;The purpose of this article is to introduce a series blog-posts I'm writing on Web Real-Time Communications (known as WebRTC). WebRTC embodies a set of free and open  standards that enable devices connected over the Internet to communicate in real time. Taken together, WebRTC standards and protocols enable voice and video calls, live streaming, file sharing and much, much more.&lt;/p&gt;
@@ -6271,15 +6579,15 @@ class ProcessDirector :
 &lt;h2&gt;The Simplest Approach&lt;/h2&gt;
 &lt;p&gt;The simplest approach to the problem of using your async code in a tkinter application is to &lt;em&gt;run the async loop within the tkinter loop&lt;/em&gt;. Python's &lt;a href="https://docs.python.org/3/library/asyncio.html"&gt;&lt;code&gt;asyncio&lt;/code&gt; API&lt;/a&gt; allows you to run an &lt;code&gt;asyncio&lt;/code&gt; event loop within an existing loop as shown in the following bare-bones example.&lt;/p&gt;
 &lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
-```
-    import asyncio
+
+&lt;pre&gt;&lt;code&gt;    import asyncio
     import tkinter as tk
     import aiortc
 
     async def do_async () :
-        print( "START ASYNC TASK" )
+        print( &amp;quot;START ASYNC TASK&amp;quot; )
         await asyncio.sleep( 3 )
-        print( "END ASYNC TASK" )
+        print( &amp;quot;END ASYNC TASK&amp;quot; )
 
     def do_async_task ( task ) : 
         # LAUNCH THE ASYNC TASK...
@@ -6287,22 +6595,22 @@ class ProcessDirector :
 
 
     def handle_click () : 
-        print( "'Tis but a scratch!" )
+        print( &amp;quot;'Tis but a scratch!&amp;quot; )
 
     root = tk.Tk()
-    root.title( "Test Harness" )
-    root.geometry( "400x300" )
+    root.title( &amp;quot;Test Harness&amp;quot; )
+    root.geometry( &amp;quot;400x300&amp;quot; )
 
     button_tk = tk.Button(
         root,
-        text="Click Me",
+        text=&amp;quot;Click Me&amp;quot;,
         command=handle_click
     )
     button_tk.pack( pady=20 )
 
     button_async = tk.Button(
         root,
-        text="Do Async",
+        text=&amp;quot;Do Async&amp;quot;,
         command=lambda : do_async_task( do_async )  
     )
     button_async.pack( pady=20 )
@@ -6311,7 +6619,8 @@ class ProcessDirector :
     async_loop = asyncio.new_event_loop()
 
     root.mainloop()
-```
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;/div&gt;
 
 &lt;p&gt;In this example I've defined two tasks; (1) &lt;code&gt;async def do_async ()&lt;/code&gt;, which simulates an asynchronous routine, and (2) &lt;code&gt;def handle_click ()&lt;/code&gt; which simulates a standard task that can execute within the tkinter loop. Notice that &lt;code&gt;do_async&lt;/code&gt; is marked with the &lt;code&gt;async&lt;/code&gt; keyword. This requires that when it is called it must be called with the keyword &lt;code&gt;await&lt;/code&gt;. The problem is that tkinter doesn't "know" how to do that and so it's not so easy to bind the function to a tkinter widget.&lt;/p&gt;
@@ -6356,16 +6665,16 @@ The function delegates the asynchronous execution of the task to any named async
 &lt;p&gt;&lt;strong&gt;Figure 2&lt;/strong&gt;: The python main thread running the &lt;code&gt;tkinter&lt;/code&gt; loop and a child thread running the async-loop.&lt;/p&gt;
 &lt;p&gt;The following barebones example embodies the extended pattern.&lt;/p&gt;
 &lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
-```
-import asyncio
+
+&lt;pre&gt;&lt;code&gt;import asyncio
 import tkinter as tk
 import aiortc
 from threading import Thread
 
 async def do_async () :
-    print( "START ASYNC TASK" )
+    print( &amp;quot;START ASYNC TASK&amp;quot; )
     await asyncio.sleep( 3 )
-    print( "END ASYNC TASK" )
+    print( &amp;quot;END ASYNC TASK&amp;quot; )
 
 def do_async_task ( task ) : 
     # LAUNCH TASK IN NEW THREAD...
@@ -6375,22 +6684,22 @@ def do_async_task ( task ) :
     task_thread.start()
 
 def handle_click () : 
-    print( "'Tis but a scratch!" )
+    print( &amp;quot;'Tis but a scratch!&amp;quot; )
 
 root = tk.Tk()
-root.title( "Test Harness" )
-root.geometry( "400x300" )
+root.title( &amp;quot;Test Harness&amp;quot; )
+root.geometry( &amp;quot;400x300&amp;quot; )
 
 button_tk = tk.Button(
     root,
-    text="Click Me",
+    text=&amp;quot;Click Me&amp;quot;,
     command=handle_click
 )
 button_tk.pack( pady=20 )
 
 button_async = tk.Button(
     root,
-    text="Do Async",
+    text=&amp;quot;Do Async&amp;quot;,
     command=lambda : do_async_task( do_async )  
 )
 button_async.pack( pady=20 )
@@ -6400,7 +6709,8 @@ async_loop = asyncio.new_event_loop()
 
 root.mainloop()
 
-```
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;/div&gt;
 &lt;p&gt;If you copy and execute this this example in your favorite python environment you should find that the GUI remains responsive even while the asynchronous operation is executing. &lt;em&gt;The pattern to achieve this is to extend the previous example by kicking off the async loop in a new child thread&lt;/em&gt;. You can see this in the updated function:&lt;/p&gt;
 &lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
@@ -6486,20 +6796,24 @@ root.mainloop()
 &lt;ol&gt;
 &lt;li&gt;Verify that PulseAudio is available on your system (it will usually be installed and operating on linux distros).&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;code&gt;$ pulseaudio --version&lt;/code&gt;
-2. PulseAudio should be running as a process which can be verified with:
-&lt;code&gt;$ ps aux | grep pulseaudio&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ pulseaudio --version
+&lt;/code&gt;&lt;/pre&gt;
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Install &lt;em&gt;pavucontrol&lt;/em&gt;
-&lt;code&gt;sudo apt update
-sudo apt install pavucontrol&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;And, of course, it's assumed you have Discord installed on your system (the easiest way as of this writing is with snap since it doesn't seem to be registered as a APT repository)...
-&lt;code&gt;sudo snap install discord&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;PulseAudio should be running as a process which can be verified with:&lt;/li&gt;
 &lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;$ ps aux | grep pulseaudio
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;Install &lt;em&gt;pavucontrol&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt update
+sudo apt install pavucontrol
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;And, of course, it's assumed you have Discord installed on your system (the easiest way as of this writing is with snap since it doesn't seem to be registered as a APT repository)...&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;sudo snap install discord
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Routine Use&lt;/h3&gt;
 &lt;p&gt;Once you've completed the initial setup, you can use the following procedure to stream audio and video through discord as desired. My use-case that prompted this post concerns streaming video in a browser but I'm guessing it will generalize to other application windows.&lt;/p&gt;
 &lt;ol&gt;
@@ -6627,34 +6941,39 @@ $$&lt;/p&gt;
 &lt;p&gt;Essentially, as defined above, convolving the lists simply means applying the operation to generate a new list given the two input lists. In other words we flip one operand and slide, or, shift it along the second to generate the output...&lt;/p&gt;
 &lt;div  &gt;
     &lt;div style="background-color: #888; color: #ffe; padding:0.5em;" &gt;
-```
-    1 2 3
+
+&lt;pre&gt;&lt;code&gt;    1 2 3
 4 3 2           1*2                2
-```
+&lt;/code&gt;&lt;/pre&gt;
+
     &lt;/div&gt;
     &lt;div style="background-color: #555; color: #ffe; padding:0.5em;" &gt;
-```
-    1 2 3
+
+&lt;pre&gt;&lt;code&gt;    1 2 3
   4 3 2         1*3 + 2*2          7
-```
+&lt;/code&gt;&lt;/pre&gt;
+
     &lt;/div&gt;
     &lt;div style="background-color: #888; color: #ffe; padding:0.5em;" &gt;
-```
-    1 2 3
+
+&lt;pre&gt;&lt;code&gt;    1 2 3
     4 3 2       1*4 + 2*3 + 3*2    16
-```
+&lt;/code&gt;&lt;/pre&gt;
+
     &lt;/div&gt;
     &lt;div style="background-color: #555; color: #ffe; padding:0.5em;" &gt;
-```
-    1 2 3
+
+&lt;pre&gt;&lt;code&gt;    1 2 3
       4 3 2     2*4 + 3*3          17
-```
+&lt;/code&gt;&lt;/pre&gt;
+
     &lt;/div&gt;
     &lt;div style="background-color: #888; color: #ffe; padding:0.5em;" &gt;
-```
-    1 2 3
+
+&lt;pre&gt;&lt;code&gt;    1 2 3
         4 3 2   3*4                12
-```
+&lt;/code&gt;&lt;/pre&gt;
+
     &lt;/div&gt;
 &lt;/div&gt;
 
@@ -6873,8 +7192,8 @@ $$
 
 &lt;p&gt;And just to be sure, we can check the answer we obtained using python ...&lt;/p&gt;
 &lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
-```
-import numpy as np
+
+&lt;pre&gt;&lt;code&gt;import numpy as np
 from scipy.signal import convolve2d
 input = [
     [1, 2, 0, 3],
@@ -6891,12 +7210,14 @@ kernel = [
 output = convolve2d( input, kernel, mode='valid')
 print ( output )
 
-```
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;/div&gt;
 
-&lt;p&gt;&lt;code&gt;[[11 14]
- [11  9]]&lt;/code&gt;
-Notice how we set the mode to &lt;em&gt;valid&lt;/em&gt;. scipy uses padding by default for &lt;code&gt;convolve2d&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[[11 14]
+ [11  9]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice how we set the mode to &lt;em&gt;valid&lt;/em&gt;. scipy uses padding by default for &lt;code&gt;convolve2d&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;So, the above example walks through the convolution of a 2d matrix and a kernel -- an operation commonly applied in image processing. Next let's consider application of convolutions to machine learning -- let's draw the connection to CNN's, or, &lt;em&gt;convolutional neural networks&lt;/em&gt;.&lt;/p&gt;
 &lt;h1&gt;Convolutional Neural Networks&lt;/h1&gt;
 &lt;p&gt;So having done a bit of a deep dive into the mathematics of the convolution operation it's worth considering its application to machine learning. Again, convolution is ubiquitous in machine learning, but to launch into discussion here let's look at a very basic example from image processing. &lt;/p&gt;
@@ -6904,20 +7225,21 @@ Notice how we set the mode to &lt;em&gt;valid&lt;/em&gt;. scipy uses padding by 
 &lt;h2&gt;The Models&lt;/h2&gt;
 &lt;p&gt;To better understand CNN's and the impact of the application of &lt;em&gt;convolutional layers&lt;/em&gt;  I created two models in order to make some comparisons; a &lt;em&gt;multi-layer peceptron&lt;/em&gt; and a convolutional variant of the model. A multi layer perceptron (MLP) is an artificial neural network that can be used to learn complex patterns in data. Here's some sample python code which defines an MLP using tensorflow:&lt;/p&gt;
 &lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
-```
-# Define a simple Multi Layer Perceptron model
+
+&lt;pre&gt;&lt;code&gt;# Define a simple Multi Layer Perceptron model
 model_mlp = models.Sequential([
     layers.Dense(64*64, activation='relu', input_shape=(128 * 128,)),
     layers.Dense(4, activation='softmax')
 ])
-```
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;/div&gt;
 
 &lt;p&gt;If you aren't familiar with tensorflow don't sweat it. For now, the point is that this code defines a neural network with three layers; an input layer (which is capable of processing 128 X 128 pixel images), a &lt;em&gt;hidden activation layer&lt;/em&gt;, and an output layer with 4 units (enabling classification into 4 categories). &lt;/p&gt;
 &lt;p&gt;MLP's can be enhanced through the addition of convolutional layers in the network architecture. Here's some code which enhances the basic MLP with a convolutional layer. &lt;/p&gt;
 &lt;div style="background-color: #555; color: #ffe; padding:0.5em; font-size:smaller"&gt;
-```
-# Define a CNN model
+
+&lt;pre&gt;&lt;code&gt;# Define a CNN model
 model_cnn_4 = models.Sequential([
     layers.Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 1)),
     layers.MaxPooling2D((2, 2)),
@@ -6925,7 +7247,8 @@ model_cnn_4 = models.Sequential([
     layers.Dense(128, activation='relu'),
     layers.Dense(4, activation='softmax')
 ])
-```
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;/div&gt;
 
 &lt;p&gt;The convolutional layer is defined with set of 32 3 X 3 filters. The filters are convolved across the input to generate &lt;em&gt;feature maps&lt;/em&gt;. Randomly determined initially, the filter values are updated over the course of training (through &lt;em&gt;backpropagation&lt;/em&gt;) -- enabling the system to settle into a state that optimizes classification for the training set. In other words, convolutional layers enable the system to extract features from the input which can enhance learning analogous to the ways in which we as humans perceive and learn!&lt;/p&gt;
@@ -6950,8 +7273,8 @@ model_cnn_4 = models.Sequential([
 &lt;h1&gt;Appendix 1: My Naive Pass at Convolution -- An Exercise in Algorithm Implementation&lt;/h1&gt;
 &lt;p&gt;This is just a naive python implementation -- an exercise solely intended to get those synapses firing. But, again, my philosophy is that in the same way doing push-ups enables you to exercise your muscles implementing algorithms enables you to exercise your brain. &lt;/p&gt;
 &lt;div style="background-color: #555; color: #ffe; padding:0.5em;" &gt;
-```
-def nn_convolve( a, b ) :
+
+&lt;pre&gt;&lt;code&gt;def nn_convolve( a, b ) :
   '''
   My naive implementation of convolution ...
   '''
@@ -6964,26 +7287,28 @@ def nn_convolve( a, b ) :
     j_range = range ( start, stop )
     for j in  j_range  :
       k += a[ i - (len(b)-1) + j ] * b_flipped[j]
-    if start &gt; 0 :
+    if start &amp;gt; 0 :
       start -= 1
-    if i &gt;= len( a )-1 :
+    if i &amp;gt;= len( a )-1 :
       stop -= 1
     convolution.append(k)
   return np.array( convolution )
-```
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;/div&gt;
 
 &lt;p&gt;And some tests&lt;/p&gt;
 &lt;div style="background-color: #555; color: #ffe; padding:0.5em;" &gt;
-```
-a = np.array( [1, 2, 3] )
+
+&lt;pre&gt;&lt;code&gt;a = np.array( [1, 2, 3] )
 b = np.array( [2, 3, 4] )
 print( nn_convolve ( a, b ) )
 a3 = np.array( [1, 2, 3, 4, 1, 2, 3, 4] )
 b2 = np.array( [0.1, 0.5] )
 print( nn_convolve ( a3, b2 ) )
 print( np.convolve ( a3, b2 ) )
-```
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;/div&gt;
 
 &lt;p&gt;The key highlights regarding the solution are that it (1) flips the kernel and then computes the sum of element-wise multiplications as you slide the kernel across the signal (again, the essence of convolution).&lt;/p&gt;

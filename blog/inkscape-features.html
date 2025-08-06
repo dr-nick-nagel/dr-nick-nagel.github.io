@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Inkscape Art: Pattern Along Path</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+        
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="inkscape" />
+    <meta name="tags" content="tools" />
+    <meta name="tags" content="features" />
+    <meta name="tags" content="inkscape features" />
+    <meta name="tags" content="techniques" />
+    <meta name="tags" content="tips" />
+    <meta name="tags" content="tricks" />
+    <meta name="tags" content="patterns" />
+    <meta name="tags" content="procedural art" />
+    <meta name="tags" content="pattern along path" />
+    <meta name="tags" content="svg artworks" />
+    <meta name="tags" content="svg artwork" />
+    <meta name="tags" content="svg art" />
+
+    </head>
+
+    <body>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="nn_symbols"
+   version="1.1"
+   style="display:none"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs>
+    <symbol id="en_return"  viewBox="0 0 20 20">
+      <path
+        style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+        id="return_to_text_1"
+      />
+    </symbol>
+
+    <symbol id="circle_symbol" viewBox="-7.5 -8 15 16">
+      <circle id="circle_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        r="7.5"
+      />
+    </symbol>
+
+    <symbol id="rectangle_symbol" viewBox="-7.5 -9 15 18">
+      <rect
+        fill="currentColor"
+        style="display:inline;"
+        id="rectangular_shape"
+        width="15"
+        height="18"
+        x="-7.5"
+        y="-9"
+      />
+    </symbol>
+
+    <symbol id="diamond_symbol" viewBox="-7.5 -12 15 24">
+      <rect
+       fill="currentColor"
+       style="display:inline;"
+       id="diamond_0"
+       width="15"
+       height="15"
+       x="-7.5"
+       y="-7.5"
+       transform="rotate(45)" />
+    </symbol>
+
+    <symbol id="triangle_symbol" viewBox="-7.5 -7.5 15 20">
+      <path id="triangle_0"
+        fill="currentColor"
+        style="display:inline;"
+        d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
+      />
+    </symbol>
+
+    <symbol id="oval_symbol" viewBox="-7 -10 14 20">
+      <ellipse id="oval_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        rx="6"
+        ry="9" />
+    </symbol>
+
+    <symbol id="heart_face_symbol" viewBox="-7.5 -10 15 20">
+      <path id="heart_face"
+          fill="currentColor"
+          style="display:inline"
+          d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
+      />
+    </symbol>
+
+   </defs>
+</svg>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/blog/inkscape-features.html" rel="bookmark"
+           title="Permalink to Inkscape Art: Pattern Along Path">Inkscape Art: <em>Pattern Along Path</em></a></h2>
+      
+    </header>
+    <style>
+.ArtExample {
+    background-color: #eee;
+    border: solid #800 2px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Caption {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 9px;
+    margin-bottom: 20px
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+figure {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    img {
+        width: 480px;
+    }
+    figcaption {
+
+    }
+    @media (max-width: 450px) {
+        /* CSS rules for screen widths 450px and below go here */
+        width: 320px;
+        img {
+            width: 320px;
+        }
+    }
+}
+
+picture {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    svg, img {
+        width: 360px;
+        @media (max-width: 450px) {
+            /* CSS rules for screen widths 450px and below go here */
+            width: 320px;
+        }
+    }
+}
+
+</style>
+
+<h2>Nick Nagel's Procedural Art with Inkscape Series</h2>
+<ol>
+<li><a href="/blog/inkscape-features.html">Pattern Along Path</a></li>
+</ol>
+<h2>Featured in this Post ...</h2>
+<p>Inkscape's <em>pattern along path</em> .</p>
+<h2>Introduction</h2>
+<p>This post is one in an ongoing series of mine on Inkscape features and techniques for creating SVG artworks. Even though I've been using Inkscape for more years than I care to count, the SVG creation software is so feature-rich that I continue to discover new techniques and processes for creating SVG art all the time. With such a vast array of functionality it can be hard to keep all of it in mind.</p>
+<figure>
+    <img id='inkscape_mindmap'
+      src='/assets/inkscape-features-mindmap.svg' 
+      alt='An SVG graph showing relationships among inkscape features from shapes to LPEs and everything between'
+    >
+    <figcaption><strong>Figure 1:</strong> Inkscape Feature Map.</figcaption>
+</figure>
+
+<p>So I started this blog series in order to catelog and provide references to Inkscape features as I continue to explore the intersection of vector graphics, procedural art, animation and AI. Like I always say -- the faintest ink is truer than the sharpest memory!</p>
+<h2>On Hair</h2>
+<figure>
+    <img id='hair_realistic'
+      src='/svg/inkscape_art/haare2.png' 
+      alt='An SVG graph showing relationships among inkscape features from shapes to LPEs and everything between'
+    >
+    <figcaption><strong>Figure 2:</strong> An inkscape vector image in realistic style showing detailed hair. Image due to Chrisdesign.</figcaption>
+</figure>
+
+<p>One of the earliest challenges I faced way back when I started creating SVG artworks
+was doing hair. Any artist will tell you -- when you're drawing hair don't worry about all the individual strands. Instead, the best artists are successful at creating a seamless blend of light and shadow to create depth, and then adding details and texture to suggest the hair's appearance without getting overwhelmed by each and every strand.</p>
+<blockquote>
+<p><strong>Pro Tip:</strong> When you want to create hair focus on capturing the overall shape and flow of the mass, and then use shading and highlights to create depth and texture. </p>
+</blockquote>
+<p><span id="ret_1">All this is true even if your end game is hyper-realism. Even then, you're never going to reproduce every strand with true fidelity -- so don't worry about it! The question here is how can you achieve a seamless blend of abstracted detail to achieve your artistic intent with SVG. There are many different techniques that can be used. Here I'll focus on an approach to create highlights procedurally using Inkscape <sup><a href="#end_1"> 1 </a></sup> . </span></p>
+<h3>Adding Depth and Body to your Hair</h3>
+<p>The approach essentially boils down to: </p>
+<ol>
+<li>
+<p>Creating a texture with <code>jitter</code> and</p>
+</li>
+<li>
+<p>Shaping it with <code>pattern along path</code> . </p>
+</li>
+</ol>
+<p>If you're drawing a figure and create a shape to represent the hair in SVG it will look flat and very 2D. There's nothing wrong with that but if you want to add body and provide the illusion of depth you'll want to add shade and highlights. Adding highlights that look like hair means creating shapes with potentially hundreds of nodes. And it would be impossible to do that manually. Luckily, Inkscape lets us do that procedurally.</p>
+<h3>Procedure</h3>
+<p>First, create a pseudo random shape to use for highlights.</p>
+<div id='jitter_nodes' 
+  class='Floater' 
+  style="float:right;width:80px;margin-top:20px;margin-bottom:10px">
+  <img src='/svg/inkscape_art/jitter_nodes.svg' >
+</div>
+
+<ol>
+<li>
+<p>Start with a simple line using the Bezier tool.</p>
+</li>
+<li>
+<p>Convert the line to a path: <code>Path &gt; Stroke to Path</code> .</p>
+</li>
+<li>
+<p>Add nodes to the path: <code>Extensions &gt; Modify Path &gt; Add Nodes</code> .</p>
+</li>
+<li>
+<p>Use <em>jitter</em> to pseudo randomly "shake up" the nodes: <code>Extensions &gt; Modify Path &gt; Jitter Nodes</code> .</p>
+</li>
+</ol>
+<p>That gives you the jagged shape which you can use as input to create the hilights you want for the hair. </p>
+<p>To create those hilights use <code>Pattern along Path</code> :</p>
+<p><code>Extensions &gt; Generate from Path &gt; Pattern along Path</code></p>
+<p>To use <code>Pattern along Path</code> for this ...</p>
+<div id='jitter_nodes' 
+  class='Floater' 
+  style="float:right;width:80px;margin-left:10px;margin-top:-20px;">
+  <img src='/svg/inkscape_art/hilights.svg' >
+</div>
+
+<ol>
+<li>
+<p>First, create a Bezier path. Make sure to add the path <em>after</em> you create the jagged shape (in order for the <code>Pattern along Path</code> tool to correctly structure its inputs). </p>
+</li>
+<li>
+<p>Squeeze and stretch the jagged shape as shown to the right.</p>
+</li>
+<li>
+<p>Finally, apply <code>Pattern along Path</code> to 'bend' the highlight pattern to your needs for a seamless composition .</p>
+</li>
+</ol>
+<p>And voil&agrave; there you have it. A pure SVG solution to achieving textured highlights. </p>
+<figure>
+    <picture>
+      <source id='hair_effect'
+         srcset="/svg/inkscape_art/hair_effect.svg" 
+         type="image/svg+xml">
+      <img id='hair_effect_bitmap'
+           src="/svg/inkscape_art/hair_effect.png" 
+           alt="An example of the hair effect achieved with procedural highlights in Inkscape. Image by Nick Nagel">
+    </picture>
+    <figcaption><strong>Figure 3.</strong> Example character art with highlights  applied to simulate hair. Note the crown higlight and simulated strands achieved with *jitter* and *pattern along path*. Image by <em>N</em> .</figcaption>
+</figure>
+
+<h2>Summary and Conclusion</h2>
+<p>This post is the first in a series on <em>procedural art with Inkscape</em>. In this post I focused on <code>jitter nodes</code> and <code>pattern along path</code>.  Inkscape is a fantastic and feature-rich system which has been around for many years. It is 100% open-source and freely available -- and it enjoys fantastic community support. If you haven't already, I highly recommend you download and start using <a href="https://inkscape.org/">Inkscape</a> today! What's stopping you? </p>
+<h2>Endnotes</h2>
+<ol>
+<li><span id="end_1">The technique I'm focusing on in this particular post was inspired by a classic Inkscape tutorial I first discovered many years ago. The core procedural approach of using <code>Jitter Nodes</code> and <code>Pattern along Path</code> was originally outlined in the blog post "Drawing hairs" by Chrisdesign which, at the time of writing, can be viewed <a href="https://chrisdesign.wordpress.com/2007/12/29/drawing-hairs/">here ...</a><a href="#ret_1"><svg class="EndnoteReturn">
+  <use href="#en_return"></use>
+</svg></a></span></li>
+</ol>
+<h2>Resources</h2>
+<ol>
+<li>
+<p><a href="https://design.tutsplus.com/tutorials/how-to-vector-hair-with-brushes-in-adobe-illustrator--cms-28886">Hair Brushes in Adobe Illustrator</a>. Even though this is an Adobe Illustrator tut I'm listing it here because the illustration techniques it describes are compatible with this post's topic and can easily be adapted to work in Inkscape.</p>
+</li>
+<li>
+<p>STITCH SUB-PATHS Path Effect In INSCAPE 1.3
+https://youtu.be/QopkW1kMk1o?si=DOfwvPR3DuXr7Dzs</p>
+</li>
+<li>
+<p>More Path Stitching ("Cool Abstract Lines")
+https://www.youtube.com/watch?v=vZF1ye0c4P4</p>
+</li>
+<li>
+<p>Interpolate Sub-Paths &amp; Lattice Deformation
+https://www.youtube.com/watch?v=rliF81fKVzI</p>
+</li>
+<li>
+<p>Inkscape Tutorial: Abstract Waves Background
+https://youtu.be/osuhoJl97VA?si=ocXdBH3gqBcUNXH4</p>
+</li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2025-07-31T00:00:00-04:00">
+        Thu 31 July 2025
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="/tag/svg.html">svg</a>
+            <a href="/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="/tag/art.html">art</a>
+            <a href="/tag/artwork.html">artwork</a>
+            <a href="/tag/artworks.html">artworks</a>
+            <a href="/tag/inkscape.html">inkscape</a>
+            <a href="/tag/tools.html">tools</a>
+            <a href="/tag/features.html">features</a>
+            <a href="/tag/inkscape-features.html">inkscape features</a>
+            <a href="/tag/techniques.html">techniques</a>
+            <a href="/tag/tips.html">tips</a>
+            <a href="/tag/tricks.html">tricks</a>
+            <a href="/tag/patterns.html">patterns</a>
+            <a href="/tag/procedural-art.html">procedural art</a>
+            <a href="/tag/pattern-along-path.html">pattern along path</a>
+            <a href="/tag/svg-artworks.html">svg artworks</a>
+            <a href="/tag/svg-artwork.html">svg artwork</a>
+            <a href="/tag/svg-art.html">svg art</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
