@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-          <title>NickNagel.com - Inkscape Art: Pattern Along Path</title>
+          <title>NickNagel.com - SVG Filters</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script>
@@ -53,10 +53,10 @@
     <meta name="tags" content="tricks" />
     <meta name="tags" content="patterns" />
     <meta name="tags" content="procedural art" />
-    <meta name="tags" content="pattern along path" />
     <meta name="tags" content="svg artworks" />
     <meta name="tags" content="svg artwork" />
     <meta name="tags" content="svg art" />
+    <meta name="tags" content="filters" />
 
     </head>
 
@@ -166,8 +166,8 @@ Welcome to NickNagel.com
   <article>
     <header>
       <h2>
-        <a href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html" rel="bookmark"
-           title="Permalink to Inkscape Art: Pattern Along Path">Inkscape Art: <em>Pattern Along Path</em></a></h2>
+        <a href="https://dr-nick-nagel.github.io/blog/svg-filters.html" rel="bookmark"
+           title="Permalink to SVG Filters">SVG Filters</a></h2>
       
     </header>
     <style>
@@ -188,7 +188,7 @@ Welcome to NickNagel.com
 .EndnoteReturn {
   width:  10px;
   height: 15px;
-}
+}figure
 
 figure {
     width: 480px;
@@ -225,123 +225,168 @@ picture {
 
 </style>
 
-<h3>Nick Nagel's <em>Procedural Art with Inkscape</em> Series</h3>
+<h2>In this Post ...</h2>
+<p>I explore creating SVG effects and animations using SVG filters.</p>
+<h2>Intro</h2>
+<p>Recently I've been working on creating particle effects for a side project using components I created for the SVG Creators Collab &trade; framework. Over the course of doing so I got a little deeper into working with SVG Filters and the results were so cool (better than expected) that I couldn't resist sharing some of the techniques here. </p>
+<h3>First, what exactly are SVG filters?</h3>
+<p><strong>SVG filters</strong> are procedural effects that can be applied to create SVG artwork that:</p>
 <ol>
-<li><a href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html">Pattern along path</a></li>
-<li><a href="https://dr-nick-nagel.github.io/blog/inkscape-path-interpolation.html">Path Interpolation</a></li>
-<li><a href="https://dr-nick-nagel.github.io/blog/inkscape-interpolate-subpaths.html">Interpolate Subpaths</a></li>
+<li>
+<p>Is natively textured, and</p>
+</li>
+<li>
+<p>Exhibits a wide range of effects including blur, lighting effects, color manipulation and even more complex features and distortions you might imagine as an artist.</p>
+</li>
 </ol>
-<h2>Featured in this Post ...</h2>
-<p>Inkscape's <em>pattern along path</em> .</p>
-<h2>Introduction</h2>
-<p>This post is one in an ongoing series of mine on Inkscape features and techniques for creating SVG artworks. Even though I've been using Inkscape for more years than I care to count, the SVG creation software is so feature-rich that I continue to discover new techniques and processes for creating SVG art all the time. With such a vast array of functionality it can be hard to keep all of it in mind.</p>
+<h2>Insert examples :</h2>
+<p>Smoke</p>
+<p>Flame</p>
+<p>watery light on sea bottom</p>
+<p>Pattern on mermaid</p>
+<h3>How SVG Filters Work</h3>
+<p>You can create SVG filter effects using the <code>&lt;filter&gt;</code> element. Filters are defined by compositing <strong>SVG filter primitives</strong> -- the "building blocks" of filter effects (see Appendix 1). The primitives define atomic graphics operations (like blur, lighting effects, displacements, etc.). The output of these operations are termed <strong>result</strong>s.</p>
+<p>Filters operate on inputs; the original <em>source graphic</em> or the <em>result</em> of prior filters in the pipeline. Source graphics can be images, SVG shapes, groups, etc.. Inputs to primitives targeting graphics elements can be specified using the keyword <code>SourceGraphic</code>.</p>
+<p>! --- Definition admonition
+<strong>SourceGraphic</strong>:  A keyword referring to the graphics elements that were the original input into the 'filter' element. </p>
+<p>To apply a filter to a graphics element or a container (e.g., <code>g</code>), you set the value of the 'filter` <em>property</em> on the element: </p>
+<p>Pull out an EXAMPLE</p>
+<p>When applied to container elements such as <code>g</code> the filter applies to the contents of the group as a whole. </p>
+<h3>By way of Example ...</h3>
+<p>I my mind nothing explains technology better than a good example. Let's illustrate applying filters by creating an effect -- an SVG smoke ring.</p>
+<p>WALK THROUGH SMOKERING EXAMPLE ... </p>
+<ol>
+<li>STATIC</li>
+<li>ANIMATION</li>
+</ol>
+<h2>Summing Up</h2>
+<p>In summary we've defined the following terms:</p>
+<ul>
+<li>SVG <strong>filter</strong></li>
+<li>the filter <strong>primitive</strong></li>
+<li>the filter <strong>result</strong>, and</li>
+<li>the <strong>SourceGraphic</strong>.</li>
+</ul>
+<p>RESUME HERE...</p>
+<p>https://gemini.google.com/app/2264cb23032ff910</p>
+<!--
+
 <figure>
     <img id='inkscape_mindmap'
       src='/assets/inkscape-features-mindmap.svg' 
       alt='An SVG graph showing relationships among inkscape features from shapes to LPEs and everything between'
     >
-    <figcaption><strong>Figure 1:</strong> Inkscape Feature Map.</figcaption>
+    <figcaption></figcaption>
 </figure>
 
-<p>So I started this blog series in order to catalog and provide references to Inkscape features as I continue to explore the intersection of vector graphics, procedural art, animation and AI. Like I always say -- the faintest ink is truer than the sharpest memory!</p>
-<h2>On Hair</h2>
-<figure>
-    <img id='hair_realistic'
-      src='/svg/inkscape_art/haare2.png' 
-      alt='An SVG graph showing relationships among inkscape features from shapes to LPEs and everything between'
-    >
-    <figcaption><strong>Figure 2:</strong> An inkscape vector image in realistic style showing detailed hair. Image due to Chrisdesign.</figcaption>
-</figure>
+-->
 
-<p>One of the earliest challenges I faced way back when I started creating SVG artworks
-was doing hair. Any artist will tell you -- when you're drawing hair don't worry about all the individual strands. Instead, the best artists are successful at creating a seamless blend of light and shadow to create depth, and then adding details and texture to suggest the hair's appearance without getting overwhelmed by each and every strand.</p>
-<blockquote>
-<p><strong>Pro Tip:</strong> When you want to create hair focus on capturing the overall shape and flow of the mass, and then use shading and highlights to create depth and texture. </p>
-</blockquote>
-<p><span id="ret_1">All this is true even if your end game is hyper-realism. Even then, you're never going to reproduce every strand with true fidelity -- so don't worry about it! The question here is how can you achieve a seamless blend of abstracted detail to achieve your artistic intent with SVG. There are many different techniques that can be used. Here I'll focus on an approach to create highlights procedurally using Inkscape <sup><a href="#end_1"> 1 </a></sup> . </span></p>
-<h3>Adding Depth and Body to your Hair</h3>
-<p>The approach essentially boils down to: </p>
-<ol>
-<li>
-<p>Creating a texture with <code>jitter</code> and</p>
-</li>
-<li>
-<p>Shaping it with <code>pattern along path</code> . </p>
-</li>
-</ol>
-<p>If you're drawing a figure and create a shape to represent the hair in SVG it will look flat and very 2D. There's nothing wrong with that but if you want to add body and provide the illusion of depth you'll want to add shade and highlights. Adding highlights that look like hair means creating shapes with potentially hundreds of nodes. And it would be impossible to do that manually. Luckily, Inkscape lets us do that procedurally.</p>
-<h3>Procedure</h3>
-<p>First, create a pseudo random shape to use for highlights.</p>
-<div id='jitter_nodes' 
-  class='Floater' 
-  style="float:right;width:80px;margin-top:20px;margin-bottom:10px">
-  <img src='/svg/inkscape_art/jitter_nodes.svg' >
-</div>
-
-<ol>
-<li>
-<p>Start with a simple line using the Bézier tool.</p>
-</li>
-<li>
-<p>Convert the line to a path: <code>Path &gt; Stroke to Path</code> .</p>
-</li>
-<li>
-<p>Add nodes to the path: <code>Extensions &gt; Modify Path &gt; Add Nodes</code> .</p>
-</li>
-<li>
-<p>Use <em>jitter</em> to pseudo randomly "shake up" the nodes: <code>Extensions &gt; Modify Path &gt; Jitter Nodes</code> .</p>
-</li>
-</ol>
-<p>That gives you the jagged shape which you can use as input to create the highlights you want for the hair. </p>
-<p>To create those highlights use <code>Pattern along Path</code> :</p>
-<pre><code>Extensions &gt; Generate from Path &gt; Pattern along Path
-</code></pre>
-<p>To use <code>Pattern along Path</code> for this ...</p>
-<div id='jitter_nodes' 
-  class='Floater' 
-  style="float:right;width:80px;margin-left:10px;margin-top:-20px;">
-  <img src='/svg/inkscape_art/highlights.svg' >
-</div>
-
-<ol>
-<li>
-<p>First, create a Bézier path. Make sure to add the path <em>after</em> you create the jagged shape (in order for the <code>Pattern along Path</code> tool to correctly structure its inputs). </p>
-</li>
-<li>
-<p>Squeeze and stretch the jagged shape as shown to the right.</p>
-</li>
-<li>
-<p>Finally, apply <code>Pattern along Path</code> to 'bend' the highlight pattern to your needs for a seamless composition .</p>
-</li>
-</ol>
-<p>And voil&agrave; there you have it. A pure SVG solution to achieving textured highlights. </p>
+<p>So I started this blog series in order to catelog and provide references to Inkscape features as I continue to explore the intersection of vector graphics, procedural art, animation and AI. Like I always say -- the faintest ink is truer than the sharpest memory!</p>
+<h2>Path interpolation ...</h2>
+<p>Wave Skeleton ... </p>
+<h3>Summary</h3>
+<p>In this post I explored working with SVG filters to create native textures and particle effects for SVG artwork and animation. There are many applications for these techniques including simulations, static artwork, game art, and cinemagraphic works in SVG. Now that you're armed with more knowledge about filters I can't wait to see what you create!</p>
+<h2>Artwork</h2>
 <figure>
     <picture>
-      <source id='hair_effect'
-         srcset="/svg/inkscape_art/hair_effect.svg" 
+      <source id='rainbow_svg'
+         srcset="/svg/inkscape_art/rainbow_connection.svg" 
          type="image/svg+xml">
-      <img id='hair_effect_bitmap'
-           src="/svg/inkscape_art/hair_effect.png" 
-           alt="An example of the hair effect achieved with procedural highlights in Inkscape. Image by Nick Nagel">
+      <img id='rainbow_bitmap'
+           src="/svg/inkscape_art/rainbow_connection.png" 
+           alt="Abstract line art exemplifying stitching subpaths by Nick Nagel">
     </picture>
-    <figcaption><strong>Figure 3.</strong> Example character art with highlights  applied to simulate hair. Note the crown highlight and simulated strands achieved with *jitter* and *pattern along path*. Image by <em>N</em> .</figcaption>
+    <figcaption><strong>Figure N.</strong> Abstract artwork created by stitching subpaths in Inkscape. Image by <em>N</em> .</figcaption>
 </figure>
 
-<h2>Summary and Conclusion</h2>
-<p>This post is the first in a series on <em>procedural art with Inkscape</em>. In this post I focused on <code>jitter nodes</code> and <code>pattern along path</code>.  Inkscape is a fantastic and feature-rich system which has been around for many years. It is 100% open-source and freely available -- and it enjoys fantastic community support. If you haven't already, I highly recommend you download and start using <a href="https://inkscape.org/">Inkscape</a> today! What's stopping you? </p>
 <h2>Endnotes</h2>
 <ol>
-<li><span id="end_1">The technique I'm focusing on in this particular post was inspired by a classic Inkscape tutorial I first discovered many years ago. The core procedural approach of using <code>Jitter Nodes</code> and <code>Pattern along Path</code> was originally outlined in the blog post "Drawing hairs" by Chrisdesign which, at the time of writing, can be viewed <a href="https://chrisdesign.wordpress.com/2007/12/29/drawing-hairs/">here ...</a><a href="#ret_1"><svg class="EndnoteReturn">
+<li><span id="end_1">BLah blah blah<a href="#ret_1"><svg class="EndnoteReturn">
   <use href="#en_return"></use>
 </svg></a></span></li>
 </ol>
+<h2>Apendix 1: List of SVG Feature Primitives</h2>
+<p>SVG defines a large number of filter primitives which can be used to create an infinitude of visual effects. The standard filters include:</p>
+<ol>
+<li>
+<p><feBlend>: Composites two input images using a blend mode.</p>
+</li>
+<li>
+<p><feColorMatrix>: Applies a color matrix to the input image, allowing for changes to hue, saturation, brightness, and contrast.</p>
+</li>
+<li>
+<p><feComponentTransfer>: Performs a per-channel color manipulation using a function. It's often used for advanced color adjustments.</p>
+</li>
+<li>
+<p><feComposite>: Composites two input images using a compositing operator like over, in, out, or atop.</p>
+</li>
+<li>
+<p><feConvolveMatrix>: Applies a matrix convolution filter, useful for effects like blurring, sharpening, and embossing.</p>
+</li>
+<li>
+<p><feDiffuseLighting>: Lights a graphic by using the alpha channel as a bump map.</p>
+</li>
+<li>
+<p><feDisplacementMap>: Displaces pixels in an image based on the pixel values of a second image.</p>
+</li>
+<li>
+<p><feDropShadow>: Creates a drop shadow effect. (This is a simplified primitive that combines other primitives.)</p>
+</li>
+<li>
+<p><feFlood>: Fills the filter subregion with a solid color and opacity.</p>
+</li>
+<li>
+<p><feGaussianBlur>: Applies a Gaussian blur to the input image.</p>
+</li>
+<li>
+<p><feImage>: Fetches image data from an external source to be used as an input for other primitives.</p>
+</li>
+<li>
+<p><feMerge>: Combines multiple input images into a single output image.</p>
+</li>
+<li>
+<p><feMergeNode>: A child element of <feMerge> that specifies an input for the merge operation.</p>
+</li>
+<li>
+<p><feMorphology>: Changes the shape of an image's alpha channel, often used for thinning or thickening a shape.</p>
+</li>
+<li>
+<p><feOffset>: Shifts the input image by a specified amount.</p>
+</li>
+<li>
+<p><feSpecularLighting>: Creates a lighting effect, with a glossy, reflective surface.</p>
+</li>
+<li>
+<p><feTile>: Fills a region with a repeating pattern from a source image.</p>
+</li>
+<li>
+<p><feTurbulence>: Creates an image using the Perlin turbulence function, which is useful for generating procedural textures like clouds, marble, or fire.</p>
+</li>
+</ol>
 <h2>Resources</h2>
 <ol>
-<li><a href="https://design.tutsplus.com/tutorials/how-to-vector-hair-with-brushes-in-adobe-illustrator--cms-28886">Hair Brushes in Adobe Illustrator</a>. Even though this is an Adobe Illustrator tut I'm listing it here because the illustration techniques it describes are compatible with this post's topic and can easily be adapted to work in Inkscape.</li>
+<li>
+<p><a href="https://dev.w3.org/Graphics-FX/modules/filters/master/SVGFilterPrimer.html">SVG Filters 1.2, Part 1: Primer</a>. </p>
+</li>
+<li>
+<p><a href="https://svgwrite.readthedocs.io/en/latest/classes/filter_primitive.html">Filter Primitives Overview</a></p>
+</li>
+<li>
+<p><a href="https://eev.ee/blog/2016/05/29/perlin-noise/">Perlin noise</a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorials/SVG_from_scratch/Filter_effects">SVG Filter Tutorial</a></p>
+</li>
+<li>
+<p><a href="https://oreillymedia.github.io/Using_SVG/extras/ch16-feTurbulence.html">Making the Wave</a></p>
+</li>
+<li>
+<p><a href="https://github.com/oreillymedia/Using_SVG/">O'Reilly Using SVG</a></p>
+</li>
 </ol>
     <footer>
-      <p>Published: <time datetime="2025-07-31T00:00:00-04:00">
-        Thu 31 July 2025
+      <p>Published: <time datetime="2025-08-12T00:00:00-04:00">
+        Tue 12 August 2025
       </time></p>
         <address>
           By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
@@ -365,10 +410,10 @@ was doing hair. Any artist will tell you -- when you're drawing hair don't worry
             <a href="https://dr-nick-nagel.github.io/tag/tricks.html">tricks</a>
             <a href="https://dr-nick-nagel.github.io/tag/patterns.html">patterns</a>
             <a href="https://dr-nick-nagel.github.io/tag/procedural-art.html">procedural art</a>
-            <a href="https://dr-nick-nagel.github.io/tag/pattern-along-path.html">pattern along path</a>
             <a href="https://dr-nick-nagel.github.io/tag/svg-artworks.html">svg artworks</a>
             <a href="https://dr-nick-nagel.github.io/tag/svg-artwork.html">svg artwork</a>
             <a href="https://dr-nick-nagel.github.io/tag/svg-art.html">svg art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/filters.html">filters</a>
         </p>
     </footer>
   </article>

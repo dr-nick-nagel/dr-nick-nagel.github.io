@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg id="flame_effect"
+   width="600"
+   height="600"
+   viewBox="-50 -50 100 100"
+   version="1.1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+
+
+    <filter  id="flame_edge"
+       y="-0.45760002"
+       width="1.7252"
+       height="1.7752"
+       x="-0.40760002"
+       style="color-interpolation-filters:sRGB;"
+    >
+
+
+      <feMorphology id="feMorphology41"
+         result="result1"
+         radius="2.4"
+         operator="dilate"
+          />
+
+      <feTurbulence  id="feTurbulence41"
+         baseFrequency="0.09 0.028"
+         numOctaves="5"
+      >
+
+<!-- 
+          <animate
+
+            attributeName="baseFrequency" 
+            from="0.09 0.028"
+            to="0.08 0.025"
+            dur="1s"
+            repeatCount="indefinite"
+
+         /> 
+-->
+
+
+      </feTurbulence>
+
+      <feColorMatrix id="feColorMatrix41"
+         result="result2"
+         values="2 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 1 0"
+          />
+
+      <feDisplacementMap
+         result="result4"
+         scale="10"
+         yChannelSelector="G"
+         xChannelSelector="R"
+         in="result1"
+         in2="result2"
+         id="feDisplacementMap41" />
+
+<!---->
+      <feFlood
+         result="result3"
+         flood-opacity="1"
+         flood-color="rgb(255,159,54)"
+         id="feFlood41" />
+
+
+      <feMorphology
+         radius="3.8"
+         result="result7"
+         in="result4"
+         id="feMorphology42" />
+
+      <feGaussianBlur
+         result="result7"
+         in="result7"
+         stdDeviation="2.4"
+         id="feGaussianBlur42" />
+
+
+      <feComposite
+         result="result5"
+         in2="result4"
+         in="result3"
+         operator="in"
+         id="feComposite42" />
+      <feComposite
+         operator="out"
+         in2="result7"
+         id="feComposite43" />
+      <feOffset
+         result="result6"
+         dy="-7"
+         dx="-4.5"
+         id="feOffset43" />
+
+<!--  
+      <feGaussianBlur
+         result="result7"
+         stdDeviation="4.8"
+         id="feGaussianBlur43" />
+
+
+      <feComposite
+         in="SourceGraphic"
+         in2="result6"
+         id="feComposite44" />
+
+
+      <feComposite
+         in2="result7"
+         id="feComposite45" />
+
+-->
+
+
+
+    </filter>
+  </defs>
+  <g id="flame_group">
+    <rect id="base_shape"
+       style="fill:#ff7f2a;"
+       filter="url(#flame_edge)"
+
+       width="50"
+       height="50"
+
+       x="-25"
+       y="-25" />
+  </g>
+
+<!--
+       width="50"
+       height="50"
+-->
+
+
+
+<script type="text/ecmascript">
+  <![CDATA[
+    const feTurbulence = document.getElementById('feTurbulence41');
+
+    // Animation properties
+    const horizontalFreq = 0.09;
+    const verticalRange  = 0.1; // The total range of the animation     0.15
+    const verticalSpeed  = 0.5; // The speed of the "ping-pong" effect  0.05
+
+    let startTime = null;
+
+    function animateBaseFrequency(timestamp) {
+      if (!startTime) {
+        startTime = timestamp;
+      }
+
+      const elapsedTime = (timestamp - startTime) / 1000; // Time in seconds
+
+      // Calculate the position in a loop that goes from 0 to 1 and back to 0
+      const pingPongTime = elapsedTime * verticalSpeed;
+      const t = 1 - Math.abs(2 * (pingPongTime - Math.floor(pingPongTime + 0.5)));
+
+      // Interpolate the vertical frequency based on the ping-pong value
+      const currentVerticalFreq = t * verticalRange;
+
+      // Set the new baseFrequency value
+      feTurbulence.setAttribute('baseFrequency', `${horizontalFreq} ${currentVerticalFreq}`);
+
+      requestAnimationFrame(animateBaseFrequency);
+    }
+
+    requestAnimationFrame(animateBaseFrequency);
+  ]]>
+</script>
+
+
+
+</svg>

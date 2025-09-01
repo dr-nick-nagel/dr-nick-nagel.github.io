@@ -1,5 +1,1532 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-08-04T00:00:00-04:00</updated><entry><title>Inkscape Art: Interpolate Subpaths</title><link href="https://dr-nick-nagel.github.io/blog/inkscape-features-interpolate-paths.html" rel="alternate"></link><published>2025-08-04T00:00:00-04:00</published><updated>2025-08-04T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-08-04:/blog/inkscape-features-interpolate-paths.html</id><summary type="html">&lt;p&gt;Catalog of inkscape features and techniques: Interpolate Subpaths&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-08-28T00:00:00-04:00</updated><entry><title>Making Interactive SVG with Behavior Trees</title><link href="https://dr-nick-nagel.github.io/blog/behavior-trees.html" rel="alternate"></link><published>2025-08-28T00:00:00-04:00</published><updated>2025-08-28T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-08-28:/blog/behavior-trees.html</id><summary type="html">&lt;p&gt;Create interactive SVG artworks with behavior trees  ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 10px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.ImageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+figcaption {
+    font-size: smaller;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+/*    --------  DEMOS ------------    */
+#bt_demo svg {
+  display: block;
+  margin: auto;
+  background-color: #000;
+  margin-bottom: 20px;
+}
+
+#bt_demo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#control_panel {
+    margin-bottom: 10px;
+}
+
+#control_panel button {
+    margin: 10px;
+}
+
+#control_panel span {
+    display: inline-block;
+    width: 100px;
+    border: solid 1px red;
+}
+
+/*    --------  TOOL ------------    */
+
+
+&lt;/style&gt;
+
+&lt;h2&gt;In this Post ...&lt;/h2&gt;
+&lt;p&gt;I'll explore working with &lt;strong&gt;Behavior Trees&lt;/strong&gt; to create interactive SVG for games, simulations, immersive experiences for training and much, much more.&lt;/p&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Probably some of my favorite projects which I worked on back in the 'teens involved creating interactive training sims. Passionate about digital art and programming, these projects afforded me the opportunity to apply years of work exploring 3D graphics and artificial intelligence to create interactive and immersive educational experiences. I was reminded of this experience recently expanding the framework around the SVG Creators Collaborative&amp;trade; to develop interactive SVG. The work I was doing involved the application of &lt;strong&gt;Behavior Trees&lt;/strong&gt; to define intelligent behavior for non-player characters (NPC's) in training simulations.&lt;/p&gt;
+&lt;p&gt;Behavior Trees (BT's) are a type of AI control system used in video games, robotics, business process orchestration -- the list goes on. Originally created to manage the decision-making process of video game NPC's, BT's provide a hierarchical and modular way to structure behavior allowing for complex and dynamic interactions among characters and objects. Today, behavior trees remain an important part of the portfolio of techniques that can be applied to the development of intelligent systems. &lt;/p&gt;
+&lt;h2&gt;Behavior Trees 101&lt;/h2&gt;
+&lt;p&gt;Behavior Trees are a great fit when you're not overly concerned with complex AI but &lt;em&gt;do&lt;/em&gt; need structured, readable logic. In a nutshell BT's are comprised of: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Actions&lt;/strong&gt; and &lt;strong&gt;Conditions&lt;/strong&gt; (the leaves in the tree), &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sequence&lt;/strong&gt; nodes and &lt;strong&gt;Selectors&lt;/strong&gt; &lt;/li&gt;
+&lt;li&gt;The BT &lt;strong&gt;Root&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;em&gt;Action&lt;/em&gt; nodes define the actual behaviors. &lt;em&gt;Conditions&lt;/em&gt; embody logic to enable decision making behavior on your agents. &lt;em&gt;Sequences&lt;/em&gt; and &lt;em&gt;selectors&lt;/em&gt; are control nodes in the system and function as logical "gates". The &lt;em&gt;root&lt;/em&gt; is the entry point for evaluation of the tree.&lt;/p&gt;
+&lt;h2&gt;Example: Clearing a Building&lt;/h2&gt;
+&lt;p&gt;Let's consider an example. Here's a Behavior Tree that defines a series of actions and conditions for an action sim. &lt;/p&gt;
+&lt;pre&gt;
+ROOT: (Clear Building)
+    |
+    |-- SEQUENCE
+            |
+            |-- ACTION: seek target
+            |
+            |-- SELECT
+                    |
+                    |-- SEQUENCE
+                    |       |
+                    |       |-- CONDITION: if accessible
+                    |       |
+                    |       |-- ACTION: gain entry
+                    |
+                    |-- SEQUENCE
+                            |
+                            |-- ACTION: target structure
+                            |
+                            |-- ACTION: explode wall
+&lt;/pre&gt;
+
+&lt;p&gt;Figure 1 defines a tree-structure comprised of &lt;em&gt;nodes&lt;/em&gt; and contains actions and conditions associated with agents in the sim. &lt;/p&gt;
+&lt;h2&gt;Analysis&lt;/h2&gt;
+&lt;p&gt;A Behavior tree is invoked at specific intervals, or, &lt;em&gt;ticks&lt;/em&gt; which occur over the course of a simulation. Traversal starts at the ROOT, which is the entry-point for the decision-making process, and proceeds depth-wise. Over the course of the traversal each node returns a status (SUCCESS, FAILURE, or IN PROGRESS) which determines the overall result of the traversal process. &lt;/p&gt;
+&lt;p&gt;In this example, the root's first child is a SEQUENCE node.&lt;/p&gt;
+&lt;h3&gt;Sequence Nodes&lt;/h3&gt;
+&lt;p&gt;SEQUENCE nodes execute their children in order evaluating the status of each node's execution along the way. On SUCCESS the sequence proceeds to the next node. On FAILURE the sequence is "short-circuited" and subsequent child nodes are not traversed. If a child returns IN PROGRESS the sequence stops there and resumes on the next tick. Contrast that behavior with SELECT.&lt;/p&gt;
+&lt;h4&gt;Select Nodes&lt;/h4&gt;
+&lt;p&gt;SELECT nodes also execute their children in order but &lt;em&gt;differ&lt;/em&gt; with regard to the impact of the result-status on the traversal. If a child of the SELECT returns SUCCESS (meaning its operation completes successfully) &lt;em&gt;no subsequent children are traversed&lt;/em&gt; and the SELECT node itself returns SUCCESS. If on the other hand a child returns FAILURE, the SELECT proceeds to the next child it contains. Finally, if a child returns IN PROGRESS the implication is that it's operation has not completed and SELECT halts and resumes at that node on the next tick. &lt;/p&gt;
+&lt;h2&gt;The Story so Far&lt;/h2&gt;
+&lt;p&gt;In sum, &lt;em&gt;sequence&lt;/em&gt; nodes and &lt;em&gt;select&lt;/em&gt;'s define the control-flow logic of the BT. Use &lt;em&gt;Sequences&lt;/em&gt; to define a set of actions and conditions that you want to execute in series. &lt;em&gt;Selector&lt;/em&gt; nodes behavior to be dynamically selected from a set of choices. It's well worth noting that &lt;em&gt;selectors&lt;/em&gt; imply &lt;em&gt;priority&lt;/em&gt;. They enable you to define a behavior but provide fallbacks should higher priority items fail on any given time slice. &lt;/p&gt;
+&lt;h2&gt;Example Source Code&lt;/h2&gt;
+&lt;p&gt;&lt;span id="ret_1"&gt;In this section I'll show how the concepts I've just laid out translate into source code. The following listing illustrates Behavior Tree node implementations using ES 6 &lt;sup&gt;&lt;a href="#end_1"&gt; 1 &lt;/a&gt;&lt;/sup&gt; . &lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;The Traversal Framework&lt;/h3&gt;
+&lt;p&gt;First we define the Behavior Tree statuses as constants.&lt;/p&gt;
+&lt;pre&gt;
+export const btConstants = {
+    SUCCESS : "1",
+    FAILURE: "-1",
+    IN_PROGRESS : "0",
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Next we define a base class in which we specify a &lt;code&gt;tick&lt;/code&gt; method. This is the method that gets called to traverse the tree. The parameter for this method is a reference to the &lt;em&gt;blackboard&lt;/em&gt;. The blackboard is a data structure that can be used to read and write state across ticks and agent specific BT's. In the SVG Creative Collab framework it is preferred to use the blackboard sparingly (as you'll see shortly). &lt;/p&gt;
+&lt;pre&gt;
+export class BTNode {
+    tick(blackboard) { 
+        return btConstants.SUCCESS; 
+    }
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Next we define the &lt;code&gt;Root&lt;/code&gt; class ...&lt;/p&gt;
+&lt;pre&gt;
+export class Root extends BTNode {
+    constructor(children) {
+        super();
+        this.children = children;
+    }
+
+    tick(bb) {
+        let anyRunning = false;
+        let anyFailure = false;
+
+        for (let child of this.children) {
+            const status = child.tick(bb);
+
+            if (status === btConstants.IN_PROGRESS) {
+                anyRunning = true;
+            } else if (status === btConstants.FAILURE) {
+                anyFailure = true;
+            }
+        }
+
+        if (anyRunning) return btConstants.IN_PROGRESS;
+        if (anyFailure) return btConstants.FAILURE;
+        return btConstants.SUCCESS;
+    }
+}
+&lt;/pre&gt;
+
+&lt;p&gt;And classes implementing the &lt;em&gt;sequence&lt;/em&gt; and &lt;em&gt;selector&lt;/em&gt; node types which control the traversal as described above.&lt;/p&gt;
+&lt;pre&gt;
+export class Sequence extends BTNode {
+    constructor(children) {
+        super();
+        this.children = children;
+        this.current = 0;
+    }
+    tick(bb) {
+        while (this.current &lt; this.children.length) {
+            let status = this.children[this.current].tick(bb);
+            if (status === btConstants.IN_PROGRESS || status === btConstants.FAILURE) {
+                this.current = 0;
+                return status;
+            }
+            this.current++;
+        }
+        this.current = 0;
+        return btConstants.SUCCESS;
+    }
+}
+
+class Selector extends BTNode {
+    constructor( children ) {
+        super();
+        this.children = children;
+    }
+    tick(bb) {
+        for (let child of this.children) {
+            let status = child.tick(bb);
+            if (status !== btConstants.FAILURE) {
+                return status; 
+            }
+        }
+        return btConstants.FAILURE;
+    }
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Finally we define the leaf node implementations; &lt;code&gt;Action&lt;/code&gt; and &lt;code&gt;Condition&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;
+export class Condition extends BTNode {
+    constructor(fn) {
+        super();
+        this.fn = fn;
+    }
+    tick( bb ) {
+        const result = this.fn( bb );
+        return result ;
+    }
+}
+
+export class Action extends BTNode {
+
+    constructor(fn) { 
+        super(); 
+        this.fn = fn; 
+    }
+
+    tick( bb ) { 
+        return this.fn( bb ); 
+    }
+}
+
+&lt;/pre&gt;
+
+&lt;p&gt;The implementation is minimal by design -- this makes the Behavior Tree highly flexible. The node doesn't implement the behavior itself. Instead, you just inject a function (&lt;code&gt;fn&lt;/code&gt;) at construction. &lt;em&gt;Actions&lt;/em&gt; and &lt;em&gt;conditions&lt;/em&gt; are simply lambdas which associate behavors with implementing agents as we'll see presently.&lt;/p&gt;
+&lt;h3&gt;The Behavior Tree Factory Pattern&lt;/h3&gt;
+&lt;p&gt;Given the framework, we can readily construct new behavior trees using a conveninent factory pattern. Here I'll implement a behavior tree for the high level example I sketched out above.&lt;/p&gt;
+&lt;pre&gt;
+export function makeTankBT() {
+    return new Root([
+        new Sequence([
+            new Action(bb =&gt; {
+                const status = bb.sprite.seek() ;
+                return status;
+            }),
+            new Selector([
+                new Sequence([
+                    new Condition( bb =&gt; {
+                        if( bb.accessable) {
+                            l( "Target accessable" );
+                            return btConstants.SUCCESS;
+                        }
+                        return btConstants.FAILURE;
+                    }),
+                    new Action( bb =&gt; {
+                        l( "SECURE TARGET!" );
+                        return btConstants.SUCCESS;
+                    })
+                ]),
+                new Sequence([
+                    new Action(bb =&gt; {
+                        l( "AIM!" );
+                        const status = bb.sprite.targetForDestruction();
+                        return status;
+                    }),
+                    new Action(bb =&gt; {
+                        l( "FIRE!" );
+                        const status = bb.sprite.fire();
+                        bb.accessable=true;
+                        return status;
+                    })
+                ]),
+            ]),
+
+        ]),
+    ]);
+}
+&lt;/pre&gt;
+
+&lt;p&gt;I like this pattern because the relationship between a high-level sketch like the one in Figure 1 and the actual BT implementation is quite transparent. &lt;/p&gt;
+&lt;h2&gt;Demo: Behavior Trees in Action&lt;/h2&gt;
+&lt;p&gt;After laying all that out I thought it'd be nice to see the BT in action. To that end I've inlined a working model below. &lt;/p&gt;
+&lt;figure id="bt_demo" class="SvgDemo"&gt;
+    &lt;div id="svg_container"&gt;
+&lt;svg  id="svg1"
+   width="300"
+   height="300"
+   viewBox="0 0 300 300"
+   version="1.1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   sodipodi:docname="scraps.svg"
+   inkscape:export-filename="../../../../../nn/content/svg/behavior_trees/tank_bot.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"&gt;
+  &lt;sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="1.632"
+     inkscape:cx="163.60294"
+     inkscape:cy="179.22794"
+     inkscape:window-width="1652"
+     inkscape:window-height="901"
+     inkscape:window-x="177"
+     inkscape:window-y="43"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer6" /&gt;
+  &lt;defs   id="defs1" &gt;
+    &lt;filter id="smokeBlur_1" 
+        x="-50%" y="-50%" 
+        width="200%" 
+        height="200%"&gt;
+        &lt;feGaussianBlur in="SourceGraphic" stdDeviation="12" /&gt;
+    &lt;/filter&gt;
+    &lt;filter  id="flame_edge"
+       y="-0.45760002"
+       width="1.7252"
+       height="1.7752"
+       x="-0.40760002"
+       style="color-interpolation-filters:sRGB;"
+    &gt;
+      &lt;feMorphology id="feMorphology41"
+         result="result1"
+         radius="2.4"
+         operator="dilate"
+          /&gt;
+      &lt;feTurbulence  id="feTurbulence41"
+         baseFrequency="0.09 0.028"
+         numOctaves="5"
+      &gt;
+      &lt;/feTurbulence&gt;
+      &lt;feColorMatrix id="feColorMatrix41"
+         result="result2"
+         values="2 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 1 0"
+          /&gt;
+      &lt;feDisplacementMap
+         result="result4"
+         scale="10"
+         yChannelSelector="G"
+         xChannelSelector="R"
+         in="result1"
+         in2="result2"
+         id="feDisplacementMap41" /&gt;
+      &lt;feFlood
+         result="result3"
+         flood-opacity="1"
+         flood-color="rgb(255,159,54)"
+         id="feFlood41" /&gt;
+      &lt;feMorphology
+         radius="3.8"
+         result="result7"
+         in="result4"
+         id="feMorphology42" /&gt;
+      &lt;feGaussianBlur
+         result="result7"
+         in="result7"
+         stdDeviation="2.4"
+         id="feGaussianBlur42" /&gt;
+      &lt;feComposite
+         result="result5"
+         in2="result4"
+         in="result3"
+         operator="in"
+         id="feComposite42" /&gt;
+      &lt;feComposite
+         operator="out"
+         in2="result7"
+         id="feComposite43" /&gt;
+      &lt;feOffset
+         result="result6"
+         dy="-7"
+         dx="-4.5"
+         id="feOffset43" /&gt;
+    &lt;/filter&gt;
+  &lt;/defs&gt;
+  &lt;g  id="background"
+     inkscape:groupmode="layer"
+     inkscape:label="background"
+     style="display:inline"&gt;
+    &lt;rect
+       style="fill:#c8c4b7;fill-opacity:1;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       id="rect21"
+       width="302.35934"
+       height="303.49332"
+       x="-0.036613613"
+       y="-2.4318321"
+       inkscape:label="ground"
+       inkscape:export-filename="../../../../../nn/content/svg/behavior_trees/tank_bot.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" /&gt;
+    &lt;path
+       id="rect19"
+       style="fill:#c09080;fill-opacity:1;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       d="m 36.426036,-30.259286 -0.236076,70.965142 -62.281757,100.967974 -0.991969,41.22038 23.8300642,0.1073 154.1169818,1.56489 v 181.05664 h 43.4082 V 184.44141 l 124.41511,-0.29763 -0.055,-35.99557 -70.63487,-0.23706 -53.72521,-50.784395 V -28.808594 h -43.4082 L 149.59972,144.89081 13.114664,143.34182 68.128116,49.619228 68.540764,-31.071774 Z"
+       sodipodi:nodetypes="cccccccccccccccccccc"
+       inkscape:label="street" /&gt;
+    &lt;path     id="building_wall"
+       style="fill:#b3b3b3;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 198.77606,31.805225 6.50562,-9.956005 100.13603,0.240644 -4.08644,121.289426 -50.8878,0.98703 -50.52098,-47.612321 z"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:label="building_wall" /&gt;
+    &lt;path      id="hole"
+       style="fill:#7c7c7c;fill-opacity:1;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 213.62874,108.67015 3.9563,-2.33968 0.6783,-3.8571 6.73063,1.12273 15.54383,-29.149425 37.72041,55.434405 -25.11907,-0.0826 1.78769,6.30785 -0.50407,4.37317 -4.55944,2.43667 z"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:label="hole" 
+       display="none"
+       /&gt;
+    &lt;g         id="rubble"
+       inkscape:label="rubble"
+       display="none"&gt;
+      &lt;path
+         id="path60"
+         style="fill:#b3b3b3;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+         d="m 261.40249,118.32199 -3.67831,4.84418 -7.39853,0.52236 -4.93036,-0.89971 1.19406,-5.78603 0.30258,-5.25731 6.6492,-2.44668 2.00744,5.1917 z"
+         sodipodi:nodetypes="ccccccccc" /&gt;
+      &lt;path
+         id="path52"
+         style="fill:#cccccc;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+         d="m 254.35924,129.12425 -1.68687,5.32712 2.05374,1.81732 -0.30434,3.92717 -2.20305,-0.5544 -1.007,5.96571 -5.47716,-1.07703 -4.08058,-5.56101 5.68255,-4.30293 -1.96114,-5.01937 z"
+         sodipodi:nodetypes="ccccccccccc" /&gt;
+      &lt;path
+         id="path59"
+         style="fill:#b3b3b3;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+         d="m 236.87552,93.660151 3.62985,4.8806 -1.55623,7.251849 -2.23563,4.48552 -5.22554,-2.75638 -4.96567,-1.75301 -0.50058,-7.067359 5.5452,-0.48409 z"
+         sodipodi:nodetypes="ccccccccc" /&gt;
+      &lt;path
+         id="path51"
+         style="fill:#b3b3b3;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+         d="m 231.40939,104.93433 3.62985,4.8806 -1.55623,7.25185 -2.23563,4.48552 -5.22554,-2.75638 -4.96567,-1.75301 -0.50058,-7.06736 5.5452,-0.48409 z"
+         sodipodi:nodetypes="ccccccccc" /&gt;
+      &lt;path
+         id="rect51"
+         style="fill:#cccccc;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+         d="m 214.37418,108.17245 6.05578,-0.56886 5.39033,5.09466 -1.8879,4.03972 3.73094,4.76275 -8.31439,1.80642 -6.30036,-3.24092 2.46483,-4.99081 z"
+         sodipodi:nodetypes="ccccccccc" /&gt;
+      &lt;path
+         id="path53"
+         style="fill:#b3b3b3;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+         d="m 248.54624,116.08922 -1.68687,5.32712 -3.53676,0.90334 2.51248,1.8599 0.57063,2.42685 -1.007,5.96571 -5.47716,-1.07703 -4.08058,-5.56101 5.68255,-4.30293 -1.96114,-5.01937 z"
+         sodipodi:nodetypes="ccccccccccc" /&gt;
+      &lt;path
+         id="path54"
+         style="fill:#b3b3b3;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+         d="m 241.89652,115.32376 -2.22062,0.85112 c -7.65355,-0.62667 -4.14093,4.84818 1.46006,8.39014 l -7.29497,-0.76565 -2.39764,-3.34841 c 2.5345,-1.07972 1.60051,-3.4625 0.7682,-5.80707 z"
+         sodipodi:nodetypes="ccccccc" /&gt;
+      &lt;path
+         id="path55"
+         style="fill:#cccccc;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+         d="m 235.68897,133.17304 -4.45542,0.18098 -2.51393,5.50308 -2.31387,-4.83714 -3.11325,-1.71562 -0.0189,-7.08503 5.98514,1.99993 z"
+         sodipodi:nodetypes="cccccccc" /&gt;
+      &lt;path
+         id="path56"
+         style="fill:#cccccc;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.0805673;stroke-linecap:square"
+         d="m 221.95734,126.3813 -2.46575,0.0943 -1.39127,2.86868 -1.28056,-2.52153 -1.72295,-0.89433 -0.0105,-3.69332 3.31233,1.04253 z"
+         sodipodi:nodetypes="cccccccc" /&gt;
+      &lt;path
+         id="path57"
+         style="fill:#cccccc;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.0805673;stroke-linecap:square"
+         d="m 241.6197,127.9458 0.53555,2.40874 3.07188,0.85352 -2.25059,1.71254 -0.5704,1.85554 -3.6314,0.67354 0.43078,-3.44569 z"
+         sodipodi:nodetypes="cccccccc" /&gt;
+      &lt;path
+         id="path58"
+         style="fill:#cccccc;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.0805673;stroke-linecap:square"
+         d="m 233.88362,135.91541 3.64036,1.48686 3.07188,0.85352 -1.03875,2.52888 -1.78224,1.0392 -3.6314,0.67354 -0.96373,-3.13932 z"
+         sodipodi:nodetypes="cccccccc" /&gt;
+    &lt;/g&gt;
+    &lt;g id="flame_group"&gt;
+      &lt;path      id="hole_edge_flame"
+         style="fill:#ff7f2a;"
+         filter="url(#flame_edge)"
+           d="m 213.62874,108.67015 3.9563,-2.33968 0.6783,-3.8571 6.73063,1.12273 15.54383,-29.149425 37.72041,55.434405 -25.11907,-0.0826 1.78769,6.30785 -0.50407,4.37317 -4.55944,2.43667 z"
+         display="none"
+       /&gt;
+    &lt;/g&gt;
+    &lt;path    id="rooftop_2"  display="inline"
+       style="fill:#cccccc;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 198.77606,31.805225 99.63757,1.290938 1.24307,120.066887 -40.21147,-0.57224 -12.59453,-11.81461 10.5307,-3.41231 -4.68184,-13.38014 -8.0197,-3.14736 4.80585,-10.57759 -8.84406,-14.161509 -13.82881,15.609859 -2.64198,-6.35255 -4.89408,9.55518 -19.35429,-18.155781 z"
+       sodipodi:nodetypes="ccccccccccccccc"
+       transform="translate(5.8309892,-10.991938)"
+       inkscape:label="rooftop_2" /&gt;
+    &lt;path     id="rooftop_1"   display="inline"
+       style="fill:#cccccc;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 198.77606,31.805225 99.63757,1.290938 1.24307,120.066887 -40.21147,-0.57224 -59.52274,-55.836811 z"
+       sodipodi:nodetypes="cccccc"
+       transform="translate(5.8309892,-10.991938)"
+       inkscape:label="rooftop_1" /&gt;
+    &lt;path
+       id="path23"
+       style="fill:#916f6f;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 254.98297,-4.7678924 10.49,13.1025189 -3.23146,131.9941035 -40.21147,-0.57224 -8.99926,-13.94858 z"
+       sodipodi:nodetypes="cccccc"
+       transform="translate(-124.15875,-3.0650532)" /&gt;
+    &lt;path
+       id="path24"
+       style="fill:#b3b3b3;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 179.07513,8.1908278 51.38042,0.051264 0.65503,42.5774942 32.05922,1.552293 1.05079,47.995831 -3.46514,5.45944 -87.18329,-89.439831 z"
+       sodipodi:nodetypes="cccccccc"
+       transform="translate(-168.58471,190.51215)" /&gt;
+    &lt;path
+       id="path26"
+       style="fill:#b3b3b3;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 84.865955,196.15481 13.463288,0.23541 6.934267,-10.30942 30.12516,0.39382 8.66926,13.74657 -43.58068,13.95308 -24.237514,-2.8855 z"
+       sodipodi:nodetypes="cccccccc" /&gt;
+    &lt;path
+       id="path25"
+       style="fill:#cccccc;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 76.516658,210.67151 22.868658,-0.90973 6.934264,-10.30942 37.6731,-0.0927 -1.01377,36.70717 -66.735565,0.73228 z"
+       sodipodi:nodetypes="ccccccc" /&gt;
+    &lt;path
+       id="rect25"
+       style="fill:#c8b7b7;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.14066;stroke-linecap:square"
+       d="m 207.83441,195.04434 79.25916,0.53646 7.07238,8.05369 -81.85468,-0.35866 -1.04013,83.91751 -3.32038,-4.04668 z"
+       sodipodi:nodetypes="ccccccc" /&gt;
+    &lt;rect
+       style="fill:#e3dbdb;fill-opacity:1;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       id="rect26"
+       width="83.02887"
+       height="83.526947"
+       x="210.82422"
+       y="203.44012" /&gt;
+    &lt;path
+       id="path27"
+       style="fill:#ac9393;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="M 64.969153,-7.7767498 131.54186,-8.7827083 128.3104,123.2114 88.098933,122.63916 64.934823,64.882238 Z"
+       sodipodi:nodetypes="cccccc" /&gt;
+    &lt;path
+       id="path28"
+       style="fill:#cccccc;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 4.7221131,204.59817 48.8344599,0.0813 -0.24511,42.99297 38.24822,0.68259 0.61803,47.46069 -86.7940699,1.21887 z"
+       sodipodi:nodetypes="ccccccc" /&gt;
+    &lt;path
+       id="path29"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 45.246094,102.57617 c 0.04199,2.13916 -0.562187,4.37843 0.666015,6.33203 -1.262375,0.8266 -2.177352,-1.26479 -4.113281,-1.58008 1.391026,1.82166 1.684072,3.56535 4.074219,3.49415 -0.508087,1.04261 -0.811807,2.14115 -1.048828,3.26171 -6.45e-4,6.4e-4 -0.0013,0.001 -0.002,0.002 -0.22713,0.22319 -0.449969,0.44115 -0.669922,0.64844 -0.543704,-2.17774 -1.277921,-4.84033 -2.136719,-7 0.04199,2.13915 -0.562187,4.37842 0.666016,6.33203 -1.262376,0.8266 -2.177353,-1.26479 -4.113282,-1.58008 1.391026,1.82166 1.684073,3.56534 4.074219,3.49414 -0.99503,2.04184 -1.213257,4.30126 -1.658203,6.51172 1.012433,-1.71842 1.052353,-3.32091 2.84375,-5.46094 1.549736,2.31572 2.57682,4.02159 4.3125,5.80859 -1.203814,-2.35835 -1.080085,-4.90454 -2.96875,-7.1914 1.127135,-0.53463 1.972256,-1.46005 2.736328,-2.4961 1.119323,1.69117 2.067222,3.09236 3.462891,4.5293 -1.03598,-2.02956 -1.090976,-4.19802 -2.289063,-6.2207 0.42059,-0.61832 0.848427,-1.22671 1.322266,-1.77149 -0.638299,0.27993 -1.241714,0.63429 -1.814453,1.03516 -0.05993,-0.0787 -0.123007,-0.15628 -0.1875,-0.23438 2.368397,-1.12338 3.496076,-3.96268 5.232422,-5.95898 -2.524202,1.10699 -4.492324,3.38667 -6.251954,5.04492 -0.543703,-2.17774 -1.27792,-4.84032 -2.136718,-7 z m 1.8125,9.29688 c 0.01114,0.0166 0.02017,0.0303 0.03125,0.0469 -0.08373,0.0738 -0.165564,0.14797 -0.248047,0.22266 0.07039,-0.0896 0.140219,-0.17805 0.216797,-0.26953 z" /&gt;
+    &lt;path
+       id="path30"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 50.612066,101.79287 c 1.888667,2.28686 1.763802,4.83261 2.967617,7.19097 -1.735682,-1.78701 -2.762121,-3.49246 -4.311859,-5.80818 -1.791399,2.14003 -1.832339,3.74226 -2.844773,5.46068 0.444946,-2.21046 0.664781,-4.4698 1.659812,-6.51164 -2.390149,0.0712 -2.684393,-1.67144 -4.07542,-3.493096 1.935931,0.31529 2.851022,2.406256 4.113399,1.579656 -1.228204,-1.953606 -0.624617,-4.193756 -0.666605,-6.332916 0.858799,2.15968 1.593626,4.82262 2.13733,7.000356 1.759631,-1.658246 3.727084,-3.937706 6.251288,-5.044696 -1.736347,1.9963 -2.862389,4.835476 -5.230789,5.958866 z"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:spray-origin="#path29" /&gt;
+    &lt;path
+       id="path32"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 61.671657,120.56636 c 1.888667,2.28686 1.763802,4.83261 2.967617,7.19097 -1.735682,-1.78701 -2.762121,-3.49246 -4.311859,-5.80818 -1.791399,2.14003 -1.832339,3.74226 -2.844773,5.46068 0.444946,-2.21046 0.664781,-4.4698 1.659812,-6.51164 -2.390149,0.0712 -2.684393,-1.67144 -4.07542,-3.4931 1.935931,0.31529 2.851022,2.40626 4.113399,1.57966 -1.228204,-1.95361 -0.624617,-4.19376 -0.666605,-6.33292 0.858799,2.15968 1.593626,4.82262 2.13733,7.00036 1.759631,-1.65825 3.727084,-3.93771 6.251288,-5.0447 -1.736347,1.9963 -2.862389,4.83548 -5.230789,5.95887 z"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:spray-origin="#path29" /&gt;
+    &lt;path
+       id="path33"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 59.884667,123.94825 c 1.888667,2.28686 1.763802,4.83261 2.967617,7.19097 -1.735682,-1.78701 -2.762121,-3.49246 -4.311859,-5.80818 -1.791399,2.14003 -1.832339,3.74226 -2.844773,5.46068 0.444946,-2.21046 0.664781,-4.4698 1.659812,-6.51164 -2.390149,0.0712 -2.684393,-1.67144 -4.07542,-3.4931 1.935931,0.31529 2.851022,2.40626 4.113399,1.57966 -1.228204,-1.95361 -0.624617,-4.19376 -0.666605,-6.33292 0.858799,2.15968 1.593626,4.82262 2.13733,7.00036 1.759631,-1.65825 3.727084,-3.93771 6.251288,-5.0447 -1.736347,1.9963 -2.862389,4.83548 -5.230789,5.95887 z"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:spray-origin="#path29" /&gt;
+    &lt;path
+       id="path34"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 58.419476,129.51982 c 1.888667,2.28686 1.763802,4.83261 2.967617,7.19097 -1.735682,-1.78701 -2.762121,-3.49246 -4.311859,-5.80818 -1.791399,2.14003 -1.832339,3.74226 -2.844773,5.46068 0.444946,-2.21046 0.664781,-4.4698 1.659812,-6.51164 -2.390149,0.0712 -2.684393,-1.67144 -4.07542,-3.4931 1.935931,0.31529 2.851022,2.40626 4.113399,1.57966 -1.228204,-1.95361 -0.624617,-4.19376 -0.666605,-6.33292 0.858799,2.15968 1.593626,4.82262 2.13733,7.00036 1.759631,-1.65825 3.727084,-3.93771 6.251288,-5.0447 -1.736347,1.9963 -2.862389,4.83548 -5.230789,5.95887 z"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:spray-origin="#path29" /&gt;
+    &lt;path
+       id="path35"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 67.683033,114.56532 c 1.888667,2.28686 1.763802,4.83261 2.967617,7.19097 -1.735682,-1.78701 -2.762121,-3.49246 -4.311859,-5.80818 -1.791399,2.14003 -1.832339,3.74226 -2.844773,5.46068 0.444946,-2.21046 0.664781,-4.4698 1.659812,-6.51164 -2.390149,0.0712 -2.684393,-1.67144 -4.07542,-3.4931 1.935931,0.31529 2.851022,2.40626 4.113399,1.57966 -1.228204,-1.95361 -0.624617,-4.19376 -0.666605,-6.33292 0.858799,2.15968 1.593626,4.82262 2.13733,7.00036 1.759631,-1.65825 3.727084,-3.93771 6.251288,-5.0447 -1.736347,1.9963 -2.862389,4.83548 -5.230789,5.95887 z"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:spray-origin="#path29" /&gt;
+    &lt;path
+       id="path36"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 77.240234,120.35352 c 0.03066,1.56225 -0.279649,3.17823 0.02734,4.69726 -0.449882,0.38026 -0.87864,0.77836 -1.294922,1.17774 -0.597897,-0.44361 -1.274189,-0.9759 -2.177734,-1.12305 0.537592,0.70402 0.910434,1.39629 1.304687,1.97656 -0.378808,0.37435 -0.750781,0.74019 -1.109375,1.07813 -0.543703,-2.17774 -1.27792,-4.84033 -2.136718,-7 0.04199,2.13915 -0.562188,4.37842 0.666015,6.33203 -1.262375,0.8266 -2.177352,-1.26284 -4.113281,-1.57813 1.391026,1.82166 1.686025,3.56339 4.076172,3.49219 -0.99503,2.04184 -1.215211,4.30126 -1.660156,6.51172 1.012433,-1.71842 1.054306,-3.32091 2.845703,-5.46094 1.001514,1.49653 1.784565,2.7386 2.68164,3.91211 -0.04549,0.24785 -0.09091,0.49519 -0.140625,0.74219 0.108254,-0.18374 0.203602,-0.36695 0.292969,-0.54883 0.448085,0.57394 0.924693,1.13494 1.476563,1.70312 -0.468476,-0.91777 -0.735038,-1.86426 -0.998047,-2.8125 0.452352,-1.15786 0.862445,-2.35513 2.074219,-3.80273 1.549736,2.31572 2.576819,4.02159 4.3125,5.80859 -1.203814,-2.35835 -1.080085,-4.90454 -2.96875,-7.1914 2.368397,-1.12339 3.494123,-3.96269 5.230468,-5.95899 -2.524201,1.10699 -4.490371,3.38668 -6.25,5.04493 -0.178064,-0.71322 -0.378999,-1.4811 -0.595703,-2.26368 0.465115,-0.68774 0.933416,-1.37035 1.458985,-1.97461 -0.610981,0.26795 -1.189544,0.60644 -1.740235,0.98633 -0.378406,-1.29304 -0.801941,-2.59181 -1.261719,-3.74804 z m 0.560547,6.15429 c 0.03384,0.0596 0.0703,0.11869 0.107422,0.17774 -0.122396,0.0801 -0.242261,0.13254 -0.359375,0.16211 0.08548,-0.11122 0.168587,-0.22571 0.251953,-0.33985 z m -1.546875,1.74414 c 0.416371,0.23777 0.928648,0.36811 1.615235,0.34766 -0.599223,1.22963 -0.914501,2.53798 -1.169922,3.86719 -0.346992,-1.15746 -0.788703,-2.30429 -1.6875,-3.39258 0.456263,-0.21642 0.864892,-0.49679 1.242187,-0.82227 z" /&gt;
+    &lt;path
+       id="path38"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 72.835477,131.27544 c 1.888667,2.28686 1.763802,4.83261 2.967617,7.19097 -1.735682,-1.78701 -2.762121,-3.49246 -4.311859,-5.80818 -1.791399,2.14003 -1.832339,3.74226 -2.844773,5.46068 0.444946,-2.21046 0.664781,-4.4698 1.659812,-6.51164 -2.390149,0.0712 -2.684393,-1.67144 -4.07542,-3.4931 1.935931,0.31529 2.851022,2.40626 4.113399,1.57966 -1.228204,-1.95361 -0.624617,-4.19376 -0.666605,-6.33292 0.858799,2.15968 1.593626,4.82262 2.13733,7.00036 1.759631,-1.65825 3.727084,-3.93771 6.251288,-5.0447 -1.736347,1.9963 -2.862389,4.83548 -5.230789,5.95887 z"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:spray-origin="#path29" /&gt;
+    &lt;path
+       id="path39"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 57.896484,71.386719 c 0.04199,2.139158 -0.562187,4.380376 0.666016,6.333984 -1.262376,0.826599 -2.177352,-1.264788 -4.113281,-1.580078 1.391025,1.821658 1.686025,3.565341 4.076172,3.494141 -0.885223,1.816509 -1.157052,3.804111 -1.519532,5.777343 -0.479253,-0.336807 -1.023054,-0.653505 -1.6875,-0.761718 1.052913,1.378872 1.479428,2.71013 2.660157,3.246093 0.106482,0.280952 0.239807,0.557164 0.410156,0.828125 -1.262376,0.8266 -2.179305,-1.264788 -4.115234,-1.580078 1.391025,1.821658 1.686025,3.565341 4.076171,3.494141 -0.99503,2.041838 -1.21521,4.301261 -1.660156,6.511719 0.576016,-0.977681 0.838744,-1.918505 1.287109,-2.941407 0.09567,-0.188591 0.184276,-0.376427 0.265626,-0.564453 0.30702,-0.609436 0.705231,-1.252959 1.292968,-1.955078 1.549737,2.315718 2.574867,4.021586 4.310547,5.808594 -1.203814,-2.358358 -1.078132,-4.904549 -2.966797,-7.191406 0.111166,-0.05273 0.218336,-0.111851 0.324219,-0.171875 1.21952,1.844199 2.201693,3.337441 3.6875,4.867187 -0.258796,-0.507001 -0.453857,-1.023081 -0.623047,-1.542969 0.337223,0.118412 0.731967,0.178389 1.212891,0.164063 -0.99503,2.041838 -1.215211,4.301258 -1.660157,6.511723 1.012433,-1.718426 1.054306,-3.320914 2.845704,-5.460942 1.549736,2.315718 2.574866,4.021583 4.310546,5.808592 -1.203813,-2.358359 -1.078131,-4.904547 -2.966796,-7.191404 2.368397,-1.123389 3.494123,-3.962687 5.230468,-5.958985 -2.524201,1.106989 -4.49037,3.386674 -6.25,5.044922 -0.509582,-2.041071 -1.190397,-4.502334 -1.980468,-6.582031 0.349987,-0.505364 0.708931,-0.998099 1.099609,-1.447266 -0.421754,0.184961 -0.826454,0.404427 -1.21875,0.646485 0.748596,-1.055065 1.438265,-2.191644 2.263672,-3.140625 -1.453207,0.637304 -2.718414,1.664073 -3.869141,2.736328 -0.540416,-1.784513 -0.84136,-3.605131 -2.230468,-5.28711 2.368397,-1.123389 3.494123,-3.962686 5.230468,-5.958984 -2.524201,1.106989 -4.492324,3.386674 -6.251953,5.044922 -0.543703,-2.177738 -1.27792,-4.842275 -2.136719,-7.001953 z m 1.8125,9.298828 c 1.138835,1.701721 1.997777,3.073472 3.060547,4.390625 -0.653924,0.631604 -1.271937,1.261198 -1.865234,1.820312 -0.434405,-1.739957 -0.992552,-3.785351 -1.636719,-5.640625 0.136197,-0.186521 0.278213,-0.375359 0.441406,-0.570312 z m -1.027343,1.464844 c -0.06999,1.410064 -0.04889,2.806233 0.751953,4.080078 -0.128536,0.08416 -0.254174,0.135439 -0.376953,0.164062 -0.295935,-1.026394 -0.621179,-2.060996 -0.970703,-3.033203 0.165404,-0.389815 0.354307,-0.791665 0.595703,-1.210937 z m -1.035157,2.310547 c -0.02545,0.468321 -0.04459,0.936183 -0.03125,1.398437 -0.137575,-0.100662 -0.280227,-0.210575 -0.427734,-0.318359 0.173013,-0.358303 0.318234,-0.719114 0.458984,-1.080078 z m 7.199219,1.570312 c -0.05706,1.936965 -0.429771,3.924276 0.673828,5.679688 -0.65619,0.42967 -1.22214,0.06788 -1.882812,-0.419922 -0.235236,-0.795396 -0.513318,-1.586429 -0.947266,-2.357422 0.802174,-0.852379 1.467403,-1.893453 2.15625,-2.902344 z" /&gt;
+    &lt;path
+       id="path42"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 56.908808,94.836092 c 1.888667,2.28686 1.763802,4.83261 2.967617,7.190968 -1.735682,-1.78701 -2.762121,-3.492458 -4.311859,-5.808178 -1.791399,2.14003 -1.832339,3.74226 -2.844773,5.460678 0.444946,-2.210458 0.664781,-4.469798 1.659812,-6.511638 -2.390149,0.0712 -2.684393,-1.67144 -4.07542,-3.4931 1.935931,0.31529 2.851022,2.40626 4.113399,1.57966 -1.228204,-1.95361 -0.624617,-4.19376 -0.666605,-6.33292 0.858799,2.15968 1.593626,4.82262 2.13733,7.00036 1.759631,-1.65825 3.727084,-3.93771 6.251288,-5.0447 -1.736347,1.9963 -2.862389,4.83548 -5.230789,5.95887 z"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:spray-origin="#path29" /&gt;
+    &lt;path
+       id="path44"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 60.874003,102.92637 c 1.888667,2.28686 1.763802,4.83261 2.967617,7.19097 -1.735682,-1.78701 -2.762121,-3.49246 -4.311859,-5.80818 -1.791399,2.14003 -1.832339,3.74226 -2.844773,5.46068 0.444946,-2.21046 0.664781,-4.4698 1.659812,-6.51164 -2.390149,0.0712 -2.684393,-1.67144 -4.07542,-3.493103 1.935931,0.315293 2.851022,2.406263 4.113399,1.579663 -1.228204,-1.953613 -0.624617,-4.193763 -0.666605,-6.332923 0.858799,2.15968 1.593626,4.82262 2.13733,7.000363 1.759631,-1.65825 3.727084,-3.937713 6.251288,-5.044703 -1.736347,1.9963 -2.862389,4.835483 -5.230789,5.958873 z"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:spray-origin="#path29" /&gt;
+    &lt;path
+       id="path45"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 109.98828,265.52734 c 0.042,2.13916 -0.56023,4.38038 0.66797,6.33399 -0.51891,0.33978 -0.97999,0.18348 -1.47656,-0.13672 -0.30337,-0.97681 -0.62977,-1.93743 -0.97852,-2.81445 0.0134,0.68169 -0.0367,1.37283 -0.0742,2.0625 -0.45428,-0.3097 -0.96629,-0.59081 -1.58398,-0.69141 0.65225,0.85417 1.06339,1.68755 1.5625,2.32813 0.049,0.90996 0.23843,1.79734 0.76367,2.63281 -0.70973,0.46473 -1.31551,0.005 -2.04883,-0.54102 -0.0282,-0.0727 -0.0555,-0.14909 -0.084,-0.2207 0.001,0.0526 -2.9e-4,0.10552 0,0.1582 -0.55079,-0.40811 -1.17456,-0.84531 -1.98047,-0.97656 0.79798,1.04502 1.23522,2.06302 1.91406,2.72851 -0.0869,1.52618 -0.13142,3.04668 0.73438,4.42383 -1.26238,0.8266 -2.17931,-1.26479 -4.11524,-1.58007 1.38754,1.81708 1.68493,3.55413 4.0586,3.49218 -0.004,0.0209 -0.008,0.0416 -0.0117,0.0625 -0.96949,2.02548 -1.19043,4.26117 -1.63086,6.44922 1.01243,-1.71842 1.0543,-3.31896 2.8457,-5.45898 1.54974,2.31571 2.57487,4.01963 4.31055,5.80664 -1.20382,-2.35836 -1.07813,-4.9026 -2.9668,-7.18946 0.74631,-0.35399 1.36823,-0.87946 1.92578,-1.49414 0.75774,1.09546 1.51716,2.09333 2.50781,3.11328 -0.73359,-1.43717 -0.97539,-2.94456 -1.47851,-4.41992 0.37112,-0.52213 0.72895,-1.06287 1.09375,-1.59375 0.65071,0.91063 1.32731,1.76132 2.17187,2.63086 -0.6366,-1.24715 -0.90327,-2.54606 -1.29101,-3.83203 0.0989,-0.12357 0.19798,-0.24509 0.30078,-0.36328 -0.12146,0.0533 -0.24046,0.11143 -0.35938,0.16992 -0.21466,-0.68716 -0.47485,-1.36973 -0.8496,-2.03711 0.91766,-1.19914 1.69923,-2.58456 2.67382,-3.70508 -0.37052,0.1625 -0.72658,0.3532 -1.07422,0.56055 0.99998,-1.25054 1.82151,-2.74785 2.86133,-3.94336 -2.52419,1.10699 -4.49036,3.38668 -6.25,5.04492 -0.5437,-2.17773 -1.27987,-4.84032 -2.13867,-7 z m 18.72656,7.70118 c 0.0307,1.56224 -0.2796,3.17823 0.0273,4.69726 -0.44988,0.38026 -0.87864,0.77836 -1.29492,1.17774 -0.59789,-0.44361 -1.2742,-0.9759 -2.17774,-1.12305 0.53759,0.70402 0.91043,1.39629 1.30469,1.97656 -0.37881,0.37435 -0.75079,0.74019 -1.10938,1.07813 -0.5437,-2.17774 -1.27792,-4.84034 -2.13672,-7 0.042,2.13914 -0.56219,4.37842 0.66602,6.33203 -0.53264,0.34877 -1.00389,0.17704 -1.51562,-0.16016 -0.39443,-1.36536 -0.84018,-2.74854 -1.32618,-3.9707 0.0193,0.98521 -0.0969,1.99223 -0.10937,2.98242 -0.34684,-0.19621 -0.72804,-0.35899 -1.16211,-0.42969 0.51265,0.67136 0.8773,1.33164 1.25195,1.89453 0.10259,0.64843 0.30717,1.28175 0.6875,1.88672 -1.26238,0.8266 -2.1793,-1.26479 -4.11523,-1.58008 1.39103,1.82166 1.68602,3.56339 4.07617,3.49219 -0.99503,2.04184 -1.21522,4.30126 -1.66016,6.51172 0.99717,-1.69252 1.05649,-3.27328 2.76953,-5.36523 -0.2182,1.04699 -0.38166,2.11045 -0.59374,3.16406 0.50509,-0.85731 0.76918,-1.68567 1.1289,-2.56641 1.29859,1.96142 2.29993,3.51772 3.85156,5.11524 -1.17846,-2.30871 -1.08419,-4.79573 -2.85156,-7.04492 0.0702,-0.10637 0.1445,-0.21331 0.22266,-0.32227 0.22311,-0.12733 0.43442,-0.27165 0.63672,-0.42773 0.92919,1.39473 1.68833,2.58439 2.53906,3.69726 -0.0455,0.24785 -0.0909,0.49519 -0.14063,0.74219 0.10825,-0.18374 0.2036,-0.36695 0.29297,-0.54883 0.44808,0.57394 0.9247,1.13495 1.47656,1.70312 -0.46846,-0.91776 -0.73504,-1.86426 -0.99804,-2.8125 0.45235,-1.15785 0.86245,-2.35513 2.07422,-3.80273 1.54974,2.31572 2.57682,4.0216 4.3125,5.80859 -1.20381,-2.35834 -1.08009,-4.90454 -2.96875,-7.1914 2.36839,-1.12339 3.49413,-3.96269 5.23047,-5.95899 -2.5242,1.10699 -4.49038,3.38668 -6.25,5.04493 -0.17806,-0.71322 -0.37901,-1.4811 -0.59571,-2.26368 0.46511,-0.68774 0.93343,-1.37035 1.45899,-1.97461 -0.61098,0.26795 -1.18955,0.60644 -1.74024,0.98633 -0.37841,-1.29304 -0.80194,-2.59182 -1.26172,-3.74804 z m -18.95507,0.47851 c 0.2534,0.0518 0.53595,0.076 0.85742,0.0664 -0.1982,0.40671 -0.36518,0.82227 -0.50977,1.24414 -0.11167,-0.43116 -0.22348,-0.86071 -0.34765,-1.31055 z m 2.83007,2.30469 c 0.30599,0.46257 0.61014,0.91829 0.90039,1.3418 -0.41441,0.28 -0.81403,0.58282 -1.19921,0.90234 -0.24637,-0.48537 -0.54551,-0.9641 -0.93164,-1.43164 0.45122,-0.21403 0.85661,-0.49161 1.23046,-0.8125 z m -4.96875,0.98242 c 0.33626,0.11737 0.73019,0.17637 1.20899,0.16211 -0.26814,0.55024 -0.47722,1.11674 -0.65235,1.69336 -0.17427,-0.61697 -0.36166,-1.24065 -0.55664,-1.85547 z m 2.39453,1.21289 c 0.31141,0.46532 0.59195,0.89085 0.8711,1.3125 -0.70899,0.67884 -1.37395,1.35991 -2.01172,1.96094 -0.0848,-0.33956 -0.18353,-0.70505 -0.27734,-1.06445 0.14639,-0.31039 0.3157,-0.63048 0.51757,-0.96094 -0.0505,0.27731 -0.10258,0.55377 -0.1582,0.83008 0.3512,-0.5961 0.58735,-1.18387 0.81836,-1.7793 0.0773,-0.0991 0.15535,-0.19743 0.24023,-0.29883 z m 19.25977,1.17578 c 0.0338,0.0596 0.0703,0.11869 0.10742,0.17774 -0.1224,0.0801 -0.24225,0.13254 -0.35937,0.16211 0.0855,-0.11122 0.16858,-0.22571 0.25195,-0.33985 z m -1.54687,1.74414 c 0.41637,0.23777 0.92864,0.36811 1.61523,0.34766 -0.59923,1.22963 -0.9145,2.53798 -1.16992,3.86719 -0.32398,-1.08066 -0.73552,-2.1507 -1.51953,-3.17383 0.14365,-0.17846 0.28258,-0.36164 0.41992,-0.54883 0.22897,-0.14849 0.44695,-0.31332 0.6543,-0.49219 z m -4.70704,1.06641 c 0.2738,0.0643 0.57917,0.0985 0.93555,0.0879 -0.0881,0.1808 -0.16749,0.36481 -0.24414,0.54883 -0.14111,0.13721 -0.2835,0.27585 -0.42187,0.40625 -0.0829,-0.33218 -0.17795,-0.69172 -0.26954,-1.04297 z" /&gt;
+    &lt;path
+       id="path49"
+       style="fill:#5d6c53;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.15;stroke-linecap:square"
+       d="m 113.72534,239.92654 c 0.042,2.13916 -0.56023,4.38038 0.66797,6.33399 -0.51891,0.33978 -0.97999,0.18348 -1.47656,-0.13672 -0.30337,-0.97681 -0.62977,-1.93743 -0.97852,-2.81445 0.0134,0.68169 -0.0367,1.37283 -0.0742,2.0625 -0.45428,-0.3097 -0.96629,-0.59081 -1.58398,-0.69141 0.65225,0.85417 1.06339,1.68755 1.5625,2.32813 0.049,0.90996 0.23843,1.79734 0.76367,2.63281 -0.70973,0.46473 -1.31551,0.005 -2.04883,-0.54102 -0.0282,-0.0727 -0.0555,-0.14909 -0.084,-0.2207 0.001,0.0526 -2.9e-4,0.10552 0,0.1582 -0.55079,-0.40811 -1.17456,-0.84531 -1.98047,-0.97656 0.79798,1.04502 1.23522,2.06302 1.91406,2.72851 -0.0869,1.52618 -0.13142,3.04668 0.73438,4.42383 -1.26238,0.8266 -2.17931,-1.26479 -4.11524,-1.58007 1.38754,1.81708 1.68493,3.55413 4.0586,3.49218 -0.004,0.0209 -0.008,0.0416 -0.0117,0.0625 -0.96949,2.02548 -1.19043,4.26117 -1.63086,6.44922 1.01243,-1.71842 1.0543,-3.31896 2.8457,-5.45898 1.54974,2.31571 2.57487,4.01963 4.31055,5.80664 -1.20382,-2.35836 -1.07813,-4.9026 -2.9668,-7.18946 0.74631,-0.35399 1.36823,-0.87946 1.92578,-1.49414 0.75774,1.09546 1.51716,2.09333 2.50781,3.11328 -0.73359,-1.43717 -0.97539,-2.94456 -1.47851,-4.41992 0.37112,-0.52213 0.72895,-1.06287 1.09375,-1.59375 0.65071,0.91063 1.32731,1.76132 2.17187,2.63086 -0.6366,-1.24715 -0.90327,-2.54606 -1.29101,-3.83203 0.0989,-0.12357 0.19798,-0.24509 0.30078,-0.36328 -0.12146,0.0533 -0.24046,0.11143 -0.35938,0.16992 -0.21466,-0.68716 -0.47485,-1.36973 -0.8496,-2.03711 0.91766,-1.19914 1.69923,-2.58456 2.67382,-3.70508 -0.37052,0.1625 -0.72658,0.3532 -1.07422,0.56055 0.99998,-1.25054 1.82151,-2.74785 2.86133,-3.94336 -2.52419,1.10699 -4.49036,3.38668 -6.25,5.04492 -0.5437,-2.17773 -1.27987,-4.84032 -2.13867,-7 z m 18.72656,7.70118 c 0.0307,1.56224 -0.2796,3.17823 0.0274,4.69726 -0.44988,0.38026 -0.87864,0.77836 -1.29492,1.17774 -0.59789,-0.44361 -1.2742,-0.9759 -2.17774,-1.12305 0.53759,0.70402 0.91043,1.39629 1.30469,1.97656 -0.37881,0.37435 -0.75079,0.74019 -1.10938,1.07813 -0.5437,-2.17774 -1.27792,-4.84034 -2.13672,-7 0.042,2.13914 -0.56219,4.37842 0.66602,6.33203 -0.53264,0.34877 -1.00389,0.17704 -1.51562,-0.16016 -0.39443,-1.36536 -0.84018,-2.74854 -1.32618,-3.9707 0.0193,0.98521 -0.0969,1.99223 -0.10937,2.98242 -0.34684,-0.19621 -0.72804,-0.35899 -1.16211,-0.42969 0.51265,0.67136 0.8773,1.33164 1.25195,1.89453 0.10259,0.64843 0.30717,1.28175 0.6875,1.88672 -1.26238,0.8266 -2.1793,-1.26479 -4.11523,-1.58008 1.39103,1.82166 1.68602,3.56339 4.07617,3.49219 -0.99503,2.04184 -1.21522,4.30126 -1.66016,6.51172 0.99717,-1.69252 1.05649,-3.27328 2.76953,-5.36523 -0.2182,1.04699 -0.38166,2.11045 -0.59374,3.16406 0.50509,-0.85731 0.76918,-1.68567 1.1289,-2.56641 1.29859,1.96142 2.29993,3.51772 3.85156,5.11524 -1.17846,-2.30871 -1.08419,-4.79573 -2.85156,-7.04492 0.0702,-0.10637 0.1445,-0.21331 0.22266,-0.32227 0.22311,-0.12733 0.43442,-0.27165 0.63672,-0.42773 0.92919,1.39473 1.68833,2.58439 2.53906,3.69726 -0.0455,0.24785 -0.0909,0.49519 -0.14063,0.74219 0.10825,-0.18374 0.2036,-0.36695 0.29297,-0.54883 0.44808,0.57394 0.9247,1.13495 1.47656,1.70312 -0.46846,-0.91776 -0.73504,-1.86426 -0.99804,-2.8125 0.45235,-1.15785 0.86245,-2.35513 2.07422,-3.80273 1.54974,2.31572 2.57682,4.0216 4.3125,5.80859 -1.20381,-2.35834 -1.08009,-4.90454 -2.96875,-7.1914 2.36839,-1.12339 3.49413,-3.96269 5.23047,-5.95899 -2.5242,1.10699 -4.49038,3.38668 -6.25,5.04493 -0.17806,-0.71322 -0.37901,-1.4811 -0.59571,-2.26368 0.46511,-0.68774 0.93343,-1.37035 1.45899,-1.97461 -0.61098,0.26795 -1.18955,0.60644 -1.74024,0.98633 -0.37841,-1.29304 -0.80194,-2.59182 -1.26172,-3.74804 z m -18.95507,0.47851 c 0.2534,0.0518 0.53595,0.076 0.85742,0.0664 -0.1982,0.40671 -0.36518,0.82227 -0.50977,1.24414 -0.11167,-0.43116 -0.22348,-0.86071 -0.34765,-1.31055 z m 2.83007,2.30469 c 0.30599,0.46257 0.61014,0.91829 0.90039,1.3418 -0.41441,0.28 -0.81403,0.58282 -1.19921,0.90234 -0.24637,-0.48537 -0.54551,-0.9641 -0.93164,-1.43164 0.45122,-0.21403 0.85661,-0.49161 1.23046,-0.8125 z m -4.96875,0.98242 c 0.33626,0.11737 0.73019,0.17637 1.20899,0.16211 -0.26814,0.55024 -0.47722,1.11674 -0.65235,1.69336 -0.17427,-0.61697 -0.36166,-1.24065 -0.55664,-1.85547 z m 2.39453,1.21289 c 0.31141,0.46532 0.59195,0.89085 0.8711,1.3125 -0.70899,0.67884 -1.37395,1.35991 -2.01172,1.96094 -0.0848,-0.33956 -0.18353,-0.70505 -0.27734,-1.06445 0.14639,-0.31039 0.3157,-0.63048 0.51757,-0.96094 -0.0505,0.27731 -0.10258,0.55377 -0.1582,0.83008 0.3512,-0.5961 0.58735,-1.18387 0.81836,-1.7793 0.0773,-0.0991 0.15535,-0.19743 0.24023,-0.29883 z m 19.25977,1.17578 c 0.0338,0.0596 0.0703,0.11869 0.10742,0.17774 -0.1224,0.0801 -0.24225,0.13254 -0.35937,0.16211 0.0855,-0.11122 0.16858,-0.22571 0.25195,-0.33985 z m -1.54687,1.74414 c 0.41637,0.23777 0.92864,0.36811 1.61523,0.34766 -0.59923,1.22963 -0.9145,2.53798 -1.16992,3.86719 -0.32398,-1.08066 -0.73552,-2.1507 -1.51953,-3.17383 0.14365,-0.17846 0.28258,-0.36164 0.41992,-0.54883 0.22897,-0.14849 0.44695,-0.31332 0.6543,-0.49219 z m -4.70704,1.06641 c 0.2738,0.0643 0.57917,0.0985 0.93555,0.0879 -0.0881,0.1808 -0.16749,0.36481 -0.24414,0.54883 -0.14111,0.13721 -0.2835,0.27585 -0.42187,0.40625 -0.0829,-0.33218 -0.17795,-0.69172 -0.26954,-1.04297 z"
+       inkscape:label="path49" /&gt;
+  &lt;/g&gt;
+  &lt;g  id="tank_sprite"
+     inkscape:groupmode="layer"
+     inkscape:label="tank"
+     style="display:inline"&gt;
+    &lt;rect
+       style="fill:#728566;fill-opacity:1;fill-rule:evenodd;stroke:#333d2b;stroke-width:0.3;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       id="rect10"
+       width="13.790402"
+       height="17.306084"
+       x="-6.9152036"
+       y="-8.6608238"
+       inkscape:label="body" /&gt;
+    &lt;rect
+       style="fill:#5d6c53;fill-opacity:1;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.3;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       id="rect12"
+       width="3.0833642"
+       height="20.027111"
+       x="3.8589785"
+       y="-10.017914"
+       inkscape:label="tread" /&gt;
+    &lt;rect
+       style="fill:#5d6c53;fill-opacity:1;fill-rule:evenodd;stroke:#3a4530;stroke-width:0.3;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       id="l_tread"
+       width="3.0833642"
+       height="20.027111"
+       x="-6.9"
+       y="-10.017914"
+       inkscape:label="tread" /&gt;
+    &lt;g
+       id="gun_turret"
+       style="display:inline"&gt;
+      &lt;path
+         id="rect18"
+         style="display:inline;fill:#9dac93;fill-rule:evenodd;stroke:#333d2b;stroke-width:0.133058;stroke-linecap:square"
+         inkscape:label="body"
+         d="M -2.7981557,-2.7387652 H 3.5980418 L 4.6608653,-0.904973 V 2.656739 L 3.563726,4.1806984 H -2.7625838 L -3.866191,2.7904048 -3.880001,-1.0404437 Z"
+         sodipodi:nodetypes="ccccccccc"
+         transform="translate(-0.44871353,-0.72632077)" /&gt;
+      &lt;rect
+         style="display:inline;fill:#9dac93;fill-opacity:1;fill-rule:evenodd;stroke:#333d2b;stroke-width:0.165146;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+         id="rect17"
+         width="0.99229825"
+         height="11.763488"
+         x="0.012376411"
+         y="-14.764388"
+         inkscape:label="body"
+         transform="translate(-0.44871353,-0.72632077)" /&gt;
+      &lt;rect
+         style="display:inline;fill:#9dac93;fill-opacity:1;fill-rule:evenodd;stroke:#333d2b;stroke-width:0.165146;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+         id="rect16"
+         width="2.7669747"
+         height="1.9373411"
+         x="-0.89277261"
+         y="-4.7297387"
+         inkscape:label="body"
+         transform="translate(-0.44871353,-0.72632077)" /&gt;
+      &lt;rect
+         style="display:inline;fill:#9dac93;fill-opacity:1;fill-rule:evenodd;stroke:#333d2b;stroke-width:0.133058;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14"
+         width="6.2887726"
+         height="7.4653864"
+         x="-2.7156754"
+         y="-3.0141544"
+         inkscape:label="body"
+         transform="translate(-0.44871353,-0.72632077)" /&gt;
+      &lt;path
+         id="rect15"
+         style="display:inline;fill:#8f9c86;fill-rule:evenodd;stroke:#333d2b;stroke-width:0.15;stroke-linecap:square"
+         inkscape:label="body"
+         d="M -0.75049654,-1.525704 H 1.6603016 L 2.7398006,-0.46186335 2.7343072,2.2239345 1.822443,2.9627818 H -1.1399797 L -1.8753741,2.2622081 v -2.84678902 z"
+         sodipodi:nodetypes="ccccccccc"
+         transform="translate(-0.44871353,-0.72632077)" /&gt;
+
+&lt;g id="cannon_explosion"
+   transform = "translate(0, -25)"
+   visibility="hidden"
+   &gt;
+  &lt;!-- Flash    --&gt;
+  &lt;circle id="flash" cx="0" cy="0" r="5" fill="yellow" opacity="1"&gt;
+    &lt;animate attributeName="r" from="5" to="15" dur="0.1s" fill="freeze"/&gt;
+    &lt;animate attributeName="opacity" from="1" to="0" dur="0.2s" begin="0.05s" fill="freeze"/&gt;
+  &lt;/circle&gt;
+  &lt;!-- Smoke   --&gt;
+  &lt;circle id="smoke1" cx="-5" cy="0" r="3" fill="gray" opacity="0.8"&gt;
+    &lt;animate attributeName="r" from="3" to="10" dur="0.5s" fill="freeze"/&gt;
+    &lt;animate attributeName="opacity" from="0.8" to="0" dur="0.5s" fill="freeze"/&gt;
+  &lt;/circle&gt;
+  &lt;circle id="smoke2" cx="5" cy="0" r="4" fill="gray" opacity="0.6"&gt;
+    &lt;animate attributeName="r" from="4" to="12" dur="0.6s" fill="freeze"/&gt;
+    &lt;animate attributeName="opacity" from="0.6" to="0" dur="0.6s" fill="freeze"/&gt;
+  &lt;/circle&gt;
+&lt;/g&gt;
+    &lt;/g&gt;
+
+  &lt;/g&gt;
+
+&lt;g id="wall_explosion"
+   transform = "translate(237, 120) scale( 3 )"
+   visibility="hidden"
+   &gt;
+  &lt;!-- Flash    --&gt;
+  &lt;circle id="wall_flash" cx="0" cy="0" r="5" fill="yellow" opacity="1"&gt;
+    &lt;animate attributeName="r" from="5" to="15" dur="0.1s" fill="freeze"/&gt;
+    &lt;animate attributeName="opacity" from="1" to="0" dur="0.2s" begin="0.05s" fill="freeze"/&gt;
+  &lt;/circle&gt;
+  &lt;!-- Smoke   --&gt;
+  &lt;circle id="wall_smoke1" cx="-5" cy="0" r="3" fill="gray" opacity="0.8"&gt;
+    &lt;animate attributeName="r" from="3" to="10" dur="0.5s" fill="freeze"/&gt;
+    &lt;animate attributeName="opacity" from="0.8" to="0" dur="0.5s" fill="freeze"/&gt;
+  &lt;/circle&gt;
+  &lt;circle id="wall_smoke2" cx="5" cy="0" r="4" fill="gray" opacity="0.6"&gt;
+    &lt;animate attributeName="r" from="4" to="12" dur="0.6s" fill="freeze"/&gt;
+    &lt;animate attributeName="opacity" from="0.6" to="0" dur="0.6s" fill="freeze"/&gt;
+  &lt;/circle&gt;
+&lt;/g&gt;
+
+&lt;g id="particles_group"
+   transform = "translate(250, 100)"
+   &gt;
+&lt;/g&gt;
+
+&lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;div id="control_panel"&gt;
+        &lt;button id="anim_control" &gt;Play&lt;/button&gt;
+        &lt;button id="reset" &gt;Reset&lt;/button&gt;
+        &lt;span id="fps_display"&gt;INSERT FPS&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;figcaption&gt;&lt;strong&gt;Demo:&lt;/strong&gt; Automating sprite behavior with Behavior trees.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Discussion and Key Takeaways&lt;/h2&gt;
+&lt;p&gt;Having discussed the &lt;em&gt;what&lt;/em&gt; of Behavior trees I think we're ready to discuss the philosophy behind their application to create interactive SVG artworks using the SVG Creators' Collab&amp;trade; framework. Given the recent explosion of AI technologies its important to develop an understanding of how and where specific technologies fit into the development of intelligent systems. &lt;/p&gt;
+&lt;p&gt;Over the course of developing intelligent systems architects and engineers are daily faced with countless decisions. Where does this particular slice of state belong, who's responsible for controlling that action? Those sorts of things among others. &lt;/p&gt;
+&lt;p&gt;To me one of the most important aspects of Behavior Trees is that they provide a formal, modular framework for defining and orchestrating the behaviors of intelligent systems. BT's can be used "top down", incrementally and iteratively, as much to guide the specification of implementation details for intelligent systems as to implement and enforce behavioral constraints. &lt;/p&gt;
+&lt;p&gt;As a "rule of thumb" I like to think of Behavior Trees as defining &lt;strong&gt;what&lt;/strong&gt; intelligent actors or agents should be doing within the constraints of a system. But the &lt;strong&gt;how&lt;/strong&gt; of what to do should be defined on the agents themselves. Consider, for example, game sprites in an educational simulation. In such scenarios I treat state as belonging on the sprite itself as intelligent agent. Sprites should have their own "mind". They need to "know" how to do stuff; how to move around in their environment, how to interact with objects and other agents in their "world". The Behavior Tree with it's black-board memory is kinda like a "collective unconscious" in that regard. It lays out the script of intentions (seek, pick a target, shout, fire) which drive the agents to execute their known behaviors. The BT just orchestrates decision-making flow. The state and execution details of the behaviors live in the actors.&lt;/p&gt;
+&lt;p&gt;Bottom line? &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;BT = desire, collective unconscious, "what to do."&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sprite = will, working memory, "how to do it."&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The beauty of this approach is that the BT stays stateless (simpler, easier to debug). All persistence (targets, cool-down timers, en route flags) lives in sprites -- which already have to track all that stuff anyway. The black-board simply offers a means to enable inter-agent communication. Offloading state to the sprite implies design constraints that give rise to better BT designs. And that's the most crucial part in working with Behavioral Trees; good design. &lt;/p&gt;
+&lt;h2&gt;Behavior Trees + State Machines: Best of Both Worlds&lt;/h2&gt;
+&lt;p&gt;At this point I feel the need to make explicit that -- more often than not -- the conditions and actions defined in terms of Behavior Trees aren't just "black box" one-shot commands. From the outset, in choosing to work with BT's, you'll likely encounter tension revolving around how you'll be dealing with state. The blackboard offers one possible mechanism to manage state across slices of time. But in keeping with the guiding principles outlined above I offer another approach here. &lt;/p&gt;
+&lt;p&gt;&lt;span id="ret_2"&gt;I've long been a fan of another form of AI -- namely Finite State Machines, or, &lt;strong&gt;FSM's&lt;/strong&gt; &lt;a href="#end_2"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;. &lt;/span&gt; Often I've seen discussions around AI incorrectly framed as either/or propositions. "we have to decide whether to use BT's &lt;em&gt;or&lt;/em&gt; FSM's. As if they are somehow mutually exclusive. Instead, I view both systems as working beautifully in tandem to orchestrate behavior in many different classes of intelligent systems. The example I used in this article -- the tank-bot -- uses &lt;em&gt;both&lt;/em&gt; a behavior tree &lt;em&gt;and&lt;/em&gt; state machine features. &lt;/p&gt;
+&lt;p&gt;&lt;img src="/svg/behavior_trees/bt_fsm_diagram.svg"&gt;&lt;/p&gt;
+&lt;p&gt;This hybrid approach lets the Behavior Tree handle the &lt;em&gt;what&lt;/em&gt; ("find your target",  "fire your missile", "clear the building") while the low-level details ("pre-flight setup", "in-flight course correction", "arrival at destination") are handled in "mini state machines" defined over the attributes and functions associated with specific sprites. The &lt;em&gt;sprite as FSM&lt;/em&gt; associated with each action gives the agent a personal memory of progress, so actions can span multiple ticks without getting reset every frame.&lt;/p&gt;
+&lt;p&gt;The end result is that my sprites feel like they have both:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;A higher-level "brain" (the BT deciding intent).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A lower-level practical pilot's checklist (the FSM) executing the details.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This keeps the Behavior Tree readable and compact, while letting individual actions stay precise and persistent. It's an awesome pattern I'll be using it ubiquitously throughout the SVG Creator's framework &amp;trade;.&lt;/p&gt;
+&lt;h2&gt;A Psychological Framework for Design&lt;/h2&gt;
+&lt;p&gt;With that in mind I offer the following rules of thumb. In designing behavior trees ...&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Let the BT be the unconscious; the sprite the state of mind.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The BT describes &lt;em&gt;what should be attempted&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;The sprite owns how to carry it out. It keeps track of its own continuity.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;BT nodes express &lt;em&gt;intentions&lt;/em&gt;, not &lt;em&gt;state&lt;/em&gt;. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A node like "pick a target" doesn't &lt;em&gt;store&lt;/em&gt; the target -- it &lt;em&gt;directs the sprite&lt;/em&gt; to ensure one exists.&lt;/li&gt;
+&lt;li&gt;If the sprite already has a target, the node should succeed immediately without resetting.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Continuity&lt;/em&gt; belongs to the sprite. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Actions that span multiple ticks (e.g., seek) should live as &lt;em&gt;methods&lt;/em&gt; on the sprite.&lt;/li&gt;
+&lt;li&gt;The method returns IN_PROGRESS while en route, SUCCESS when complete, or FAILURE if it gets blocked.&lt;/li&gt;
+&lt;li&gt;This keeps the BT simple and avoids "thrashing" between nodes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Failure should be meaningful.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A node should only return FAILURE when it's truly impossible to proceed (e.g., no targets exist).&lt;/li&gt;
+&lt;li&gt;Otherwise, prefer IN_PROGRESS or SUCCESS to avoid unnecessary resets.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Idempotence&lt;/em&gt; is key.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Nodes may be ticked many times across behavioral execution.&lt;/li&gt;
+&lt;li&gt;Sprite methods must be written so that calling them repeatedly produces consistent results. Example: &lt;code&gt;flyToTarget&lt;/code&gt; means "keep flying if not there yet" not "restart the flight sequence". It should be the intelligent agent's responsibility to keep track and know where it is -- not some central authority micro managing the process.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The BT is declarative, not imperative.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Think of the &lt;em&gt;tree&lt;/em&gt; as an expression of desire: "I want to have a target, fly close, then fire."&lt;/li&gt;
+&lt;li&gt;The &lt;em&gt;sprite&lt;/em&gt;, like a psyche, resolves the details in its own experiential continuity.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;These rules make for a set of beautiful design constraints that ensure BT's will be built cleanly and effectively. Disciplined development is not a drawback it's a form of insurance. The time and effort you put in up front is more predictable and pays off in fewer unexpected developments in the long run. &lt;/p&gt;
+&lt;p&gt;Well that's all I got for now folks. Use these guidelines in good health!&lt;/p&gt;
+&lt;h2&gt;End Notes&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="end_1"&gt;I should point out that the implementation examples I've provided for the BT framework differ in one key aspect from classic BT implementations -- namely the behavior of sequences and selects. Given the hybrid approach using BT's to manage more intelligent (stateful) actors (preferred by the SVG Creators' Collaborative), sequences and select nodes to not retain state and resume in place for &lt;em&gt;running&lt;/em&gt; operations across ticks. Instead, we assume behaviors under BT scope to be idempotent with agents responsible for reporting back statuses for behaviors associated with BT actions and conditions&lt;a href="#ret_1"&gt;&lt;svg class="EndnoteReturn"&gt;
+  &lt;use href="#en_return"&gt;&lt;/use&gt;
+&lt;/svg&gt;&lt;/a&gt;&lt;/span&gt; .&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span id="end_2"&gt;FSM's are another blog-post / chapter in their own right. I'll have to consider adding one at some point. But at this point the concept is so entwined with the design philosophy I'm laying out here I at least had to address them at a high level. &lt;a href="#ret_2"&gt;&lt;svg class="EndnoteReturn"&gt;
+  &lt;use href="#en_return"&gt;&lt;/use&gt;
+&lt;/svg&gt;&lt;/a&gt;&lt;/span&gt; .&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Appendix 1: Bonus Content -- A Deep Dive into Steering Behaviors with Vectors&lt;/h2&gt;
+&lt;p&gt;I've long been a fan of Craig Reynolds. You know -- the guy who pioneered concepts revolving around "artificial life". In a famous SIGGRAPH paper Mr. Reynolds outlined numerous concepts revolving around moving autonomous characters for interactive graphics, computer games, and cinematographic efforts. I've implemented these ideas in several contexts (including the tank-bot for this post) and feel that revisiting the concepts and underlying vector math is worthwhile. &lt;/p&gt;
+&lt;p&gt;In implementing the tank-bot sprite I wanted to achieve a clean separation between the steering behavior as defined declaratively for integration with the Behavior Tree and the vector math underlying the tank-bot movement logic in order to achieve better encapsulation, readability and re-usability. At the same time I needed to keep things clean, usable and avoid over-engineering. &lt;/p&gt;
+&lt;p&gt;Here's the sweet spot on which I landed. First the &lt;em&gt;seek&lt;/em&gt; behavior definition.&lt;/p&gt;
+&lt;pre&gt;
+/**
+ * Defines the seek behavior for this sprite's behavior tree ... 
+ */
+seek () {
+    const seekStates = tankConstants.seekStates;
+    // GET WAY POINT:
+    const wayPoint = this.wayPoints[ this.currentWayPoint ];
+    switch ( this.seekState ) {
+        case seekStates.PRE_FLIGHT: 
+            // SET COURSE for the first waypoint
+            this.setCourse( wayPoint );
+            this.seekState = tankConstants.seekStates.IN_FLIGHT;
+            return btConstants.IN_PROGRESS;
+        case seekStates.IN_FLIGHT: 
+            // stay on track. update velocity on each tick 'till your 
+            // reach the next waypoint...
+            this.setCourse( wayPoint );
+            // CHECK: ARE WE THERE YET?
+            let myBox = { 
+                x: this.pos.x - 10, 
+                y: this.pos.y - 10 , 
+                width: 20, 
+                height: 20
+            } ;
+            let wayPointBox = { 
+                x: wayPoint.x - 10,
+                y: wayPoint.y - 10, 
+                width: 20, 
+                height: 20,
+            } ;
+            let colliding = collisionDetection( myBox, wayPointBox ); 
+            if( colliding ) {
+                // GET THE NEXT WAYPOINT
+                this.currentWayPoint ++ ;
+                if( this.currentWayPoint &lt; this.wayPoints.length ) {
+                    // const nextPoint = this.wayPoints[ this.currentWayPoint ] ;
+                    // this.vel = setCourse( this.pos, nextPoint );
+                    return btConstants.IN_PROGRESS;
+                } else {
+                    this.vel = Vector2D.fromCartesian( 0, 0 );
+                    this.seekState = tankConstants.seekStates.ARRIVED;
+                    return btConstants.SUCCESS;
+                }
+            }
+            return btConstants.IN_PROGRESS;
+        default : 
+            this.seekState = tankConstants.seekStates.ARRIVED;
+            return btConstants.SUCCESS;
+    }
+}
+&lt;/pre&gt;
+
+&lt;p&gt;And the helper function. &lt;/p&gt;
+&lt;pre&gt;
+/**
+ * Helper function to update the tank sprite's course encapsulating 
+ * Craign Reynold's steering behavior. 
+ * 
+ * @param {Point} target  a waypoint or other coords of form {x: val, y: val}
+ * @param {number} speed  as a scalar
+ * @param {number} turnRate to step the turn behavior... 
+ */
+setCourse( target, speed = 10, turnRate = 1 ) {
+    const deltaVel = Vector2D.getDifferenceVector( target, this.pos );
+    const courseIdeal = Vector2D.getNormalized( deltaVel).multiply( speed ) ;
+    // steering = ideal new course - current velocity 
+    const steering = Vector2D.getDifferenceVector(courseIdeal, this.vel); 
+    steering.multiply( turnRate );
+    // apply steering gradually
+    this.vel.add(steering);
+    // normalize to keep constant speed
+    this.vel = Vector2D.getNormalized(this.vel).multiply(speed);
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Let's zoom in on the steering behavior. With the clean separation achieved here, all the steering logic is centralized in &lt;code&gt;setCourse&lt;/code&gt;. &lt;code&gt;seek&lt;/code&gt; defines a "mini finite state machine" that triggers it. The secret sauce behind smoother steering behavior is the use of &lt;strong&gt;vectors&lt;/strong&gt;. In a nutshell:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Find the &lt;em&gt;difference vector&lt;/em&gt; to get you from your &lt;em&gt;current position&lt;/em&gt; to your &lt;em&gt;target&lt;/em&gt;. I think of this as the &lt;strong&gt;ideal course&lt;/strong&gt; .&lt;/p&gt;
+&lt;p&gt;&lt;img id="steering_1" 
+    src="/svg/behavior_trees/steering_1.svg" 
+    alt="diagram illstrating target, position, and difference vector in Cartesian coordinate system" &gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Adjust your &lt;em&gt;current velocity&lt;/em&gt; (speed and direction) to get there. To do that compute &lt;strong&gt;steering&lt;/strong&gt;.  Take the difference vector between your ideal course and your current velocity.&lt;/p&gt;
+&lt;p&gt;&lt;img id="steering_2" 
+    src="/svg/behavior_trees/steering_2.svg" 
+    alt="diagram illstrating course change ideal, velocity, and difference vector in Cartesian coordinate system" &gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Finally, If you don't want to &lt;em&gt;instantaneously snap&lt;/em&gt; to your new course (which defies real-world physics and is quite jarring) throttle your course change; multiply the steering vector by an adjustment factor (the turning rate). &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Notice also that we &lt;em&gt;normalize&lt;/em&gt; the new heading (the sprite's velocity) and multiply to enforce a constant &lt;em&gt;speed&lt;/em&gt;. &lt;/p&gt;
+&lt;p&gt;And now, for the truly intrepid, here's the math. This covers the ideal heading, steering, and the velocity update. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 1:&lt;/strong&gt; Get the &lt;em&gt;ideal heading&lt;/em&gt; as a &lt;strong&gt;difference vector&lt;/strong&gt; between your current position and target. Also, normalize the vector (since what you really need to do is just change direction -- not speed:&lt;/p&gt;
+&lt;div&gt;
+$$
+\vec{v}_{ideal} = \vec{v}_{target} - \vec{v}_{position}
+$$
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Step 2:&lt;/strong&gt; Next, get &lt;em&gt;steering&lt;/em&gt; as the &lt;strong&gt;difference vector&lt;/strong&gt; between the ideal from step 1 and your current heading (i.e., &lt;em&gt;velocity&lt;/em&gt;):&lt;/p&gt;
+&lt;div&gt;
+$$
+\vec{v}_{steering} = \vec{v}_{ideal} - \vec{v}_{velocity}
+$$
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Step 3:&lt;/strong&gt; Finally, update your velocity by steering toward your ideal. Again, throttle your adjustment by some amount ($\alpha$) to avoid instantaneous "snap".&lt;/p&gt;
+&lt;div&gt;
+$$
+\vec{v}_{\text{new velocity}} = \vec{v}_{\text{current velocity}} + \alpha \cdot \vec{v}_{steering}
+$$
+&lt;/div&gt;
+
+&lt;p&gt;Also, don't forget to &lt;em&gt;normalize&lt;/em&gt; your velocity to maintain speed:&lt;/p&gt;
+&lt;div&gt;
+\[
+\vec{v}_{\text{new velocity}} \leftarrow
+\frac{ \vec{v}_{\text{new velocity}} }{ \lVert \vec{v}_{\text{new velocity}} \rVert } \cdot \text{speed}
+\]
+&lt;/div&gt;
+
+&lt;p&gt;And there you have it; steering behavior in three easy steps!&lt;/p&gt;
+&lt;h2&gt;Appendix 2: A Vector Implementation&lt;/h2&gt;
+&lt;p&gt;As yet another bonus I'm including a vanilla javascript &lt;em&gt;Vector&lt;/em&gt; implementation (which I wrote a loooong time ago). It's served me well over the years so I'm including it here. It's worth giving it a look see -- if for no other reason than to refresh your vector math. But it can also be used as is as a drop-in for your vector arithmetic needs. &lt;/p&gt;
+&lt;div class="admonition hint"&gt;
+&lt;p class="admonition-title"&gt;Pro Tip&lt;/p&gt;
+&lt;p&gt;Vectors are at the heart of thinking about moving intelligent agents all over the place!&lt;/p&gt;
+&lt;/div&gt;
+&lt;pre&gt;
+export class Vector2D {
+
+    /**
+     * Construct a new vector using either polar or cartesian static initializers ...
+     * @param {*} x 
+     * @param {*} y 
+     */
+    constructor( x, y ) {
+        this.x = x; 
+        this.y = y;
+
+        // ---- BIND METHODS --------
+        this.setPolarCoords = this.setPolarCoords.bind(this);
+        this.getPolarCoords = this.getPolarCoords.bind(this);
+        this.setCartesian   = this.setCartesian.bind(this);
+        this.getCartesian   = this.getCartesian.bind(this);
+        this.add            = this.add.bind(this);
+        this.getDistance    = this.getDistance.bind(this);
+        this.multiply       = this.multiply.bind(this);
+    }
+
+    /**
+     * Factory method to get a Vector2D given speed and direction
+     * as defined below:
+     * 
+     * @param {scalar number} r   speed
+     * @param {scalar numer} theta direction in RADIANS
+     * @returns a vector of form [x, y]
+     */
+    static fromPolar(r, theta) {
+        const x = r * Math.cos(theta);
+        const y = r * Math.sin(theta);
+        return new Vector2D(x, y);
+    }
+
+    static fromCartesian(x, y) {
+        return new Vector2D(x, y);
+    }
+
+    /**
+     * Static utility to convert degrees to radians...
+     * @param { float } degrees 
+     * @returns radians
+     */
+    static degreesToRadians(degrees) {
+        return degrees * (Math.PI / 180);
+    }
+
+    /**
+     * Static utility to convert radians to degrees...
+     * @param { float } radians 
+     * @returns degrees
+     */
+    static radiansToDegrees(radians) {
+        return radians * (180 / Math.PI);
+    }
+
+    static getDifferenceVector( v1, v2 ) {
+        const x = v1.x - v2.x;
+        const y = v1.y - v2.y;
+        const vDiff = Vector2D.fromCartesian(x, y);
+        return vDiff;
+    }
+
+    /**
+     * Given a vector, v, returns a new normalized vector 
+     * (i.e., a vector of unit length with orientation of
+     * input vector). 
+     * 
+     * The special case of the zero vector input returns 
+     * a zero vector right back since 0 vector has no 
+     * orientation. Client code should accomodate the 
+     * special case as necessary.
+     * 
+     * @param {*} v 
+     * @returns 
+     */
+    static getNormalized( v ) {
+        const len = v.length();
+        if( len === 0 ) {
+            return Vector2D.fromCartesian(0, 0);
+        }
+        const magnitude  = v.length();
+        const x = v.x / magnitude;
+        const y = v.y / magnitude;
+        const normalized = Vector2D.fromCartesian(x, y);
+        return normalized;
+    }
+
+    /**
+     * Update the vector in place using polar coordinates.
+     * 
+     * @param {number} r - The new magnitude of the vector.
+     * @param {number} theta - The new angle (in radians) of the vector.
+     */
+    setPolarCoords(r, theta) {
+        this.x = r * Math.cos(theta);
+        this.y = r * Math.sin(theta);
+    }
+
+
+    /**
+     * Get the vector's state in polar coordinates.
+     * 
+     * @returns {Object} A plain object with `r` (magnitude) and `theta` (angle in radians).
+     */
+    getPolarCoords() {
+        const r     = this.length();
+        const theta = Math.atan2(this.y, this.x); 
+        return { r, theta };
+    }
+
+
+    /**
+     * Set this vector's, cartesian coordinates
+     * @param {number} x x coord
+     * @param {number} y y coord
+     */
+    setCartesian(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Read the cartesian coordinates
+     * @param {number} x x-coord
+     * @param {number} y y-coord
+     * @returns {Object} { x:number, y:number }
+     */
+    getCartesian(x, y) {
+        return ({
+            x: this.x ,
+            y: this.y = y
+        });
+    }
+
+
+    /**
+     * Add a given vector to *this* vector
+     * 
+     * @param {
+     * } v2D 
+     */
+    add( v2D ) {
+        this.x += v2D.x;
+        this.y += v2D.y;
+        return this;
+    }
+
+    multiply( scalar ) {
+        this.x *= scalar;
+        this.y *= scalar;
+        return this;
+    }
+
+
+    getDistance( location ) {
+        // expect a Vector2D ...
+        const {x, y} = location; 
+        const d = Math.sqrt( (x-this.x)**2 + (y-this.y)**2 );
+        return d;
+    }
+
+    /**
+     * get the length of the vector
+     */
+    length() {
+        const l = Math.sqrt( this.x*this.x + this.y*this.y ) ;
+        return l;
+    }
+
+    /**
+     * Get a string representation of the vector
+     * 
+     * @returns a string representation of the vector
+     */
+    toString() {
+        return "[ " + this.x + ", " + this.y + " ]";
+    } 
+
+    getClone() {
+        return Vector2D.fromCartesian(
+            this.x,  this.y
+        );
+    }
+
+    /**
+     * Get the vector orientation using atan2 to avoid
+     * quadrant confusion. 
+     * 
+     * @returns a scalar value in degrees from -pi (-180) to pi (180 degrees)
+     */
+    getOrientation() {
+        const rad = Math.atan2( this.y, this.x );
+        return 180/Math.PI * rad;
+    }
+
+    /**
+     * Rotate this vector around the origin by a given angle (degrees).
+     * COUNTER clockwise, in-place.
+     * @param {number} degrees - Rotation angle in [0,360).
+     */
+    rotate(degrees) {
+        // Normalize angle to [0, 360)
+        const angle = (degrees % 360 + 360) % 360;
+        const radians = angle * Math.PI / 180;
+
+        const cos = Math.cos(radians);
+        const sin = Math.sin(radians);
+
+        // COUNTER clockwise rotation: flip sign on sin for clockwise...
+        const newX = this.x * cos - this.y * sin;
+        const newY = this.x * sin + this.y * cos;
+
+        this.x = newX;
+        this.y = newY;
+
+        // allow chaining
+        return this; 
+    }
+
+}
+&lt;/pre&gt;
+
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://robohub.org/introduction-to-behavior-trees/"&gt;Introduction to behavior trees&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://medium.com/@Micheal-Lanham/orchestrating-llm-agents-with-behavior-trees-a-practical-guide-6762540e6ab3"&gt;Orchestrating LLM Agents with Behavior Trees: A Practical Guide&lt;/a&gt; &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.red3d.com/cwr/steer/gdc99/"&gt;Steering Behaviors For Autonomous Characters&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script type="module"&gt;
+
+import {
+    GameController
+} from "/scripts/dist_bt/game_controller.js"
+
+import{
+    animationController
+} from "/scripts/dist_bt/animation_controller.js"
+
+import {
+    TankSprite
+} from "/scripts/dist_bt/tank_sprite.js"
+
+import {
+  createSvgCoordsFinder
+} from "/scripts/dist_bt/utilities.js"
+
+import {
+    particleSystem
+} from "/scripts/dist_bt/particle_system.js"
+
+
+// ---- DEMO INITIALIZATION -------------------
+
+async function initDemo () {
+    // Get svg
+    const svgRoot = document.getElementById("svg1");
+    // initialize systems 
+    const pGrp = document.getElementById( "particles_group" );
+    particleSystem.setParticleGroup ( pGrp );
+    particleSystem.setFlameEffect();
+    // create the tankbot sprite
+    const SPRITE_ID = "tank_sprite";
+    GameController.createTankSprite( 
+        svgRoot,
+        SPRITE_ID,
+        false
+     );
+    const l = console.log;
+    l( "initialization complete!" );
+    // l( "particle system", particleSystem );
+    // particleSystem.startEmitting();
+
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async () =&gt; {
+        await initDemo();
+        // Turn on to get screen coords...
+        const svgRoot = document.getElementById("svg1");
+        svgRoot.addEventListener(
+            "click",
+            createSvgCoordsFinder( svgRoot )
+        );
+    }
+);
+
+
+
+// ----  UI  HACKS --------------------
+// ANIMATION CONTROL BUTTONS
+const pb = document.getElementById( "anim_control" );
+const rb = document.getElementById( "reset" );
+
+/**
+ * Animation toggle event handler. Buttons will control
+ * animation toggle via animation controller. 
+ * @param {obj} evt 
+ */
+const toggleAnimation = ( evt ) =&gt; {
+    if ( animationController.rafId == 0 ) {
+        animationController.startAnim();
+        pb.innerText = "Stop";
+    }  else {
+        animationController.stopAnim();
+        pb.innerText = "Play";
+    }
+}
+
+const resetDemo = (evt) =&gt; {
+    toggleAnimation(evt);
+    console.log( "TO DO: RE INTIALIZE SPRITES" );
+}
+
+
+pb.addEventListener(
+    "click",
+    ( evt ) =&gt; {
+        toggleAnimation( evt );
+    }
+);
+
+rb.addEventListener(
+    "click",
+    ( evt ) =&gt; {
+        resetDemo( evt );
+    }
+)
+
+
+
+&lt;/script&gt;</content><category term="blog"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="Inkscape"></category><category term="SVG Creators Collaborative"></category><category term="artificial intelligence"></category><category term="artificial concsciousness"></category><category term="behavior trees"></category><category term="interactive art"></category><category term="games"></category><category term="computer games"></category><category term="computer simulations"></category></entry><entry><title>SVG Filters</title><link href="https://dr-nick-nagel.github.io/blog/svg-filters.html" rel="alternate"></link><published>2025-08-12T00:00:00-04:00</published><updated>2025-08-12T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-08-12:/blog/svg-filters.html</id><summary type="html">&lt;p&gt;Using SVG Filters&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.ArtExample {
+    background-color: #eee;
+    border: solid #800 2px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Caption {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 9px;
+    margin-bottom: 20px
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}figure
+
+figure {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    img {
+        width: 480px;
+    }
+    figcaption {
+
+    }
+    @media (max-width: 450px) {
+        /* CSS rules for screen widths 450px and below go here */
+        width: 320px;
+        img {
+            width: 320px;
+        }
+    }
+}
+
+picture {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    svg, img {
+        width: 360px;
+        @media (max-width: 450px) {
+            /* CSS rules for screen widths 450px and below go here */
+            width: 320px;
+        }
+    }
+}
+
+&lt;/style&gt;
+
+&lt;h2&gt;In this Post ...&lt;/h2&gt;
+&lt;p&gt;I explore creating SVG effects and animations using SVG filters.&lt;/p&gt;
+&lt;h2&gt;Intro&lt;/h2&gt;
+&lt;p&gt;Recently I've been working on creating particle effects for a side project using components I created for the SVG Creators Collab &amp;trade; framework. Over the course of doing so I got a little deeper into working with SVG Filters and the results were so cool (better than expected) that I couldn't resist sharing some of the techniques here. &lt;/p&gt;
+&lt;h3&gt;First, what exactly are SVG filters?&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;SVG filters&lt;/strong&gt; are procedural effects that can be applied to create SVG artwork that:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Is natively textured, and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Exhibits a wide range of effects including blur, lighting effects, color manipulation and even more complex features and distortions you might imagine as an artist.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Insert examples :&lt;/h2&gt;
+&lt;p&gt;Smoke&lt;/p&gt;
+&lt;p&gt;Flame&lt;/p&gt;
+&lt;p&gt;watery light on sea bottom&lt;/p&gt;
+&lt;p&gt;Pattern on mermaid&lt;/p&gt;
+&lt;h3&gt;How SVG Filters Work&lt;/h3&gt;
+&lt;p&gt;You can create SVG filter effects using the &lt;code&gt;&amp;lt;filter&amp;gt;&lt;/code&gt; element. Filters are defined by compositing &lt;strong&gt;SVG filter primitives&lt;/strong&gt; -- the "building blocks" of filter effects (see Appendix 1). The primitives define atomic graphics operations (like blur, lighting effects, displacements, etc.). The output of these operations are termed &lt;strong&gt;result&lt;/strong&gt;s.&lt;/p&gt;
+&lt;p&gt;Filters operate on inputs; the original &lt;em&gt;source graphic&lt;/em&gt; or the &lt;em&gt;result&lt;/em&gt; of prior filters in the pipeline. Source graphics can be images, SVG shapes, groups, etc.. Inputs to primitives targeting graphics elements can be specified using the keyword &lt;code&gt;SourceGraphic&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;! --- Definition admonition
+&lt;strong&gt;SourceGraphic&lt;/strong&gt;:  A keyword referring to the graphics elements that were the original input into the 'filter' element. &lt;/p&gt;
+&lt;p&gt;To apply a filter to a graphics element or a container (e.g., &lt;code&gt;g&lt;/code&gt;), you set the value of the 'filter` &lt;em&gt;property&lt;/em&gt; on the element: &lt;/p&gt;
+&lt;p&gt;Pull out an EXAMPLE&lt;/p&gt;
+&lt;p&gt;When applied to container elements such as &lt;code&gt;g&lt;/code&gt; the filter applies to the contents of the group as a whole. &lt;/p&gt;
+&lt;h3&gt;By way of Example ...&lt;/h3&gt;
+&lt;p&gt;I my mind nothing explains technology better than a good example. Let's illustrate applying filters by creating an effect -- an SVG smoke ring.&lt;/p&gt;
+&lt;p&gt;WALK THROUGH SMOKERING EXAMPLE ... &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;STATIC&lt;/li&gt;
+&lt;li&gt;ANIMATION&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Summing Up&lt;/h2&gt;
+&lt;p&gt;In summary we've defined the following terms:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SVG &lt;strong&gt;filter&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;the filter &lt;strong&gt;primitive&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;the filter &lt;strong&gt;result&lt;/strong&gt;, and&lt;/li&gt;
+&lt;li&gt;the &lt;strong&gt;SourceGraphic&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;RESUME HERE...&lt;/p&gt;
+&lt;p&gt;https://gemini.google.com/app/2264cb23032ff910&lt;/p&gt;
+&lt;!--
+
+&lt;figure&gt;
+    &lt;img id='inkscape_mindmap'
+      src='/assets/inkscape-features-mindmap.svg' 
+      alt='An SVG graph showing relationships among inkscape features from shapes to LPEs and everything between'
+    &gt;
+    &lt;figcaption&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+--&gt;
+
+&lt;p&gt;So I started this blog series in order to catelog and provide references to Inkscape features as I continue to explore the intersection of vector graphics, procedural art, animation and AI. Like I always say -- the faintest ink is truer than the sharpest memory!&lt;/p&gt;
+&lt;h2&gt;Path interpolation ...&lt;/h2&gt;
+&lt;p&gt;Wave Skeleton ... &lt;/p&gt;
+&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;p&gt;In this post I explored working with SVG filters to create native textures and particle effects for SVG artwork and animation. There are many applications for these techniques including simulations, static artwork, game art, and cinemagraphic works in SVG. Now that you're armed with more knowledge about filters I can't wait to see what you create!&lt;/p&gt;
+&lt;h2&gt;Artwork&lt;/h2&gt;
+&lt;figure&gt;
+    &lt;picture&gt;
+      &lt;source id='rainbow_svg'
+         srcset="/svg/inkscape_art/rainbow_connection.svg" 
+         type="image/svg+xml"&gt;
+      &lt;img id='rainbow_bitmap'
+           src="/svg/inkscape_art/rainbow_connection.png" 
+           alt="Abstract line art exemplifying stitching subpaths by Nick Nagel"&gt;
+    &lt;/picture&gt;
+    &lt;figcaption&gt;&lt;strong&gt;Figure N.&lt;/strong&gt; Abstract artwork created by stitching subpaths in Inkscape. Image by &lt;em&gt;N&lt;/em&gt; .&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Endnotes&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;span id="end_1"&gt;BLah blah blah&lt;a href="#ret_1"&gt;&lt;svg class="EndnoteReturn"&gt;
+  &lt;use href="#en_return"&gt;&lt;/use&gt;
+&lt;/svg&gt;&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Apendix 1: List of SVG Feature Primitives&lt;/h2&gt;
+&lt;p&gt;SVG defines a large number of filter primitives which can be used to create an infinitude of visual effects. The standard filters include:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feBlend&gt;: Composites two input images using a blend mode.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feColorMatrix&gt;: Applies a color matrix to the input image, allowing for changes to hue, saturation, brightness, and contrast.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feComponentTransfer&gt;: Performs a per-channel color manipulation using a function. It's often used for advanced color adjustments.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feComposite&gt;: Composites two input images using a compositing operator like over, in, out, or atop.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feConvolveMatrix&gt;: Applies a matrix convolution filter, useful for effects like blurring, sharpening, and embossing.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feDiffuseLighting&gt;: Lights a graphic by using the alpha channel as a bump map.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feDisplacementMap&gt;: Displaces pixels in an image based on the pixel values of a second image.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feDropShadow&gt;: Creates a drop shadow effect. (This is a simplified primitive that combines other primitives.)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feFlood&gt;: Fills the filter subregion with a solid color and opacity.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feGaussianBlur&gt;: Applies a Gaussian blur to the input image.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feImage&gt;: Fetches image data from an external source to be used as an input for other primitives.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feMerge&gt;: Combines multiple input images into a single output image.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feMergeNode&gt;: A child element of &lt;feMerge&gt; that specifies an input for the merge operation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feMorphology&gt;: Changes the shape of an image's alpha channel, often used for thinning or thickening a shape.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feOffset&gt;: Shifts the input image by a specified amount.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feSpecularLighting&gt;: Creates a lighting effect, with a glossy, reflective surface.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feTile&gt;: Fills a region with a repeating pattern from a source image.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;feTurbulence&gt;: Creates an image using the Perlin turbulence function, which is useful for generating procedural textures like clouds, marble, or fire.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://dev.w3.org/Graphics-FX/modules/filters/master/SVGFilterPrimer.html"&gt;SVG Filters 1.2, Part 1: Primer&lt;/a&gt;. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://svgwrite.readthedocs.io/en/latest/classes/filter_primitive.html"&gt;Filter Primitives Overview&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://eev.ee/blog/2016/05/29/perlin-noise/"&gt;Perlin noise&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorials/SVG_from_scratch/Filter_effects"&gt;SVG Filter Tutorial&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://oreillymedia.github.io/Using_SVG/extras/ch16-feTurbulence.html"&gt;Making the Wave&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://github.com/oreillymedia/Using_SVG/"&gt;O'Reilly Using SVG&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="inkscape"></category><category term="tools"></category><category term="features"></category><category term="inkscape features"></category><category term="techniques"></category><category term="tips"></category><category term="tricks"></category><category term="patterns"></category><category term="procedural art"></category><category term="svg artworks"></category><category term="svg artwork"></category><category term="svg art"></category><category term="filters"></category></entry><entry><title>Inkscape Art: Interpolate Subpaths</title><link href="https://dr-nick-nagel.github.io/blog/inkscape-interpolate-subpaths.html" rel="alternate"></link><published>2025-08-07T00:00:00-04:00</published><updated>2025-08-07T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-08-07:/blog/inkscape-interpolate-subpaths.html</id><summary type="html">&lt;p&gt;Catalog of inkscape features and techniques: Path Interpolation&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 .ArtExample {
     background-color: #eee;
     border: solid #800 2px;
@@ -57,13 +1584,14 @@ picture {
 &lt;h3&gt;Nick Nagel's &lt;em&gt;Procedural Art with Inkscape&lt;/em&gt; Series&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html"&gt;Pattern along path&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-features-interpolate-paths.html"&gt;Sub-path Interpolation&lt;/a&gt;
-...&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-path-interpolation.html"&gt;Path Interpolation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-interpolate-subpaths.html"&gt;Interpolate Subpaths&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="TBD"&gt;Lattice Deformation&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;To be continued ...&lt;/p&gt;
 &lt;h2&gt;Featured in this Post ...&lt;/h2&gt;
 &lt;p&gt;Inkscape's &lt;em&gt;Path Interpolation&lt;/em&gt; .&lt;/p&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;TBD&lt;/p&gt;
+&lt;h2&gt;Procedural Effects with Path Interpolation in Inkscape&lt;/h2&gt;
 &lt;p&gt;POST SHOULD COVER PATH INTERPOLATION WITH AN EYE TOWARD&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -129,7 +1657,141 @@ https://www.youtube.com/watch?v=rliF81fKVzI&lt;/p&gt;
 &lt;p&gt;Inkscape Tutorial: Abstract Waves Background
 https://youtu.be/osuhoJl97VA?si=ocXdBH3gqBcUNXH4&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="inkscape"></category><category term="tools"></category><category term="features"></category><category term="inkscape features"></category><category term="techniques"></category><category term="tips"></category><category term="tricks"></category><category term="patterns"></category><category term="procedural art"></category><category term="pattern along path"></category><category term="svg artworks"></category><category term="svg artwork"></category><category term="svg art"></category><category term="interpolate subpaths"></category></entry><entry><title>Inkscape Art: Pattern Along Path</title><link href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html" rel="alternate"></link><published>2025-07-31T00:00:00-04:00</published><updated>2025-07-31T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-07-31:/blog/inkscape-features-pattern.html</id><summary type="html">&lt;p&gt;Catalog of inkscape features and techniques: procedural effects for hair.&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="inkscape"></category><category term="tools"></category><category term="features"></category><category term="inkscape features"></category><category term="techniques"></category><category term="tips"></category><category term="tricks"></category><category term="patterns"></category><category term="procedural art"></category><category term="svg artworks"></category><category term="svg artwork"></category><category term="svg art"></category><category term="interpolation"></category><category term="path interpolation"></category></entry><entry><title>Inkscape Art: Path Interpolation</title><link href="https://dr-nick-nagel.github.io/blog/inkscape-path-interpolation.html" rel="alternate"></link><published>2025-08-03T00:00:00-04:00</published><updated>2025-08-03T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-08-03:/blog/inkscape-path-interpolation.html</id><summary type="html">&lt;p&gt;Catalog of inkscape features and techniques: Interpolate Subpaths&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.ArtExample {
+    background-color: #eee;
+    border: solid #800 2px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Caption {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 9px;
+    margin-bottom: 20px
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}figure
+
+figure {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    img {
+        width: 480px;
+    }
+    figcaption {
+
+    }
+    @media (max-width: 450px) {
+        /* CSS rules for screen widths 450px and below go here */
+        width: 320px;
+        img {
+            width: 320px;
+        }
+    }
+}
+
+picture {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    svg, img {
+        width: 360px;
+        @media (max-width: 450px) {
+            /* CSS rules for screen widths 450px and below go here */
+            width: 320px;
+        }
+    }
+}
+
+&lt;/style&gt;
+
+&lt;h3&gt;Nick Nagel's &lt;em&gt;Procedural Art with Inkscape&lt;/em&gt; Series&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html"&gt;Pattern along path&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-path-interpolation.html"&gt;Path Interpolation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-interpolate-subpaths.html"&gt;Interpolate Subpaths&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="TBD"&gt;Lattice Deformation&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Featured in this Post ...&lt;/h2&gt;
+&lt;p&gt;Inkscape's &lt;em&gt;Path Interpolation&lt;/em&gt; .&lt;/p&gt;
+&lt;h2&gt;Path interpolation ...&lt;/h2&gt;
+&lt;p&gt;Wave Skeleton ... &lt;/p&gt;
+&lt;h2&gt;INTRO&lt;/h2&gt;
+&lt;p&gt;POST SHOULD COVER PATH INTERPOLATION WITH AN EYE TOWARD&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;procedural art (show the surf wave example with wave spine ... &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;path generation for SMIL animation (do the jellyfish motion ... ) &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Artwork&lt;/h2&gt;
+&lt;figure style="width:300px;margin-left:auto;margin-right:auto"&gt;
+    &lt;img id='jellyfish_image'
+      src='/images/inkscape_art/Jelly_cc11.jpeg' 
+      alt="Pacific sea nettle (Chrysaora fuscescens) at the Monterey Bay Aquarium in California, USA" 
+      width="100%"
+    &gt;
+    &lt;figcaption&gt;&lt;strong&gt;Figure 1:&lt;/strong&gt;Pacific sea nettle (Chrysaora fuscescens) at the Monterey Bay Aquarium in California, USA&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+    &lt;picture&gt;
+      &lt;source id='jellyfish_motion.svg'
+         srcset="/svg/inkscape_art/jellyfish_motion.svg" 
+         type="image/svg+xml"
+         &gt;
+      &lt;img id='jellyfish_animation_bitmap'
+           width="320px"
+           src="/svg/inkscape_art/jelly_anim.png" 
+           alt="Jellyfish SVG animation illustrating organic path morphing that can be achieved with path interpolation."&gt;
+    &lt;/picture&gt;
+    &lt;figcaption&gt;&lt;strong&gt;Artwork:&lt;/strong&gt; Jellyfish SVG animation illustrating organic path morphing that can be achieved with path interpolation. Animation by Nick Nagel.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;In the post we've explored path interpolation in Inkscape and looked at some of the applications of this feature vis a vis procedural art and animation. In conclusion let me leave you with this video which I used as reference material for this post. I find scenes like this from nature beautiful and very soothing. Enjoy them while they last!&lt;/p&gt;
+&lt;iframe width="100%"  src="https://www.youtube.com/embed/iGrShJO6t90?si=_KmUnpY0mTgdwqLy&amp;amp;start=117" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;h2&gt;Endnotes&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;span id="end_1"&gt;BLah blah blah&lt;a href="#ret_1"&gt;&lt;svg class="EndnoteReturn"&gt;
+  &lt;use href="#en_return"&gt;&lt;/use&gt;
+&lt;/svg&gt;&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://commons.wikimedia.org/wiki/File:Jelly_cc11.jpg"&gt;File:Jelly cc11.jpg&lt;/a&gt;. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=""&gt;TBD&lt;/a&gt;. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;STITCH SUB-PATHS Path Effect In INSCAPE 1.3
+https://youtu.be/QopkW1kMk1o?si=DOfwvPR3DuXr7Dzs&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;More Path Stitching ("Cool Abstract Lines")
+https://www.youtube.com/watch?v=vZF1ye0c4P4&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Interpolate Sub-Paths &amp;amp; Lattice Deformation
+https://www.youtube.com/watch?v=rliF81fKVzI&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Inkscape Tutorial: Abstract Waves Background
+https://youtu.be/osuhoJl97VA?si=ocXdBH3gqBcUNXH4&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="inkscape"></category><category term="tools"></category><category term="features"></category><category term="inkscape features"></category><category term="techniques"></category><category term="tips"></category><category term="tricks"></category><category term="patterns"></category><category term="procedural art"></category><category term="pattern along path"></category><category term="svg artworks"></category><category term="svg artwork"></category><category term="svg art"></category><category term="path"></category><category term="interpolation"></category><category term="path interpolation"></category></entry><entry><title>Inkscape Art: Pattern Along Path</title><link href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html" rel="alternate"></link><published>2025-07-31T00:00:00-04:00</published><updated>2025-07-31T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-07-31:/blog/inkscape-features-pattern.html</id><summary type="html">&lt;p&gt;Catalog of inkscape features and techniques: procedural effects for hair.&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 .ArtExample {
     background-color: #eee;
     border: solid #800 2px;
@@ -187,8 +1849,8 @@ picture {
 &lt;h3&gt;Nick Nagel's &lt;em&gt;Procedural Art with Inkscape&lt;/em&gt; Series&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html"&gt;Pattern along path&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-features-interpolate-paths.html"&gt;Sub-path Interpolation&lt;/a&gt;
-...&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-path-interpolation.html"&gt;Path Interpolation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-interpolate-subpaths.html"&gt;Interpolate Subpaths&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2&gt;Featured in this Post ...&lt;/h2&gt;
 &lt;p&gt;Inkscape's &lt;em&gt;pattern along path&lt;/em&gt; .&lt;/p&gt;

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="248.02505"
+   height="147.0601"
+   viewBox="0 0 248.02505 147.0601"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="marker20"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path20" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker4-2"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path4-6" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle-1"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path7-8" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker3-7"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path3-9" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="DartArrow-2"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path6-0" />
+    </marker>
+  </defs>
+  <g
+     id="layer12"
+     style="display:inline"
+     transform="translate(-8.4012804,-9.8032007)">
+    <path
+       style="display:inline;fill:none;stroke:#0c8eef;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#marker4-2);marker-end:url(#ConcaveTriangle-1)"
+       d="m 49.747822,16.053153 0.52698,134.510197"
+       id="path1-3" />
+    <path
+       style="display:inline;fill:none;stroke:#0c8eef;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#marker3-7);marker-end:url(#DartArrow-2)"
+       d="M 14.65128,80.822085 H 250.17634"
+       id="path2-7" />
+    <rect
+       style="display:inline;fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-linecap:square;stroke-dasharray:10, 4;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect29"
+       width="87.562592"
+       height="26.161257"
+       x="203.01453"
+       y="25.469114"
+       transform="rotate(-42.224716,285.31554,163.79329)" />
+    <path
+       style="fill:none;stroke:#008000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker20)"
+       d="M 49.873174,81.197552 104.87098,134.41916"
+       id="path19" />
+    <path
+       style="fill:none;stroke:#800000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker20)"
+       d="M 49.873174,81.197552 214.1448,42.897102"
+       id="path21" />
+    <path
+       style="fill:none;stroke:#008000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:10, 4;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker20)"
+       d="M 109.51606,139.00418 216.58707,47.686658"
+       id="path22" />
+    <g
+       id="g11"
+       transform="rotate(133.29216,86.966271,171.57677)">
+      <rect
+         style="fill:#008080;fill-rule:evenodd;stroke:#2a4d2a;stroke-linecap:square;stroke-opacity:1"
+         id="rect10"
+         width="5.3274212"
+         height="11.648851"
+         x="44.949673"
+         y="170.24571" />
+      <ellipse
+         style="fill:#3c6f52;fill-opacity:1;fill-rule:evenodd;stroke:#284928;stroke-linecap:square;stroke-opacity:1"
+         id="ellipse11"
+         cx="47.663418"
+         cy="177.07788"
+         rx="2.1150813"
+         ry="2.2257965" />
+      <path
+         style="fill:none;stroke:#284928;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 47.60759,174.70632 v -8.80876"
+         id="path11" />
+    </g>
+    <g
+       id="g23"
+       transform="rotate(-13.464563,203.25999,22.994792)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;opacity:1;vector-effect:none;fill:#333333;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         x="95.548927"
+         y="37.407185"
+         id="text22"><tspan
+           id="tspan22"
+           x="95.548927"
+           y="37.407185"
+           style="font-size:10px">V </tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6px;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;opacity:1;vector-effect:none;fill:#333333;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         x="104.74362"
+         y="45.246407"
+         id="text23"
+         transform="translate(-2.2145253,-5.4093342)"><tspan
+           id="tspan23"
+           x="104.74362"
+           y="45.246407"
+           style="font-size:6px">target position</tspan></text>
+    </g>
+    <g
+       id="g31"
+       transform="rotate(44.268369,202.12034,37.375465)">
+      <rect
+         style="fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-linecap:square;stroke-dasharray:10, 4;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect31"
+         width="11.936781"
+         height="10.489878"
+         x="136.36026"
+         y="169.74796" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;vector-effect:none;fill:#333333;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+         x="95.548927"
+         y="37.407185"
+         id="text24"
+         transform="translate(43.73255,141.24548)"><tspan
+           id="tspan24"
+           x="95.548927"
+           y="37.407185"
+           style="font-size:10px">V </tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6px;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;vector-effect:none;fill:#333333;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+         x="104.74362"
+         y="45.246407"
+         id="text25"
+         transform="translate(41.518025,135.83614)"><tspan
+           id="tspan25"
+           x="104.74362"
+           y="45.246407"
+           style="font-size:6px">agent position</tspan></text>
+    </g>
+    <g
+       id="g29"
+       transform="rotate(-42.224716,285.31554,163.79329)"
+       style="display:inline">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;vector-effect:none;fill:#333333;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+         x="95.548927"
+         y="37.407185"
+         id="text26"
+         transform="translate(107.4365,5.0081553)"><tspan
+           x="95.548927"
+           y="37.407185"
+           style="font-size:10px"
+           id="tspan27">difference vector </tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6px;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;vector-effect:none;fill:#333333;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+         x="95.548927"
+         y="37.407185"
+         id="text29"
+         transform="translate(117.29252,11.795213)"><tspan
+           x="95.548927"
+           y="37.407185"
+           id="tspan29"
+           style="font-size:6px">(ideal course change)</tspan></text>
+    </g>
+    <g
+       id="g14"
+       transform="translate(145.32527,-134.92933)"
+       style="display:inline">
+      <ellipse
+         style="fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke:#800000;stroke-width:0.962586;stroke-linecap:square;stroke-opacity:1"
+         id="ellipse12"
+         cx="80"
+         cy="175"
+         rx="4.5187073"
+         ry="4.5187068" />
+      <ellipse
+         style="fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke:#800000;stroke-width:0.610373;stroke-linecap:square;stroke-opacity:1"
+         id="ellipse13"
+         cx="79.914642"
+         cy="175.08292"
+         rx="2.8602808"
+         ry="2.8703313" />
+      <ellipse
+         style="fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.353292;stroke-linecap:square;stroke-opacity:1"
+         id="ellipse14"
+         cx="79.903328"
+         cy="175.1071"
+         rx="1.571133"
+         ry="1.750671" />
+    </g>
+  </g>
+</svg>
