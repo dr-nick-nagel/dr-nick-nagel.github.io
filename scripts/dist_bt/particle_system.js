@@ -90,7 +90,8 @@ export const particleSystem = {
     },
 
     stopBurning : function() {
-        this.burning = true;
+        this.burning = false;
+        this.flameEffect.setVisible( false );
     },
 
     emitParticles : function () {

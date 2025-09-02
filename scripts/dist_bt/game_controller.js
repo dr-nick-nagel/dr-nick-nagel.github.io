@@ -156,10 +156,8 @@ export const GameController = {
         // Behavioral tree updates ... 
         this.timeAccumulator += deltaTime;
         while ( this.timeAccumulator >= this.tickInterval ) {
-
             this.odd = !this.odd;
             (this.odd) ? console.log( "\nTICK" ) : console.log( "\nTOCK" ) ;
-
             // Do BT Updates ...
             // TODO: make bt list *not* hardcoded ... 
             // console.log( "TICK THE BT's" );
@@ -507,11 +505,6 @@ export const GameController = {
         );
         spriteObj.updateTransform();
         this.addSprite( spriteObj );
-
-        // const l = console.log;
-        // l( "TANK SPRITE POST CONDITIONS" );
-        // l( "sprite", spriteObj );
-
         return spriteId;
     }
 

@@ -386,11 +386,32 @@ export class TankSprite extends Moveable {
 
 
     /**
-     * Reset BT state variables to repeat this sequence with 
+     * Reset sprite  with initial state  
      * fresh start ... 
      */
-    resetBTSequence () {
-        //TODO: IMPLEMEMENT RESET
+    reset () {
+        this.seekState = tankConstants.seekStates.PRE_FLIGHT;
+        this.currentWayPoint = 0;
+        this.spriteOrientation = 0;
+        this.accumulator = 0;
+        this.currentFrame = 0;
+        this.pos = Vector2D.fromCartesian( 50, 25 );
+        this.vel = Vector2D.fromPolar( 10, 90/180 * Math.PI );
+
+        const rooftop_1 = document.getElementById("rooftop_1");
+        const rubble = document.getElementById("rubble");
+        const hole = document.getElementById("hole");
+
+        let explosion = document.getElementById("cannon_explosion");
+        let explosion2 = document.getElementById("wall_explosion");
+
+        rooftop_1.setAttribute( "display", "inline" );
+        rubble.setAttribute( "display", "none" );
+        hole.setAttribute( "display", "none" );
+
+        particleSystem.stopBurning();
+        particleSystem.stopEmitting();
+
     }
 
 }

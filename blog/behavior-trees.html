@@ -175,7 +175,7 @@ Welcome to NickNagel.com
     padding: 5px;
     border: solid 1px black;
     border-radius: 5px;
-    font-size: 10px;
+    font-size: 8px;
 }
 .AlignCenter {
   text-align: center;
@@ -242,8 +242,10 @@ figcaption {
     border: solid 1px red;
 }
 
-/*    --------  TOOL ------------    */
-
+/*    --------  CUSTOM ------------    */
+#tree_pre {
+    font-size: 8px;
+}
 
 </style>
 
@@ -262,7 +264,8 @@ figcaption {
 <p><em>Action</em> nodes define the actual behaviors. <em>Conditions</em> embody logic to enable decision making behavior on your agents. <em>Sequences</em> and <em>selectors</em> are control nodes in the system and function as logical "gates". The <em>root</em> is the entry point for evaluation of the tree.</p>
 <h2>Example: Clearing a Building</h2>
 <p>Let's consider an example. Here's a Behavior Tree that defines a series of actions and conditions for an action sim. </p>
-<pre>
+<figure>
+<pre id="tree_pre">
 ROOT: (Clear Building)
     |
     |-- SEQUENCE
@@ -283,8 +286,9 @@ ROOT: (Clear Building)
                             |
                             |-- ACTION: explode wall
 </pre>
+<figcaption><strong>Figure 1.</strong> A Behavior Tree (BT) containing <em>nodes</em> with <em>actions</em> and <em>conditions</em> associated with agents in the sim.</figcaption>
+</figure>
 
-<p>Figure 1 defines a tree-structure comprised of <em>nodes</em> and contains actions and conditions associated with agents in the sim. </p>
 <h2>Analysis</h2>
 <p>A Behavior tree is invoked at specific intervals, or, <em>ticks</em> which occur over the course of a simulation. Traversal starts at the ROOT, which is the entry-point for the decision-making process, and proceeds depth-wise. Over the course of the traversal each node returns a status (SUCCESS, FAILURE, or IN PROGRESS) which determines the overall result of the traversal process. </p>
 <p>In this example, the root's first child is a SEQUENCE node.</p>
@@ -298,7 +302,7 @@ ROOT: (Clear Building)
 <p><span id="ret_1">In this section I'll show how the concepts I've just laid out translate into source code. The following listing illustrates Behavior Tree node implementations using ES 6 <sup><a href="#end_1"> 1 </a></sup> . </span></p>
 <h3>The Traversal Framework</h3>
 <p>First we define the Behavior Tree statuses as constants.</p>
-<pre>
+<pre class="CodeList">
 export const btConstants = {
     SUCCESS : "1",
     FAILURE: "-1",
@@ -307,7 +311,7 @@ export const btConstants = {
 </pre>
 
 <p>Next we define a base class in which we specify a <code>tick</code> method. This is the method that gets called to traverse the tree. The parameter for this method is a reference to the <em>blackboard</em>. The blackboard is a data structure that can be used to read and write state across ticks and agent specific BT's. In the SVG Creative Collab framework it is preferred to use the blackboard sparingly (as you'll see shortly). </p>
-<pre>
+<pre  class="CodeList">
 export class BTNode {
     tick(blackboard) { 
         return btConstants.SUCCESS; 
@@ -316,7 +320,7 @@ export class BTNode {
 </pre>
 
 <p>Next we define the <code>Root</code> class ...</p>
-<pre>
+<pre class="CodeList">
 export class Root extends BTNode {
     constructor(children) {
         super();
@@ -345,7 +349,7 @@ export class Root extends BTNode {
 </pre>
 
 <p>And classes implementing the <em>sequence</em> and <em>selector</em> node types which control the traversal as described above.</p>
-<pre>
+<pre class="CodeList">
 export class Sequence extends BTNode {
     constructor(children) {
         super();
@@ -384,7 +388,7 @@ class Selector extends BTNode {
 </pre>
 
 <p>Finally we define the leaf node implementations; <code>Action</code> and <code>Condition</code>.</p>
-<pre>
+<pre class="CodeList">
 export class Condition extends BTNode {
     constructor(fn) {
         super();
@@ -413,7 +417,7 @@ export class Action extends BTNode {
 <p>The implementation is minimal by design -- this makes the Behavior Tree highly flexible. The node doesn't implement the behavior itself. Instead, you just inject a function (<code>fn</code>) at construction. <em>Actions</em> and <em>conditions</em> are simply lambdas which associate behavors with implementing agents as we'll see presently.</p>
 <h3>The Behavior Tree Factory Pattern</h3>
 <p>Given the framework, we can readily construct new behavior trees using a conveninent factory pattern. Here I'll implement a behavior tree for the high level example I sketched out above.</p>
-<pre>
+<pre class="CodeList">
 export function makeTankBT() {
     return new Root([
         new Sequence([
@@ -932,7 +936,12 @@ export function makeTankBT() {
 <h2>Behavior Trees + State Machines: Best of Both Worlds</h2>
 <p>At this point I feel the need to make explicit that -- more often than not -- the conditions and actions defined in terms of Behavior Trees aren't just "black box" one-shot commands. From the outset, in choosing to work with BT's, you'll likely encounter tension revolving around how you'll be dealing with state. The blackboard offers one possible mechanism to manage state across slices of time. But in keeping with the guiding principles outlined above I offer another approach here. </p>
 <p><span id="ret_2">I've long been a fan of another form of AI -- namely Finite State Machines, or, <strong>FSM's</strong> <a href="#end_2"><sup>2</sup></a>. </span> Often I've seen discussions around AI incorrectly framed as either/or propositions. "we have to decide whether to use BT's <em>or</em> FSM's. As if they are somehow mutually exclusive. Instead, I view both systems as working beautifully in tandem to orchestrate behavior in many different classes of intelligent systems. The example I used in this article -- the tank-bot -- uses <em>both</em> a behavior tree <em>and</em> state machine features. </p>
-<p><img src="/svg/behavior_trees/bt_fsm_diagram.svg"></p>
+<figure>
+    <img id="fsm_bt_hybrid" 
+        src="/svg/behavior_trees/bt_fsm_diagram.svg"
+        alt="Diagram illstrating a hybrid BT with agent FSM's approach to creating intelligent agents in interactive SVG" >
+    <figcaption><strong>Figure 2.</strong> Diagram illstrating a hybrid BT + FSM. Design used here by N.</figcaption>
+</figure>
 <p>This hybrid approach lets the Behavior Tree handle the <em>what</em> ("find your target",  "fire your missile", "clear the building") while the low-level details ("pre-flight setup", "in-flight course correction", "arrival at destination") are handled in "mini state machines" defined over the attributes and functions associated with specific sprites. The <em>sprite as FSM</em> associated with each action gives the agent a personal memory of progress, so actions can span multiple ticks without getting reset every frame.</p>
 <p>The end result is that my sprites feel like they have both:</p>
 <ul>
@@ -1010,7 +1019,7 @@ export function makeTankBT() {
 <p>I've long been a fan of Craig Reynolds. You know -- the guy who pioneered concepts revolving around "artificial life". In a famous SIGGRAPH paper Mr. Reynolds outlined numerous concepts revolving around moving autonomous characters for interactive graphics, computer games, and cinematographic efforts. I've implemented these ideas in several contexts (including the tank-bot for this post) and feel that revisiting the concepts and underlying vector math is worthwhile. </p>
 <p>In implementing the tank-bot sprite I wanted to achieve a clean separation between the steering behavior as defined declaratively for integration with the Behavior Tree and the vector math underlying the tank-bot movement logic in order to achieve better encapsulation, readability and re-usability. At the same time I needed to keep things clean, usable and avoid over-engineering. </p>
 <p>Here's the sweet spot on which I landed. First the <em>seek</em> behavior definition.</p>
-<pre>
+<pre class="CodeList">
 /**
  * Defines the seek behavior for this sprite's behavior tree ... 
  */
@@ -1064,7 +1073,7 @@ seek () {
 </pre>
 
 <p>And the helper function. </p>
-<pre>
+<pre class="CodeList">
 /**
  * Helper function to update the tank sprite's course encapsulating 
  * Craign Reynold's steering behavior. 
@@ -1090,23 +1099,25 @@ setCourse( target, speed = 10, turnRate = 1 ) {
 <ol>
 <li>
 <p>Find the <em>difference vector</em> to get you from your <em>current position</em> to your <em>target</em>. I think of this as the <strong>ideal course</strong> .</p>
-<p><img id="steering_1" 
-    src="/svg/behavior_trees/steering_1.svg" 
-    alt="diagram illstrating target, position, and difference vector in Cartesian coordinate system" ></p>
 </li>
 <li>
 <p>Adjust your <em>current velocity</em> (speed and direction) to get there. To do that compute <strong>steering</strong>.  Take the difference vector between your ideal course and your current velocity.</p>
-<p><img id="steering_2" 
-    src="/svg/behavior_trees/steering_2.svg" 
-    alt="diagram illstrating course change ideal, velocity, and difference vector in Cartesian coordinate system" ></p>
 </li>
 <li>
 <p>Finally, If you don't want to <em>instantaneously snap</em> to your new course (which defies real-world physics and is quite jarring) throttle your course change; multiply the steering vector by an adjustment factor (the turning rate). </p>
 </li>
 </ol>
 <p>Notice also that we <em>normalize</em> the new heading (the sprite's velocity) and multiply to enforce a constant <em>speed</em>. </p>
+<p>The following diagram illustrates the vector based steering approach.</p>
+<figure>
+    <img id="steering_3" 
+        src="/svg/behavior_trees/steering_3.svg" 
+        alt="Diagram illstrating target position, agent position, agent velocity, and steering vectors in 2D space" >
+    <figcaption><strong>Figure 3.</strong> This diagram is a graphical illustration of the target-position, agent-position, agent-velocity, and steering vectors in 2D space. The ideal course is the *difference vector* between the target - agent. The ideal course isn't set instantaneously. Instead a steering vector is computed using *another* difference vector (that between the ideal course and agent's *velocity*. That difference vector is scaled down and added to the current velocity to effect a *gradual course change*.</figcaption>
+</figure>
+
 <p>And now, for the truly intrepid, here's the math. This covers the ideal heading, steering, and the velocity update. </p>
-<p><strong>Step 1:</strong> Get the <em>ideal heading</em> as a <strong>difference vector</strong> between your current position and target. Also, normalize the vector (since what you really need to do is just change direction -- not speed:</p>
+<p><strong>Step 1:</strong> Get the <em>ideal heading</em> as a <strong>difference vector</strong> between the target and your current position. Also, normalize that vector (since what you really need to do is just change direction -- not speed:</p>
 <div>
 $$
 \vec{v}_{ideal} = \vec{v}_{target} - \vec{v}_{position}
@@ -1142,7 +1153,7 @@ $$
 <p class="admonition-title">Pro Tip</p>
 <p>Vectors are at the heart of thinking about moving intelligent agents all over the place!</p>
 </div>
-<pre>
+<pre class="CodeList">
 export class Vector2D {
 
     /**
@@ -1403,7 +1414,7 @@ import {
 
 
 // ---- DEMO INITIALIZATION -------------------
-
+let tankBotId = null;
 async function initDemo () {
     // Get svg
     const svgRoot = document.getElementById("svg1");
@@ -1413,7 +1424,7 @@ async function initDemo () {
     particleSystem.setFlameEffect();
     // create the tankbot sprite
     const SPRITE_ID = "tank_sprite";
-    GameController.createTankSprite( 
+    tankBotId = GameController.createTankSprite( 
         svgRoot,
         SPRITE_ID,
         false
@@ -1462,7 +1473,11 @@ const toggleAnimation = ( evt ) => {
 
 const resetDemo = (evt) => {
     toggleAnimation(evt);
-    console.log( "TO DO: RE INTIALIZE SPRITES" );
+    console.log( "Demo Reset." );
+    const tankBot = GameController.getSpriteById( tankBotId );
+    tankBot.reset();
+    tankBot.updateTransform();
+    GameController.blackboards.tank.accessable = false;
 }
 
 
