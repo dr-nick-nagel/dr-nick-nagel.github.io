@@ -1,0 +1,38 @@
+<svg width="400" height="100" viewBox="-120 -20 240 40"
+    xmlns="http://www.w3.org/2000/svg"
+    style="border:solid 1px red"
+>
+  <defs>
+    <linearGradient id="revealGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+
+<!-- <animateTransform attributeName="gradientTransform"
+        type="translate"
+        from="-1 0" to="1 0"
+        dur="1s"
+        fill="freeze"
+        repeatCount="1"/>
+ -->
+
+
+      <!-- opaque band -->
+      <stop offset="0%" stop-color="#c8ab37" stop-opacity="1">
+        <!-- <animate attributeName="offset" from="0%" to="100%" dur="2s" fill="freeze"/> -->
+      </stop>
+      <stop offset="0%" stop-color="#c8ab37" stop-opacity="0">
+        <animate attributeName="offset" from="0%" to="100%" dur="0.5s" fill="freeze"/>
+        <animate attributeName="stop-opacity" from="0" to="0.5" dur="1s" fill="freeze"/>
+      </stop>
+    </linearGradient>
+  </defs>
+
+  <path
+     d="M -100.02107,-4.245744 
+        80.165333,-4.3920675 
+        74.018479,-10.761593 
+        99.679316,0.08521468 
+        74.276794,10.08562 
+        80.700859,4.3671204 
+        -100.05234,4.2256 
+        l 9.325424,-4.4818885 z"
+     fill="url(#revealGrad)" />
+</svg>

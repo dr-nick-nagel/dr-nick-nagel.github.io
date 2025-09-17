@@ -1,0 +1,255 @@
+.Title {
+    font-family: sans-serif;
+    font-size: 24px;
+    color: #880808; 
+    padding-bottom: 10px;
+}
+
+.Footer {
+    font-family: sans-serif;
+    margin-top: 20px;
+    color: #880808; 
+} 
+
+#viewport-container {
+    position: relative;
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    background-color: black;
+    border: inset 4px darkgrey;
+
+    /* CSS for mobile devices in landscape orientation */
+    @media (min-width: 481px) and (max-width: 890px) {
+      width:  600px;
+      height: 250px; 
+    }
+
+    /* CSS for mobile devices in portrait orientation */
+    @media (max-width: 480px) {
+
+    }
+
+}
+
+#viewport {
+  display:block; 
+  max-width:100%; 
+  max-height:100%;
+  background-color:lightgrey;
+}
+
+
+/* -------------  controls  --------------- */
+.button_panel {
+    display: flex; 
+    justify-content: center;
+    height: 40px;
+    margin-top: 10px;
+    z-index: 5;
+}
+
+#fps_display {
+  width: 80px;
+  margin-left: 5px;
+  font-family: "sans-serif";
+  font-size: 12px;
+  color: #222;
+}
+
+.button_panel button {
+    margin: 5px;
+    margin-left: 15px;
+    padding: 3px 3px;
+}
+
+.button_panel span {
+    margin: 5px;
+} 
+
+#output1 {
+    font-size: 10px; 
+    font-family: 'sans';
+    overflow: hidden;
+}
+
+#count_slider_control {
+  display: flex;
+  align-items: center;
+  background-color: #aaa;
+  border: solid 1px grey;
+  border-radius: 3px;
+  width: 220px;
+  padding-left: 3px;
+  font-family: "sans-serif";
+  font-size: 12px;
+  /* font-weight:bold; */
+  /* Styling the overall input element */
+  input[type="range"] {
+    width: 100px; /* Adjust the overall width of the slider */
+  }
+  label {
+    display: inline-block;
+    margin-right: 5px;
+  }
+}
+
+
+
+
+/* -------------  model chooser  --------------- */
+.sprite-dropdown {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  .selected-option {
+    padding: 5px;
+  }
+  
+  .selected-option img {
+    width: 32px; 
+    height: 32px;
+  }
+  
+  .options-list {
+    display: none;
+    position: absolute;
+    bottom: 100%; 
+    left: -50px;
+    border-top: none;
+    list-style: none;
+    padding: 4;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .sprite-dropdown.open .options-list {
+    display: block;
+  }
+  
+  .options-list li {
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  .options-list li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Adjust sprite size */
+  .options-list li img {
+    width: 50px; 
+    height: 50px;
+  }
+/* --------  END  model chooser  --------------- */
+
+
+/* --------  Tunable Parameters  --------------- */
+.panel-header {
+  display: flex;
+  /* justify-content: right; */
+  align-items: center;
+  margin-bottom: 10px;
+  font-family: sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color:#880808;
+}
+
+#toggle-btn {
+  margin-left: 10px;
+}
+  
+#controls-panel label {
+  font-size: 10px;
+  font-weight: bold;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+  
+#controls-panel input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+}
+
+/* --------------------------------------
+  Styles for the param tuning view 
+  It's a floating DIV ... 
+-------------------------------------- */
+#controls-content {
+  position: absolute;
+  top  : 20px;
+  left : 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border-radius: 8px;
+  font-family: sans-serif;
+  max-width: 250px;
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.33);
+  border: solid 2px #880808;
+}
+
+.tp_heading {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.tp_heading.limits {
+  margin-top: 10px;
+}
+
+.tp_heading_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#cntrl_tp_minimize {
+    border: solid 1px #880808;
+    border-radius: 50%;
+    color: #880808;
+    padding-left:  3px;
+    padding-right: 3px;
+    font-weight: bold;
+    cursor: pointer;
+}
+  
+/* Style for the minimized state */
+#controls-panel.minimized #controls-content {
+  display: none;
+}
+
+
+/* BUTTON MEDIA STACKING */
+@media (max-width: 480px) {
+
+  .sprite-dropdown {
+    border: none;
+  }
+
+  .button_panel {
+    flex-direction: column; 
+    margin-top: 80px;
+    margin-bottom: 80px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .button_panel > * {
+    margin: 5px 0; 
+    width:  50%; 
+    max-width: 300px;
+  }
+
+}

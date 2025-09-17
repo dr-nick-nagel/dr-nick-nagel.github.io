@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Making Interactive SVG with Behavior Trees</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+        
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+
+    </head>
+
+    <body>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="nn_symbols"
+   version="1.1"
+   style="display:none"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs>
+    <symbol id="en_return"  viewBox="0 0 20 20">
+      <path
+        style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+        id="return_to_text_1"
+      />
+    </symbol>
+
+    <symbol id="circle_symbol" viewBox="-7.5 -8 15 16">
+      <circle id="circle_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        r="7.5"
+      />
+    </symbol>
+
+    <symbol id="rectangle_symbol" viewBox="-7.5 -9 15 18">
+      <rect
+        fill="currentColor"
+        style="display:inline;"
+        id="rectangular_shape"
+        width="15"
+        height="18"
+        x="-7.5"
+        y="-9"
+      />
+    </symbol>
+
+    <symbol id="diamond_symbol" viewBox="-7.5 -12 15 24">
+      <rect
+       fill="currentColor"
+       style="display:inline;"
+       id="diamond_0"
+       width="15"
+       height="15"
+       x="-7.5"
+       y="-7.5"
+       transform="rotate(45)" />
+    </symbol>
+
+    <symbol id="triangle_symbol" viewBox="-7.5 -7.5 15 20">
+      <path id="triangle_0"
+        fill="currentColor"
+        style="display:inline;"
+        d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
+      />
+    </symbol>
+
+    <symbol id="oval_symbol" viewBox="-7 -10 14 20">
+      <ellipse id="oval_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        rx="6"
+        ry="9" />
+    </symbol>
+
+    <symbol id="heart_face_symbol" viewBox="-7.5 -10 15 20">
+      <path id="heart_face"
+          fill="currentColor"
+          style="display:inline"
+          d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
+      />
+    </symbol>
+
+   </defs>
+</svg>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="/blog/making-interactive-svg-with-behavior-trees.html" rel="bookmark"
+           title="Permalink to Making Interactive SVG with Behavior Trees">Making Interactive SVG with Behavior Trees</a></h2>
+      
+    </header>
+    <p>Tags: javascript, animation, svg, scalable vector graphics, art, artwork, artworks, Inkscape, SVG Creators Collaborative, artificial intelligence, artificial concsciousness, artificial life, boids, steering behavior, steering, sprites, interactive art, games, computer games, computer simulations</p>
+<p>Slug: behavior-trees
+Author: Nick Nagel
+Status: published
+Summary: Create interactive SVG artworks with behavior trees  ...</p>
+<style>
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 8px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.ImageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+figcaption {
+    font-size: smaller;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+/*    --------  DEMOS ------------    */
+#bt_demo svg {
+  display: block;
+  margin: auto;
+  background-color: #000;
+  margin-bottom: 20px;
+}
+
+#bt_demo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#control_panel {
+    margin-bottom: 10px;
+}
+
+#control_panel button {
+    margin: 10px;
+}
+
+#control_panel span {
+    display: inline-block;
+    width: 100px;
+    border: solid 1px red;
+}
+
+/*    --------  CUSTOM ------------    */
+#tree_pre {
+    font-size: 8px;
+}
+
+</style>
+
+<h2>In this Post ...</h2>
+<p>I'll explore working with <strong>Behavior Trees</strong> to create interactive SVG for games, simulations, immersive experiences for training and much, much more.</p>
+<h2>Introduction</h2>
+<h2>Discussion and Key Takeaways</h2>
+<h2>Behavior Trees + State Machines: Best of Both Worlds</h2>
+<h2>A Psychological Framework for Design</h2>
+<h2>Appendix 2: A Vector Implementation</h2>
+<p>As yet another bonus I'm including a vanilla javascript <em>Vector</em> implementation (which I wrote a loooong time ago). It's served me well over the years so I'm including it here. It's worth giving it a look see -- if for no other reason than to refresh your vector math. But it can also be used as is as a drop-in for your vector arithmetic needs. </p>
+<div class="admonition hint">
+<p class="admonition-title">Pro Tip</p>
+<p>Vectors are at the heart of thinking about moving intelligent agents all over the place!</p>
+</div>
+<pre class="CodeList">
+export class Vector2D {
+
+    /**
+     * Construct a new vector using either polar or cartesian static initializers ...
+     * @param {*} x 
+     * @param {*} y 
+     */
+    constructor( x, y ) {
+        this.x = x; 
+        this.y = y;
+
+        // ---- BIND METHODS --------
+        this.setPolarCoords = this.setPolarCoords.bind(this);
+        this.getPolarCoords = this.getPolarCoords.bind(this);
+        this.setCartesian   = this.setCartesian.bind(this);
+        this.getCartesian   = this.getCartesian.bind(this);
+        this.add            = this.add.bind(this);
+        this.getDistance    = this.getDistance.bind(this);
+        this.multiply       = this.multiply.bind(this);
+    }
+
+    /**
+     * Factory method to get a Vector2D given speed and direction
+     * as defined below:
+     * 
+     * @param {scalar number} r   speed
+     * @param {scalar numer} theta direction in RADIANS
+     * @returns a vector of form [x, y]
+     */
+    static fromPolar(r, theta) {
+        const x = r * Math.cos(theta);
+        const y = r * Math.sin(theta);
+        return new Vector2D(x, y);
+    }
+
+    static fromCartesian(x, y) {
+        return new Vector2D(x, y);
+    }
+
+    /**
+     * Static utility to convert degrees to radians...
+     * @param { float } degrees 
+     * @returns radians
+     */
+    static degreesToRadians(degrees) {
+        return degrees * (Math.PI / 180);
+    }
+
+    /**
+     * Static utility to convert radians to degrees...
+     * @param { float } radians 
+     * @returns degrees
+     */
+    static radiansToDegrees(radians) {
+        return radians * (180 / Math.PI);
+    }
+
+    static getDifferenceVector( v1, v2 ) {
+        const x = v1.x - v2.x;
+        const y = v1.y - v2.y;
+        const vDiff = Vector2D.fromCartesian(x, y);
+        return vDiff;
+    }
+
+    /**
+     * Given a vector, v, returns a new normalized vector 
+     * (i.e., a vector of unit length with orientation of
+     * input vector). 
+     * 
+     * The special case of the zero vector input returns 
+     * a zero vector right back since 0 vector has no 
+     * orientation. Client code should accomodate the 
+     * special case as necessary.
+     * 
+     * @param {*} v 
+     * @returns 
+     */
+    static getNormalized( v ) {
+        const len = v.length();
+        if( len === 0 ) {
+            return Vector2D.fromCartesian(0, 0);
+        }
+        const magnitude  = v.length();
+        const x = v.x / magnitude;
+        const y = v.y / magnitude;
+        const normalized = Vector2D.fromCartesian(x, y);
+        return normalized;
+    }
+
+    /**
+     * Update the vector in place using polar coordinates.
+     * 
+     * @param {number} r - The new magnitude of the vector.
+     * @param {number} theta - The new angle (in radians) of the vector.
+     */
+    setPolarCoords(r, theta) {
+        this.x = r * Math.cos(theta);
+        this.y = r * Math.sin(theta);
+    }
+
+
+    /**
+     * Get the vector's state in polar coordinates.
+     * 
+     * @returns {Object} A plain object with `r` (magnitude) and `theta` (angle in radians).
+     */
+    getPolarCoords() {
+        const r     = this.length();
+        const theta = Math.atan2(this.y, this.x); 
+        return { r, theta };
+    }
+
+
+    /**
+     * Set this vector's, cartesian coordinates
+     * @param {number} x x coord
+     * @param {number} y y coord
+     */
+    setCartesian(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Read the cartesian coordinates
+     * @param {number} x x-coord
+     * @param {number} y y-coord
+     * @returns {Object} { x:number, y:number }
+     */
+    getCartesian(x, y) {
+        return ({
+            x: this.x ,
+            y: this.y = y
+        });
+    }
+
+
+    /**
+     * Add a given vector to *this* vector
+     * 
+     * @param {
+     * } v2D 
+     */
+    add( v2D ) {
+        this.x += v2D.x;
+        this.y += v2D.y;
+        return this;
+    }
+
+    multiply( scalar ) {
+        this.x *= scalar;
+        this.y *= scalar;
+        return this;
+    }
+
+
+    getDistance( location ) {
+        // expect a Vector2D ...
+        const {x, y} = location; 
+        const d = Math.sqrt( (x-this.x)**2 + (y-this.y)**2 );
+        return d;
+    }
+
+    /**
+     * get the length of the vector
+     */
+    length() {
+        const l = Math.sqrt( this.x*this.x + this.y*this.y ) ;
+        return l;
+    }
+
+    /**
+     * Get a string representation of the vector
+     * 
+     * @returns a string representation of the vector
+     */
+    toString() {
+        return "[ " + this.x + ", " + this.y + " ]";
+    } 
+
+    getClone() {
+        return Vector2D.fromCartesian(
+            this.x,  this.y
+        );
+    }
+
+    /**
+     * Get the vector orientation using atan2 to avoid
+     * quadrant confusion. 
+     * 
+     * @returns a scalar value in degrees from -pi (-180) to pi (180 degrees)
+     */
+    getOrientation() {
+        const rad = Math.atan2( this.y, this.x );
+        return 180/Math.PI * rad;
+    }
+
+    /**
+     * Rotate this vector around the origin by a given angle (degrees).
+     * COUNTER clockwise, in-place.
+     * @param {number} degrees - Rotation angle in [0,360).
+     */
+    rotate(degrees) {
+        // Normalize angle to [0, 360)
+        const angle = (degrees % 360 + 360) % 360;
+        const radians = angle * Math.PI / 180;
+
+        const cos = Math.cos(radians);
+        const sin = Math.sin(radians);
+
+        // COUNTER clockwise rotation: flip sign on sin for clockwise...
+        const newX = this.x * cos - this.y * sin;
+        const newY = this.x * sin + this.y * cos;
+
+        this.x = newX;
+        this.y = newY;
+
+        // allow chaining
+        return this; 
+    }
+
+}
+</pre>
+
+<h2>Resources</h2>
+<ol>
+<li>
+<p><a href="https://robohub.org/introduction-to-behavior-trees/">Introduction to behavior trees</a></p>
+</li>
+<li>
+<p><a href="https://medium.com/@Micheal-Lanham/orchestrating-llm-agents-with-behavior-trees-a-practical-guide-6762540e6ab3">Orchestrating LLM Agents with Behavior Trees: A Practical Guide</a> </p>
+</li>
+<li>
+<p><a href="https://www.red3d.com/cwr/steer/gdc99/">Steering Behaviors For Autonomous Characters</a>.</p>
+</li>
+</ol>
+<script type="module">
+
+import {
+    GameController
+} from "/scripts/dist_bt/game_controller.js"
+
+import{
+    animationController
+} from "/scripts/dist_bt/animation_controller.js"
+
+import {
+    TankSprite
+} from "/scripts/dist_bt/tank_sprite.js"
+
+import {
+  createSvgCoordsFinder
+} from "/scripts/dist_bt/utilities.js"
+
+import {
+    particleSystem
+} from "/scripts/dist_bt/particle_system.js"
+
+
+// ---- DEMO INITIALIZATION -------------------
+let tankBotId = null;
+async function initDemo () {
+    // Get svg
+    const svgRoot = document.getElementById("svg1");
+    // initialize systems 
+    const pGrp = document.getElementById( "particles_group" );
+    particleSystem.setParticleGroup ( pGrp );
+    particleSystem.setFlameEffect();
+    // create the tankbot sprite
+    const SPRITE_ID = "tank_sprite";
+    tankBotId = GameController.createTankSprite( 
+        svgRoot,
+        SPRITE_ID,
+        false
+     );
+    const l = console.log;
+    l( "initialization complete!" );
+    // l( "particle system", particleSystem );
+    // particleSystem.startEmitting();
+
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+        await initDemo();
+        // Turn on to get screen coords...
+        const svgRoot = document.getElementById("svg1");
+        svgRoot.addEventListener(
+            "click",
+            createSvgCoordsFinder( svgRoot )
+        );
+    }
+);
+
+
+
+// ----  UI  HACKS --------------------
+// ANIMATION CONTROL BUTTONS
+const pb = document.getElementById( "anim_control" );
+const rb = document.getElementById( "reset" );
+
+/**
+ * Animation toggle event handler. Buttons will control
+ * animation toggle via animation controller. 
+ * @param {obj} evt 
+ */
+const toggleAnimation = ( evt ) => {
+    if ( animationController.rafId == 0 ) {
+        animationController.startAnim();
+        pb.innerText = "Stop";
+    }  else {
+        animationController.stopAnim();
+        pb.innerText = "Play";
+    }
+}
+
+const resetDemo = (evt) => {
+    toggleAnimation(evt);
+    console.log( "Demo Reset." );
+    const tankBot = GameController.getSpriteById( tankBotId );
+    tankBot.reset();
+    tankBot.updateTransform();
+    GameController.blackboards.tank.accessable = false;
+}
+
+
+pb.addEventListener(
+    "click",
+    ( evt ) => {
+        toggleAnimation( evt );
+    }
+);
+
+rb.addEventListener(
+    "click",
+    ( evt ) => {
+        resetDemo( evt );
+    }
+)
+
+
+
+</script>
+    <footer>
+      <p>Published: <time datetime="2025-09-14T00:00:00-04:00">
+        Sun 14 September 2025
+      </time></p>
+        <address>
+          By             <a href="/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="/category/blog.html">blog</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

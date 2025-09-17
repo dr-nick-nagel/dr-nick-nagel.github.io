@@ -1,5 +1,1155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/all.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-08-28T00:00:00-04:00</updated><entry><title>Making Interactive SVG with Behavior Trees</title><link href="https://dr-nick-nagel.github.io/blog/behavior-trees.html" rel="alternate"></link><published>2025-08-28T00:00:00-04:00</published><updated>2025-08-28T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-08-28:/blog/behavior-trees.html</id><summary type="html">&lt;p&gt;Create interactive SVG artworks with behavior trees  ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/all.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-09-14T00:00:00-04:00</updated><entry><title>Artificial Life: Colonies in Motion</title><link href="https://dr-nick-nagel.github.io/blog/boidz.html" rel="alternate"></link><published>2025-09-14T00:00:00-04:00</published><updated>2025-09-14T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-09-14:/blog/boidz.html</id><summary type="html">&lt;p&gt;Procedural SVG art with "boidz rules"  ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 8px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+.ImageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+figcaption {
+    font-size: smaller;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+/*    --------  DEMOS ------------    */
+svg#rules_anim_root {
+  display: block;
+  margin: auto;
+  background-color: #000;
+  margin-bottom: 20px;
+  border: solid 1px #f00;
+  border-radius: 50%;
+}
+
+#rule_buttons{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:center;
+  button {
+    margin: 10px;
+  }
+}
+
+/*    --------  CUSTOM ------------    */
+
+&lt;/style&gt;
+
+&lt;h2&gt;In this Post ...&lt;/h2&gt;
+&lt;p&gt;I'll revisit Craig Reynolds' famous algorithm for simulating flocking behavior. &lt;/p&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Recently I was reminded of an algorithm created to simulate the movement of large groups of organisms -- think; schools of fish, flocks of birds, cauldrons of bats -- that sort of thing. &lt;em&gt;Craig Reynolds&lt;/em&gt; created the algorithm way back in 1986.  Soon thereafter, it was applied to create special effects in movies and video games as-well-as as a tool for scientific inquiry into complex systems. What I found most compelling about it back then -- and still do today -- is how the algorithm provides a very simple explanation for &lt;em&gt;emergent behavior&lt;/em&gt; in terms of three simple rules: &lt;strong&gt;alignment&lt;/strong&gt;, &lt;strong&gt;separation&lt;/strong&gt; and &lt;strong&gt;cohesion&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Since Reynolds' &lt;em&gt;boids&lt;/em&gt; have proved so profoundly useful in so many domains I've incorporated it as a part of my &lt;em&gt;SVG Creators framework&lt;/em&gt; and wanted to devote some time to examining it here. So in this post I'll briefly describe the algorithm, provide a javascript implementation using SVGCC framework components, and present a demo of how at can be applied to create artworks with hundreds and even potentially thousands of SVG elements. &lt;/p&gt;
+&lt;h2&gt;Boids Rules&lt;/h2&gt;
+&lt;p&gt;The boids algorithm is eloquent in its simplicity. Named for its sprite-like elements -- "bird-oids" -- it revolves around three elemental forces that drive "steering behavior": &lt;strong&gt;alignment&lt;/strong&gt;, &lt;strong&gt;separation&lt;/strong&gt; and &lt;strong&gt;cohesion&lt;/strong&gt; as illustrated  below.&lt;/p&gt;
+&lt;div id='animated_rules'&gt;
+&lt;svg id='rules_anim_root'
+    width="312" height="250"
+    xmlns="http://www.w3.org/2000/svg"
+&gt;
+    &lt;defs&gt;
+        &lt;pattern id="honeycomb"
+            width="52" height="90"
+            patternUnits="userSpaceOnUse" &gt;
+            &lt;path 
+                fill="none" 
+                stroke="#eb4" 
+                stroke-width="3" 
+                d="m0,15 26-15 26,15v30l-26,15-26-15zM26,60v30"
+            /&gt;
+        &lt;/pattern&gt;
+    &lt;/defs&gt;
+    &lt;rect  id='backfill'
+        width="312" 
+        height="250" 
+        fill="#ffd"&gt;
+    &lt;/rect&gt;  
+    &lt;g id='hc_background'
+        opacity="0.5"
+        transform='translate( 0 0 )' &gt;
+        &lt;animateTransform id='scrolling'
+                attributeName="transform"
+                type='translate'
+                from='0 0'
+                to='-312, 0'
+                dur='5s'
+                repeatCount='indefinite' /&gt;
+        &lt;rect  
+            width="624" 
+            height="250" 
+            fill="url(#honeycomb)"&gt;
+        &lt;/rect&gt;  
+    &lt;/g&gt;
+    &lt;g id="boid_2"&gt;
+      &lt;path
+         id="path77"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:0.530755px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 0.28522674,-2.6726259 c -0.16240542,-0.3757072 -0.48422018,-0.1410534 -0.767506,0.1200196 l -0.390506,1.0061302 -0.32023234,1.30123656 c -0.1638264,0.640289 0.085977,1.25283764 0.23293314,1.88149284 l 0.2643387,0.2886512 0.1396317,0.3197176 0.090486,0.056111 -0.03678,-0.3056805 0.1693742,0.3656547 0.1450509,0.075481 0.006,-0.5396952 -0.5650479,-0.405553 c -0.1015265,-0.3382879 0.0302323,-0.82017873 0.1061341,-1.26768591 l -0.064145,-0.58548311 C 0.08957944,-1.162958 0.28636816,-2.2082895 0.28522674,-2.6726259 Z" /&gt;
+      &lt;path
+         id="path62"
+         style="display:inline;fill:#ffe680;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -0.40580987,-3.1818435 c -0.58448159,0.083559 -0.76749923,0.3362296 -1.10701313,0.522978 -0.2055382,0.4215286 -0.1060347,0.7113791 -0.1590521,1.0670686 -0.3047137,0.85064554 -1.9108785,0.97823559 -2.546875,1.7949219 -0.4357374,0.8314417 -0.261265,1.4114065 0.3457031,2.2597656 l 2.3203125,2.5566406 c 0.172357,0.3035685 0.2913563,0.9574152 0.1435503,1.5131106 L -1.1757813,7.2480469 -0.82421875,5.5722656 1.1074219,8.4414062 -0.31640625,4.6601562 -0.10742188,3.8925781 -1.5820312,1.8535156 C -1.7812574,1.0586788 -1.897433,0.29676362 -1.0742187,-0.09277344 -0.80900708,-0.3991637 -0.42962193,-0.63891513 -0.05698995,-0.79739974 0.43856414,-1.0204564 0.42927998,-1.298659 0.35438347,-1.5841236 0.11595915,-2.4928668 -0.07561879,-2.6933804 0.31640625,-3.2773438 l -0.71048206,-0.3772716 c 0.0487216,0.1680046 0.25202377,0.3665948 -0.0117341,0.4727719 z" /&gt;
+      &lt;path
+         id="path83"
+         style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -2.6753789,1.8094139 1.5409565,2.5027179 C -1.3452076,4.4280379 -1.472766,5.4421781 -1.3759906,6.58081 l 0.2334029,0.7154051 0.35156252,-1.6757813 0.2687836,-0.5500183 0.2390289,-0.3620911 0.2089844,-0.7675781 L -1.5488376,1.9016838 -1.6956209,1.0838611 c 0.073565,0.383287 -0.2899492,0.6590995 -0.979758,0.7255528 z" /&gt;
+      &lt;path id="wing_up"
+         style="display:none;fill:#ececec;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -7.992788,-8.7714279 c 1.400027,0.3007324 2.8177589,0.7089838 4.4806388,2.6059735 l 2.79507616,3.128152 -0.83036006,0.5415096 C -2.7489027,-4.5361981 -4.8474489,-4.4367427 -6.5253585,-5.3406617 -7.2904344,-6.4405312 -9.2782681,-7.7905874 -7.992788,-8.7714279 Z"
+      /&gt;
+      &lt;path id="wing_down"
+         style="display:none;fill:#ececec;stroke:none;stroke-width:0.58151px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -9.3144511,-4.3101974 c 1.4990431,-0.2636349 4.1238068,0.1142442 5.7866867,0.7557197 l 2.79507613,1.0577985 -0.83036003,0.1831139 c -1.2014696,-0.6899721 -4.6060637,-0.530839 -6.2839733,-0.8365032 -0.8962153,-0.095448 -2.2574084,-0.2516399 -1.4674295,-1.1601289 z"
+      /&gt;
+      &lt;path id="wing_animation_path" 
+         display="inline"
+         fill="#ececec"
+      &gt;
+         &lt;animate id="wing_anim"
+               attributeName="d"
+               values="
+   m -7.992788,-8.7714279 c 1.400027,0.3007324 2.8177589,0.7089838 4.4806388,2.6059735 l 2.79507616,3.128152 -0.83036006,0.5415096 C -2.7489027,-4.5361981 -4.8474489,-4.4367427 -6.5253585,-5.3406617 -7.2904344,-6.4405312 -9.2782681,-7.7905874 -7.992788,-8.7714279 Z; 
+   m -9.3144511,-4.3101974 c 1.4990431,-0.2636349 4.1238068,0.1142442 5.7866867,0.7557197 l 2.79507613,1.0577985 -0.83036003,0.1831139 c -1.2014696,-0.6899721 -4.6060637,-0.530839 -6.2839733,-0.8365032 -0.8962153,-0.095448 -2.2574084,-0.2516399 -1.4674295,-1.1601289 z; 
+   m -7.992788,-8.7714279 c 1.400027,0.3007324 2.8177589,0.7089838 4.4806388,2.6059735 l 2.79507616,3.128152 -0.83036006,0.5415096 C -2.7489027,-4.5361981 -4.8474489,-4.4367427 -6.5253585,-5.3406617 -7.2904344,-6.4405312 -9.2782681,-7.7905874 -7.992788,-8.7714279 Z
+   "
+               dur="0.1s"
+               repeatCount="indefinite" 
+         /&gt;
+      &lt;/path&gt;
+      &lt;path
+         id="path74"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -0.00754644,7.9606058 c 0.01346605,0.093205 0.39096832,0.097696 0.5865522,0.1462959 C 0.78102412,8.2678443 0.83100155,8.4922272 0.95699944,8.68489 1.2042142,8.9159075 1.4554111,8.8753375 1.7046169,8.9705612 L 1.1296278,7.9602227 0.3806172,6.9589047 0.27969333,7.2193504 c 0.0113838,0.321621 -0.29755762,0.3536005 -0.28723977,0.7412554 z" /&gt;
+      &lt;path
+         id="path75"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -1.9592493,6.6075285 c -0.057241,0.074779 0.2034182,0.3478818 0.3053745,0.5217206 0.026114,0.2569669 -0.099415,0.449549 -0.1491224,0.6743236 0.00759,0.3382699 0.2121908,0.4895502 0.3182862,0.7343253 L -1.1641002,7.420488 -0.97157982,6.1849353 -1.2283773,6.294811 c -0.2220435,0.2329514 -0.4608605,0.034371 -0.730872,0.3127175 z" /&gt;
+      &lt;path
+         id="path76"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:0.628773px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M -0.91193096,-2.9312522 C -1.2949766,-2.830695 -1.4629305,-2.7829009 -1.5399413,-2.3391348 l 0.3555344,1.285757 0.6316812,1.55040631 C -0.24771344,1.2637295 0.42213802,1.7498047 1.0078517,2.3152497 l 0.4520067,0.1398202 0.3582265,0.2480774 0.1242275,0.00338 -0.252553,-0.2960484 0.4186988,0.27783 0.1888061,-0.00965 L 1.9173354,2.1128064 1.102182,2.0342131 C 0.76612669,1.7436006 0.54443801,1.1614213 0.29536583,0.64905354 L -0.18249991,0.07818431 C -0.01550861,-1.2395407 -0.41442627,-1.7399512 -0.91193096,-2.9312522 Z" /&gt;
+      &lt;g
+         id="g81"&gt;
+         &lt;path
+            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="M 0.42598372,-5.0160372 C 0.53818817,-5.569249 0.76696064,-6.4931038 1.1455622,-7.0596809 l 1.2281776,-1.2719014 c 0.2975225,-0.114299 0.269102,0.0333 0.2915591,0.1400183 -0.092151,0.265062 -0.6059193,0.4655612 -1.3009909,1.2876697 -0.49635646,0.7631133 -0.63775073,1.4489034 -0.8235219,1.9821347 z"
+            id="path80" /&gt;
+         &lt;path
+            style="display:inline;fill:#000000;stroke:none;stroke-width:0.52284px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m 1.1588113,-5.1571715 c 0.5576445,-0.0191 0.8637404,0.4654154 0.9638946,1.1104117 0.089354,0.5754411 -0.2235831,0.6858616 -0.4541203,0.5758045 -0.4030177,-0.1923978 -0.79423398,-0.5861364 -0.79858688,-1.0385192 -0.00193,-0.2003342 0.070139,-0.6402071 0.28881258,-0.647697 z"
+            id="path79" /&gt;
+         &lt;path
+            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="M 0.72370073,-4.9876637 C 1.0309292,-5.4612076 1.5825058,-6.2368414 2.142479,-6.6251438 l 1.6089931,-0.7330037 c 0.3187105,0.00275 0.2381512,0.1296486 0.2199155,0.2371687 -0.1829198,0.2128146 -0.7344218,0.2109743 -1.682517,0.7209765 -0.7415884,0.5279757 -1.1245844,1.1141621 -1.49293011,1.5421433 z"
+            id="path81" /&gt;
+         &lt;path
+            style="display:inline;fill:#ffe680;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m -0.40404036,-3.6065039 c 0,0 -0.30915587,-0.5748476 0.04987,-1.0477621 0.21894492,-0.2883977 0.78733902,-0.7483903 0.78733902,-0.7483903 l 0.95227874,0.5958478 c 0.5579281,0.7131845 0.6995498,1.4515714 0.8711282,2.3111949 l -0.5758609,0.1450923 c -1.2037228,-0.542051 -1.93715413,-0.8454024 -2.08475506,-1.2559826 z"
+            id="path68" /&gt;
+         &lt;path
+            style="display:inline;fill:#000000;stroke:none;stroke-width:0.692162px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m -0.40744363,-5.3298074 c 0.68388878,-0.3174754 1.32113165,0.094088 1.78697143,0.8044764 0.4156047,0.6337813 0.084564,0.9299372 -0.260561,0.9215887 -0.60333512,-0.014594 -1.29849067,-0.2737137 -1.54321417,-0.8068033 -0.10837394,-0.2360746 -0.25137467,-0.7947678 0.0168037,-0.9192618 z"
+            id="path69" /&gt;
+         &lt;path
+            style="display:inline;fill:#4d4d4d;stroke:none;stroke-width:0.304795px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m 1.6528122,-2.3541257 c 0.036652,0.018638 0.053864,0.052538 0.1642543,0.013286 l 0.2914164,-0.120334 -0.2627993,-0.033595 -0.3313551,-0.1682778 z"
+            id="path73" /&gt;
+         &lt;path
+            style="display:inline;fill:#333333;stroke:none;stroke-width:0.304795px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m 1.488485,-2.7771232 c 0.101631,-0.05998 0.2528305,-0.053943 0.6107045,0.072176 0.2262152,-0.00114 0.2348426,0.1068919 0.1299115,0.2309749 l -0.3376132,0.018903 -0.370527,-0.1714365 c -0.02659,-0.039433 -0.07385,-0.06474 -0.032476,-0.1506174 z"
+            id="path72" /&gt;
+         &lt;path
+            style="display:inline;fill:#f2f2f2;stroke:none;stroke-width:0.253377px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m -0.05824822,-5.4103348 c 0.36271016,-0.038954 0.64069912,0.1099221 0.8091904,0.3259559 0.15032162,0.1927371 -0.037332,0.24889 -0.20608083,0.2244233 -0.29500086,-0.042771 -0.6143512,-0.1554812 -0.689308,-0.310828 -0.033194,-0.068794 -0.0560338,-0.2242759 0.08619843,-0.2395512 z"
+            id="path78" /&gt;
+      &lt;/g&gt;
+      &lt;path
+         id="path82"
+         style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -3.8228894,-0.19248581 c -1.0304197,0.87639315 -0.6894686,1.76112461 -0.0825,2.60948361 l 2.2536716,2.450674 0.3659841,0.6518231 L 0.30392793,7.3664315 0.83788885,7.6992031 -0.3802986,4.58469 -1.1020394,3.7256793 -2.5305061,1.7786063 c -0.79336,0.151079 -1.8275131,-0.6432654 -1.2923833,-1.97109211 z" /&gt;
+      &lt;path
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M -3.3866635,2.3702277 C -3.7611952,1.5572347 -4.1544162,0.74862846 -3.7456581,-0.24821696 -5.1822376,0.74374204 -5.13403,2.089807 -5.0789778,3.2195433 -4.9030765,1.7850866 -3.9507948,1.921052 -3.3866635,2.3702277 Z"
+         id="path84" /&gt;
+      &lt;animateTransform 
+               attributeName="transform"
+               type='translate'
+               values='230 40; 230 60; 230 40'
+               dur='5s'
+               begin="-0.5s"
+               repeatCount='indefinite' /&gt;
+      &lt;animateTransform
+         attributeName="transform"
+         type="rotate"
+         values="0; 15; 0"
+         dur="2.5s"
+         repeatCount="indefinite"
+         additive="sum"
+      /&gt;
+      &lt;animateTransform
+         attributeName="transform"
+         type="scale"
+         values="2; 2.5; 2"
+         dur="2.5s"
+         repeatCount="indefinite"
+         additive="sum"
+      /&gt;       
+    &lt;/g&gt;
+    &lt;g id="boid_1"&gt;
+      &lt;path
+         id="path77"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:0.530755px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 0.28522674,-2.6726259 c -0.16240542,-0.3757072 -0.48422018,-0.1410534 -0.767506,0.1200196 l -0.390506,1.0061302 -0.32023234,1.30123656 c -0.1638264,0.640289 0.085977,1.25283764 0.23293314,1.88149284 l 0.2643387,0.2886512 0.1396317,0.3197176 0.090486,0.056111 -0.03678,-0.3056805 0.1693742,0.3656547 0.1450509,0.075481 0.006,-0.5396952 -0.5650479,-0.405553 c -0.1015265,-0.3382879 0.0302323,-0.82017873 0.1061341,-1.26768591 l -0.064145,-0.58548311 C 0.08957944,-1.162958 0.28636816,-2.2082895 0.28522674,-2.6726259 Z" /&gt;
+      &lt;path
+         id="path62"
+         style="display:inline;fill:#ffe680;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -0.40580987,-3.1818435 c -0.58448159,0.083559 -0.76749923,0.3362296 -1.10701313,0.522978 -0.2055382,0.4215286 -0.1060347,0.7113791 -0.1590521,1.0670686 -0.3047137,0.85064554 -1.9108785,0.97823559 -2.546875,1.7949219 -0.4357374,0.8314417 -0.261265,1.4114065 0.3457031,2.2597656 l 2.3203125,2.5566406 c 0.172357,0.3035685 0.2913563,0.9574152 0.1435503,1.5131106 L -1.1757813,7.2480469 -0.82421875,5.5722656 1.1074219,8.4414062 -0.31640625,4.6601562 -0.10742188,3.8925781 -1.5820312,1.8535156 C -1.7812574,1.0586788 -1.897433,0.29676362 -1.0742187,-0.09277344 -0.80900708,-0.3991637 -0.42962193,-0.63891513 -0.05698995,-0.79739974 0.43856414,-1.0204564 0.42927998,-1.298659 0.35438347,-1.5841236 0.11595915,-2.4928668 -0.07561879,-2.6933804 0.31640625,-3.2773438 l -0.71048206,-0.3772716 c 0.0487216,0.1680046 0.25202377,0.3665948 -0.0117341,0.4727719 z" /&gt;
+      &lt;path
+         id="path83"
+         style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -2.6753789,1.8094139 1.5409565,2.5027179 C -1.3452076,4.4280379 -1.472766,5.4421781 -1.3759906,6.58081 l 0.2334029,0.7154051 0.35156252,-1.6757813 0.2687836,-0.5500183 0.2390289,-0.3620911 0.2089844,-0.7675781 L -1.5488376,1.9016838 -1.6956209,1.0838611 c 0.073565,0.383287 -0.2899492,0.6590995 -0.979758,0.7255528 z" /&gt;
+      &lt;path id="wing_up"
+         style="display:none;fill:#ececec;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -7.992788,-8.7714279 c 1.400027,0.3007324 2.8177589,0.7089838 4.4806388,2.6059735 l 2.79507616,3.128152 -0.83036006,0.5415096 C -2.7489027,-4.5361981 -4.8474489,-4.4367427 -6.5253585,-5.3406617 -7.2904344,-6.4405312 -9.2782681,-7.7905874 -7.992788,-8.7714279 Z"
+      /&gt;
+      &lt;path id="wing_down"
+         style="display:none;fill:#ececec;stroke:none;stroke-width:0.58151px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -9.3144511,-4.3101974 c 1.4990431,-0.2636349 4.1238068,0.1142442 5.7866867,0.7557197 l 2.79507613,1.0577985 -0.83036003,0.1831139 c -1.2014696,-0.6899721 -4.6060637,-0.530839 -6.2839733,-0.8365032 -0.8962153,-0.095448 -2.2574084,-0.2516399 -1.4674295,-1.1601289 z"
+      /&gt;
+      &lt;path id="wing_animation_path" 
+         display="inline"
+         fill="#ececec"
+      &gt;
+         &lt;animate id="wing_anim"
+               attributeName="d"
+               values="
+   m -7.992788,-8.7714279 c 1.400027,0.3007324 2.8177589,0.7089838 4.4806388,2.6059735 l 2.79507616,3.128152 -0.83036006,0.5415096 C -2.7489027,-4.5361981 -4.8474489,-4.4367427 -6.5253585,-5.3406617 -7.2904344,-6.4405312 -9.2782681,-7.7905874 -7.992788,-8.7714279 Z; 
+   m -9.3144511,-4.3101974 c 1.4990431,-0.2636349 4.1238068,0.1142442 5.7866867,0.7557197 l 2.79507613,1.0577985 -0.83036003,0.1831139 c -1.2014696,-0.6899721 -4.6060637,-0.530839 -6.2839733,-0.8365032 -0.8962153,-0.095448 -2.2574084,-0.2516399 -1.4674295,-1.1601289 z; 
+   m -7.992788,-8.7714279 c 1.400027,0.3007324 2.8177589,0.7089838 4.4806388,2.6059735 l 2.79507616,3.128152 -0.83036006,0.5415096 C -2.7489027,-4.5361981 -4.8474489,-4.4367427 -6.5253585,-5.3406617 -7.2904344,-6.4405312 -9.2782681,-7.7905874 -7.992788,-8.7714279 Z
+   "
+               dur="0.1s"
+               repeatCount="indefinite" 
+         /&gt;
+      &lt;/path&gt;
+      &lt;path
+         id="path74"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -0.00754644,7.9606058 c 0.01346605,0.093205 0.39096832,0.097696 0.5865522,0.1462959 C 0.78102412,8.2678443 0.83100155,8.4922272 0.95699944,8.68489 1.2042142,8.9159075 1.4554111,8.8753375 1.7046169,8.9705612 L 1.1296278,7.9602227 0.3806172,6.9589047 0.27969333,7.2193504 c 0.0113838,0.321621 -0.29755762,0.3536005 -0.28723977,0.7412554 z" /&gt;
+      &lt;path
+         id="path75"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -1.9592493,6.6075285 c -0.057241,0.074779 0.2034182,0.3478818 0.3053745,0.5217206 0.026114,0.2569669 -0.099415,0.449549 -0.1491224,0.6743236 0.00759,0.3382699 0.2121908,0.4895502 0.3182862,0.7343253 L -1.1641002,7.420488 -0.97157982,6.1849353 -1.2283773,6.294811 c -0.2220435,0.2329514 -0.4608605,0.034371 -0.730872,0.3127175 z" /&gt;
+      &lt;path
+         id="path76"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:0.628773px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M -0.91193096,-2.9312522 C -1.2949766,-2.830695 -1.4629305,-2.7829009 -1.5399413,-2.3391348 l 0.3555344,1.285757 0.6316812,1.55040631 C -0.24771344,1.2637295 0.42213802,1.7498047 1.0078517,2.3152497 l 0.4520067,0.1398202 0.3582265,0.2480774 0.1242275,0.00338 -0.252553,-0.2960484 0.4186988,0.27783 0.1888061,-0.00965 L 1.9173354,2.1128064 1.102182,2.0342131 C 0.76612669,1.7436006 0.54443801,1.1614213 0.29536583,0.64905354 L -0.18249991,0.07818431 C -0.01550861,-1.2395407 -0.41442627,-1.7399512 -0.91193096,-2.9312522 Z" /&gt;
+      &lt;g
+         id="g81"&gt;
+         &lt;path
+            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="M 0.42598372,-5.0160372 C 0.53818817,-5.569249 0.76696064,-6.4931038 1.1455622,-7.0596809 l 1.2281776,-1.2719014 c 0.2975225,-0.114299 0.269102,0.0333 0.2915591,0.1400183 -0.092151,0.265062 -0.6059193,0.4655612 -1.3009909,1.2876697 -0.49635646,0.7631133 -0.63775073,1.4489034 -0.8235219,1.9821347 z"
+            id="path80" /&gt;
+         &lt;path
+            style="display:inline;fill:#000000;stroke:none;stroke-width:0.52284px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m 1.1588113,-5.1571715 c 0.5576445,-0.0191 0.8637404,0.4654154 0.9638946,1.1104117 0.089354,0.5754411 -0.2235831,0.6858616 -0.4541203,0.5758045 -0.4030177,-0.1923978 -0.79423398,-0.5861364 -0.79858688,-1.0385192 -0.00193,-0.2003342 0.070139,-0.6402071 0.28881258,-0.647697 z"
+            id="path79" /&gt;
+         &lt;path
+            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="M 0.72370073,-4.9876637 C 1.0309292,-5.4612076 1.5825058,-6.2368414 2.142479,-6.6251438 l 1.6089931,-0.7330037 c 0.3187105,0.00275 0.2381512,0.1296486 0.2199155,0.2371687 -0.1829198,0.2128146 -0.7344218,0.2109743 -1.682517,0.7209765 -0.7415884,0.5279757 -1.1245844,1.1141621 -1.49293011,1.5421433 z"
+            id="path81" /&gt;
+         &lt;path
+            style="display:inline;fill:#ffe680;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m -0.40404036,-3.6065039 c 0,0 -0.30915587,-0.5748476 0.04987,-1.0477621 0.21894492,-0.2883977 0.78733902,-0.7483903 0.78733902,-0.7483903 l 0.95227874,0.5958478 c 0.5579281,0.7131845 0.6995498,1.4515714 0.8711282,2.3111949 l -0.5758609,0.1450923 c -1.2037228,-0.542051 -1.93715413,-0.8454024 -2.08475506,-1.2559826 z"
+            id="path68" /&gt;
+         &lt;path
+            style="display:inline;fill:#000000;stroke:none;stroke-width:0.692162px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m -0.40744363,-5.3298074 c 0.68388878,-0.3174754 1.32113165,0.094088 1.78697143,0.8044764 0.4156047,0.6337813 0.084564,0.9299372 -0.260561,0.9215887 -0.60333512,-0.014594 -1.29849067,-0.2737137 -1.54321417,-0.8068033 -0.10837394,-0.2360746 -0.25137467,-0.7947678 0.0168037,-0.9192618 z"
+            id="path69" /&gt;
+         &lt;path
+            style="display:inline;fill:#4d4d4d;stroke:none;stroke-width:0.304795px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m 1.6528122,-2.3541257 c 0.036652,0.018638 0.053864,0.052538 0.1642543,0.013286 l 0.2914164,-0.120334 -0.2627993,-0.033595 -0.3313551,-0.1682778 z"
+            id="path73" /&gt;
+         &lt;path
+            style="display:inline;fill:#333333;stroke:none;stroke-width:0.304795px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m 1.488485,-2.7771232 c 0.101631,-0.05998 0.2528305,-0.053943 0.6107045,0.072176 0.2262152,-0.00114 0.2348426,0.1068919 0.1299115,0.2309749 l -0.3376132,0.018903 -0.370527,-0.1714365 c -0.02659,-0.039433 -0.07385,-0.06474 -0.032476,-0.1506174 z"
+            id="path72" /&gt;
+         &lt;path
+            style="display:inline;fill:#f2f2f2;stroke:none;stroke-width:0.253377px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m -0.05824822,-5.4103348 c 0.36271016,-0.038954 0.64069912,0.1099221 0.8091904,0.3259559 0.15032162,0.1927371 -0.037332,0.24889 -0.20608083,0.2244233 -0.29500086,-0.042771 -0.6143512,-0.1554812 -0.689308,-0.310828 -0.033194,-0.068794 -0.0560338,-0.2242759 0.08619843,-0.2395512 z"
+            id="path78" /&gt;
+      &lt;/g&gt;
+      &lt;path
+         id="path82"
+         style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -3.8228894,-0.19248581 c -1.0304197,0.87639315 -0.6894686,1.76112461 -0.0825,2.60948361 l 2.2536716,2.450674 0.3659841,0.6518231 L 0.30392793,7.3664315 0.83788885,7.6992031 -0.3802986,4.58469 -1.1020394,3.7256793 -2.5305061,1.7786063 c -0.79336,0.151079 -1.8275131,-0.6432654 -1.2923833,-1.97109211 z" /&gt;
+      &lt;path
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M -3.3866635,2.3702277 C -3.7611952,1.5572347 -4.1544162,0.74862846 -3.7456581,-0.24821696 -5.1822376,0.74374204 -5.13403,2.089807 -5.0789778,3.2195433 -4.9030765,1.7850866 -3.9507948,1.921052 -3.3866635,2.3702277 Z"
+         id="path84" /&gt;
+      &lt;animateTransform 
+               attributeName="transform"
+               type='translate'
+               values='50 40; 60 70; 50 40'
+               dur='4s'
+               begin='-1s'
+               repeatCount='indefinite' /&gt;
+      &lt;animateTransform
+         attributeName="transform"
+         type="rotate"
+         values="0; 15; 0"
+         dur="2s"
+         begin='-0.5s'
+         repeatCount="indefinite"
+         additive="sum"
+      /&gt;
+      &lt;animateTransform
+         attributeName="transform"
+         type="scale"
+         values="2; 2; 2"
+         dur="2s"
+         repeatCount="indefinite"
+         additive="sum"
+      /&gt;       
+    &lt;/g&gt;
+    &lt;g id="boid_0"&gt;
+      &lt;path
+         id="path77"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:0.530755px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 0.28522674,-2.6726259 c -0.16240542,-0.3757072 -0.48422018,-0.1410534 -0.767506,0.1200196 l -0.390506,1.0061302 -0.32023234,1.30123656 c -0.1638264,0.640289 0.085977,1.25283764 0.23293314,1.88149284 l 0.2643387,0.2886512 0.1396317,0.3197176 0.090486,0.056111 -0.03678,-0.3056805 0.1693742,0.3656547 0.1450509,0.075481 0.006,-0.5396952 -0.5650479,-0.405553 c -0.1015265,-0.3382879 0.0302323,-0.82017873 0.1061341,-1.26768591 l -0.064145,-0.58548311 C 0.08957944,-1.162958 0.28636816,-2.2082895 0.28522674,-2.6726259 Z" /&gt;
+      &lt;path
+         id="path62"
+         style="display:inline;fill:#ffe680;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -0.40580987,-3.1818435 c -0.58448159,0.083559 -0.76749923,0.3362296 -1.10701313,0.522978 -0.2055382,0.4215286 -0.1060347,0.7113791 -0.1590521,1.0670686 -0.3047137,0.85064554 -1.9108785,0.97823559 -2.546875,1.7949219 -0.4357374,0.8314417 -0.261265,1.4114065 0.3457031,2.2597656 l 2.3203125,2.5566406 c 0.172357,0.3035685 0.2913563,0.9574152 0.1435503,1.5131106 L -1.1757813,7.2480469 -0.82421875,5.5722656 1.1074219,8.4414062 -0.31640625,4.6601562 -0.10742188,3.8925781 -1.5820312,1.8535156 C -1.7812574,1.0586788 -1.897433,0.29676362 -1.0742187,-0.09277344 -0.80900708,-0.3991637 -0.42962193,-0.63891513 -0.05698995,-0.79739974 0.43856414,-1.0204564 0.42927998,-1.298659 0.35438347,-1.5841236 0.11595915,-2.4928668 -0.07561879,-2.6933804 0.31640625,-3.2773438 l -0.71048206,-0.3772716 c 0.0487216,0.1680046 0.25202377,0.3665948 -0.0117341,0.4727719 z" /&gt;
+      &lt;path
+         id="path83"
+         style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -2.6753789,1.8094139 1.5409565,2.5027179 C -1.3452076,4.4280379 -1.472766,5.4421781 -1.3759906,6.58081 l 0.2334029,0.7154051 0.35156252,-1.6757813 0.2687836,-0.5500183 0.2390289,-0.3620911 0.2089844,-0.7675781 L -1.5488376,1.9016838 -1.6956209,1.0838611 c 0.073565,0.383287 -0.2899492,0.6590995 -0.979758,0.7255528 z" /&gt;
+      &lt;path id="wing_up"
+         style="display:none;fill:#ececec;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -7.992788,-8.7714279 c 1.400027,0.3007324 2.8177589,0.7089838 4.4806388,2.6059735 l 2.79507616,3.128152 -0.83036006,0.5415096 C -2.7489027,-4.5361981 -4.8474489,-4.4367427 -6.5253585,-5.3406617 -7.2904344,-6.4405312 -9.2782681,-7.7905874 -7.992788,-8.7714279 Z"
+      /&gt;
+      &lt;path id="wing_down"
+         style="display:none;fill:#ececec;stroke:none;stroke-width:0.58151px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -9.3144511,-4.3101974 c 1.4990431,-0.2636349 4.1238068,0.1142442 5.7866867,0.7557197 l 2.79507613,1.0577985 -0.83036003,0.1831139 c -1.2014696,-0.6899721 -4.6060637,-0.530839 -6.2839733,-0.8365032 -0.8962153,-0.095448 -2.2574084,-0.2516399 -1.4674295,-1.1601289 z"
+      /&gt;
+      &lt;path id="wing_animation_path" 
+         display="inline"
+         fill="#ececec"
+      &gt;
+         &lt;animate id="wing_anim"
+               attributeName="d"
+               values="
+   m -7.992788,-8.7714279 c 1.400027,0.3007324 2.8177589,0.7089838 4.4806388,2.6059735 l 2.79507616,3.128152 -0.83036006,0.5415096 C -2.7489027,-4.5361981 -4.8474489,-4.4367427 -6.5253585,-5.3406617 -7.2904344,-6.4405312 -9.2782681,-7.7905874 -7.992788,-8.7714279 Z; 
+   m -9.3144511,-4.3101974 c 1.4990431,-0.2636349 4.1238068,0.1142442 5.7866867,0.7557197 l 2.79507613,1.0577985 -0.83036003,0.1831139 c -1.2014696,-0.6899721 -4.6060637,-0.530839 -6.2839733,-0.8365032 -0.8962153,-0.095448 -2.2574084,-0.2516399 -1.4674295,-1.1601289 z; 
+   m -7.992788,-8.7714279 c 1.400027,0.3007324 2.8177589,0.7089838 4.4806388,2.6059735 l 2.79507616,3.128152 -0.83036006,0.5415096 C -2.7489027,-4.5361981 -4.8474489,-4.4367427 -6.5253585,-5.3406617 -7.2904344,-6.4405312 -9.2782681,-7.7905874 -7.992788,-8.7714279 Z
+   "
+               dur="0.1s"
+               repeatCount="indefinite" 
+         /&gt;
+      &lt;/path&gt;
+      &lt;path
+         id="path74"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -0.00754644,7.9606058 c 0.01346605,0.093205 0.39096832,0.097696 0.5865522,0.1462959 C 0.78102412,8.2678443 0.83100155,8.4922272 0.95699944,8.68489 1.2042142,8.9159075 1.4554111,8.8753375 1.7046169,8.9705612 L 1.1296278,7.9602227 0.3806172,6.9589047 0.27969333,7.2193504 c 0.0113838,0.321621 -0.29755762,0.3536005 -0.28723977,0.7412554 z" /&gt;
+      &lt;path
+         id="path75"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -1.9592493,6.6075285 c -0.057241,0.074779 0.2034182,0.3478818 0.3053745,0.5217206 0.026114,0.2569669 -0.099415,0.449549 -0.1491224,0.6743236 0.00759,0.3382699 0.2121908,0.4895502 0.3182862,0.7343253 L -1.1641002,7.420488 -0.97157982,6.1849353 -1.2283773,6.294811 c -0.2220435,0.2329514 -0.4608605,0.034371 -0.730872,0.3127175 z" /&gt;
+      &lt;path
+         id="path76"
+         style="display:inline;fill:#000000;stroke:none;stroke-width:0.628773px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M -0.91193096,-2.9312522 C -1.2949766,-2.830695 -1.4629305,-2.7829009 -1.5399413,-2.3391348 l 0.3555344,1.285757 0.6316812,1.55040631 C -0.24771344,1.2637295 0.42213802,1.7498047 1.0078517,2.3152497 l 0.4520067,0.1398202 0.3582265,0.2480774 0.1242275,0.00338 -0.252553,-0.2960484 0.4186988,0.27783 0.1888061,-0.00965 L 1.9173354,2.1128064 1.102182,2.0342131 C 0.76612669,1.7436006 0.54443801,1.1614213 0.29536583,0.64905354 L -0.18249991,0.07818431 C -0.01550861,-1.2395407 -0.41442627,-1.7399512 -0.91193096,-2.9312522 Z" /&gt;
+      &lt;g
+         id="g81"&gt;
+         &lt;path
+            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="M 0.42598372,-5.0160372 C 0.53818817,-5.569249 0.76696064,-6.4931038 1.1455622,-7.0596809 l 1.2281776,-1.2719014 c 0.2975225,-0.114299 0.269102,0.0333 0.2915591,0.1400183 -0.092151,0.265062 -0.6059193,0.4655612 -1.3009909,1.2876697 -0.49635646,0.7631133 -0.63775073,1.4489034 -0.8235219,1.9821347 z"
+            id="path80" /&gt;
+         &lt;path
+            style="display:inline;fill:#000000;stroke:none;stroke-width:0.52284px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m 1.1588113,-5.1571715 c 0.5576445,-0.0191 0.8637404,0.4654154 0.9638946,1.1104117 0.089354,0.5754411 -0.2235831,0.6858616 -0.4541203,0.5758045 -0.4030177,-0.1923978 -0.79423398,-0.5861364 -0.79858688,-1.0385192 -0.00193,-0.2003342 0.070139,-0.6402071 0.28881258,-0.647697 z"
+            id="path79" /&gt;
+         &lt;path
+            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="M 0.72370073,-4.9876637 C 1.0309292,-5.4612076 1.5825058,-6.2368414 2.142479,-6.6251438 l 1.6089931,-0.7330037 c 0.3187105,0.00275 0.2381512,0.1296486 0.2199155,0.2371687 -0.1829198,0.2128146 -0.7344218,0.2109743 -1.682517,0.7209765 -0.7415884,0.5279757 -1.1245844,1.1141621 -1.49293011,1.5421433 z"
+            id="path81" /&gt;
+         &lt;path
+            style="display:inline;fill:#ffe680;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m -0.40404036,-3.6065039 c 0,0 -0.30915587,-0.5748476 0.04987,-1.0477621 0.21894492,-0.2883977 0.78733902,-0.7483903 0.78733902,-0.7483903 l 0.95227874,0.5958478 c 0.5579281,0.7131845 0.6995498,1.4515714 0.8711282,2.3111949 l -0.5758609,0.1450923 c -1.2037228,-0.542051 -1.93715413,-0.8454024 -2.08475506,-1.2559826 z"
+            id="path68" /&gt;
+         &lt;path
+            style="display:inline;fill:#000000;stroke:none;stroke-width:0.692162px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m -0.40744363,-5.3298074 c 0.68388878,-0.3174754 1.32113165,0.094088 1.78697143,0.8044764 0.4156047,0.6337813 0.084564,0.9299372 -0.260561,0.9215887 -0.60333512,-0.014594 -1.29849067,-0.2737137 -1.54321417,-0.8068033 -0.10837394,-0.2360746 -0.25137467,-0.7947678 0.0168037,-0.9192618 z"
+            id="path69" /&gt;
+         &lt;path
+            style="display:inline;fill:#4d4d4d;stroke:none;stroke-width:0.304795px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m 1.6528122,-2.3541257 c 0.036652,0.018638 0.053864,0.052538 0.1642543,0.013286 l 0.2914164,-0.120334 -0.2627993,-0.033595 -0.3313551,-0.1682778 z"
+            id="path73" /&gt;
+         &lt;path
+            style="display:inline;fill:#333333;stroke:none;stroke-width:0.304795px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m 1.488485,-2.7771232 c 0.101631,-0.05998 0.2528305,-0.053943 0.6107045,0.072176 0.2262152,-0.00114 0.2348426,0.1068919 0.1299115,0.2309749 l -0.3376132,0.018903 -0.370527,-0.1714365 c -0.02659,-0.039433 -0.07385,-0.06474 -0.032476,-0.1506174 z"
+            id="path72" /&gt;
+         &lt;path
+            style="display:inline;fill:#f2f2f2;stroke:none;stroke-width:0.253377px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+            d="m -0.05824822,-5.4103348 c 0.36271016,-0.038954 0.64069912,0.1099221 0.8091904,0.3259559 0.15032162,0.1927371 -0.037332,0.24889 -0.20608083,0.2244233 -0.29500086,-0.042771 -0.6143512,-0.1554812 -0.689308,-0.310828 -0.033194,-0.068794 -0.0560338,-0.2242759 0.08619843,-0.2395512 z"
+            id="path78" /&gt;
+      &lt;/g&gt;
+      &lt;path
+         id="path82"
+         style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -3.8228894,-0.19248581 c -1.0304197,0.87639315 -0.6894686,1.76112461 -0.0825,2.60948361 l 2.2536716,2.450674 0.3659841,0.6518231 L 0.30392793,7.3664315 0.83788885,7.6992031 -0.3802986,4.58469 -1.1020394,3.7256793 -2.5305061,1.7786063 c -0.79336,0.151079 -1.8275131,-0.6432654 -1.2923833,-1.97109211 z" /&gt;
+      &lt;path
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M -3.3866635,2.3702277 C -3.7611952,1.5572347 -4.1544162,0.74862846 -3.7456581,-0.24821696 -5.1822376,0.74374204 -5.13403,2.089807 -5.0789778,3.2195433 -4.9030765,1.7850866 -3.9507948,1.921052 -3.3866635,2.3702277 Z"
+         id="path84" /&gt;
+      &lt;animateTransform 
+               attributeName="transform"
+               type='translate'
+               values='150 140; 160 170; 150 140'
+               dur='4s'
+               repeatCount='indefinite' /&gt;
+      &lt;animateTransform
+         attributeName="transform"
+         type="rotate"
+         values="0; 15; 0"
+         dur="2s"
+         repeatCount="indefinite"
+         additive="sum"
+      /&gt;
+      &lt;animateTransform
+         attributeName="transform"
+         type="scale"
+         values="5; 5.5; 5"
+         dur="2s"
+         repeatCount="indefinite"
+         additive="sum"
+      /&gt;       
+    &lt;/g&gt;
+    &lt;g id="vector_arrow" display='none'&gt;
+        &lt;linearGradient id="revealGrad" x1="0%" y1="0%" x2="100%" y2="0%"&gt;
+        &lt;stop offset="0%" stop-color="#c8ab37" stop-opacity="1" /&gt;
+        &lt;stop offset="100%" stop-color="#c8ab37" stop-opacity="0"&gt;
+            &lt;animate attributeName="offset" 
+                from="0%" 
+                to="100%" 
+                dur="0.5s" 
+                fill="freeze"
+                begin="indefinite"
+                /&gt;
+            &lt;animate attributeName="stop-opacity" 
+                from="0" 
+                to="0.5" 
+                dur="1s" 
+                fill="freeze"
+                begin="indefinite"
+                /&gt;
+        &lt;/stop&gt;
+        &lt;/linearGradient&gt;
+        &lt;path 
+        fill="url(#revealGrad)"
+        d="M -100,-4 80,-4 74,-11 100,0 74,10 81,4 -100,4 l 9,-4 z" &gt;
+        &lt;/path&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div id='rule_buttons'&gt;
+  &lt;button id='a_button'&gt;Alignment&lt;/button&gt;
+  &lt;button id='s_button'&gt;Separation&lt;/button&gt;
+  &lt;button id='c_button'&gt;Cohesion&lt;/button&gt;
+  &lt;button style='display:none' id='coords_button'&gt;coords&lt;/button&gt;
+&lt;/div&gt;
+&lt;div&gt;
+&lt;audio id="align_clip" src="/audio/boids/align.mp3"&gt;&lt;/audio&gt;
+&lt;audio id="separate_clip" src="/audio/boids/separate.mp3"&gt;&lt;/audio&gt;
+&lt;audio id="cohere_clip" src="/audio/boids/cohere.mp3"&gt;&lt;/audio&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Alignment&lt;/strong&gt; basically compels boids to seek to align and move in the same general direction. The &lt;strong&gt;Separation &lt;/strong&gt; force drives boids apart and keeps them from colliding. &lt;strong&gt;Coherence&lt;/strong&gt; (cohesion) keeps boids together by driving them toward a "center of mass".&lt;/p&gt;
+&lt;h2&gt;Artificial Life: Colonies in Motion&lt;/h2&gt;
+&lt;div class="Outer"&gt;
+    &lt;div id="controls-panel" class="minimized"&gt;
+        &lt;div class="panel-header"&gt;
+            &lt;span&gt;Tunable Parameters&lt;/span&gt;
+            &lt;button id="toggle-btn" &gt;Open&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div id="controls-content"&gt;
+            &lt;div class="tp_heading_container"&gt;
+                &lt;span class="tp_heading"&gt;Tunable Parameters&lt;/span&gt;
+                &lt;span id="cntrl_tp_minimize"&gt;x&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;label for="avoidance"&gt;Avoidance: &lt;span id="avoidance-value"&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;input type="range" id="avoidance" min="0" max="1" step="0.01"&gt;
+            &lt;label for="alignment"&gt;Alignment: &lt;span id="alignment-value"&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;input type="range" id="alignment" min="0" max="1" step="0.01"&gt;
+            &lt;label for="cohesion"&gt;Cohesion: &lt;span id="cohesion-value"&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;input type="range" id="cohesion" min="0" max="0.01" step="0.0001"&gt;
+            &lt;label for="separation-radius"&gt;Separation Radius: &lt;span id="separation-radius-value"&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;input type="range" id="separation-radius" min="1" max="50" step="1"&gt;
+            &lt;label for="alignment-radius"&gt;Alignment Radius: &lt;span id="alignment-radius-value"&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;input type="range" id="alignment-radius" min="1" max="100" step="1"&gt;
+            &lt;label for="coherence-radius"&gt;Coherence Radius: &lt;span id="coherence-radius-value"&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;input type="range" id="coherence-radius" min="1" max="100" step="1"&gt;
+            &lt;label for="turning-factor"&gt;Turning Factor: &lt;span id="turning-factor-value"&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;input type="range" id="turning-factor" min="0" max="1" step="0.01"&gt;
+            &lt;label for="leader-bias"&gt;Leader Bias: &lt;span id="leader-bias-value"&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;input type="range" id="leader-bias" min="0" max="1" step="0.01"&gt;
+            &lt;span class="tp_heading limits"&gt;Speed Limits&lt;/span&gt;
+            &lt;label for="speed-max"&gt;Max: &lt;span id="speed-max-value"&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;input type="range" id="speed-max" min="0" max="100" step="1"&gt;
+            &lt;label for="speed-min"&gt;Min: &lt;span id="speed-min-value"&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;input type="range" id="speed-min" min="0" max="100" step="1"&gt;
+        &lt;/div&gt;
+        &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="viewport-container"&gt;
+&lt;svg id="viewport"
+    viewBox="0 0 600 500"
+    preserveAspectRatio="xMidYMid meet"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+&gt;
+    &lt;g id="test_0" display="none"&gt;
+        &lt;path 
+            d="M -10,-5 10,0 -10,5 Z" 
+            fill="red"
+        /&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;
+&lt;/div&gt;
+
+&lt;div class="button_panel"&gt;
+    &lt;div class="sprite-dropdown" role="combobox" aria-expanded="false" tabindex="0"&gt;
+        &lt;div class="selected-option" aria-labelledby="dropdown-label"&gt;
+            &lt;img src="/svg/boidz/wasp_boid.svg" alt="Default Sprite" id="dropdown-label"&gt;
+        &lt;/div&gt;
+        &lt;ul class="options-list" role="listbox"&gt;
+            &lt;li role="option" tabindex="-1" data-value="wasp_boid"&gt;
+            &lt;img src="/svg/boidz/wasp_boid.svg" alt="WaspBoid"&gt;
+            &lt;/li&gt;
+            &lt;li role="option" tabindex="-1" data-value="demon_boid"&gt;
+            &lt;img src="/svg/boidz/demon_boid.svg" alt="Legion"&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;button id="init_btn" &gt;Init&lt;/button&gt;
+    &lt;button id="play_button"&gt;Play&lt;/button&gt;
+    &lt;div id="count_slider_control" &gt;
+        &lt;label for="count"&gt;Count: &lt;/label&gt;
+        &lt;input id="count_slider" 
+            type="range" 
+            min="1" max="1000" 
+            step="1" &gt;
+        &lt;span id="count_display"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;span id="fps_display"&gt;FPS: &lt;/span&gt;
+&lt;/div&gt;
+&lt;!-- DEV/DEBUG CONTROLS HIDE FOR PROD --&gt;
+&lt;div class="button_panel" style='display:none'&gt;
+    &lt;button id="test_button" &gt;Test&lt;/button&gt;
+    &lt;input id="input_1"  &gt;
+&lt;/div&gt;
+
+&lt;h2&gt;The Boid Sprite&lt;/h2&gt;
+&lt;p&gt;Boids is such a classic building block for games and simulations that I'd be remiss if I didn't fold it into the &lt;strong&gt;Scalable Vector Graphics Creators Framework&amp;trade;&lt;/strong&gt;. To make things easy for creative coders, I've included the full source below so you can drop it straight into your own projects and start experimenting right away.&lt;/p&gt;
+&lt;pre class="CodeList"&gt;
+import { 
+    Vector2D 
+} from "./vector.js";
+
+import { 
+    Movable 
+} from "./movable.js";
+
+export class BoidSprite extends Movable {
+
+    /**
+     * Boid constructor ... 
+     * @param {*} id 
+     * @param {*} svg 
+     * @param {*} p 
+     * @param {*} v 
+     * @param {*} a 
+     * @param {*} r 
+     * @param {*} s 
+     * @param {GameController} gc reference to the GameController 
+     *   (injected by the factory)
+     */
+    constructor (id, svg, p, v, a, r, s, gc ) {
+        super( p, v, a );
+        this.rotation = r;
+        this.scale    = s;
+        this.id  = id;
+        this.svg = svg; 
+        this.gc = gc;
+    } 
+
+    updateTransform (  ) {
+        const { x, y } = this.pos;
+        const rotation = this.rotation;
+        const scale    = this.scale;
+        this.svg.setAttribute(
+            'transform',
+            `translate( ${x} ${y} ) rotate( ${rotation} ) scale( ${scale.xAxis} ${scale.yAxis} )`
+        );
+    }
+
+    update ( deltaTime ) {
+        // apply boid rules which all update your velocity ... 
+        this.applyBoidRules();
+        super.move( deltaTime );
+        this.turnabout();
+        this.limitSpeed();
+        this.rotation = Math.atan2(this.vel.y, this.vel.x) * 180 / Math.PI;
+        this.updateTransform();
+    }
+
+    limitSpeed() {
+        const limits = this.params.speedLimits;
+        const mySpeed = this.vel.length();
+        if( mySpeed &gt; limits.MAX ) {
+            this.vel.x = this.vel.x / mySpeed * limits.MAX;
+            this.vel.y = this.vel.y / mySpeed * limits.MAX;
+        } else if ( mySpeed &lt; limits.MIN ) {
+            if (mySpeed &gt; 0) {
+                this.vel.x = (this.vel.x / mySpeed) * limits.MIN;
+                this.vel.y = (this.vel.y / mySpeed) * limits.MIN;
+            } else {
+                // kick it off in a small random direction if speed == 0
+                this.vel.x = limits.MIN * (Math.random() * 2 - 1);
+                this.vel.y = limits.MIN * (Math.random() * 2 - 1);
+            }
+        }
+    }
+
+    turnabout() {
+        if( ! this.worldModel ) {
+            return;
+        }
+        const x = this.worldModel.bounds.x + 50;
+        const y = this.worldModel.bounds.y + 50;
+        const width = this.worldModel.bounds.width -50;
+        const height = this.worldModel.bounds.height -50;
+        const turnfactor = this.params.TURNING_FACTOR;
+        // horizontal turns
+        if( this.pos.x &gt; width ) {
+            this.vel.x -= turnfactor;
+        } else if ( this.pos.x &lt; x ) {
+            this.vel.x += turnfactor;
+        }
+        // vertical turns
+        if( this.pos.y &gt; height ) {
+            this.vel.y -= turnfactor;
+        } else if ( this.pos.y &lt; y ) {
+            this.vel.y += turnfactor;
+        }
+    }
+    setCollection( group ) {
+        this.group = group;
+    }
+    setWorldModel( wm ) {
+        this.worldModel = wm;
+    }
+    setTunableParameters ( params ) {
+        this.params = params;
+    }
+    setLeader( bool ) {
+        this.leader = bool;
+    }
+    isLeader() {
+        return this.leader;
+    }
+    /**
+     * This is the heart of the boid. Da rools is as follows:
+     * 
+     * 1. separate: get away from me! protected range 
+     * 2. align: steer in the same direction as others in "visible range"
+     * 3. cohere: steer toward the CENTER of boids in range 
+     *    (i.e., in your sphere of influence...)
+     */
+    applyBoidRules() {
+        const params = this.params;
+        const grp = this.group;
+        const myPosition = this.pos;
+
+        // Accumulators for all three rules
+        let sepX = 0, sepY = 0;
+        let vXsum = 0, vYsum = 0, alignCount = 0;
+        let pXsum = 0, pYsum = 0, cohereCount = 0;
+
+        // Leader bias accumulators
+        let leaderVelX = 0, leaderVelY = 0, leaderCount = 0;
+
+        for (let i = 0; i &lt; grp.length; i++) {
+            const other = grp[i];
+            if (other === this) continue;
+
+            const d = myPosition.getDistance(other.pos);
+
+            // Separation
+            if (d &lt; params.SEPARATION_RADIUS) {
+                sepX += myPosition.x - other.pos.x;
+                sepY += myPosition.y - other.pos.y;
+            }
+
+            // Alignment
+            if (d &lt; params.ALIGNMENT_RADIUS) {
+                vXsum += other.vel.x;
+                vYsum += other.vel.y;
+                alignCount++;
+            }
+
+            // Cohesion
+            if (d &lt; params.COHERENCE_RADIUS) {
+                pXsum += other.pos.x;
+                pYsum += other.pos.y;
+                cohereCount++;
+            }
+
+            // Leader bias
+            if (other.isLeader) {
+                leaderVelX += other.vel.x;
+                leaderVelY += other.vel.y;
+                leaderCount++;
+            }
+
+        }
+
+        // Apply separation
+        this.vel.x += sepX * params.AVOIDANCE;
+        this.vel.y += sepY * params.AVOIDANCE;
+
+        // Apply alignment
+        if (alignCount &gt; 0) {
+            const vXavg = vXsum / alignCount;
+            const vYavg = vYsum / alignCount;
+            this.vel.x += (vXavg - this.vel.x) * params.ALIGNMENT;
+            this.vel.y += (vYavg - this.vel.y) * params.ALIGNMENT;
+        }
+
+        // Apply cohesion
+        if (cohereCount &gt; 0) {
+            const cx = pXsum / cohereCount;
+            const cy = pYsum / cohereCount;
+            this.vel.x += (cx - this.pos.x) * params.COHESION;
+            this.vel.y += (cy - this.pos.y) * params.COHESION;
+        }
+
+        // Apply leader bias at the end
+        if (leaderCount &gt; 0) {
+            const lXavg = leaderVelX / leaderCount;
+            const lYavg = leaderVelY / leaderCount;
+            this.vel.x += (lXavg - this.vel.x) * params.LEADER_BIAS;
+            this.vel.y += (lYavg - this.vel.y) * params.LEADER_BIAS;
+        }
+
+    }
+
+export const tunableParamDefaults = {
+    AVOIDANCE: 0.05,
+    ALIGNMENT: 0.05,
+    COHESION:  0.0005,
+    SEPARATION_RADIUS: 8,
+    ALIGNMENT_RADIUS: 40,
+    COHERENCE_RADIUS: 40,
+    TURNING_FACTOR: 0.2, 
+    LEADER_BIAS : 0.01,
+    speedLimits : {
+        MAX: 40,
+        MIN: 0,
+    }
+};
+
+&lt;/pre&gt;
+
+&lt;h2&gt;Walk-through and Analysis&lt;/h2&gt;
+&lt;h3&gt;Key Dependencies&lt;/h3&gt;
+&lt;p&gt;The boid rules are built entirely around &lt;em&gt;vectors&lt;/em&gt;. I've already covered the &lt;code&gt;Vector2D&lt;/code&gt; implementation in another post so if you'd like a refresher on how vectors work in the framework you can &lt;a href="https://dr-nick-nagel.github.io/blog/behavior-trees.html"&gt;check that out here&lt;/a&gt;. You'll find the full &lt;code&gt;Vector2D&lt;/code&gt; implementation in an appendix.&lt;/p&gt;
+&lt;p&gt;I've also provided a base-class for defining sprites in the framework, &lt;code&gt;Movable&lt;/code&gt;, which I've &lt;a href="https://dr-nick-nagel.github.io/blog/kinematics.html"&gt;also discussed elsewhere&lt;/a&gt;. &lt;code&gt;Movable&lt;/code&gt; is designed around vector composition and can be readily &lt;em&gt;extended&lt;/em&gt; to create new  sprite types. For convenience, I've in-lined the &lt;code&gt;Movable&lt;/code&gt; implementation below.&lt;/p&gt;
+&lt;pre class="CodeList"&gt;
+/**
+ * Base class for 'movable' entities like sprites and 
+ * particles...
+ */
+export class Movable {
+
+    constructor( initPosition, initVelocity, acceleration ) {
+        this.pos = initPosition;
+        this.vel = initVelocity;
+        this.acceleration = acceleration;
+
+        // ---- bind methods ------------------------
+        this.move = this.move.bind( this );
+        this.isInBounds = this.isInBounds.bind(this);
+    }
+
+    /**
+     * Every Moveable needs to be able to move.
+     * expect deltaTime in seconds (i.e. msec / 1000)
+     * 
+     * Update velocity by adding accelaration. To make it 
+     * time-based you need to factor in the interval between
+     * current and last frame (i.e., multiply acceleration by 
+     * deltaTime). Expect delta Time in seconds...
+     * 
+     * Update position by adding velocity. You also need to 
+     * account for delta time...
+     * 
+     * See: https://dr-nick-nagel.github.io/blog/kinematics.html
+     */
+    move ( deltaTime ) {
+        this.vel.x += this.acceleration.x * deltaTime;
+        this.vel.y += this.acceleration.y * deltaTime;
+        this.pos.x += this.vel.x * deltaTime;
+        this.pos.y += this.vel.y * deltaTime;
+    }
+
+    ...
+
+}
+
+&lt;/pre&gt;
+
+&lt;h3&gt;Boid Rules&lt;/h3&gt;
+&lt;p&gt;With the &lt;em&gt;vector&lt;/em&gt; and &lt;em&gt;movable&lt;/em&gt; foundations in place, the heart of the &lt;code&gt;BoidSprite&lt;/code&gt;  lies in the encapsulation of the boid rules. In the SvgCC framework movables tie into an animation loop by implementing an &lt;code&gt;update&lt;/code&gt; method. &lt;code&gt;update&lt;/code&gt; performs operations to update the sprite's internal state and then calls &lt;code&gt;move&lt;/code&gt; with the time delta parameter (in seconds) to handle kinematics. Finally, &lt;code&gt;updateTransform&lt;/code&gt; syncs the visual state by updating the sprite's SVG on the DOM. This architecture fits the boid model perfectly; in SvgCC sprites are expected to "know how to move themselves".&lt;/p&gt;
+&lt;p&gt;The rules for boid movement are encapsulated in &lt;code&gt;applyBoidRules&lt;/code&gt;. Boids have to have awareness of other members of their group. The framework achieves this by injecting the collection of boids comprising the group through the setter method &lt;code&gt;setCollection&lt;/code&gt;. This enables each boid to iterate over members within specified radii that affect its movements and apply the rules. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Separation:&lt;/strong&gt; Update your velocity by accumulating the difference vectors between yours and the others' positions and applying an &lt;em&gt;avoidance&lt;/em&gt; factor.&lt;/p&gt;
+&lt;div&gt;
+$$
+\Delta \mathbf{v}_{\text{sep}} \;=\; \alpha \sum_{\substack{j \in \mathcal{N} \\ d_{ij} &lt; r_{\text{sep}}}} \left(\mathbf{p}_i - \mathbf{p}_j\right)
+$$
+&lt;/div&gt;
+
+&lt;p&gt;Here, $\alpha$ is the avoidance factor -- one of a set of tunable parameter described below. $p_i$ is the boid's current position relative to its neighbors' $p_j$ falling within its "circle of influence" defined by radius $r_i$.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alignment:&lt;/strong&gt; keep yourself aligned by updating your velocity with the &lt;em&gt;average&lt;/em&gt; velocity of the others in your circle of influence. &lt;/p&gt;
+&lt;div&gt;
+$$
+\Delta \mathbf{v}_{\text{align}} \;=\; \beta \left(\frac{1}{|\mathcal{N}_{\text{align}}|} \sum_{\substack{j \in \mathcal{N} \\ d_{ij} &lt; r_{\text{align}}}} \mathbf{v}_j \;-\; \mathbf{v}_i\right)
+$$
+&lt;/div&gt;
+
+&lt;p&gt;Here, $\Beta$ is the alignment factor (a parameterized weight applied to vary the aligment force). &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Coherence:&lt;/strong&gt; Update your velocity to gravitate toward the average &lt;em&gt;position&lt;/em&gt; of neighbors in your circle of influence (which essentially defines a center of mass for the group).&lt;/p&gt;
+&lt;div&gt;
+$$
+\Delta \mathbf{v}_{\text{coh}} \;=\; \gamma \left(\frac{1}{|\mathcal{N}_{\text{coh}}|} \sum_{\substack{j \in \mathcal{N} \\ d_{ij} &lt; r_{\text{coh}}}} \mathbf{p}_j \;-\; \mathbf{p}_i\right)
+$$
+&lt;/div&gt;
+
+&lt;p&gt;And that's largely it! I've added in a few more details to allow boid "leaders" to exert an influence and constrain group movement to remain withing an SVG viewport "world area", but the three rules as formulated above pretty much provide a complete implementation for organic collective movement behavior. &lt;/p&gt;
+&lt;p&gt;As a final note, for ease of definition and maintenance I've abstracted a set of &lt;em&gt;tunable parameters&lt;/em&gt; into a javascript object literal and provided a set of defaults as an exportable in the &lt;code&gt;BoidSprite&lt;/code&gt; module.&lt;/p&gt;
+&lt;h2&gt;Discussion&lt;/h2&gt;
+&lt;p&gt;Since its introduction, Reynolds' boids algorithm has had a huge impact on science, art, and industry. I'm especially intrigued by its implications for the study of &lt;a href="https://en.wikipedia.org/wiki/Artificial_life"&gt;artificial life&lt;/a&gt;. And  while its applications to games and entertainment may seem obvious, boids have proven far more influential across many fields. With its profoundly simple explanation of how local rules give rise to emergent collective motion, the algorithm has been used to study:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Phase transitions in complex systems,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Formation control in robotics and engineering, &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Information visualization and optimization &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;... and much, much more.&lt;/p&gt;
+&lt;p&gt;With such wide and profound influence, the boids algorithm is, in my view, a “must-study” for anyone interested in the arts, sciences, or entertainment industry.&lt;/p&gt;
+&lt;p&gt;Working boids into the &lt;em&gt;SVG Creators Collective framework&lt;/em&gt; has been more than just a technical exercise. It's solid proof that even simple, browser-native tools can bring the beauty of emergent systems to life. Reynolds' original idea still feels fresh today. And seeing it run in real time with nothing to power it but javascript and SVG shows just how far the web has come as a playground for both science and art. Finally -- the best part is, the sprites that I created along the way to this post are now re-usable building blocks you can use to bring your own amazing SVG creations to life!&lt;/p&gt;
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.red3d.com/cwr/boids/"&gt;Boids (By Craig Reynolds)&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.red3d.com/cwr/steer/gdc99/"&gt;Steering Behaviors For Autonomous Characters&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://commons.wikimedia.org/wiki/File:Honeycomb_texture.svg"&gt;Thanks to Wikimedia Commons for the SVG Hex Grid&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script src="/scripts/dist_boidz/javascript/app.js" type="module"&gt;&lt;/script&gt;
+
+&lt;script type="module"&gt;
+const l=console.log;
+
+import {
+    createSvgCoordsFinder
+} from "/scripts/dist_boidz/javascript/utilities.js";
+
+const abutton = document.getElementById("a_button");
+const sbutton = document.getElementById("s_button");
+const cbutton = document.getElementById("c_button");
+const coordsButton = document.getElementById("coords_button");
+
+const svgAnim = document.getElementById("rules_anim_root");
+const arrowSvg = document.getElementById("vector_arrow");
+
+const boidLocations = {
+    boid0: {x:150, y:167},
+    boid1: {x:228, y:48},
+    boid2: {x:50, y:60},
+}
+
+const arrows = {
+    boid0: null,
+    boid1: null,
+    boid2: null,
+};
+
+const audioClips = {
+    align: null,
+    separate: null,
+    cohere: null,
+};
+
+document.addEventListener(
+    'DOMContentLoaded',
+    (evt) =&gt; {
+        Object.keys(arrows).forEach(key =&gt;  {
+            const arrowClone = arrowSvg.cloneNode(true);
+            arrowClone.setAttribute("id", arrowClone.id+key);
+            const grad = arrowClone.querySelector("#revealGrad");
+            const newUrl = arrowClone.querySelector("#revealGrad").id+"_"+key;
+            grad.setAttribute( 
+                "id", 
+                newUrl
+             );
+            const arrowPath = arrowClone.querySelector("path");
+            arrowPath.setAttribute("fill", `url(#${ newUrl })`);
+            arrows[key] = arrowClone;
+        } );
+
+        audioClips.align    = document.getElementById( "align_clip" );
+        audioClips.separate = document.getElementById( "separate_clip" );
+        audioClips.cohere   = document.getElementById( "cohere_clip" );
+
+    }
+);
+
+
+function doAlignment( evt ) {
+    const v0 = arrows.boid0; 
+    const v1 = arrows.boid1; 
+    const v2 = arrows.boid2; 
+    const v0Anims = v0.querySelectorAll( "animate" );
+    const v1Anims = v1.querySelectorAll( "animate" );
+    const v2Anims = v2.querySelectorAll( "animate" );
+    const b0Pos = boidLocations.boid0;
+    const b1Pos = boidLocations.boid1;
+    const b2Pos = boidLocations.boid2;
+    v0.setAttribute( 
+        "transform", 
+        `translate( ${b0Pos.x+70} ${b0Pos.y} ) scale(0.5)` 
+    );
+    v1.setAttribute( 
+        "transform", 
+        `translate( ${b1Pos.x+70} ${b1Pos.y} ) scale(0.35)` 
+    );
+    v2.setAttribute( 
+        "transform", 
+        `translate( ${b2Pos.x+70} ${b2Pos.y} ) scale(0.35)` 
+    );
+    svgAnim.appendChild(v0);
+    svgAnim.appendChild(v1);
+    svgAnim.appendChild(v2);
+    v0.setAttribute( 'display', "inline" );
+    v1.setAttribute( 'display', "inline" );
+    v2.setAttribute( 'display', "inline" );
+    for( let animation of v0Anims ) {
+        animation.beginElement();
+    }
+    for( let animation of v1Anims ) {
+        animation.beginElement();
+    }
+    for( let animation of v2Anims ) {
+        animation.beginElement();
+    }
+
+    audioClips.align.currentTime = 0;
+    audioClips.align.play();
+
+    setTimeout(
+        () =&gt; {
+            v0.setAttribute( "display", "none" );
+            v1.setAttribute( "display", "none" );
+            v2.setAttribute( "display", "none" );
+            v0.remove();
+            v1.remove();
+            v2.remove();
+        }, 
+        2000
+    );
+}
+
+
+function doSeparate( evt ) {
+    const v0 = arrows.boid0; 
+    const v1 = arrows.boid1; 
+    const v2 = arrows.boid2; 
+    const v0Anims = v0.querySelectorAll( "animate" );
+    const v1Anims = v1.querySelectorAll( "animate" );
+    const v2Anims = v2.querySelectorAll( "animate" );
+    const b0Pos = boidLocations.boid0;
+    const b1Pos = boidLocations.boid1;
+    const b2Pos = boidLocations.boid2;
+    v0.setAttribute( 
+        "transform", 
+        `translate( ${b0Pos.x+70} ${b0Pos.y+30} ) rotate(45) scale(0.5)` 
+    );
+    v1.setAttribute( 
+        "transform", 
+        `translate( ${b1Pos.x+30} ${b1Pos.y-30} ) rotate(-45) scale(0.35)` 
+    );
+    v2.setAttribute( 
+        "transform", 
+        `translate( ${b2Pos.x-20} ${b2Pos.y-30} ) rotate(-135)  scale(0.35)` 
+    );
+    svgAnim.appendChild(v0);
+    svgAnim.appendChild(v1);
+    svgAnim.appendChild(v2);
+    v0.setAttribute( 'display', "inline" );
+    v1.setAttribute( 'display', "inline" );
+    v2.setAttribute( 'display', "inline" );
+    for( let animation of v0Anims ) {
+        animation.beginElement();
+    }
+    for( let animation of v1Anims ) {
+        animation.beginElement();
+    }
+    for( let animation of v2Anims ) {
+        animation.beginElement();
+    }
+
+    audioClips.separate.currentTime = 0;
+    audioClips.separate.play();
+
+    setTimeout(
+        () =&gt; {
+            v0.setAttribute( "display", "none" );
+            v1.setAttribute( "display", "none" );
+            v2.setAttribute( "display", "none" );
+            v0.remove();
+            v1.remove();
+            v2.remove();
+        }, 
+        2000
+    );
+}
+
+
+function doCohere( evt ) {
+    const v0 = arrows.boid0; 
+    const v1 = arrows.boid1; 
+    const v2 = arrows.boid2; 
+    const v0Anims = v0.querySelectorAll( "animate" );
+    const v1Anims = v1.querySelectorAll( "animate" );
+    const v2Anims = v2.querySelectorAll( "animate" );
+    const b0Pos = boidLocations.boid0;
+    const b1Pos = boidLocations.boid1;
+    const b2Pos = boidLocations.boid2;
+    v0.setAttribute( 
+        "transform", 
+        `translate( ${b0Pos.x+70} ${b0Pos.y} ) rotate(-15) scale(0.5)` 
+    );
+    v1.setAttribute( 
+        "transform", 
+        `translate( ${b1Pos.x+30} ${b1Pos.y+30} ) rotate(45) scale(0.35)` 
+    );
+    v2.setAttribute( 
+        "transform", 
+        `translate( ${b2Pos.x+50} ${b2Pos.y} ) rotate(15)  scale(0.35)` 
+    );
+    svgAnim.appendChild(v0);
+    svgAnim.appendChild(v1);
+    svgAnim.appendChild(v2);
+    v0.setAttribute( 'display', "inline" );
+    v1.setAttribute( 'display', "inline" );
+    v2.setAttribute( 'display', "inline" );
+    for( let animation of v0Anims ) {
+        animation.beginElement();
+    }
+    for( let animation of v1Anims ) {
+        animation.beginElement();
+    }
+    for( let animation of v2Anims ) {
+        animation.beginElement();
+    }
+    audioClips.cohere.currentTime = 0;
+    audioClips.cohere.play();
+    setTimeout(
+        () =&gt; {
+            v0.setAttribute( "display", "none" );
+            v1.setAttribute( "display", "none" );
+            v2.setAttribute( "display", "none" );
+            v0.remove();
+            v1.remove();
+            v2.remove();
+        }, 
+        5000
+    );
+}
+
+abutton.addEventListener(
+    'click',
+    (evt) =&gt; {
+        doAlignment(evt);
+    }
+);
+
+sbutton.addEventListener(
+    'click',
+    (evt) =&gt; {
+        doSeparate(evt);
+    }
+);
+
+cbutton.addEventListener(
+    'click',
+    (evt) =&gt; {
+        doCohere(evt);
+    }
+);
+
+svgAnim.addEventListener(
+    'click',
+    createSvgCoordsFinder( svgAnim )
+);
+
+&lt;/script&gt;</content><category term="blog"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="Inkscape"></category><category term="SVG Creators Collaborative"></category><category term="artificial intelligence"></category><category term="artificial consciousness"></category><category term="artificial life"></category><category term="boids"></category><category term="steering behavior"></category><category term="steering"></category><category term="sprites"></category><category term="interactive art"></category><category term="games"></category><category term="computer games"></category><category term="computer simulations"></category><category term="alignment"></category><category term="separation"></category><category term="cohesion"></category><category term="coherence"></category></entry><entry><title>Making Interactive SVG with Behavior Trees</title><link href="https://dr-nick-nagel.github.io/blog/behavior-trees.html" rel="alternate"></link><published>2025-08-28T00:00:00-04:00</published><updated>2025-08-28T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-08-28:/blog/behavior-trees.html</id><summary type="html">&lt;p&gt;Create interactive SVG artworks with behavior trees  ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 .CodeList {
     background-color: #333;
     color: #FFE;

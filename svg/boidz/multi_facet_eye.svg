@@ -1,0 +1,19 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="eye-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:rgb(255,255,255); stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgb(150,200,255); stop-opacity:1" />
+    </linearGradient>
+    <pattern id="hex-pattern" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+      <polygon points="6,0 9,3 9,9 6,12 3,9 3,3" fill="rgba(0,0,0,0.1)" stroke="#000000" stroke-width="0.5" />
+    </pattern>
+  </defs>
+
+  <!-- Outer eye shape and facet pattern -->
+  <circle cx="100" cy="100" r="80" fill="url(#eye-gradient)" stroke="#000000" stroke-width="2" />
+  <circle cx="100" cy="100" r="75" fill="url(#hex-pattern)" />
+
+  <!-- Pupil and highlights -->
+  <circle cx="100" cy="100" r="15" fill="#000000" />
+  <circle cx="115" cy="90" r="6" fill="#ffffff" />
+</svg>

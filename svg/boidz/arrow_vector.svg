@@ -1,0 +1,16 @@
+<svg width="200" height="50" viewBox="-100 -25 200 50"
+    style="border:solid 1px red"
+    xmlns="http://www.w3.org/2000/svg" >
+<g id="vector_arrow">
+    <linearGradient id="revealGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c8ab37" stop-opacity="1" />
+      <stop offset="0%" stop-color="#c8ab37" stop-opacity="0">
+        <animate attributeName="offset" from="0%" to="100%" dur="0.5s" fill="freeze"/>
+        <animate attributeName="stop-opacity" from="0" to="0.5" dur="1s" fill="freeze"/>
+      </stop>
+    </linearGradient>
+    <path id="arrow_path"
+       fill="url(#revealGrad)"
+       d="M -100,-4 80,-4 74,-11 100,0 74,10 81,4 -100,4 l 9,-4 z" />
+</g>
+</svg>
