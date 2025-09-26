@@ -1,5 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-09-14T00:00:00-04:00</updated><entry><title>Artificial Life: Colonies in Motion</title><link href="https://dr-nick-nagel.github.io/blog/boidz.html" rel="alternate"></link><published>2025-09-14T00:00:00-04:00</published><updated>2025-09-14T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-09-14:/blog/boidz.html</id><summary type="html">&lt;p&gt;Procedural SVG art with "boidz rules"  ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-09-26T00:00:00-04:00</updated><entry><title>Escaping Flatland: Isometric Art with SVG</title><link href="https://dr-nick-nagel.github.io/blog/iso_art.html" rel="alternate"></link><published>2025-09-26T00:00:00-04:00</published><updated>2025-09-26T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-09-26:/blog/iso_art.html</id><summary type="html">&lt;p&gt;Creating immersive isometric art with SVG.&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 8px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+#ia_image_wrap {
+  width:300px;
+  height:300px;
+  border: inset red 4px;
+}
+
+.ImageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+figcaption {
+    font-size: smaller;
+}
+
+#isometric-alice-caption {
+  width: 300px;
+  margin: auto;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+/*    --------  DEMOS ------------    */
+svg#svg_host {
+  display: block;
+  margin: auto;
+  background-color: #000;
+  margin-bottom: 20px;
+  border: solid 1px #f00;
+}
+
+#rule_buttons{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:center;
+  button {
+    margin: 10px;
+  }
+}
+
+svg#svg_controls {
+  display: block;
+  margin: auto;
+}
+
+/*    --------  CUSTOM ------------    */
+
+&lt;/style&gt;
+
+&lt;h2&gt;In this Post ...&lt;/h2&gt;
+&lt;p&gt;I'll expore the power of perspective through the mastry of isometry with scalable vector graphics.&lt;/p&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;If you've ever delved into the world of technical drawings, architecture and the like you've come across &lt;em&gt;isometric perspective&lt;/em&gt;. And almost certainly you've seen its application.  Isometric style is ubiquitous in art. The intricate illusions of M.C. Escher come to mind. Not to mention an entire genre of video game art. Here, I want to step behind the visuals and explore some of the math that lies at the heart of isometry; mapping from the isometric grid to 2D coordinate systems and back again.&lt;/p&gt;
+&lt;h2&gt;What is Isometric Art&lt;/h2&gt;
+&lt;p&gt;Isometric art is an artistic expression that applies a method for visually representing the world of 3D objects in 2 dimensions. It leverages &lt;em&gt;axonometric projection&lt;/em&gt; where the three coordinate axes are equally foreshortened and depth scaling is deliberately held constant to produce fascinating, and at times mind bending, views. &lt;/p&gt;
+&lt;p&gt;The heart of the art form revolves around the &lt;strong&gt;isometric grid&lt;/strong&gt;. You can render this grid by rotating a square 45 degrees and squashing its height to half its width. In the resulting plane, the axes tilt away from the standard Cartesian X-axis: one leans 30 degrees upward, while the other stretches across 120 degrees. This arrangement produces the familiar three-way symmetry of isometric perspective.&lt;/p&gt;
+&lt;figure id="isometric-alice-figure"&gt;
+  &lt;picture id="ia_image_wrap" class="ImageWrapper"&gt;
+    &lt;source srcset="/svg/isometric/go_ask_alice_exports.svg" type="image/svg+xml"&gt;
+    &lt;img id="isometric-alice"
+      src="/svg/isometric/go_ask_alice_exports.png"
+      alt="Detailed artistic rendering in isometric perspective of an Alice-in-Wonderland-like figure examining a diagram illustrating isometric geometry — specifically a mathematical artwork."
+      loading="lazy"
+    /&gt;
+  &lt;/picture&gt;
+  &lt;figcaption id="isometric-alice-caption"&gt;
+    &lt;strong&gt;Escaping Flatland:&lt;/strong&gt; Contemplating isometric geometry.
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Grid Formulas&lt;/h2&gt;
+&lt;p&gt;If you want to create interactive art as with games and simulations you'll want to move characters and objects around your isometric "world". For that you need two key utilities; (1) mapping from the isometric grid coordinates to the SVG coordinate system, and (2) the inverse function; mapping from SVG back to the isometric grid.&lt;/p&gt;
+&lt;h3&gt;Mapping the Isometric Grid to SVG&lt;/h3&gt;
+&lt;p&gt;Given isometric grid coordinates, $i$ and $j$ the following equations map to SVG:&lt;/p&gt;
+&lt;p&gt;$$
+\text{svgX} = ( i - j ) \times w / 2
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\text{svgY} = ( i + j ) \times h / 2
+$$&lt;/p&gt;
+&lt;p&gt;Here, $w$ is the &lt;em&gt;width&lt;/em&gt; and $h$ is the height of the diamond shaped isometric tile. &lt;/p&gt;
+&lt;h3&gt;Isometric Inverse: Mapping SVG Back to the Grid&lt;/h3&gt;
+&lt;p&gt;Given the grid mapping functions we can derive the inverse to project SVG coords onto the grid. I'll spare you the algebra to derive them and jump right to the formulas: 
+$$
+i = 0.5 \times \left( \frac{\text{localX}}{(w/2)} + \frac{\text{localY}}{(h/2)} \right)
+$$
+$$
+j = 0.5 \times \left( \frac{\text{localY}}{(h/2)} - \frac{\text{localX}}{(w/2)} \right)
+$$&lt;/p&gt;
+&lt;p&gt;To generalize these formulas for use where isometric grids can be offset from the SVG origin we can compute $localX$ and $localY$ as follows: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;$\text{localX} = \text{svgX} - \text{offsetX}$&lt;/li&gt;
+&lt;li&gt;$\text{localY} = \text{svgY} - \text{offsetY}$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Implementation&lt;/h2&gt;
+&lt;p&gt;And here's a module that I created implementing the formulas for the SVG Artists Collective&amp;trade;. The module defines a world model encapsulating the mapping utilities which can be injected into sprites needing to navigate an isometric world.&lt;/p&gt;
+&lt;pre class='CodeList'&gt;
+/**
+ * WorldModel module for isometric game. `WorldModel` holds
+ * information related to world state such as tile width/height
+ * (generally 2:1 as a rule and utility functions mapping SVG 
+ * coordinates to and from isometric *grids* comprising the 
+ * "terra firma".
+ */
+export const WorldModel = {
+
+    tileWidth:  60,
+    tileHeight: 30,
+
+    /**
+     * Get SVG coords given grid coords. isometric map assumes a 
+     * 45 degree rightward rotation of cartesian axes and 2:1 
+     * tile width to height ... 
+     * 
+     * @param {number} i th column
+     * @param {number} j th row
+     */
+    isometricMap: function( i, j ) {
+        const svgX =  ( i - j ) * this.tileWidth  / 2;
+        const svgY =  ( i + j ) * this.tileHeight / 2;
+        return { x: svgX, y: svgY };
+    },
+
+    /**
+     * Get grid coords given SVG coords.
+     * 
+     * For more on SVG coordinate systems Please see: 
+     *
+     *   https://dr-nick-nagel.github.io/blog/trans-matrix.html
+     * 
+     * @param {number} svgX SVG viewport coord X
+     * @param {number} svgY SVG viewport coord Y
+     */
+    svgMap: function( svgX, svgY, offesets={ x: 0, y: 0 } ) {
+        // These formulas are derived by solving the isometricMap equations.
+        const halfW = this.tileWidth  / 2;
+        const halfH = this.tileHeight / 2;
+        // apply offsets to grids offset from the SVG origin...
+        let localX = svgX - offesets.x;
+        let localY = svgY - offesets.y;
+        let i = 0.5 * ( localX/halfW + localY/halfH );
+        let j = 0.5 * ( localY/halfH - localX/halfW );
+        i = Math.round(i);
+        j = Math.round(j);
+        return { i: i, j: j };
+    }
+
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Note the use of &lt;code&gt;Math.round()&lt;/code&gt; in the &lt;code&gt;svgMap&lt;/code&gt; function which I've used to snap the SVG coordinate to the nearest grid tile.&lt;/p&gt;
+&lt;h2&gt;Summary and Discussion&lt;/h2&gt;
+&lt;p&gt;In this post I wanted to focus on the heart of supporting isometric views in interactive and procedural SVG artworks. &lt;/p&gt;
+&lt;p&gt;Isometric projection is used ubiquitously across many application domains including the production of technical and engineering drawings, instruction manuals and architectural design. And of course, Isometry is ubiquitous across game development frameworks.&lt;/p&gt;
+&lt;p&gt;As an artist, I find playing with isometric perspective fun and engaging. And as a cognitive scientist I've long been intrigued by the effects of isometric perspective on perception and the mind. So it was a no-brainer for me to include support for isometric applications in the SvgCC&amp;trade; artists framework. Below is an example of the approach at work. &lt;/p&gt;
+&lt;figure&gt;
+&lt;div id='svg_wrap_1'&gt;
+&lt;svg id="svg_host" 
+    width="300" 
+    height="300" 
+    viewBox="-150 -150 300 300" 
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:svg="http://www.w3.org/2000/svg"&gt;
+    &lt;rect x='-150' y='-150'  width="300" height="300" fill="url(#nn_background)" /&gt;
+    &lt;g id="isometric_grid" 
+        transform='translate( 0 -25 )'
+    &gt;&lt;/g&gt;
+    &lt;g id="grid_overlay" display="none"&gt;
+        &lt;line x1="0" y1="-150" x2="0" y2="150" stroke="blue" /&gt;
+        &lt;line y1="0" x1="-150" y2="0" x2="150" stroke="blue" /&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;
+&lt;/div&gt;
+
+&lt;div id='svg_wrap_1'&gt;
+&lt;svg id="svg_controls" 
+    width="100" 
+    height="100" 
+    viewBox="0 0 100 100" 
+    xmlns="http://www.w3.org/2000/svg" 
+&gt;
+  &lt;g id='arrows'&gt;
+      &lt;path id='up_arrow'
+          d='M 50,10 L 60,30 L 40,30 Z'
+          fill='#f88'
+      /&gt;
+      &lt;path id='r_arrow'
+          d='M 100,40 L 80,50 L 80,30 Z'
+          fill='#f88'
+      /&gt;
+      &lt;path id='d_arrow'
+          d='M 50,80 L 40,60 L 60,60 Z'
+          fill='#f88'
+      /&gt;
+      &lt;path id='l_arrow'
+          d='M 0,40 L 20,30 L 20,50 Z'
+          fill='#f88'
+      /&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
+&lt;/div&gt;
+&lt;figurecaption&gt;**The White Queen**. SVG artwork illustrating the application of isometric mapping functions.&lt;/figurecaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;This demo was fun to create and helped guide several architectural decisions for the framework. Maybe it's the start of a new chess game. In any case, I hope you, the reader have enjoyed this study of isometric perspective and will look for more developments from the SVG Artists Collaborative in the near future!&lt;/p&gt;
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://clintbellanger.net/articles/isometric_math/"&gt;Isometric Tiles Math&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://2dgameartguru.com/building-isometric-art-in-vectors-step-1/"&gt;Isometric Tiles with Inkscape&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=RJf_YE-txbM"&gt;Isometric Figure Drawing&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script src='/scripts/dist_iso/app.js' type="module"&gt;&lt;/script&gt;</content><category term="blog"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="Inkscape"></category><category term="SVG Creators Collaborative"></category><category term="isometric art"></category><category term="isometric"></category><category term="projections"></category><category term="isometric math"></category><category term="equations"></category><category term="grids"></category><category term="interactive art"></category><category term="games"></category><category term="computer games"></category><category term="computer simulations"></category><category term="isometry"></category></entry><entry><title>Artificial Life: Colonies in Motion</title><link href="https://dr-nick-nagel.github.io/blog/boidz.html" rel="alternate"></link><published>2025-09-14T00:00:00-04:00</published><updated>2025-09-14T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-09-14:/blog/boidz.html</id><summary type="html">&lt;p&gt;Procedural SVG art with "boidz rules"  ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 .CodeList {
     background-color: #333;
     color: #FFE;

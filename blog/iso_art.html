@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Escaping Flatland: Isometric Art with SVG</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+        
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="javascript" />
+    <meta name="tags" content="animation" />
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="Inkscape" />
+    <meta name="tags" content="SVG Creators Collaborative" />
+    <meta name="tags" content="isometric art" />
+    <meta name="tags" content="isometric" />
+    <meta name="tags" content="projections" />
+    <meta name="tags" content="isometric math" />
+    <meta name="tags" content="equations" />
+    <meta name="tags" content="grids" />
+    <meta name="tags" content="interactive art" />
+    <meta name="tags" content="games" />
+    <meta name="tags" content="computer games" />
+    <meta name="tags" content="computer simulations" />
+    <meta name="tags" content="isometry" />
+
+    </head>
+
+    <body>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="nn_symbols"
+   version="1.1"
+   style="display:none"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs>
+    <symbol id="en_return"  viewBox="0 0 20 20">
+      <path
+        style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+        id="return_to_text_1"
+      />
+    </symbol>
+
+    <symbol id="circle_symbol" viewBox="-7.5 -8 15 16">
+      <circle id="circle_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        r="7.5"
+      />
+    </symbol>
+
+    <symbol id="rectangle_symbol" viewBox="-7.5 -9 15 18">
+      <rect
+        fill="currentColor"
+        style="display:inline;"
+        id="rectangular_shape"
+        width="15"
+        height="18"
+        x="-7.5"
+        y="-9"
+      />
+    </symbol>
+
+    <symbol id="diamond_symbol" viewBox="-7.5 -12 15 24">
+      <rect
+       fill="currentColor"
+       style="display:inline;"
+       id="diamond_0"
+       width="15"
+       height="15"
+       x="-7.5"
+       y="-7.5"
+       transform="rotate(45)" />
+    </symbol>
+
+    <symbol id="triangle_symbol" viewBox="-7.5 -7.5 15 20">
+      <path id="triangle_0"
+        fill="currentColor"
+        style="display:inline;"
+        d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
+      />
+    </symbol>
+
+    <symbol id="oval_symbol" viewBox="-7 -10 14 20">
+      <ellipse id="oval_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        rx="6"
+        ry="9" />
+    </symbol>
+
+    <symbol id="heart_face_symbol" viewBox="-7.5 -10 15 20">
+      <path id="heart_face"
+          fill="currentColor"
+          style="display:inline"
+          d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
+      />
+    </symbol>
+
+   </defs>
+</svg>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/iso_art.html" rel="bookmark"
+           title="Permalink to Escaping Flatland: Isometric Art with SVG">Escaping Flatland: Isometric Art with SVG</a></h2>
+      
+    </header>
+    <style>
+.CodeList {
+    background-color: #333;
+    color: #FFE;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: 8px;
+}
+.AlignCenter {
+  text-align: center;
+}
+
+.CodeHighlight {
+    color:#f99
+}
+
+.CodeLine{
+    font-family: monospace;
+    font-size: smaller;
+    font-weight: bold;
+    color: #A00;
+}
+
+.ImageWrapper {
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    border: inset grey 4px;
+}
+
+#ia_image_wrap {
+  width:300px;
+  height:300px;
+  border: inset red 4px;
+}
+
+.ImageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+figcaption {
+    font-size: smaller;
+}
+
+#isometric-alice-caption {
+  width: 300px;
+  margin: auto;
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+/*    --------  DEMOS ------------    */
+svg#svg_host {
+  display: block;
+  margin: auto;
+  background-color: #000;
+  margin-bottom: 20px;
+  border: solid 1px #f00;
+}
+
+#rule_buttons{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:center;
+  button {
+    margin: 10px;
+  }
+}
+
+svg#svg_controls {
+  display: block;
+  margin: auto;
+}
+
+/*    --------  CUSTOM ------------    */
+
+</style>
+
+<h2>In this Post ...</h2>
+<p>I'll expore the power of perspective through the mastry of isometry with scalable vector graphics.</p>
+<h2>Introduction</h2>
+<p>If you've ever delved into the world of technical drawings, architecture and the like you've come across <em>isometric perspective</em>. And almost certainly you've seen its application.  Isometric style is ubiquitous in art. The intricate illusions of M.C. Escher come to mind. Not to mention an entire genre of video game art. Here, I want to step behind the visuals and explore some of the math that lies at the heart of isometry; mapping from the isometric grid to 2D coordinate systems and back again.</p>
+<h2>What is Isometric Art</h2>
+<p>Isometric art is an artistic expression that applies a method for visually representing the world of 3D objects in 2 dimensions. It leverages <em>axonometric projection</em> where the three coordinate axes are equally foreshortened and depth scaling is deliberately held constant to produce fascinating, and at times mind bending, views. </p>
+<p>The heart of the art form revolves around the <strong>isometric grid</strong>. You can render this grid by rotating a square 45 degrees and squashing its height to half its width. In the resulting plane, the axes tilt away from the standard Cartesian X-axis: one leans 30 degrees upward, while the other stretches across 120 degrees. This arrangement produces the familiar three-way symmetry of isometric perspective.</p>
+<figure id="isometric-alice-figure">
+  <picture id="ia_image_wrap" class="ImageWrapper">
+    <source srcset="/svg/isometric/go_ask_alice_exports.svg" type="image/svg+xml">
+    <img id="isometric-alice"
+      src="/svg/isometric/go_ask_alice_exports.png"
+      alt="Detailed artistic rendering in isometric perspective of an Alice-in-Wonderland-like figure examining a diagram illustrating isometric geometry — specifically a mathematical artwork."
+      loading="lazy"
+    />
+  </picture>
+  <figcaption id="isometric-alice-caption">
+    <strong>Escaping Flatland:</strong> Contemplating isometric geometry.
+  </figcaption>
+</figure>
+
+<h2>Grid Formulas</h2>
+<p>If you want to create interactive art as with games and simulations you'll want to move characters and objects around your isometric "world". For that you need two key utilities; (1) mapping from the isometric grid coordinates to the SVG coordinate system, and (2) the inverse function; mapping from SVG back to the isometric grid.</p>
+<h3>Mapping the Isometric Grid to SVG</h3>
+<p>Given isometric grid coordinates, $i$ and $j$ the following equations map to SVG:</p>
+<p>$$
+\text{svgX} = ( i - j ) \times w / 2
+$$</p>
+<p>$$
+\text{svgY} = ( i + j ) \times h / 2
+$$</p>
+<p>Here, $w$ is the <em>width</em> and $h$ is the height of the diamond shaped isometric tile. </p>
+<h3>Isometric Inverse: Mapping SVG Back to the Grid</h3>
+<p>Given the grid mapping functions we can derive the inverse to project SVG coords onto the grid. I'll spare you the algebra to derive them and jump right to the formulas: 
+$$
+i = 0.5 \times \left( \frac{\text{localX}}{(w/2)} + \frac{\text{localY}}{(h/2)} \right)
+$$
+$$
+j = 0.5 \times \left( \frac{\text{localY}}{(h/2)} - \frac{\text{localX}}{(w/2)} \right)
+$$</p>
+<p>To generalize these formulas for use where isometric grids can be offset from the SVG origin we can compute $localX$ and $localY$ as follows: </p>
+<ol>
+<li>$\text{localX} = \text{svgX} - \text{offsetX}$</li>
+<li>$\text{localY} = \text{svgY} - \text{offsetY}$</li>
+</ol>
+<h2>Implementation</h2>
+<p>And here's a module that I created implementing the formulas for the SVG Artists Collective&trade;. The module defines a world model encapsulating the mapping utilities which can be injected into sprites needing to navigate an isometric world.</p>
+<pre class='CodeList'>
+/**
+ * WorldModel module for isometric game. `WorldModel` holds
+ * information related to world state such as tile width/height
+ * (generally 2:1 as a rule and utility functions mapping SVG 
+ * coordinates to and from isometric *grids* comprising the 
+ * "terra firma".
+ */
+export const WorldModel = {
+
+    tileWidth:  60,
+    tileHeight: 30,
+
+    /**
+     * Get SVG coords given grid coords. isometric map assumes a 
+     * 45 degree rightward rotation of cartesian axes and 2:1 
+     * tile width to height ... 
+     * 
+     * @param {number} i th column
+     * @param {number} j th row
+     */
+    isometricMap: function( i, j ) {
+        const svgX =  ( i - j ) * this.tileWidth  / 2;
+        const svgY =  ( i + j ) * this.tileHeight / 2;
+        return { x: svgX, y: svgY };
+    },
+
+    /**
+     * Get grid coords given SVG coords.
+     * 
+     * For more on SVG coordinate systems Please see: 
+     *
+     *   https://dr-nick-nagel.github.io/blog/trans-matrix.html
+     * 
+     * @param {number} svgX SVG viewport coord X
+     * @param {number} svgY SVG viewport coord Y
+     */
+    svgMap: function( svgX, svgY, offesets={ x: 0, y: 0 } ) {
+        // These formulas are derived by solving the isometricMap equations.
+        const halfW = this.tileWidth  / 2;
+        const halfH = this.tileHeight / 2;
+        // apply offsets to grids offset from the SVG origin...
+        let localX = svgX - offesets.x;
+        let localY = svgY - offesets.y;
+        let i = 0.5 * ( localX/halfW + localY/halfH );
+        let j = 0.5 * ( localY/halfH - localX/halfW );
+        i = Math.round(i);
+        j = Math.round(j);
+        return { i: i, j: j };
+    }
+
+}
+</pre>
+
+<p>Note the use of <code>Math.round()</code> in the <code>svgMap</code> function which I've used to snap the SVG coordinate to the nearest grid tile.</p>
+<h2>Summary and Discussion</h2>
+<p>In this post I wanted to focus on the heart of supporting isometric views in interactive and procedural SVG artworks. </p>
+<p>Isometric projection is used ubiquitously across many application domains including the production of technical and engineering drawings, instruction manuals and architectural design. And of course, Isometry is ubiquitous across game development frameworks.</p>
+<p>As an artist, I find playing with isometric perspective fun and engaging. And as a cognitive scientist I've long been intrigued by the effects of isometric perspective on perception and the mind. So it was a no-brainer for me to include support for isometric applications in the SvgCC&trade; artists framework. Below is an example of the approach at work. </p>
+<figure>
+<div id='svg_wrap_1'>
+<svg id="svg_host" 
+    width="300" 
+    height="300" 
+    viewBox="-150 -150 300 300" 
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:svg="http://www.w3.org/2000/svg">
+    <rect x='-150' y='-150'  width="300" height="300" fill="url(#nn_background)" />
+    <g id="isometric_grid" 
+        transform='translate( 0 -25 )'
+    ></g>
+    <g id="grid_overlay" display="none">
+        <line x1="0" y1="-150" x2="0" y2="150" stroke="blue" />
+        <line y1="0" x1="-150" y2="0" x2="150" stroke="blue" />
+    </g>
+</svg>
+</div>
+
+<div id='svg_wrap_1'>
+<svg id="svg_controls" 
+    width="100" 
+    height="100" 
+    viewBox="0 0 100 100" 
+    xmlns="http://www.w3.org/2000/svg" 
+>
+  <g id='arrows'>
+      <path id='up_arrow'
+          d='M 50,10 L 60,30 L 40,30 Z'
+          fill='#f88'
+      />
+      <path id='r_arrow'
+          d='M 100,40 L 80,50 L 80,30 Z'
+          fill='#f88'
+      />
+      <path id='d_arrow'
+          d='M 50,80 L 40,60 L 60,60 Z'
+          fill='#f88'
+      />
+      <path id='l_arrow'
+          d='M 0,40 L 20,30 L 20,50 Z'
+          fill='#f88'
+      />
+  </g>
+</svg>
+</div>
+<figurecaption>**The White Queen**. SVG artwork illustrating the application of isometric mapping functions.</figurecaption>
+</figure>
+
+<p>This demo was fun to create and helped guide several architectural decisions for the framework. Maybe it's the start of a new chess game. In any case, I hope you, the reader have enjoyed this study of isometric perspective and will look for more developments from the SVG Artists Collaborative in the near future!</p>
+<h2>Resources</h2>
+<ol>
+<li>
+<p><a href="https://clintbellanger.net/articles/isometric_math/">Isometric Tiles Math</a>.</p>
+</li>
+<li>
+<p><a href="https://2dgameartguru.com/building-isometric-art-in-vectors-step-1/">Isometric Tiles with Inkscape</a>.</p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=RJf_YE-txbM">Isometric Figure Drawing</a>.</p>
+</li>
+</ol>
+<script src='/scripts/dist_iso/app.js' type="module"></script>
+    <footer>
+      <p>Published: <time datetime="2025-09-26T00:00:00-04:00">
+        Fri 26 September 2025
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/javascript.html">javascript</a>
+            <a href="https://dr-nick-nagel.github.io/tag/animation.html">animation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
+            <a href="https://dr-nick-nagel.github.io/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/art.html">art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artwork.html">artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape.html">Inkscape</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg-creators-collaborative.html">SVG Creators Collaborative</a>
+            <a href="https://dr-nick-nagel.github.io/tag/isometric-art.html">isometric art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/isometric.html">isometric</a>
+            <a href="https://dr-nick-nagel.github.io/tag/projections.html">projections</a>
+            <a href="https://dr-nick-nagel.github.io/tag/isometric-math.html">isometric math</a>
+            <a href="https://dr-nick-nagel.github.io/tag/equations.html">equations</a>
+            <a href="https://dr-nick-nagel.github.io/tag/grids.html">grids</a>
+            <a href="https://dr-nick-nagel.github.io/tag/interactive-art.html">interactive art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/games.html">games</a>
+            <a href="https://dr-nick-nagel.github.io/tag/computer-games.html">computer games</a>
+            <a href="https://dr-nick-nagel.github.io/tag/computer-simulations.html">computer simulations</a>
+            <a href="https://dr-nick-nagel.github.io/tag/isometry.html">isometry</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
