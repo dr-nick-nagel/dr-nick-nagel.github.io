@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - Inkscape Art: Lattice Deformation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+        
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="scalable vector graphics" />
+    <meta name="tags" content="art" />
+    <meta name="tags" content="artwork" />
+    <meta name="tags" content="artworks" />
+    <meta name="tags" content="inkscape" />
+    <meta name="tags" content="tools" />
+    <meta name="tags" content="features" />
+    <meta name="tags" content="inkscape features" />
+    <meta name="tags" content="techniques" />
+    <meta name="tags" content="tips" />
+    <meta name="tags" content="tricks" />
+    <meta name="tags" content="patterns" />
+    <meta name="tags" content="procedural art" />
+    <meta name="tags" content="svg artworks" />
+    <meta name="tags" content="svg artwork" />
+    <meta name="tags" content="svg art" />
+    <meta name="tags" content="lattice" />
+    <meta name="tags" content="lattice deformation" />
+
+    </head>
+
+    <body>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="nn_symbols"
+   version="1.1"
+   style="display:none"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs>
+    <symbol id="en_return"  viewBox="0 0 20 20">
+      <path
+        style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+        id="return_to_text_1"
+      />
+    </symbol>
+
+    <symbol id="circle_symbol" viewBox="-7.5 -8 15 16">
+      <circle id="circle_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        r="7.5"
+      />
+    </symbol>
+
+    <symbol id="rectangle_symbol" viewBox="-7.5 -9 15 18">
+      <rect
+        fill="currentColor"
+        style="display:inline;"
+        id="rectangular_shape"
+        width="15"
+        height="18"
+        x="-7.5"
+        y="-9"
+      />
+    </symbol>
+
+    <symbol id="diamond_symbol" viewBox="-7.5 -12 15 24">
+      <rect
+       fill="currentColor"
+       style="display:inline;"
+       id="diamond_0"
+       width="15"
+       height="15"
+       x="-7.5"
+       y="-7.5"
+       transform="rotate(45)" />
+    </symbol>
+
+    <symbol id="triangle_symbol" viewBox="-7.5 -7.5 15 20">
+      <path id="triangle_0"
+        fill="currentColor"
+        style="display:inline;"
+        d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
+      />
+    </symbol>
+
+    <symbol id="oval_symbol" viewBox="-7 -10 14 20">
+      <ellipse id="oval_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        rx="6"
+        ry="9" />
+    </symbol>
+
+    <symbol id="heart_face_symbol" viewBox="-7.5 -10 15 20">
+      <path id="heart_face"
+          fill="currentColor"
+          style="display:inline"
+          d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
+      />
+    </symbol>
+
+   </defs>
+</svg>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/blog/inkscape-lattice.html" rel="bookmark"
+           title="Permalink to Inkscape Art: Lattice Deformation">Inkscape Art: <em>Lattice Deformation</em></a></h2>
+      
+    </header>
+    <style>
+.ArtExample {
+    background-color: #eee;
+    border: solid #800 2px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Caption {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 9px;
+    margin-bottom: 20px
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+figure {
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    svg, img {
+        width: 100%;
+        display: block;
+    }
+    figcaption {
+         width: 100%
+    }
+    @media (max-width: 450px) {
+        width: 320px;
+    }
+}
+
+picture {
+    border: inset red 4px;
+    display: block;
+}
+
+#lattice {
+    display: block;
+    width:   150px;
+    float: right;   
+}
+
+#qohearts {
+    width: 240px;
+}
+
+
+/* ~~~~~~  VIDEO STYLES  ~~~~~~~~~~~~~~~ */
+
+.video-container {
+    max-width: 480px;
+    margin: 0 auto;
+    border: solid black 4px;
+
+    @media (max-width: 450px) {
+        width: 320px;
+    }
+
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+
+
+</style>
+
+<h3>Nick Nagel's <em>Procedural Art with Inkscape</em> Series</h3>
+<ol>
+<li><a href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html">Pattern along path</a></li>
+<li><a href="https://dr-nick-nagel.github.io/blog/inkscape-path-interpolation.html">Path Interpolation</a></li>
+<li><a href="https://dr-nick-nagel.github.io/blog/inkscape-interpolate-subpaths.html">Interpolate Subpaths</a></li>
+<li><a href="https://dr-nick-nagel.github.io/blog/inkscape-lattice.html">Lattice Deformation</a></li>
+</ol>
+<p>To be continued ...</p>
+<h2>Featured in this Post ...</h2>
+<p>Inkscape's <em>Lattice Deformation</em> .</p>
+<h2>Lattice Deformation</h2>
+<p>In this post I'll focus on <em>lattice deformation</em> -- a subsystem available in Inkscape that can be applied to create interesting artworks in SVG. The lattice deformation tool enables artists to distort and warp shapes and patterns in a controlled manner. I like to use it to create interesting topography on which to ground figures in story telling and illustration. For example, in the illustration below I've applied lattice deformation to create a wavy chess board for an "Alice in Wonderland" type illustration.</p>
+<figure>
+    <picture>
+      <source id='alice_on_lattice'
+         srcset="/svg/inkscape_art/lattice_deformation.svg" 
+         type="image/svg+xml">
+      <img id='alice_on_lattice_png'
+           src="/svg/inkscape_art/lattice_deformation.png" 
+           alt="illustration for lattice deformation by Nick Nagel">
+    </picture>
+    <figcaption><strong>Lattice Deformation.</strong> The lattice deformation system in Inkscape can be used to play with perspective and topography in creating SVG artworks.</figcaption>
+</figure>
+
+<p>There are lots of reasons an artist might want to use the tool, for example;</p>
+<ul>
+<li>
+<p>Creating unique perspective effects </p>
+</li>
+<li>
+<p>Warping text in interesting and unique ways</p>
+</li>
+<li>
+<p>Creating patterns and backgrounds</p>
+</li>
+<li>
+<p>Morphing shapes in controlled ways</p>
+</li>
+</ul>
+<p>So lets explore how to use the tool in the context of creating a character for illustration.</p>
+<h2>The Workflow</h2>
+<h3>Simplified Control</h3>
+<figure id="lattice" >
+    <img id='lattice_interface_png'
+        src="/svg/inkscape_art/lattice.svg" 
+        alt="diagram of the lattice control points">
+    <figcaption><strong>Figure 2.</strong> This image shows the control points available through the tool. The user can push and pull the points to shape the underlying object according to their intent.</figcaption>
+</figure>
+
+<p>Lattice Deformation provides simplified control to effectively create complex distortions. Instead of having to push and pull hundreds of nodes you only have a handful of <em>control points</em> defined by the lattice that you have to worry about to create complex effects.</p>
+<h3>Non-Destructive Editing</h3>
+<p>Inkscape's Lattice Deformation tool is a "Live Path Effect" (an LPE). It's designed to enable <em>non-destructive editing</em>. The means you can open the tool over an object, make changes, go back and compare your creation to the source object -- all while preserving the original shapes and contours of the illustration you're modifying. </p>
+<h3>The Recipe for Lattice Deformation</h3>
+<p>To use the tool you can follow this simple recipe: </p>
+<ol>
+<li>
+<p>Create an object that you want to shape. The tool can be used to shape anything -- it doesn't have to be applied only to lines and grids. For complex contours you can <em>combine</em> them in inkscape such that all the nodes are defined as a single path.</p>
+</li>
+<li>
+<p>Open the <strong>Lattice Deformation Path Effect</strong>. </p>
+<ul>
+<li>With your object selected, </li>
+<li>Go to: <strong>Path</strong> &gt; <strong>Path Effects</strong> (<code>Ctrl + Shift + 7</code>)</li>
+<li>Find and add <strong>Lattice Deformation</strong>. </li>
+</ul>
+</li>
+<li>
+<p>To show the lattice overlay select the <strong>node tool</strong> (or use the <code>F2</code> keyboard shortcut). </p>
+</li>
+</ol>
+<p>And <em>bang</em>;  you're good to go!</p>
+<h2>Applying Lattice Deformation</h2>
+<p>In the video I've included below I show how to apply lattice deformation to create a unique character appearance from simpler objects. If you watch the video, you'll see how I start with a a simple set of contours representing a face and use the the lattice interface to "sculpt the lines" to create a unique perspective on the character. This technique is also available to create 3D shapes in tools like Blender. </p>
+<div class="video-container">
+    <video controls 
+      width="<YOUR-CROPPED-WIDTH>" 
+      height="<YOUR-CROPPED-HEIGHT>" 
+      loop >
+        <source 
+          src="/video/inkscape_lattice_cropped.mp4" 
+          type="video/mp4" >
+Video Illustration
+    </video>
+</div>
+
+<p>Notice in the video how I follow the recipe I outlined above. I start with some basic ovals defining a face. The design is OK but comes off as flat -- I'm looking for something a bit more dynamic for the final character. Next I open the lattice tool and reveal the grid by clicking the 'node tool' icon to the left. In the video you can see how I edit the shapes as a whole by pushing and pulling the control points on the lattice. Again, Inkscape will preserve the underlying object until I'm done with this part of the flow. </p>
+<p>Finally, once satisfied with my edits, I freeze the effect: </p>
+<pre><code>`Path &gt; 'Object to Path'`
+</code></pre>
+<p>Converting the transformed object back to a path provides the pure SVG for final rendering. </p>
+<h2>Conclusion</h2>
+<p>So that's about it. Hopefully the examples and demonstration I've provided in this article will inspire you to play with the lattice deformation tool in Inkscape. It takes a bit of practice, but once you get the hang of it it's a powerful means to create inspired artistic creations with SVG.</p>
+<figure id='qohearts'>
+    <picture>
+      <source id='lattice_queen'
+         srcset="/svg/inkscape_art/lattice_queen.svg" 
+         type="image/svg+xml">
+      <img id='alice_on_lattice_png'
+           src="/svg/inkscape_art/lattice_queen.png" 
+           alt="Keeping with the Alice theme, this illustration of the queen of hearts shows how lattice deformations aren't just for morphing text or warping lines, but can be used to create interesting character perspectives as well. Art by Nick Nagel">
+    </picture>
+    <figurecaption><strong>The Queen of Hearts</strong></figurecaption>
+</figure>
+
+<h2>Resources</h2>
+<ol>
+<li><a href="https://youtu.be/rliF81fKVzI?si=hCkGVOC5bs1o2OiL">Inkscape | Interpolate Sub-Paths &amp; Lattice Deformation </a>. </li>
+</ol>
+    <footer>
+      <p>Published: <time datetime="2025-09-10T00:00:00-04:00">
+        Wed 10 September 2025
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
+            <a href="https://dr-nick-nagel.github.io/tag/scalable-vector-graphics.html">scalable vector graphics</a>
+            <a href="https://dr-nick-nagel.github.io/tag/art.html">art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artwork.html">artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape.html">inkscape</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tools.html">tools</a>
+            <a href="https://dr-nick-nagel.github.io/tag/features.html">features</a>
+            <a href="https://dr-nick-nagel.github.io/tag/inkscape-features.html">inkscape features</a>
+            <a href="https://dr-nick-nagel.github.io/tag/techniques.html">techniques</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tips.html">tips</a>
+            <a href="https://dr-nick-nagel.github.io/tag/tricks.html">tricks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/patterns.html">patterns</a>
+            <a href="https://dr-nick-nagel.github.io/tag/procedural-art.html">procedural art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg-artworks.html">svg artworks</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg-artwork.html">svg artwork</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg-art.html">svg art</a>
+            <a href="https://dr-nick-nagel.github.io/tag/lattice.html">lattice</a>
+            <a href="https://dr-nick-nagel.github.io/tag/lattice-deformation.html">lattice deformation</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>

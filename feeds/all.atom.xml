@@ -1403,7 +1403,191 @@ svgAnim.addEventListener(
     createSvgCoordsFinder( svgAnim )
 );
 
-&lt;/script&gt;</content><category term="blog"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="Inkscape"></category><category term="SVG Creators Collaborative"></category><category term="artificial intelligence"></category><category term="artificial consciousness"></category><category term="artificial life"></category><category term="boids"></category><category term="steering behavior"></category><category term="steering"></category><category term="sprites"></category><category term="interactive art"></category><category term="games"></category><category term="computer games"></category><category term="computer simulations"></category><category term="alignment"></category><category term="separation"></category><category term="cohesion"></category><category term="coherence"></category></entry><entry><title>Making Interactive SVG with Behavior Trees</title><link href="https://dr-nick-nagel.github.io/blog/behavior-trees.html" rel="alternate"></link><published>2025-08-28T00:00:00-04:00</published><updated>2025-08-28T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-08-28:/blog/behavior-trees.html</id><summary type="html">&lt;p&gt;Create interactive SVG artworks with behavior trees  ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+&lt;/script&gt;</content><category term="blog"></category><category term="javascript"></category><category term="animation"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="Inkscape"></category><category term="SVG Creators Collaborative"></category><category term="artificial intelligence"></category><category term="artificial consciousness"></category><category term="artificial life"></category><category term="boids"></category><category term="steering behavior"></category><category term="steering"></category><category term="sprites"></category><category term="interactive art"></category><category term="games"></category><category term="computer games"></category><category term="computer simulations"></category><category term="alignment"></category><category term="separation"></category><category term="cohesion"></category><category term="coherence"></category></entry><entry><title>Inkscape Art: Lattice Deformation</title><link href="https://dr-nick-nagel.github.io/blog/inkscape-lattice.html" rel="alternate"></link><published>2025-09-10T00:00:00-04:00</published><updated>2025-09-10T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-09-10:/blog/inkscape-lattice.html</id><summary type="html">&lt;p&gt;Catalog of inkscape features and techniques: Lattice Deformation&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+.ArtExample {
+    background-color: #eee;
+    border: solid #800 2px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Caption {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 9px;
+    margin-bottom: 20px
+}
+
+.EndnoteReturn {
+  width:  10px;
+  height: 15px;
+}
+
+figure {
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    svg, img {
+        width: 100%;
+        display: block;
+    }
+    figcaption {
+         width: 100%
+    }
+    @media (max-width: 450px) {
+        width: 320px;
+    }
+}
+
+picture {
+    border: inset red 4px;
+    display: block;
+}
+
+#lattice {
+    display: block;
+    width:   150px;
+    float: right;   
+}
+
+#qohearts {
+    width: 240px;
+}
+
+
+/* ~~~~~~  VIDEO STYLES  ~~~~~~~~~~~~~~~ */
+
+.video-container {
+    max-width: 480px;
+    margin: 0 auto;
+    border: solid black 4px;
+
+    @media (max-width: 450px) {
+        width: 320px;
+    }
+
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+
+
+&lt;/style&gt;
+
+&lt;h3&gt;Nick Nagel's &lt;em&gt;Procedural Art with Inkscape&lt;/em&gt; Series&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-features-pattern.html"&gt;Pattern along path&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-path-interpolation.html"&gt;Path Interpolation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-interpolate-subpaths.html"&gt;Interpolate Subpaths&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/inkscape-lattice.html"&gt;Lattice Deformation&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To be continued ...&lt;/p&gt;
+&lt;h2&gt;Featured in this Post ...&lt;/h2&gt;
+&lt;p&gt;Inkscape's &lt;em&gt;Lattice Deformation&lt;/em&gt; .&lt;/p&gt;
+&lt;h2&gt;Lattice Deformation&lt;/h2&gt;
+&lt;p&gt;In this post I'll focus on &lt;em&gt;lattice deformation&lt;/em&gt; -- a subsystem available in Inkscape that can be applied to create interesting artworks in SVG. The lattice deformation tool enables artists to distort and warp shapes and patterns in a controlled manner. I like to use it to create interesting topography on which to ground figures in story telling and illustration. For example, in the illustration below I've applied lattice deformation to create a wavy chess board for an "Alice in Wonderland" type illustration.&lt;/p&gt;
+&lt;figure&gt;
+    &lt;picture&gt;
+      &lt;source id='alice_on_lattice'
+         srcset="/svg/inkscape_art/lattice_deformation.svg" 
+         type="image/svg+xml"&gt;
+      &lt;img id='alice_on_lattice_png'
+           src="/svg/inkscape_art/lattice_deformation.png" 
+           alt="illustration for lattice deformation by Nick Nagel"&gt;
+    &lt;/picture&gt;
+    &lt;figcaption&gt;&lt;strong&gt;Lattice Deformation.&lt;/strong&gt; The lattice deformation system in Inkscape can be used to play with perspective and topography in creating SVG artworks.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;There are lots of reasons an artist might want to use the tool, for example;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Creating unique perspective effects &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Warping text in interesting and unique ways&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Creating patterns and backgrounds&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Morphing shapes in controlled ways&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So lets explore how to use the tool in the context of creating a character for illustration.&lt;/p&gt;
+&lt;h2&gt;The Workflow&lt;/h2&gt;
+&lt;h3&gt;Simplified Control&lt;/h3&gt;
+&lt;figure id="lattice" &gt;
+    &lt;img id='lattice_interface_png'
+        src="/svg/inkscape_art/lattice.svg" 
+        alt="diagram of the lattice control points"&gt;
+    &lt;figcaption&gt;&lt;strong&gt;Figure 2.&lt;/strong&gt; This image shows the control points available through the tool. The user can push and pull the points to shape the underlying object according to their intent.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Lattice Deformation provides simplified control to effectively create complex distortions. Instead of having to push and pull hundreds of nodes you only have a handful of &lt;em&gt;control points&lt;/em&gt; defined by the lattice that you have to worry about to create complex effects.&lt;/p&gt;
+&lt;h3&gt;Non-Destructive Editing&lt;/h3&gt;
+&lt;p&gt;Inkscape's Lattice Deformation tool is a "Live Path Effect" (an LPE). It's designed to enable &lt;em&gt;non-destructive editing&lt;/em&gt;. The means you can open the tool over an object, make changes, go back and compare your creation to the source object -- all while preserving the original shapes and contours of the illustration you're modifying. &lt;/p&gt;
+&lt;h3&gt;The Recipe for Lattice Deformation&lt;/h3&gt;
+&lt;p&gt;To use the tool you can follow this simple recipe: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create an object that you want to shape. The tool can be used to shape anything -- it doesn't have to be applied only to lines and grids. For complex contours you can &lt;em&gt;combine&lt;/em&gt; them in inkscape such that all the nodes are defined as a single path.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Open the &lt;strong&gt;Lattice Deformation Path Effect&lt;/strong&gt;. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;With your object selected, &lt;/li&gt;
+&lt;li&gt;Go to: &lt;strong&gt;Path&lt;/strong&gt; &amp;gt; &lt;strong&gt;Path Effects&lt;/strong&gt; (&lt;code&gt;Ctrl + Shift + 7&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Find and add &lt;strong&gt;Lattice Deformation&lt;/strong&gt;. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To show the lattice overlay select the &lt;strong&gt;node tool&lt;/strong&gt; (or use the &lt;code&gt;F2&lt;/code&gt; keyboard shortcut). &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;And &lt;em&gt;bang&lt;/em&gt;;  you're good to go!&lt;/p&gt;
+&lt;h2&gt;Applying Lattice Deformation&lt;/h2&gt;
+&lt;p&gt;In the video I've included below I show how to apply lattice deformation to create a unique character appearance from simpler objects. If you watch the video, you'll see how I start with a a simple set of contours representing a face and use the the lattice interface to "sculpt the lines" to create a unique perspective on the character. This technique is also available to create 3D shapes in tools like Blender. &lt;/p&gt;
+&lt;div class="video-container"&gt;
+    &lt;video controls 
+      width="&lt;YOUR-CROPPED-WIDTH&gt;" 
+      height="&lt;YOUR-CROPPED-HEIGHT&gt;" 
+      loop &gt;
+        &lt;source 
+          src="/video/inkscape_lattice_cropped.mp4" 
+          type="video/mp4" &gt;
+Video Illustration
+    &lt;/video&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Notice in the video how I follow the recipe I outlined above. I start with some basic ovals defining a face. The design is OK but comes off as flat -- I'm looking for something a bit more dynamic for the final character. Next I open the lattice tool and reveal the grid by clicking the 'node tool' icon to the left. In the video you can see how I edit the shapes as a whole by pushing and pulling the control points on the lattice. Again, Inkscape will preserve the underlying object until I'm done with this part of the flow. &lt;/p&gt;
+&lt;p&gt;Finally, once satisfied with my edits, I freeze the effect: &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;`Path &amp;gt; 'Object to Path'`
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Converting the transformed object back to a path provides the pure SVG for final rendering. &lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;So that's about it. Hopefully the examples and demonstration I've provided in this article will inspire you to play with the lattice deformation tool in Inkscape. It takes a bit of practice, but once you get the hang of it it's a powerful means to create inspired artistic creations with SVG.&lt;/p&gt;
+&lt;figure id='qohearts'&gt;
+    &lt;picture&gt;
+      &lt;source id='lattice_queen'
+         srcset="/svg/inkscape_art/lattice_queen.svg" 
+         type="image/svg+xml"&gt;
+      &lt;img id='alice_on_lattice_png'
+           src="/svg/inkscape_art/lattice_queen.png" 
+           alt="Keeping with the Alice theme, this illustration of the queen of hearts shows how lattice deformations aren't just for morphing text or warping lines, but can be used to create interesting character perspectives as well. Art by Nick Nagel"&gt;
+    &lt;/picture&gt;
+    &lt;figurecaption&gt;&lt;strong&gt;The Queen of Hearts&lt;/strong&gt;&lt;/figurecaption&gt;
+&lt;/figure&gt;
+
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://youtu.be/rliF81fKVzI?si=hCkGVOC5bs1o2OiL"&gt;Inkscape | Interpolate Sub-Paths &amp;amp; Lattice Deformation &lt;/a&gt;. &lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category><category term="svg"></category><category term="scalable vector graphics"></category><category term="art"></category><category term="artwork"></category><category term="artworks"></category><category term="inkscape"></category><category term="tools"></category><category term="features"></category><category term="inkscape features"></category><category term="techniques"></category><category term="tips"></category><category term="tricks"></category><category term="patterns"></category><category term="procedural art"></category><category term="svg artworks"></category><category term="svg artwork"></category><category term="svg art"></category><category term="lattice"></category><category term="lattice deformation"></category></entry><entry><title>Making Interactive SVG with Behavior Trees</title><link href="https://dr-nick-nagel.github.io/blog/behavior-trees.html" rel="alternate"></link><published>2025-08-28T00:00:00-04:00</published><updated>2025-08-28T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-08-28:/blog/behavior-trees.html</id><summary type="html">&lt;p&gt;Create interactive SVG artworks with behavior trees  ...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 .CodeList {
     background-color: #333;
     color: #FFE;
@@ -3345,7 +3529,7 @@ was doing hair. Any artist will tell you -- when you're drawing hair don't worry
 
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;First, create a Bézier path. Make sure to add the path &lt;em&gt;after&lt;/em&gt; you create the jagged shape (in order for the &lt;code&gt;Pattern along Path&lt;/code&gt; tool to correctly structure its inputs). &lt;/p&gt;
+&lt;p&gt;First, create a B&amp;eacute;zier path. Make sure to add the path &lt;em&gt;after&lt;/em&gt; you create the jagged shape (in order for the &lt;code&gt;Pattern along Path&lt;/code&gt; tool to correctly structure its inputs). &lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Squeeze and stretch the jagged shape as shown to the right.&lt;/p&gt;
