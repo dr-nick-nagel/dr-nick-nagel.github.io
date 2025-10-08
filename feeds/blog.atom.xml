@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-10-08T00:00:00-04:00</updated><entry><title>Artificial Life: Wandering Behavior</title><link href="https://dr-nick-nagel.github.io/blog/wandering.html" rel="alternate"></link><published>2025-10-08T00:00:00-04:00</published><updated>2025-10-08T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-10-08:/blog/wandering.html</id><summary type="html">&lt;p&gt;Creating organic behavior with concepts from &lt;em&gt;artificial life&lt;/em&gt;&lt;/p&gt;</summary><content type="html">&lt;style&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-10-08T00:00:00-04:00</updated><entry><title>Artificial Life: Wandering Behavior</title><link href="https://dr-nick-nagel.github.io/blog/wandering.html" rel="alternate"></link><published>2025-10-08T00:00:00-04:00</published><updated>2025-10-08T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-10-08:/blog/wandering.html</id><summary type="html">&lt;p&gt;Creating organic behavior with concepts from &lt;em&gt;artificial life&lt;/em&gt;&lt;/p&gt;</summary><content type="html">&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "ImageObject",
+  "contentUrl": "https://dr-nick-nagel.github.io/svg/wandering/wandering_sprite.svg",
+  "thumbnailUrl": "https://dr-nick-nagel.github.io/svg/wandering/wandering_sprite.png",
+  "name": "The Spotlight of a Sprite's Attention",
+  "description": "SVG artwork depicting mathematical concepts of wandering behavior; a green fairy is shown gracefully meandering about a sylvan setting -- all part of an exploration of vector art, motion, and behavioral composition.",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Nick Nagel",
+    "url": "https://dr-nick-nagel.github.io/"
+  },
+  "creator": {
+    "@type": "Person",
+    "name": "Nick Nagel"
+  },
+  "keywords": [
+    "SVG animation",
+    "procedural art",
+    "vector graphics",
+    "interactive illustration",
+    "geometric composition",
+    "digital art",
+    "SVG",
+    "steering behavior"
+  ],
+  "genre": "Digital Art / Motion Graphics",
+  "dateCreated": "2025-10-08",
+  "datePublished": "2025-10-08",
+  "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "inLanguage": "en",
+  "acquireLicensePage": "https://dr-nick-nagel.github.io/",
+  "creditText": "Artwork by Nick Nagel",
+  "copyrightNotice": "© 2025 Dr. Nick Nagel. Some rights reserved (CC BY-NC-SA 4.0)."
+}
+&lt;/script&gt;
+
+&lt;style&gt;
 .CodeList {
     background-color: #333;
     color: #FFE;
@@ -46,31 +84,82 @@ figcaption {
 }
 
 /*    --------  DEMOS ------------    */
-svg#rules_anim_root {
+.SvgArtFrame {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+}
+
+ #viewport-container {
   display: block;
   margin: auto;
   background-color: #000;
-  margin-bottom: 20px;
-  border: solid 1px #f00;
-  border-radius: 50%;
-}
+  border: inset 4px #080;
+  width: 450px;
 
-#rule_buttons{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content:center;
-  button {
-    margin: 10px;
+  @media( max-width: 450px ) {
+    /*Insert mobile rules*/
+    width:  300px;
+    height: 250px;
+    margin: 0;
   }
+
 }
 
-/*    --------  CUSTOM ------------    */
+svg#svg2 {
+    display: block;
+    width:  100%;
+    height: auto;
+}
+
+#button_panel, .SvgCaption{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:left;
+    gap: 10px;
+    width: 450px;
+
+    @media( max-width: 450px ) {
+    /*Insert mobile rules*/
+    width:  300px;
+  }
+
+}
+
+/* ---- CUSTOM CSS ---- */
+figure#attention {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 450px;
+    margin: 10px;
+    gap: 5px;
+    @media( max-width: 450px ) {
+        width:  300px;
+    }
+    figurecaption {
+        text-align: center;
+    }
+}
+
+img#attention_img {
+    display: block;
+    border: solid black 1px;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 450px;
+    @media( max-width: 450px ) {
+        width:  300px;
+    }
+}
 
 &lt;/style&gt;
 
 &lt;h2&gt;In this Post ...&lt;/h2&gt;
-&lt;p&gt;I'll borrow from Craig Reynolds' &lt;em&gt;Steering Behavior&lt;/em&gt; to create organic motion for the the SVG Creators' Framework&amp;trade; &lt;/p&gt;
+&lt;p&gt;I'll borrow from Craig Reynolds' &lt;em&gt;Steering Behavior&lt;/em&gt; to create organic motion for the the &lt;strong&gt;SVG Creators' Framework&amp;trade;&lt;/strong&gt; ... &lt;/p&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;This week I've been working on a reference piece for an artwork I'll be commissioning (as part of a launch for the SVG artworks initiative I've been working toward). Ever a fan of fantasy art and literature, I wanted a piece that evokes a sylvan woodland type setting -- think &lt;em&gt;Midsummer Night's Dream&lt;/em&gt; with fairy-like sprites fluttering around. As usual, I started naive with simple random behavior; fine for a preliminary pass. But what an artist really needs for efforts like this is a more organic set of behaviors. Which brought me right back to NPC steering concepts I've been thinking about lately... &lt;/p&gt;
 &lt;h2&gt;Defining what it means to Wander&lt;/h2&gt;
@@ -78,9 +167,7 @@ svg#rules_anim_root {
 &lt;p&gt;The 'random' definition wasn't quite enough for me. Naively changing sprite velocity at random generates a jittery jarring experience -- like the tiny flies you see at twilight on a rocky beach. For my sylvan setting I wanted something more organic -- like the concept Reynolds outlined in his &lt;em&gt;Steering Behaviors&lt;/em&gt;. In that context, wandering is more than just random changes in direction. Wandering implies intent.&lt;/p&gt;
 &lt;h3&gt;Allowing Sprites to Wander Freely&lt;/h3&gt;
 &lt;p&gt;Conceptually, Reynolds' &lt;em&gt;wander&lt;/em&gt; behavior produces a smooth, meandering motion (not just random jitter). We can achieve this by applying random perturbations to a target point on a "wander circle" projected ahead of the sprite. And this is exactly what I want you to see in the following artwork.&lt;/p&gt;
-&lt;h3&gt;Artwork: Studying the Spotlight of "Attention"&lt;/h3&gt;
-&lt;div class="Outer"&gt;
-&lt;figure&gt;
+&lt;div class="SvgArtFrame"&gt;
   &lt;div id="viewport-container"&gt;
 &lt;svg
 xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -90,8 +177,8 @@ xmlns:svg="http://www.w3.org/2000/svg"
 xmlns="http://www.w3.org/2000/svg"
 xmlns:xlink="http://www.w3.org/1999/xlink"
 version="1.1"
-width="600"
-height="416.67"
+width="450"
+height="375"
 viewBox="0 0 600 500"
 id="svg2"&gt;
 &lt;defs
@@ -1160,38 +1247,35 @@ id="svg2"&gt;
         fill="freeze"
         /&gt;
     &lt;/rect&gt;
-
 &lt;/g&gt;
 --&gt; 
 &lt;/svg&gt;
     &lt;/div&gt;
-    &lt;div class="button_panel"&gt;
-        &lt;button id="init_btn" &gt;Init&lt;/button&gt;
+    &lt;div id="button_panel"&gt;
+        &lt;strong&gt;Purposeful Wandering: &lt;/strong&gt;
         &lt;button id="play_button"&gt;Play&lt;/button&gt;
         &lt;span id="fps_display"&gt;FPS: &lt;/span&gt;
     &lt;/div&gt;
-    &lt;!-- DEV/DEBUG CONTROLS HIDE FOR PROD --&gt;
-    &lt;div class="button_panel" style='display:none'&gt;
-        &lt;button id="test_button" &gt;Test&lt;/button&gt;
-        &lt;input id="input_1"  &gt;
-    &lt;/div&gt; 
-    &lt;figurecaption&gt;&lt;strong&gt;The Spotlight of Attention&lt;/strong&gt;&lt;/figurecaption&gt;
-&lt;/figure&gt;
-
 &lt;/div&gt;
 
 &lt;h3&gt;Meandering Fairies and a "Happy Accident"&lt;/h3&gt;
 &lt;p&gt;The art depicts a sylvan setting in a sort of pre-dawn light. Fairy-like sprites are visible meandering around the scene emitting trails of "fairy dust". I've included the full sprite implementation in an appendix. But what I want to talk about here is actually somewhat of a "happy accident" revealed in a debug visualization. &lt;/p&gt;
 &lt;p&gt;If you play with the artwork, you'll see a "wand-like" line pointing to the center of a circle -- the very same "wander" circle I described conceptually above. Also visible on the circle is a magenta dot -- the target of the sprite's "attention". &lt;/p&gt;
-&lt;p&gt;&lt;img src='/images/wandering/wander_viz.png' /&gt;&lt;/p&gt;
+&lt;figure id='attention'&gt;
+  &lt;img  id="attention_img"
+      alt="An image showing a green fairy gracefully meandering in a sylvan setting in the pre-dawn light with a motion trail and 'wander circle' called out as the 'spotlight of attention'."
+      src='/images/wandering/wander_viz.png' /&gt;
+  &lt;figurecaption&gt;&lt;strong&gt;The Spotlight of Attention&lt;/strong&gt;&lt;/figurecaption&gt;
+&lt;/figure&gt;
+
 &lt;p&gt;To me, this debug visualization itself is gold. It turns conceptually abstract steering forces into something you can see and feel. Rendering these abstract concepts literally amounts to &lt;em&gt;painting the forces that drive the sprites' behavior&lt;/em&gt;. As an artist and visual thinker I get more of an appreciation for the math whenever I can visualize these abstractions. Seeing the "spotlight of attention" dancing around like a thought bubble and being able to observe small changes to the "wander factor" is of huge value to my process.&lt;/p&gt;
-&lt;p&gt;The other important feature of the visualization are the motion trails which I've left visible as curves in this rendering. My original intent was for the sprites to become &lt;em&gt;emitters&lt;/em&gt; as I continue refinements on my particle system. The motion trails in this piece are really an early iteration of particle emission prior to introducing a bit of stochasticity. But combined with the debug scaffolding the visualization turned into much, much more. As I played with the acceleration on the sprites I was able to visualize the changes over time in the resultant motion trails -- like a "Lissajous dance" of sorts. I saw emergent sinusiodal paths and observed the changes in velocity in the distance between particles. &lt;/p&gt;
+&lt;p&gt;The other important features of the visualization are the motion trails (which I've left visible as curves in this rendering). My original intent was for the sprites to become &lt;em&gt;emitters&lt;/em&gt; as I continue refinements on my particle system. The motion trails in this piece are really an early iteration of particle emission prior to introducing a bit of stochasticity. But combined with the debug scaffolding the visualization turned into much, much more. As I played with the acceleration on the sprites I was able to visualize the changes over time in the resultant motion trails -- like a "Lissajous dance" of sorts. I saw emergent sinusiodal paths and observed the changes in velocity in the distance between particles. &lt;/p&gt;
 &lt;h2&gt;Discussion&lt;/h2&gt;
 &lt;p&gt;As I was working on this piece I had a conversation with a friend. He was talking about his experience learning math and recalled how he was fine with concrete number crunching but when it got to algebraic abstractions -- not so much. That prompted me to show him the sylvan setting WIP -- from the viewpoint of someone trying to visualize the math. &lt;/p&gt;
 &lt;p&gt;Over the course of the discussion it became clear to me that part of the beauty of the visualization lies in how it renders visible the &lt;em&gt;concept&lt;/em&gt; of acceleration. The artist in me craves that sort of visualization to help me "think in math" -- it transforms mathematical concepts into a visual language and, as such, it's a perfect bridge across cognitive intuition, art, and computation. Art and code reflections of the same underlying language.&lt;/p&gt;
 &lt;p&gt;In this visualization, the wander circle is more than just a mathematical construct -- it's a "zone of curiosity" and the target is the "spotlight of attention". The acceleration trail is a record of thought -- not just motion. And the beauty of it all is that the motion trail isn't hard coded. It &lt;em&gt;emerges&lt;/em&gt; naturally from the system's local constraints like an artwork born of simple brush strokes. &lt;/p&gt;
 &lt;h2&gt;More to Come&lt;/h2&gt;
-&lt;p&gt;This piece is just a start at giving life to sprites in the &lt;em&gt;SVG Collaborative Arts framework&lt;/em&gt;. Even in this first-pass, wandering sprites have been endowed with believable inertia. But if you study and play with the implementation I provide in the appendix, you'll see how small changes in &lt;code&gt;wanderRadius&lt;/code&gt;, &lt;code&gt;wanderDistance&lt;/code&gt;, and &lt;code&gt;jitter&lt;/code&gt; affect behavior. Factoring these variables out as &lt;em&gt;tunable parameters&lt;/em&gt; enables artists to create NPC's with distinct personalities” -- shy ones with small jitter, playful ones with wide radius and high wander-gain and so on. So really this is just a start. Look for more ready-to-use SVG behavior packages coming soon! &lt;/p&gt;
+&lt;p&gt;This piece is just a start at giving life to sprites in the &lt;em&gt;SVG Collaborative Arts framework&lt;/em&gt;. Even in this first-pass, wandering sprites have been endowed with believable inertia. But if you study and play with the implementation I provide in the appendix, you'll see how small changes in &lt;code&gt;wanderRadius&lt;/code&gt;, &lt;code&gt;wanderDistance&lt;/code&gt;, and &lt;code&gt;jitter&lt;/code&gt; affect behavior. Factoring these variables out as &lt;em&gt;tunable parameters&lt;/em&gt; enables artists to create NPC's with distinct personalities -- shy ones with small jitter, playful ones with wide radius and high wander-gain and so on. So really this is just a start. Look for more ready-to-use SVG behavior packages coming soon! &lt;/p&gt;
 &lt;h2&gt;Appendix: The Wandering Sprite Implementation&lt;/h2&gt;
 &lt;p&gt;Here, for the technically inclinded reader,  is a listing of my implementation of the wandering sprite class. Look carefully at the &lt;code&gt;move&lt;/code&gt; method and the associated &lt;code&gt;wander&lt;/code&gt;. Below the listing I've provided aditional analysis.&lt;/p&gt;
 &lt;pre class="CodeList"&gt;
@@ -1509,6 +1593,16 @@ export class FairyDust extends Movable {
 &lt;p&gt;This implementation is part of the larger SVG Creators' Collaborative&amp;trade; artists collective framework. In creating that framework I've defined a javascript vector math module and an associated frame for kinematics integration to enable physics in behavioral simulations which I've &lt;a href="https://dr-nick-nagel.github.io/blog/kinematics.html"&gt;documented elsewhere&lt;/a&gt;. &lt;/p&gt;
 &lt;p&gt;In this system, I've provided a base-class for defining sprites; &lt;code&gt;Movable&lt;/code&gt;. Movable is designed around vector composition and can be readily &lt;em&gt;extended&lt;/em&gt; to create new sprite types. In &lt;code&gt;FairySprite&lt;/code&gt;, I introduce steering behaviors by overriding the &lt;code&gt;move&lt;/code&gt; method. In the override, I update acceleration using Reynolds' &lt;em&gt;wander&lt;/em&gt; conceptualization and then call the parent &lt;code&gt;move&lt;/code&gt; to integrate kinematics.&lt;/p&gt;
 &lt;p&gt;And that's it. Using the SVG Creators' framework, integrating NPC behaviors is that easy!&lt;/p&gt;
+&lt;div class='certifedMachineReadable'&gt;
+  &lt;img id="hcmr_badge"
+        src="/svg/machine_readable_badge.svg"
+        alt="Dr. Nick's AI friendly certified readability badge"
+  &gt;
+  &lt;div style="width:150px;font-size:smaller"&gt;
+Certified Human-Crafted Machine-Readable
+  &lt;/div&gt;
+&lt;/div&gt;
+
 &lt;h2&gt;Resources&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="https://www.red3d.com/cwr/steer/gdc99/"&gt;Steering Behaviors For Autonomous Characters&lt;/a&gt;.&lt;/li&gt;
@@ -6242,7 +6336,7 @@ copyButton.addEventListener(
   &gt;
   &lt;div style="width:150px;font-size:smaller"&gt;
 Certified Human-Crafted Machine-Readable
-  &lt;div&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</content><category term="Blog"></category><category term="philosophy"></category><category term="artificial intelligence"></category><category term="creativity"></category><category term="consciousness"></category><category term="thought experiment"></category><category term="artificial consciousness"></category></entry><entry><title>Beauty is in the eye of the beholder -- or is it the artist?</title><link href="https://dr-nick-nagel.github.io/blog/face-features.html" rel="alternate"></link><published>2025-06-22T00:00:00-04:00</published><updated>2025-06-22T00:00:00-04:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-06-22:/blog/face-features.html</id><summary type="html">&lt;p&gt;Drawing the face in SVG with an eye toward avatar creation...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 .CodeList {
     background-color: #333;
