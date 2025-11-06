@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="110"
+   height="100"
+   viewBox="-55 -55 110 110"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   sodipodi:docname="test2.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="4.7178164"
+     inkscape:cx="-9.2203673"
+     inkscape:cy="-8.0545737"
+     inkscape:window-width="1452"
+     inkscape:window-height="752"
+     inkscape:window-x="72"
+     inkscape:window-y="114"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+
+
+  <!-- <g    transform="translate( 0, 0 )  scale( 0.66, 1 )"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path 
+       id="path1"
+       style="fill:#808080;fill-rule:evenodd;stroke-width:0.1;stroke-linecap:square"
+       d="M -0.07421875 -24.082031 A 24.295166 21.997108 0 0 0 -24.369141 -2.0839844 A 24.295166 21.997108 0 0 0 -0.07421875 19.912109 A 24.295166 21.997108 0 0 0 24.220703 -2.0839844 A 24.295166 21.997108 0 0 0 -0.07421875 -24.082031 z M -0.07421875 -21.361328 A 21.120335 19.27689 0 0 1 21.046875 -2.0839844 A 21.120335 19.27689 0 0 1 -0.07421875 17.193359 A 21.120335 19.27689 0 0 1 -21.193359 -2.0839844 A 21.120335 19.27689 0 0 1 -0.07421875 -21.361328 z "
+       inkscape:label="wheel" />
+    <rect transform="rotate( 0 )"
+       style="fill:#333333;fill-rule:evenodd;stroke-width:0.1;stroke-linecap:square"
+       id="rect1"
+       width="4.1691689"
+       height="40.996502"
+       x="-1.9112458"
+       y="-22.191742"
+       inkscape:label="spoke" >
+<animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="rotate"
+      from="0 0 0" 
+      to="360 0 0"
+      dur="3s"
+      repeatCount="indefinite"
+    />
+    </rect>
+  </g> -->
+
+
+<!--
+  <g id="wheel-assembly" transform="translate( 0, 0 ) scale( 0.66, 1 )"> 
+    
+    <path 
+       id="path1"
+       style="fill:#808080;fill-rule:evenodd;stroke-width:0.1;stroke-linecap:square"
+       d="M -0.07421875 -24.082031 A 24.295166 21.997108 0 0 0 -24.369141 -2.0839844 A 24.295166 21.997108 0 0 0 -0.07421875 19.912109 A 24.295166 21.997108 0 0 0 24.220703 -2.0839844 A 24.295166 21.997108 0 0 0 -0.07421875 -24.082031 z M -0.07421875 -21.361328 A 21.120335 19.27689 0 0 1 21.046875 -2.0839844 A 21.120335 19.27689 0 0 1 -0.07421875 17.193359 A 21.120335 19.27689 0 0 1 -21.193359 -2.0839844 A 21.120335 19.27689 0 0 1 -0.07421875 -21.361328 z "
+       inkscape:label="wheel" />
+       
+    <g id="spoke-container">
+      
+      <animateTransform
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        from="0 0 0" 
+        to="360 0 0"
+        dur="3s"
+        repeatCount="indefinite"
+      />
+      
+      <g transform="scale( 1.51515, 1 )"> 
+        <rect 
+          style="fill:#333333;fill-rule:evenodd;stroke-width:0.1;stroke-linecap:square"
+          id="rect1"
+          width="4.1691689"
+          height="40.996502"
+          x="-1.9112458"
+          y="-22.191742"
+          inkscape:label="spoke" 
+        />
+      </g>
+      
+      </g>
+  </g>
+-->
+<!--
+<g transform="translate(0,0)">
+    <g>
+      <path
+        id="wheel"
+        style="fill:#808080;fill-rule:evenodd;stroke-width:0.1;stroke-linecap:square"
+        d="M -0.07421875 -24.082031 A 24.295166 21.997108 0 0 0 -24.369141 -2.0839844 
+           A 24.295166 21.997108 0 0 0 -0.07421875 19.912109 
+           A 24.295166 21.997108 0 0 0 24.220703 -2.0839844 
+           A 24.295166 21.997108 0 0 0 -0.07421875 -24.082031 z 
+           M -0.07421875 -21.361328 A 21.120335 19.27689 0 0 1 21.046875 -2.0839844 
+           A 21.120335 19.27689 0 0 1 -0.07421875 17.193359 
+           A 21.120335 19.27689 0 0 1 -21.193359 -2.0839844 
+           A 21.120335 19.27689 0 0 1 -0.07421875 -21.361328 z" />
+
+      <rect
+        id="spoke"
+        x="-1.9112458"
+        y="-22.191742"
+        width="4.1691689"
+        height="40.996502"
+        style="fill:#333333;fill-rule:evenodd;stroke-width:0.1;stroke-linecap:square">
+        <animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="rotate"
+          from="0 0 0"
+          to="360 0 0"
+          dur="3s"
+          repeatCount="indefinite"
+        />
+      </rect>
+    </g>
+  </g>
+</g>
+-->
+<!-- parent rotates the whole scaled wheel: rotation happens after scale -->
+<g transform="translate(0,0)">
+  <g>
+    <!-- rotation applied to this group (after the scale below) -->
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="rotate"
+      from="0 0 0"
+      to="360 0 0"
+      dur="3s"
+      repeatCount="indefinite"/>
+    <!-- scaled content: the scale happens before the parent rotation -->
+    <g transform="scale(0.66,1)">
+
+      <path 
+         id="path1"
+         style="fill:#808080;fill-rule:evenodd;stroke-width:0.1;stroke-linecap:square"
+         d="M -0.07421875 -24.082031 A 24.295166 21.997108 0 0 0 -24.369141 -2.0839844 A 24.295166 21.997108 0 0 0 -0.07421875 19.912109 A 24.295166 21.997108 0 0 0 24.220703 -2.0839844 A 24.295166 21.997108 0 0 0 -0.07421875 -24.082031 z M -0.07421875 -21.361328 A 21.120335 19.27689 0 0 1 21.046875 -2.0839844 A 21.120335 19.27689 0 0 1 -0.07421875 17.193359 A 21.120335 19.27689 0 0 1 -21.193359 -2.0839844 A 21.120335 19.27689 0 0 1 -0.07421875 -21.361328 z "
+         inkscape:label="wheel" />
+      <rect 
+         style="fill:#333333;fill-rule:evenodd;stroke-width:0.1;stroke-linecap:square"
+         id="rect1"
+         width="4.1691689"
+         height="40.996502"
+         x="-1.9112458"
+         y="-22.191742"
+         inkscape:label="spoke" >
+
+      </rect>
+
+    </g>
+  </g>
+</g>
+
+
+</svg>
