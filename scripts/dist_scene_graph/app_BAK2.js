@@ -117,7 +117,7 @@ document.addEventListener(
  *                                   If omitted, current transform is used.
  * @returns {Promise<SVGElement>} Resolves with the target node on completion.
  */
-function updateTransform( svgNode, toMatrixStr, duration = 0, easing = t => t, fromMatrixStr = null ) {
+function updateTransform( svgNode, toMatrixStr, duration = 0, easing = t => t, fromMatrixStr ) {
 
   if ( ! ( svgNode instanceof SVGGraphicsElement )    ) {
     throw new Error("[updateTransform] svgNode must be an SVGGraphicsElement");
@@ -140,44 +140,41 @@ function updateTransform( svgNode, toMatrixStr, duration = 0, easing = t => t, f
 
 
     
-  // const getCurrentMatrix = node => {
-  //   const baseVal = node.transform.baseVal;
-  //   if (baseVal.numberOfItems === 0) {
-  //     // Create identity 
-  //     const M_trans = node.ownerSVGElement.createSVGTransformFromMatrix(
-  //       new DOMMatrix()
-  //     );
-  //     baseVal.initialize( M_trans );
-  //     return M_trans.matrix;
-  //   }
-  //   // or consolodate existing transfrom functions to matrix...
-  //   const consolidated = baseVal.consolidate();
-  //   return consolidated ? consolidated.matrix : new DOMMatrix();
-  // };
+  const getCurrentMatrix = node => {
+    const baseVal = node.transform.baseVal;
+    if (baseVal.numberOfItems === 0) {
+      // Create identity 
+      const M_trans = node.ownerSVGElement.createSVGTransformFromMatrix(
+        new DOMMatrix()
+      );
+      baseVal.initialize( M_trans );
+      return M_trans.matrix;
+    }
+    // or consolodate existing transfrom functions to matrix...
+    const consolidated = baseVal.consolidate();
+    return consolidated ? consolidated.matrix : new DOMMatrix();
+  };
 
 
 
 
 // MODIFIED: Do not initialize baseVal here; just read the consolidated matrix.
-const getCurrentMatrix = node => {
-  const baseVal = node.transform.baseVal;
+// const getCurrentMatrix = node => {
+//   const baseVal = node.transform.baseVal;
   
-  // If no items, return Identity Matrix
-  if (baseVal.numberOfItems === 0) {
-    return new DOMMatrix(); 
-  }
+//   // If no items, return Identity Matrix
+//   if (baseVal.numberOfItems === 0) {
+//     return new DOMMatrix(); 
+//   }
   
-  // Consolidate all existing transforms into a single matrix for the 'from' value
-  const consolidated = baseVal.consolidate(); 
-  // consolidate returns null if the list is empty, but we handled that above.
-  // If the list has items, consolidated returns the single SVGTransform object.
-  return consolidated ? consolidated.matrix : new DOMMatrix();
-};
-
-const M_from = getTM( svgNode );
+//   // Consolidate all existing transforms into a single matrix for the 'from' value
+//   const consolidated = baseVal.consolidate(); 
+//   // consolidate returns null if the list is empty, but we handled that above.
+//   // If the list has items, consolidated returns the single SVGTransform object.
+//   return consolidated ? consolidated.matrix : new DOMMatrix();
+// };
 
 
-l( M_from.a + " " + M_from.f );
 
 
 
@@ -187,7 +184,7 @@ l( M_from.a + " " + M_from.f );
   
   // use from matrix or get current from element
   // const from = fromMatrixStr ? parseMatrix( fromMatrixStr ) : getCurrentMatrix( svgNode );
-  const from = { a:M_from.a, b:M_from.b, c:M_from.c, d:M_from.d, e:M_from.e, f:M_from.f } ;
+  const from = { a:1, b:0, c:0, d:1, e:0, f:0 } ;
 
 
 
@@ -345,9 +342,7 @@ svgRoot.addEventListener('click',
 
     await updateTransform(
       document.querySelector("#camera"),
-      "6 0 0 6 -1200 -600",
-
-      // "4 0 0 4 -800 -400",
+      "4 0 0 4 -800 -400",
       5000,
       polyNomialEase
     );  

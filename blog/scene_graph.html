@@ -363,11 +363,9 @@ img#attention_img {
    height="600"</p>
 <div class="SvgArtFrame">
   <div id="viewport_container_01">
-<svg
-
+<svg id="ginnungagap"
    viewBox="0 0 600 600"
    version="1.1"
-   id="ginnungagap"
    inkscape:version="1.3.2 (091e20e, 2023-11-25)"
    sodipodi:docname="ginnungagap.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -1481,9 +1479,40 @@ img#attention_img {
        rx="0.17369744"
        ry="0.10143146" />
   </g>
+
+  <!-- 
+  matrix( 1, 0, 0, 1, 0, 0 ) 
+  transform="matrix(4, 0, 0, 4, -800 , -400)"
+
+
+  -->
+
   <g id="camera"
       transform="matrix( 1, 0, 0, 1, 0, 0 )"
   >
+
+<!--
+    <animateTransform id="zoom_animation"
+      attributeName="transform"
+      attributeType="XML"
+      type="scale"
+      from="1"
+      to="4"
+      dur="2s"
+      fill="freeze"
+      repeatCount="indefinite"
+    />
+
+
+   <animateTransform id="zoom_animation"
+      attributeName="transform" 
+      attributeType="XML" 
+      type="matrix" 
+      dur="19s" 
+      fill="freeze"
+   />
+-->
+
    <g
       inkscape:groupmode="layer"
       id="world_tree"
@@ -3062,40 +3091,25 @@ if ( !SVGGraphicsElement.prototype.getRelativeCTM ) {
 
 <script>
 /**
- * One off script for this article. VERY fragile. Synchronization
- * going on to 1. load all the svg's. and ONLY THEN work off DOM...
+ * One off script for this article. 
  */
 async function doLoads () {
-
-    //await loadSvg( "/svg/tx_matrix/tx_matrix_1_trans.svg", "canvas_1" );
-
     await loadSvg( "/svg/tx_matrix/svg_viewport.svg", "svg_2" );
-    await loadSvg( "/svg/tx_matrix/wind_farm_plain.svg", "svg_wf" );
-
-    // await loadSvg( "/svg/tx_matrix/plane_plain.svg", "svg_strip" );
-
     let svg2 = document.getElementById( "svg_01_viewport" );
     let textElem = document.getElementById("mouse-coords"); 
     let textElem2 = document.getElementById("client-coords"); 
-
     function getSVGCoords(evt) {
-
         let pt = svg2.createSVGPoint();
         pt.x = evt.clientX;
         pt.y = evt.clientY;
         let transformed = pt.matrixTransform(svg2.getScreenCTM().inverse());
-
         let svg_x = transformed.x - 40 ;
         let svg_y = transformed.y - 120 ;
         let client_x = transformed.x - 20 ;
         let client_y = transformed.y - 50 ;
-
-        // textElem.textContent = `x: ${transformed.x.toFixed(2)}, y: ${transformed.y.toFixed(2)}`;
         textElem.textContent = `SVG x: ${ Math.round(svg_x) }, SVG y: ${ Math.round(svg_y) }`;
         textElem2.textContent = `Client x: ${ Math.round(client_x) }, Client y: ${ Math.round(client_y) }`;
-
     }
-
     svg2.addEventListener("mousemove", getSVGCoords);
 }
 doLoads();

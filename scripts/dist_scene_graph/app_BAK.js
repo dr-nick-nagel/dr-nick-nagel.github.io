@@ -117,7 +117,7 @@ document.addEventListener(
  *                                   If omitted, current transform is used.
  * @returns {Promise<SVGElement>} Resolves with the target node on completion.
  */
-function updateTransform( svgNode, toMatrixStr, duration = 0, easing = t => t, fromMatrixStr = null ) {
+function updateTransform( svgNode, toMatrixStr, duration = 0, easing = t => t, fromMatrixStr ) {
 
   if ( ! ( svgNode instanceof SVGGraphicsElement )    ) {
     throw new Error("[updateTransform] svgNode must be an SVGGraphicsElement");
@@ -133,65 +133,24 @@ function updateTransform( svgNode, toMatrixStr, duration = 0, easing = t => t, f
       [ nums[0], nums[1], nums[2], nums[3], nums[4], nums[5] ]
     );
   }
-
-
-
-
-
-
     
-  // const getCurrentMatrix = node => {
-  //   const baseVal = node.transform.baseVal;
-  //   if (baseVal.numberOfItems === 0) {
-  //     // Create identity 
-  //     const M_trans = node.ownerSVGElement.createSVGTransformFromMatrix(
-  //       new DOMMatrix()
-  //     );
-  //     baseVal.initialize( M_trans );
-  //     return M_trans.matrix;
-  //   }
-  //   // or consolodate existing transfrom functions to matrix...
-  //   const consolidated = baseVal.consolidate();
-  //   return consolidated ? consolidated.matrix : new DOMMatrix();
-  // };
-
-
-
-
-// MODIFIED: Do not initialize baseVal here; just read the consolidated matrix.
-const getCurrentMatrix = node => {
-  const baseVal = node.transform.baseVal;
-  
-  // If no items, return Identity Matrix
-  if (baseVal.numberOfItems === 0) {
-    return new DOMMatrix(); 
-  }
-  
-  // Consolidate all existing transforms into a single matrix for the 'from' value
-  const consolidated = baseVal.consolidate(); 
-  // consolidate returns null if the list is empty, but we handled that above.
-  // If the list has items, consolidated returns the single SVGTransform object.
-  return consolidated ? consolidated.matrix : new DOMMatrix();
-};
-
-const M_from = getTM( svgNode );
-
-
-l( M_from.a + " " + M_from.f );
-
-
-
-
-
-
+  const getCurrentMatrix = node => {
+    const baseVal = node.transform.baseVal;
+    if (baseVal.numberOfItems === 0) {
+      // Create identity 
+      const M_trans = node.ownerSVGElement.createSVGTransformFromMatrix(
+        new DOMMatrix()
+      );
+      baseVal.initialize( M_trans );
+      return M_trans.matrix;
+    }
+    // or consolodate existing transfrom functions to matrix...
+    const consolidated = baseVal.consolidate();
+    return consolidated ? consolidated.matrix : new DOMMatrix();
+  };
   
   // use from matrix or get current from element
-  // const from = fromMatrixStr ? parseMatrix( fromMatrixStr ) : getCurrentMatrix( svgNode );
-  const from = { a:M_from.a, b:M_from.b, c:M_from.c, d:M_from.d, e:M_from.e, f:M_from.f } ;
-
-
-
-
+  const from = fromMatrixStr ? parseMatrix( fromMatrixStr ) : getCurrentMatrix( svgNode );
   const to   = parseMatrix( toMatrixStr );
 
   // If no duration (is 0), transform is instantaneous
@@ -208,26 +167,6 @@ l( M_from.a + " " + M_from.f );
 
     const startTime = performance.now();
     const transformList = svgNode.transform.baseVal;
-
-
-// --- MODIFIED BLOCK ---
-// let currentTransform;
-    
-// if (transformList.numberOfItems === 0) {
-//     // If empty, create a new transform item (as an identity matrix) and append it.
-//     currentTransform = svgNode.ownerSVGElement.createSVGTransform();
-//     currentTransform.setMatrix( new DOMMatrix() ); // Set to Identity
-//     transformList.appendItem( currentTransform );
-// } else {
-//     // If not empty, use the first item.
-//     currentTransform = transformList.getItem( 0 );
-    
-    // OPTIONAL: Ensure consolidation has happened if there were multiple transforms 
-    // before this animation started, by simply reading the final consolidated 'from' matrix.
-    // This is primarily handled by how 'from' is derived, but it's a good safeguard.
-// }
-// --- END MODIFIED BLOCK ---
-
     const currentTransform =
       transformList.numberOfItems > 0
         ? transformList.getItem( 0 )
@@ -235,23 +174,11 @@ l( M_from.a + " " + M_from.f );
 
     if (transformList.numberOfItems === 0) transformList.appendItem( currentTransform );
 
-
     function step( time ) {
 
-      // l( "STEP: " + duration );
+      const t = Math.min( (time - startTime) / duration, 1 );
 
-      // proportion of elapsed time ( 0 --> 1 )
-      const p_time_elapsed = Math.min( (time - startTime) / duration, 1 );
-      const k = easing( p_time_elapsed );
-
-      // if( p_time_elapsed < 0.05 || p_time_elapsed > 0.95 ) {
-        // l(`now: ${ performance.now() } time: ${ time }`);
-
-        // l(`elapsed: ${ p_time_elapsed } k: ${ k }`);
-
-      // } 
-
-      const M_step_svg = svgRoot.createSVGMatrix();
+      const k = easing(  t );
 
       // Linear interpolation on all 6 components
       const M_step = new DOMMatrix([
@@ -263,30 +190,16 @@ l( M_from.a + " " + M_from.f );
         from.f + (to.f - from.f) * k
       ]);
 
-      M_step_svg.a = M_step.a;
-      M_step_svg.b = M_step.b;
-      M_step_svg.c = M_step.c;
-      M_step_svg.d = M_step.d;
-      M_step_svg.e = M_step.e;
-      M_step_svg.f = M_step.f;
+      currentTransform.setMatrix( M_step );
 
-      currentTransform.setMatrix( M_step_svg );
-
-      // l( "k: " + k );
-
-      // l( ` ${ p_time_elapsed } \t ${ M_step_svg.a } ${ M_step_svg.d } ${ M_step_svg.e } ${ M_step_svg.f }`     );  
-
-
-
-      if ( p_time_elapsed < 1 ) {
+      if (t < 1) {
         requestAnimationFrame( step );
       } else {
         resolve( svgNode );
       }
-
     }
 
-    requestAnimationFrame( step );
+    requestAnimationFrame(step);
   } );
 
 }
@@ -294,86 +207,48 @@ l( M_from.a + " " + M_from.f );
 
 
 // Easing function 
-function polyNomialEase( p_elapsed_time, power = 3 ) {
-  const MIDWAY= 0.5;
-  let f_t_elapsed = 0;
-  if ( p_elapsed_time < MIDWAY ) {
-    f_t_elapsed = MIDWAY * Math.pow(2 * p_elapsed_time, power);
-  } else {
-    f_t_elapsed = 1 - MIDWAY * Math.pow(2 * (1 - p_elapsed_time), power);
-  }
-  return f_t_elapsed;
-}
-
-
-// function polyNomialEase(t, p = 3) {
-//   if (t < 0.5) {
-//     const  f_t = Math.pow(2 * t, p) / 2;
-//     //l( t + "  :  " + f_t );
-//     return f_t;
+// function polyNomialEase( duration, t_elapsed, power = 3 ) {
+//   const t_elapsed_proportion = t_elapsed / duration;
+//   const MIDWAY= 0.5;
+//   if ( t_elapsed_proportion < MIDWAY ) {
+//     const f_t_elapsed = MIDWAY * Math.pow(2 * t_elapsed_proportion, power);
+//     return f_t_elapsed;
 //   } else {
-//     const  f_t = 1 - Math.pow(2 * (1 - t), p) / 2;
-//     //l( t + "  :  " + f_t );
-//     return f_t
+//     const f_t_elapsed = 1 - MIDWAY * Math.pow(2 * (1 - t_elapsed_proportion), power);
+//     return f_t_elapsed;
 //   }
 // }
 
-/**
- * Cubic ease-in-out function
- * @param {number} t - The current time (progress) of the animation, normalized to the range [0, 1].
- * @returns {number} The eased value, also in the range [0, 1].
- */
-const easeInOutCubic = (t) => {
-  // Check if t is in the first half of the animation (ease-in)
+
+function polyNomialEase(t, p = 3) {
   if (t < 0.5) {
-    // Standard cubic ease-in (2*t)^3 / 2
-    return 4 * t * t * t;
+    const  f_t = Math.pow(2 * t, p) / 2;
+    //l( t + "  :  " + f_t );
+    return f_t;
+  } else {
+    const  f_t = 1 - Math.pow(2 * (1 - t), p) / 2;
+    //l( t + "  :  " + f_t );
+    return f_t
   }
-  // t is in the second half of the animation (ease-out)
-  // The '2*t - 2' term shifts and scales the time to be between -1 and 0,
-  // making it a mirrored cubic ease-out.
-  t = 2 * t - 2;
-  return 0.5 * (t * t * t + 2);
-};
+}
 
 
 
 svgRoot.addEventListener('click', 
   async (event) => {
-
     console.log( performance.now() );
-
     await updateTransform(
       document.querySelector("#camera"),
-      "6 0 0 6 -1200 -600",
-
-      // "4 0 0 4 -800 -400",
+      "4 0 0 4 -800 -400",
       5000,
       polyNomialEase
     );  
-
     console.log( performance.now() );
-
   }
 );
 
 
 
-// svgRoot.addEventListener('click', 
-//   async (event) => {
-//     console.log( performance.now() );
-//     let ft = 0;
-//     l( `t \t ft ` );
-
-//     for( let i=0; i<10; i++  ) {
-//       const t =  i * 0.1;
-//       ft = polyNomialEase( t );
-//       l( `${ t } | ${ ft } ` );
-//     }
-
-//     console.log( performance.now() );
-//   }
-// );
 
 
 
@@ -440,14 +315,14 @@ function applyZoom( zoomIndex ) {
 
 }
 
-// svgRoot.addEventListener('wheel', (event) => {
-//   event.preventDefault(); 
-//   const direction = event.deltaY > 0 ? zoom.OUT : zoom.IN; 
-//   const newLOD = lodIndex + direction;
-//   applyZoom(newLOD);
-//   }, 
-//   { passive: false }
-// );
+svgRoot.addEventListener('wheel', (event) => {
+  event.preventDefault(); 
+  const direction = event.deltaY > 0 ? zoom.OUT : zoom.IN; 
+  const newLOD = lodIndex + direction;
+  applyZoom(newLOD);
+  }, 
+  { passive: false }
+);
 
 
 l("End transmission!");
