@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-          <title>NickNagel.com - The SVG Scene Graph</title>
+          <title>NickNagel.com - Beneath the World Tree: Understanding SVG as Scene Graph</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script>
@@ -169,44 +169,26 @@ Welcome to NickNagel.com
     <header>
       <h2>
         <a href="https://dr-nick-nagel.github.io/blog/scene_graph.html" rel="bookmark"
-           title="Permalink to The SVG Scene Graph">The SVG Scene Graph</a></h2>
+           title="Permalink to Beneath the World Tree: Understanding SVG as Scene Graph">Beneath the World Tree: Understanding SVG as Scene Graph</a></h2>
       
     </header>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ImageObject",
-  "contentUrl": "https://dr-nick-nagel.github.io/svg/wandering/wandering_sprite.svg",
-  "thumbnailUrl": "https://dr-nick-nagel.github.io/svg/wandering/wandering_sprite.png",
-  "name": "The Spotlight of a Sprite's Attention",
-  "description": "SVG artwork depicting mathematical concepts of wandering behavior; a green fairy is shown gracefully meandering about a sylvan setting -- all part of an exploration of vector art, motion, and behavioral composition.",
-  "author": {
-    "@type": "Person",
-    "name": "Dr. Nick Nagel",
-    "url": "https://dr-nick-nagel.github.io/"
-  },
+  "@type": "VisualArtwork",
+  "name": "The SVG Scene Graph",
   "creator": {
     "@type": "Person",
-    "name": "Nick Nagel"
+    "name": "Nick Nagel",
+    "url": "https://dr-nick-nagel.github.io/"
   },
-  "keywords": [
-    "SVG animation",
-    "procedural art",
-    "vector graphics",
-    "interactive illustration",
-    "geometric composition",
-    "digital art",
-    "SVG",
-    "steering behavior"
-  ],
-  "genre": "Digital Art / Motion Graphics",
-  "dateCreated": "2025-10-08",
-  "datePublished": "2025-10-08",
-  "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "dateCreated": "2025-11-08",
+  "description": "A marginal illustration depicting the tree structure of an SVG scene graph, inspired by the Norse World Tree and the hierarchy of SVG elements.",
+  "image": "https://dr-nick-nagel.github.io/svg/scene_graph/tree_structure_opt.svg",
+  "artform": "SVG illustration",
+  "genre": "Digital art, Educational illustration",
   "inLanguage": "en",
-  "acquireLicensePage": "https://dr-nick-nagel.github.io/",
-  "creditText": "Artwork by Nick Nagel",
-  "copyrightNotice": "© 2025 Dr. Nick Nagel. Some rights reserved (CC BY-NC-SA 4.0)."
+  "keywords": "SVG, scene graph, Norse mythology, World Tree, creative coding, digital illustration, interactive art"
 }
 </script>
 
@@ -304,63 +286,56 @@ svg#ginnungagap {
 }
 
 /* ---- CUSTOM CSS ---- */
-figure#attention {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    width: 450px;
-    margin: 10px;
-    gap: 5px;
-    @media( max-width: 450px ) {
-        width:  300px;
-    }
-    figurecaption {
-        text-align: center;
-    }
+
+img#tree_structure {
+  float: right;
+  margin: 0 0 1em 1em;
+  width: 100px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));
+
+  @media( max-width: 450px ) {
+    width:  80px;
+  }
+
 }
 
-img#attention_img {
-    display: block;
-    border: solid black 1px;
-    border-radius: 50%;
-    overflow: hidden;
-    width: 450px;
-    @media( max-width: 450px ) {
-        width:  300px;
-    }
-}
 
 </style>
 
 <h2>In this Post ...</h2>
-<p>I'll look at SVG as a scene graph. Then, in light of this conceptualization I'll share some  very practical insights I had working with the SVG transform APIs ... </p>
+<p>I'll look at Scalable Vector Graphics (SVG) as a scene graph. Then, in light of this conceptualization, I'll share some very practical insights I had working with SVG transforms ... </p>
 <h2>Introduction</h2>
-<p><img src="/svg/scene_graph/poor_alice.svg"></p>
-<p>Modern computer graphics systems rely heavily on the concept of <em>scene-graphs</em>. Part of the beauty of SVG is that it is, inherently, itself a scene graph structure and so you get all the benefits thereunto pertaining for free. So if you're interested in creating any sort of complex artwork in SVG understanding the scene-graph structure and what it buys you is invaluable. </p>
+<p><picture>
+  <source 
+    srcset="/svg/scene_graph/poor_alice.svg"
+    type="image/svg+xml" />
+  <img 
+    src="https://dr-nick-nagel.github.io/svg/scene_graph/poor_alice.png"
+    alt="Alice in Wonderland having a bit of a cry because she's feeling overwhelmed"
+    loading="lazy"
+    width="800"
+    height="auto"
+  />
+</picture></p>
+<figcaption>
+Poor Alice. Look's like she's feeling a little overwhelmed right now. Cheer up Alice! We'll make sense of this yet!</em> Artwork by <strong style="font-size:12px">&#x1D4A9;</strong>.
+</figcaption>
+
+<p>Modern computer graphics systems rely heavily on scene graphs. Part of the beauty of SVG is that it is, inherently, itself a scene graph. As such, when you adopt and work with SVG you get all the benefits of a scene graph structure for free. If you’re interested in creating complex SVG artwork, understanding that structure and what it carries with it is invaluable.</p>
 <h2>SVG as Scene Graph</h2>
-<p>First, allow me to step back an (re) visit just exactly what a scene-graph is: </p>
+<p><img id='tree_structure' 
+     src='/svg/scene_graph/tree_structure_opt.svg'
+     alt='A marginal illustration by N depicting the tree structure of the SVG scene graph'
+/></p>
+<p>Let's step back and revisit exactly what a scene graph is:</p>
 <blockquote>
-<p>A <strong>scene graph</strong> is a hierarhical structure comprised of nodes connected by arcs defining relationships among all the parts in a scene. </p>
+<p>A <strong>scene graph</strong> is a tree-structured hierarchy of nodes and leaves that defines the relationships between all parts of a scene.</p>
 </blockquote>
-<p>In SVG the scene graph <em>nodes</em> are the shapes and graphic primitive elements (e.g., circles, rectangles, paths, etc.) and, importantantly grouping elements such as <code>&lt;g&gt;</code> and the root <code>&lt;svg&gt;</code> element itself. </p>
-<p>By way of example consider the following structure I developed creating a reference game application for the SVG Creators Collaborative&trade;. </p>
-<p>TODO: CREATE SVG IMAGE FOR THIS...</p>
-<pre>
-+ svg [root]  Msvg
-    + g [world_tree_root] Mw   <--| WORLD TREE ICONOGRAPHY
-        + g [biome_platform_00] Mplatform
-            + path 
-            + g [sprite_root] Msprite
-
-</pre>
-
-<p><strong>Figure 1:</strong> <em>The SVG Scenegraph</em> structure for a hybrid isometric/platform game. </p>
-<p>Creating this structure for use in a video game reminded me of the norse cosmology (I've been a fan of norse mythology since reading the poetic eddas in my teens). Now the stuff of comic books and Disney movies, norse myths are popular enough that I feel the analogy is apt so please indulge me.</p>
-<h3>The <em>World Tree</em> Analogy</h3>
-<p>Remember Yggdrasil the world tree? In norse myths the realms of gods, women and men, elves, giants, dwarves and so-on are connected by the roots and branches of a "world" tree. The tree, Yggdrasil is the center of the of the norse universe and holds together the nine realms and all the creatures living in them. In this regard it is the "axis of the cosmos". </p>
-<p>INSERT THE MAIN ARTWORK HERE ... </p>
-<p>width="600"
-   height="600"</p>
+<p>In the SVG scene graph, the <strong>root node</strong> is the <code>svg</code> element itself, <strong>branch nodes</strong> are the <code>g</code> elements, and <strong>leaf nodes</strong> are the shapes, paths, and curves that make up the visible parts of a scene.</p>
+<h2>The <em>World Tree</em> Analogy</h2>
+<p>While working on a video game recently, thinking deeply about the SVG scene graph reminded me of old Norse cosmology. Now a staple of comic books and Disney movies, I've been a fan of Norse myths ever since reading the <em>Poetic Eddas</em> in my teens. Remember <strong>Yggdrasil</strong>, the World Tree? In Norse myths, the realms of gods, humans, elves, giants, dwarves, and so on are connected by the roots and branches of this cosmic tree. Yggdrasil is the center of the Norse universe, holding together the nine realms and all the creatures living within them. In this regard, it is like the "axis of the cosmos".</p>
 <div class="SvgArtFrame">
   <div id="viewport_container_01">
 <svg id="ginnungagap"
@@ -1479,40 +1454,9 @@ img#attention_img {
        rx="0.17369744"
        ry="0.10143146" />
   </g>
-
-  <!-- 
-  matrix( 1, 0, 0, 1, 0, 0 ) 
-  transform="matrix(4, 0, 0, 4, -800 , -400)"
-
-
-  -->
-
   <g id="camera"
       transform="matrix( 1, 0, 0, 1, 0, 0 )"
   >
-
-<!--
-    <animateTransform id="zoom_animation"
-      attributeName="transform"
-      attributeType="XML"
-      type="scale"
-      from="1"
-      to="4"
-      dur="2s"
-      fill="freeze"
-      repeatCount="indefinite"
-    />
-
-
-   <animateTransform id="zoom_animation"
-      attributeName="transform" 
-      attributeType="XML" 
-      type="matrix" 
-      dur="19s" 
-      fill="freeze"
-   />
--->
-
    <g
       inkscape:groupmode="layer"
       id="world_tree"
@@ -2429,16 +2373,25 @@ img#attention_img {
             transform="matrix(0.98480775,0.17364818,0,1,0,0)" />
          </g>
       </g>
-      <path
+      <path  id="rainbow_bridge"
          style="color:#000000;display:inline;opacity:0.333;fill:url(#linearGradient2);fill-opacity:1;-inkscape-stroke:none"
          d="m 197.68106,76.409539 -14.87423,3.707048 c 42.03704,7.88399 76.14547,41.420823 89.6975,62.131123 8.80697,13.45889 22.98338,44.45745 52.30663,52.16071 l 18.64135,-2.88402 C 311.44748,182.70997 291.78617,147.78405 285.80602,137.97823 273.6481,118.04253 233.456,79.971559 197.68106,76.409539 Z"
-         id="rainbow_bridge"
          inkscape:label="bridge"
          sodipodi:nodetypes="ccsccsc"
          transform="translate(-6.1237673,37.844227)" />
-      <g
-         id="thor_rig"
-         transform="translate(254.6035,157.01335)">
+      <path id="rainbow_bridge_motionpath" 
+      fill="none" 
+      stroke="none"
+      d="m 183,110 c 97,27 90,101 139,115"
+      />
+      <animateMotion 
+      xlink:href="#thor_rig" 
+      dur="8s" 
+      repeatCount="indefinite" 
+      rotate="0">
+         <mpath xlink:href="#rainbow_bridge_motionpath" />
+      </animateMotion>
+      <g id="thor_rig">
          <g
             inkscape:label="chariot"
             inkscape:groupmode="layer"
@@ -2829,49 +2782,52 @@ img#attention_img {
   </g>
 </svg>
     </div>
-    <div id="button_panel">
-        <strong>Purposeful Wandering: </strong>
-        <button id="play_button">Play</button>
-        <span id="fps_display">FPS: </span>
-    </div>
 </div>
 
-<p>I like this analogy because it's almost literal -- the notion of mythical realms connected by the branches of Yggdrasil neatly parallels the nested coordinate spaces, or, <em>subtrees</em> in a scene graph, each with its own local behavior, timing and visual scale. Again, it's practically a literal mapping:</p>
+<p>I like this analogy because it's practically a literal mapping. The notion of mythical realms connected by the branches of Yggdrasil neatly parallels the nested coordinate spaces -- or <em>subtrees</em> -- in a scene graph, each with its own local behavior, timing and visual scale. </p>
 <ol>
 <li>
-<p>Like the world tree, a good SVG scene-graph structure will have a root. For reasons I'll expand below, I prefer a g-node that wraps all the graphics and elements in the scene.</p>
+<p>Like the world tree, the SVG scene-graph has a <em>root</em> which defines the axes of <strong>the SVG world coordinate system</strong>.</p>
 </li>
 <li>
-<p>This <em>world-tree root</em> can contain any arbitrary number of branches which, in SVG, form <em>transform hierarchies</em> for sprites backgrounds and other scene-graph objects.</p>
+<p>The root can give rise to any number of <em>branches</em> -- the <code>g</code> elements that form <strong>transform hierarchies</strong> for sprites, backgrounds, and other scene-graph objects.</p>
 </li>
 <li>
-<p>Ultimately, the branches have leaves -- the renderable shapes and paths that comprise the scene (like "the gods riding the graph" in the world-tree artwork).</p>
+<p>And the branches ultimate end in leaves -- the renderable shapes and paths that bring the scene to life (like "the gods riding the graph" in the world-tree artwork).</p>
 </li>
 </ol>
 <p>In the following discussion I'll use the world-tree illustration to outline a practical process for creating modular artwork using the SVG scene graph concept.</p>
 <h2>A Process for Creating Modular Artworks</h2>
 <p>First, what do I mean by <em>modularity</em> in design. For me, it's a guiding principle in creating SVG art. <strong>Modularity</strong> is another blog-post in-and-of-itself but, for now, just think of it as ...</p>
 <blockquote>
-<p>creating complex visuals with self-contained re-usable graphical components that can be combined, transformed, and animated <em>independently</em>, yet composed seamlessly to create a whole that is; "greater than the sum of its parts".</p>
+<p>... creating complex visuals with self-contained re-usable graphical components that can be combined, transformed, and animated <em>independently</em>, yet composed seamlessly to create a whole that is "greater than the sum of its parts".</p>
 </blockquote>
-<p>To illustrate, let's look at some examples from "the World Tree".</p>
+<p>To illustrate, let's look at some examples from <em>the World Tree</em>.</p>
 <h4>Process part 1: Know your root</h4>
-<p>Before going to deep, Let me clarify the terminolgy. All SVG's have a <em>root element</em>; the <code>&lt;svg&gt;</code> tag. The <code>&lt;svg&gt;</code> root offers intriguing possibilities as a "window" into your SVG worlds. With respect to the scene graph, the <code>&lt;svg&gt;</code> node defines a coodinate system relative to which all the branches in the scene graph can be transformed ... </p>
+<p>First and foremost it bears reiterating that all SVG's have a <strong>root element</strong>: the <code>&lt;svg&gt;</code> tag itself. The <code>&lt;svg&gt;</code> root offers intriguing possibilities as a "window" into your SVG worlds. With respect to the scene graph, the <code>&lt;svg&gt;</code> node defines a coodinate system relative to which all the branches in the scene graph can be positioned scaled and rotated ... </p>
 <blockquote>
-<p><strong>The SVG "World Coordinate System"</strong> is the coordinate system that esblishes an origin for scene graph coordinates. </p>
+<p><strong>The SVG "World Coordinate System"</strong> esblishes the base origin and axes for all descendant coordinate systems in your scene graph. </p>
 </blockquote>
 <h4>Process part 2: Define modular components around the SVG world origin</h4>
-<p>Perhaps the most important tip I can offer for SVG scene creation is to develop model components (e.g., sprites, scene elements, etc.) around the SVG world origin. </p>
-<p>Here's an example. If you look closely at "the world tree" (pinch or zoom in with your mouse wheel) you might see Thor riding down the rainbow bridge in his goat-drawn cart. How would you create something like that? The naive approach is to try to create the sprite directly in the scene. A more modular approach is to create the sprite separately, modelling it around the SVG world coordinates origin. Below is an animation showing a small piece of the process...</p>
-<p>[[ INSERT ANIMATION OF ROTAING OUT THE WHEEL ...  ]]</p>
-<p>The important takeaway here is you don't have to worry about placement of the sprite components within the scene at creation time. That will happen downstream in the process.</p>
+<p>Perhaps the most important tip I can offer for SVG scene creation is this:</p>
+<blockquote>
+<p>Develop your model components (e.g., sprites, scene elements, etc.) <strong>around the SVG world origin</strong>. </p>
+</blockquote>
+<p>Here's an example. If you look closely at "the world tree" (try zooming in with a pinch or mouse), you'll spot the mythic Thor riding down the rainbow bridge in his goat-drawn cart. </p>
+<p>How would you create something like that? </p>
+<p>The naive approach would be to try to create the sprite directly inside one large monolithic SVG. The <em>modular approach</em> is to create the sprite independently <em>centering it around the SVG world coordinates origin</em>. This will make your life so much easier downstream when it's time to bring the sprite into a larger composition. </p>
+<p>[[ INSERT FIGURE  ROTAING OUT THE WHEEL ...  ]]</p>
+<p>The important takeaway here is <em>you don't have to worry about sprite placement details at creation time</em>. If you build modular components centered around the SVG world origin scene composition downstream is dramatically simplified. Trust me on this one. </p>
 <h4>Process part 3: Use a scene graph "wrapper element" to integrate modular components</h4>
-<p>Use SVG <code>&lt;g&gt;</code> tags, or groupings, to create scene graph branches containing your components. For example, after creating the "Thor sprite" I wrapped the whole rig in a g-element. This group-structure enables artists and developers to position elements, rotate and scale them independently of other elements using the magic of the transformation matrix.</p>
-<p>[[ INSERT EXAMPLE ANIMATION (Do a screen capture) ]]</p>
-<h2>Advanced Topic: SVG Transformation Matrices (OK to skip if you're a math hater, but I know we all love math here...)</h2>
-<p>So what exactly is an SVG transformation matrix anyway? I've written extensively on SVG transformations  elsewhere <sup><a href="https://dr-nick-nagel.github.io/blog/trans-matrix.html">1</a>, <a href="https://dr-nick-nagel.github.io/blog/svg-transform-matrix.html">2</a></sup> but it's worth revisiting the concepts here. "Repetition aids learning" I always say. And I never stop learning. In any case, I want to add some insights from the above discussion to working with the transformation matrix here. </p>
+<p>For scene composition: **use SVG <code>&lt;g&gt;</code> tags to create scene graph branches holding your components.</p>
+<p>For example, after creating the <em>Thor sprite</em> I wrapped the whole rig in a g-tag. This group-structure gives artists and developers both a powerful handle: each scene graph group can be positioned rotated and scaled independently of other elements using the magic of the transformation matrix.</p>
+<h2>Advanced Topic: SVG Transformation Matrices</h2>
+<p><strong>(OK to skip if you're a math hater -- but I know we all love math here...)</strong></p>
+<p>So what exactly is an SVG transformation matrix anyway? </p>
+<p>I've written extensively on SVG transformations elsewhere <sup><a href="https://dr-nick-nagel.github.io/blog/trans-matrix.html">1</a>, <a href="https://dr-nick-nagel.github.io/blog/svg-transform-matrix.html">2</a></sup> but it's worth revisiting the concepts here because <em>repetion aids learning</em>. (Full disclosure; I, myself, never stop learning).</p>
+<p>This time around I want to add some insights that tie directly into the preceding discussion; namely how transformation matrices connect the scene graph hierarchy and modular design. </p>
 <h3>Matrix structure</h3>
-<p>First, recall the SVG matrix structure. In SVG (and CSS too by the way), transformations can be applied through a 3 x 3 affine matrix.</p>
+<p>First, let's recall the SVG transformation matrix. In SVG (and CSS too, by the way), transformations are applied through a $3 \times 3$ <em>affine matrix</em>.</p>
 <div>
 $$
 \mathbf{M_{Transform}} = \begin{bmatrix}
@@ -2882,14 +2838,14 @@ b & d & f \\
 $$
 </div>
 
-<p>The matrix elements map SVG affine transformations including <em>translation</em>, <em>scale</em> and <em>skew</em> as follows:</p>
+<p>Each element corresponds to part of an affine transformation -- <em>translation</em>, <em>scale</em> and <em>skew</em>: </p>
 <ul>
 <li><strong>a</strong> : scale on x</li>
 <li><strong>b</strong> : y sheer (skew factor)</li>
 <li><strong>c</strong> : x sheer (skew factor)</li>
 <li><strong>d</strong> : scale on y</li>
-<li><strong>e</strong> : translation on the x axis</li>
-<li><strong>f</strong> : translation on the y axis</li>
+<li><strong>e</strong> : translation along x</li>
+<li><strong>f</strong> : translation along y </li>
 </ul>
 <p>Rotation can also be captured in matrix form: </p>
 <div>
@@ -2902,27 +2858,28 @@ sin( \theta ) &  cos( \theta )  & 0 \\
 $$
 </div>
 
-<p>And rotation can be combined with scale by adding a scaling factor, $S$ as follows:</p>
+<p>And rotation can be combined with scale by adding scale factors, $Sx$ and $Sy$ :</p>
 <ul>
 <li><strong>a</strong> = $S_x \cdot cos(\theta)$</li>
 <li><strong>b</strong> = $S_x \cdot sin(\theta)$</li>
 <li><strong>c</strong> = $-S_y \cdot sin(\theta)$</li>
 <li><strong>d</strong> = $S_y \cdot cos(\theta)$</li>
 </ul>
-<p>Yes. That is why poor Alice is in tears. But the good news is <em>you won't have to do any linalg here</em>. SVG and the browser engine will do it for you! So, bottom line?</p>
+<p>Yes. That's why poor Alice is in tears. But the good news is <em>you don't have to do any of this math by hand</em>. You'll get it for free from the browser engine and your well designed SVG scene graph! </p>
+<p>Bottom line?</p>
 <blockquote>
-<p><em>In SVG transform matrices</em>: the <strong>a</strong>, <strong>b</strong>, <strong>c</strong>, <strong>d</strong>, <strong>e</strong>, and <strong>f</strong> matrix elements can take care of <em>all the affine transformations</em> for you (including translation, rotation and scale) at each step along the scene graph. </p>
+<p>The <strong>SVG transform matrix</strong> elements -- the <strong>a</strong>, <strong>b</strong>, <strong>c</strong>, <strong>d</strong>, <strong>e</strong>, and <strong>f</strong> paramters encode <em>all the affine transformations</em> (including translation, rotation and scale) at each step along the scene graph. </p>
 </blockquote>
 <p>Thats powerful magic!</p>
 <h2>In Practice: Working with Transforms on the SVG Scene Graph</h2>
-<p>So, armed with this deeper understanding, let's explore working with transforms on the SVG scene graph in practice. In SVG, we have two methods to get a handle to an element's transformation matrix: <code>getCTM()</code> and <code>getScreenCTM()</code>. It's mission critical to understand the differences between the two so it's well worth paying attention as I demystify them here. </p>
+<p>Armed with this deeper understanding of transformation matrices, let's explore how to use them in practice. In SVG, we have two main methods to inspect an element's transformation matrix: <code>getCTM()</code> and <code>getScreenCTM()</code>. It's <em>mission critical</em> to understand the differences between these two, so let's demystify them here. </p>
 <h3>getCTM()</h3>
-<p><code>getCTM()</code> gets you a handle to the <em>cumulative transformation matrix</em> associated with any SVG  graphics element. In other words, it gives you the accumulated transformations (in matrix form) from the <em>SVG root</em> all the way down to the SVG element in question [INSERT FOOTNOTE ABOUT VIEWBOX TRANSFORMS ... ]. </p>
+<p><code>getCTM()</code> returns the <em>cumulative transformation matrix</em> associated with any SVG graphics element. This means that it gives you all the accumulated transformations (in matrix form) from the <em>SVG root</em> all the way down to the SVG element in question [INSERT FOOTNOTE ABOUT VIEWBOX TRANSFORMS ... ]. </p>
 <div class="admonition tip">
 <p class="admonition-title">PRO-TIP</p>
 <p>Use <code>getCTM()</code> when you need to work on element transformations relative to the SVG <em>world coordinate system</em>.</p>
 </div>
-<p>For example, let's say I'm in the world-tree and I want to plan a trip to Asgard. In that case I want to know where Asgard sits <em>relative to the SVG world coordinate system origin</em>. Given a proper scene-graph setup I can easily get that information using <code>getCTM()</code>.</p>
+<p>For example, suppose we're in the world-tree and want to plan a trip to <strong>Asgard</strong>. To find where Asgard sits <em>relative to the world origin</em>, we can use <code>getCTM()</code>.</p>
 <p>Given the structure:</p>
 <pre>
 &lt;svg ...>
@@ -2935,31 +2892,45 @@ $$
 &lt;/svg>
 </pre>
 
-<p>Where <code>&lt;svg&gt;</code> is my root, and <code>&lt;g id="asgard"&gt;</code> is a scene-graph node containing all the leaf nodes (<code>paths</code>) that define "Asgard". Given all that I can readily find my way there using <code>getCTM()</code>:</p>
+<p>Where <code>&lt;svg&gt;</code> is the root, and <code>&lt;g id="asgard"&gt;</code> is a scene-graph node containing all the paths (leaf nodes) that define "Asgard". Given all that we can find our way to asgard using: </p>
 <pre>
 const asgardGroup = document.getElementById( "asgard" );
 const M_root_to_asgard = asgardGroup.getCTM(  );
 </pre>
 
-<p><code>getCTM(  )</code> returns an SVG transform matrix with properties <em>a</em> through <em>f</em> as described above. So if I want the x and y coordinates for the asgard group's translation I write:</p>
+<p><code>M_root_to_asgard</code> will take the form of an SVG transform matrix as I just described -- with properties <em>a</em> through <em>f</em> embodying the affine transformation up through to the SVG root. So if we want the x and y coordinates for the asgard group's translation we can simply write:</p>
 <pre>
 const tx = M_root_to_asgard.e ; 
 const ty = M_root_to_asgard.f ; 
 </pre>
 
-<p>Understanding the application of the transformation matrix <em>is the very essense of understanding scene graphs</em> -- not just for SVG but in any computer graphics system. In SVG, its cumulative transformation matrix captures translation, rotation and scale operations from any branch node all the way back to the SVG root. Its eloquence can be captured in a singular expression:</p>
+<p>Understanding the transformation matrix <em>is the very essense of understanding scene graphs</em> -- not just for SVG but in <em>all</em> computer graphics systems. In SVG, the cumulative transformation matrix (CTM) elegantly captures the translation, rotation and scale operations applied from any branch node all the way back to the SVG root. We can express that relationsip in a singular expression:</p>
 <p>$$
 \text{SVG world coordinates} \xrightarrow{M_{CTM}} \text{Element Local Coordinates}
 $$</p>
-<p>Which reads: "Get me from the SVG World coordinate system to the local Asgard platform coordinate system using the cumulative transform matrix". If I want to "undo" the scene graph element transform (for example to work on the scene graph element using "normalized" (SVG world coordinates) I can do that simply by applying the <strong>inverse transform</strong>:</p>
+<p>In plain English: "Get me from the SVG World coordinate system to the local Asgard platform coordinate system using the cumulative transform matrix". </p>
+<p>If we ever need to "undo" this transformation (for example to find our way back from Asgard and work with world normalized coordinates we  can do so simply by applying the <strong>inverse matrix</strong>:</p>
 <p>$$
 \text{Element Local Coordinates}
 \xrightarrow{M_{CTM}^{-1}} 
 \text{SVG world coordinates} 
 $$</p>
-<p>Bottom line? Just remember: use <code>getCTM()</code> to map between a node's local coordinate system and the SVG world coordinates.</p>
+<p><strong>Bottom line:</strong> Just remember to use <code>getCTM()</code> to map between a node's local coordinate space and the global, SVG world coordinate system.</p>
 <h3>getScreenCTM()</h3>
-<p>In contrast, <code>getScreenCTM()</code> gets you a handle to the cumulative transformation matrix of an element all the way up through the SVG root <em>and beyond</em> (up through the host page if the SVG lives in an HTML document). In creating interactive artworks with SVG you may find yourself needing to consider not just element local coordinants, not just SVG world-coordinants but also the <strong>host system screen coordinants</strong> as well. To see what I mean, play around with the interactive widget I included below (if you're reading this on a computer).</p>
+<p>In contrast, <code>getScreenCTM()</code> returns the <strong>cumulative transformation matrix</strong> of an element all the way up through the SVG root <em>and beyond</em> (into the SVG host's coordinate system). </p>
+<p>In creating interactive artworks with SVG you'll often need to consider not one, not just two, but three coordinate systems:</p>
+<ol>
+<li>
+<p><strong>Element local coordinates</strong> -- the coordinate system of your local branch or leaf node(s)),</p>
+</li>
+<li>
+<p><strong>SVG world coordinates</strong> -- the SVG root coordinate basis, <em>and also</em></p>
+</li>
+<li>
+<p><strong>Client (screen) coordinates</strong> -- the coordinate system of the host HTML document or browser window.</p>
+</li>
+</ol>
+<p>To see what I mean, play around with the interactive widget I included below (if you're reading this on a computer).</p>
 <style>
 #viewport-container {
     display: inline-block;
@@ -2980,22 +2951,27 @@ $$</p>
 <strong>Figure 2.</strong> Illustration of an SVG viewport nested within an HTML webpage in a browser (the *client viewport*). 
 </div>
 
-<p>We know the SVG viewport defines it's own <em>world coordinate system</em> relative to which the elements of an SVG scene graph can be positioned. But the client viewport has <em>it's</em> own coordinate system on top of the SVG. If you want to support interaction when a user interacts with the SVG (by touching the display for example) the offsets between the viewport origin and the SVG coordinate system must be taken into account, and this can get complicated (especially if scrolling is involved). The good news is in SVG <code>getScreenCTM()</code> takes care of all of that for us!</p>
-<p>// TO DO: CONSIDER DROPPING POTS O' GOLD IN MIDGARD AS EXAMPLE ... 
-// THEN YOU CAN SHOW: midgard.getScreenCTM().inverse to position pot using local coordinates ... </p>
-<p>In summary: use <code>getScreenCTM()</code> to get the cumulative transformation matrix <em>including</em> offsets based on client coordinate systems. This is <em>especially useful</em> for SVG hosted in web pages. Especially when you need to work with user inputs in these contexts just remember to use the <strong>screen CTM inverse</strong> to map client coordinates (e.g, mouse-clicks, touches etc.) to SVG scene-graph local coordinates. </p>
+<p>As we've seen the SVG viewport defines its own world coordinate system, relative to which all scene-graph elements are positioned. But the browser (or “client viewport”) adds <em>another</em> layer of coordinates on top of that.</p>
+<p>So if you want to support <strong>user interaction</strong> -- like touches clicks pinches etc. -- you need to account for the offset between the SVG’s internal origin and the client’s coordinate origin. This can get tricky, especially when scrolling or layout changes are involved.</p>
+<p>The good news: <code>getScreenCTM()</code> handles all this for us transparently.</p>
+<p><strong>In summary:</strong> use <code>getScreenCTM()</code> when you need a matrix that includes <em>all transformations</em>, from your target element up through the SVG root <em>and beyond</em> (i.e., one that includes any client-space offsets introduced by the host page).</p>
+<p>This is especially useful for interactive SVGs embedded in web pages. When mapping user input events (like mouse clicks or touch positions) from client coordinates into your SVG scene graph, remember to use the <strong>inverse of the screen CTM</strong>:</p>
 <p>$$
 \text{Client (browser) Coordinates} 
 \xrightarrow{M_{ScreenCTM}^{-1}} 
 \text{Scene Graph Element Local Coordinates}
 $$</p>
+<h4>One Last Example</h4>
+<p>Let's wrap up the discussion with one last example...</p>
+<p>TODO DROP A POT OF GOLD</p>
 <h2>Summary and Conclusion</h2>
-<p>In this blog post I illustrated the concept of the SVG scene graph by way of analogy with Yggdrasil, the metaphorical world tree from norse mythology. What I love about the world-tree myth here is that it echoes the concept of the scene graph not just decoratively but structurally. To me it makes perfect sense: the World Tree as the root node, branches as transform hierarchies, leaves or subrealms as local coordinate systems. And Thor’s chariot, coursing through one branch or realm, becomes a living example of hierarchical motion within that structure. It's a beautiful conceptual bridge -- both mythically and technically. It makes perfect sense.</p>
-<p>So it was fun for me to leverage the mythology to illustrate conceptually the idea of SVG-as-scene_graph. The beauty of the scene graph structure is that it makes transormation, layering and animation so much easier to mangage. Especially for multi-layered pseudo-3D platforms and perspectives. I truely hope this work inspires others to consider SVG as star player for a wide range of artistic applications!</p>
+<p>In this blog post I illustrated the concept of the SVG scene graph by way of analogy with Yggdrasil, the metaphorical world tree from norse mythology. What I love about the world-tree myth is that it echoes the concept of the scene graph not just decoratively but structurally. To me it makes perfect sense: the World Tree as the root node, branches as transform hierarchies, leaves or subrealms as local coordinate systems. And Thor's chariot, coursing through one branch or realm, becomes a living example of hierarchical motion within that structure. It's a beautiful conceptual bridge -- both mythically and technically. It makes perfect sense.</p>
+<p>So it was fun for me to leverage the mythology to illustrate conceptually the idea of SVG-as-scene-graph. The beauty of the structure is that it makes transormation, layering and animation so much easier to mangage. Especially for multi-layered pseudo-3D platforms and perspectives. I truely hope this work inspires others to consider SVG as star player for a wide range of artistic applications!</p>
 <h2>More to Come</h2>
-<p>When I originallly sat down to hammer out this post I'd intended include coverage of the SVG transform API for creative coders. But it quickly became apparent that there is a lot of material to cover there, so look for a future post on this important topic. In the meantime, I'm including two appendices with the source for important utility functions available in the SVG Creators Collaborative framework for development which creative coders can employ to create artwork today. </p>
+<p>When I originallly sat down to hammer out this post I'd intended include coverage of the <strong>SVG transform API</strong> for creative coders. But it quickly became apparent that there is a lot of material to cover there. So, rather than overwhelm here, look for a future post on this important topic. In the meantime, I'm including a number of appendices with the source code for important utility functions available in the SVG Creators Collaborative&trade; framework which creative coders can employ to create SVG artwork starting today. </p>
 <h2>Appendix: Utility Functions to Get Local Transformation Mattrices in SVG</h2>
-<p>For those who've made it this far you're doing great. One quesion you may be asking though is; "Fine Dr. Nick. You've shown how to get the <em>cumulative</em> transformation matrix from the SVG root to any branch, but what about the transformation for more deeply nested branches and there parents? ... ELABORATE??!!!</p>
+<p>For those who've made it this far you're doing great. One quesion you may be asking though is; "Fine Dr. Nick. You've shown how to get the <em>cumulative</em> transformation matrix from the SVG root to any branch, but what about the transformation for more deeply nested branches and their parents? </p>
+<p>... ELABORATE??!!!</p>
 <h3>getTM</h3>
 <pre><code>/**
  * Get the *local* transformation matrix on an element (i.e., 
@@ -3115,8 +3091,8 @@ async function doLoads () {
 doLoads();
 </script>
     <footer>
-      <p>Published: <time datetime="2025-10-30T00:00:00-04:00">
-        Thu 30 October 2025
+      <p>Published: <time datetime="2025-11-08T00:00:00-05:00">
+        Sat 08 November 2025
       </time></p>
         <address>
           By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>

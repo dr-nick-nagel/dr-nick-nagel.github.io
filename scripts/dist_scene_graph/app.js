@@ -134,63 +134,13 @@ function updateTransform( svgNode, toMatrixStr, duration = 0, easing = t => t, f
     );
   }
 
-
-
-
-
-
-    
-  // const getCurrentMatrix = node => {
-  //   const baseVal = node.transform.baseVal;
-  //   if (baseVal.numberOfItems === 0) {
-  //     // Create identity 
-  //     const M_trans = node.ownerSVGElement.createSVGTransformFromMatrix(
-  //       new DOMMatrix()
-  //     );
-  //     baseVal.initialize( M_trans );
-  //     return M_trans.matrix;
-  //   }
-  //   // or consolodate existing transfrom functions to matrix...
-  //   const consolidated = baseVal.consolidate();
-  //   return consolidated ? consolidated.matrix : new DOMMatrix();
-  // };
-
-
-
-
-// MODIFIED: Do not initialize baseVal here; just read the consolidated matrix.
-const getCurrentMatrix = node => {
-  const baseVal = node.transform.baseVal;
-  
-  // If no items, return Identity Matrix
-  if (baseVal.numberOfItems === 0) {
-    return new DOMMatrix(); 
-  }
-  
-  // Consolidate all existing transforms into a single matrix for the 'from' value
-  const consolidated = baseVal.consolidate(); 
-  // consolidate returns null if the list is empty, but we handled that above.
-  // If the list has items, consolidated returns the single SVGTransform object.
-  return consolidated ? consolidated.matrix : new DOMMatrix();
-};
-
 const M_from = getTM( svgNode );
 
-
 l( M_from.a + " " + M_from.f );
-
-
-
-
-
-
   
   // use from matrix or get current from element
   // const from = fromMatrixStr ? parseMatrix( fromMatrixStr ) : getCurrentMatrix( svgNode );
   const from = { a:M_from.a, b:M_from.b, c:M_from.c, d:M_from.d, e:M_from.e, f:M_from.f } ;
-
-
-
 
   const to   = parseMatrix( toMatrixStr );
 
@@ -209,25 +159,6 @@ l( M_from.a + " " + M_from.f );
     const startTime = performance.now();
     const transformList = svgNode.transform.baseVal;
 
-
-// --- MODIFIED BLOCK ---
-// let currentTransform;
-    
-// if (transformList.numberOfItems === 0) {
-//     // If empty, create a new transform item (as an identity matrix) and append it.
-//     currentTransform = svgNode.ownerSVGElement.createSVGTransform();
-//     currentTransform.setMatrix( new DOMMatrix() ); // Set to Identity
-//     transformList.appendItem( currentTransform );
-// } else {
-//     // If not empty, use the first item.
-//     currentTransform = transformList.getItem( 0 );
-    
-    // OPTIONAL: Ensure consolidation has happened if there were multiple transforms 
-    // before this animation started, by simply reading the final consolidated 'from' matrix.
-    // This is primarily handled by how 'from' is derived, but it's a good safeguard.
-// }
-// --- END MODIFIED BLOCK ---
-
     const currentTransform =
       transformList.numberOfItems > 0
         ? transformList.getItem( 0 )
@@ -238,18 +169,9 @@ l( M_from.a + " " + M_from.f );
 
     function step( time ) {
 
-      // l( "STEP: " + duration );
-
       // proportion of elapsed time ( 0 --> 1 )
       const p_time_elapsed = Math.min( (time - startTime) / duration, 1 );
       const k = easing( p_time_elapsed );
-
-      // if( p_time_elapsed < 0.05 || p_time_elapsed > 0.95 ) {
-        // l(`now: ${ performance.now() } time: ${ time }`);
-
-        // l(`elapsed: ${ p_time_elapsed } k: ${ k }`);
-
-      // } 
 
       const M_step_svg = svgRoot.createSVGMatrix();
 
@@ -271,12 +193,6 @@ l( M_from.a + " " + M_from.f );
       M_step_svg.f = M_step.f;
 
       currentTransform.setMatrix( M_step_svg );
-
-      // l( "k: " + k );
-
-      // l( ` ${ p_time_elapsed } \t ${ M_step_svg.a } ${ M_step_svg.d } ${ M_step_svg.e } ${ M_step_svg.f }`     );  
-
-
 
       if ( p_time_elapsed < 1 ) {
         requestAnimationFrame( step );
