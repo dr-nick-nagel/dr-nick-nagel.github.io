@@ -222,35 +222,23 @@ function polyNomialEase( p_elapsed_time, power = 3 ) {
 }
 
 
-// function polyNomialEase(t, p = 3) {
-//   if (t < 0.5) {
-//     const  f_t = Math.pow(2 * t, p) / 2;
-//     //l( t + "  :  " + f_t );
-//     return f_t;
-//   } else {
-//     const  f_t = 1 - Math.pow(2 * (1 - t), p) / 2;
-//     //l( t + "  :  " + f_t );
-//     return f_t
-//   }
-// }
-
 /**
  * Cubic ease-in-out function
  * @param {number} t - The current time (progress) of the animation, normalized to the range [0, 1].
  * @returns {number} The eased value, also in the range [0, 1].
  */
-const easeInOutCubic = (t) => {
-  // Check if t is in the first half of the animation (ease-in)
-  if (t < 0.5) {
-    // Standard cubic ease-in (2*t)^3 / 2
-    return 4 * t * t * t;
-  }
-  // t is in the second half of the animation (ease-out)
-  // The '2*t - 2' term shifts and scales the time to be between -1 and 0,
-  // making it a mirrored cubic ease-out.
-  t = 2 * t - 2;
-  return 0.5 * (t * t * t + 2);
-};
+// const easeInOutCubic = (t) => {
+//   // Check if t is in the first half of the animation (ease-in)
+//   if (t < 0.5) {
+//     // Standard cubic ease-in (2*t)^3 / 2
+//     return 4 * t * t * t;
+//   }
+//   // t is in the second half of the animation (ease-out)
+//   // The '2*t - 2' term shifts and scales the time to be between -1 and 0,
+//   // making it a mirrored cubic ease-out.
+//   t = 2 * t - 2;
+//   return 0.5 * (t * t * t + 2);
+// };
 
 
 
@@ -261,8 +249,8 @@ svgRoot.addEventListener('click',
 
     await updateTransform(
       document.querySelector("#camera"),
-      "6 0 0 6 -1200 -600",
-
+      // "6 0 0 6 -1200 -600",
+"6 0 0 6 -1500 -900",
       // "4 0 0 4 -800 -400",
       5000,
       polyNomialEase
@@ -290,17 +278,6 @@ svgRoot.addEventListener('click',
 //     console.log( performance.now() );
 //   }
 // );
-
-
-
-
-
-
-
-
-
-
-
 
 
 
