@@ -128,6 +128,48 @@ img#tree_structure {
 
 }
 
+#style_wrapper {
+   opacity: 0;
+   transition: opacity 1.2s ease-in, transform 0.8s ease-out;
+   pointer-events: none;
+}
+
+#style_wrapper.fade-in {
+   opacity: 1;
+}
+
+
+#text_balloon {
+  opacity: 0;
+  transition: opacity 5s ease-out;
+  pointer-events: none; 
+}
+
+#text_balloon.show {
+  opacity: 1;
+  transition: none; 
+}
+
+#text_balloon text {
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  font-size: 10px;
+  fill: #800;
+  text-anchor: middle;
+}
+
+#text_balloon ellipse {
+  fill: white;
+  stroke: none;
+}
+
+#text_balloon polygon {
+  fill: white;
+  stroke: none;
+}
+
+#text_balloon #coordText {
+   font-size: 6px;
+}
 
 &lt;/style&gt;
 
@@ -147,10 +189,10 @@ img#tree_structure {
   /&gt;
 &lt;/picture&gt;&lt;/p&gt;
 &lt;figcaption&gt;
-Poor Alice. Look's like she's feeling a little overwhelmed right now. Cheer up Alice! We'll make sense of this yet!&lt;/em&gt; Artwork by &lt;strong style="font-size:12px"&gt;&amp;#x1D4A9;&lt;/strong&gt;.
+Poor Alice. 'Looks like she's feeling a little overwhelmed right now. Cheer up Alice! We'll make sense of this yet!&lt;/em&gt; Artwork by &lt;strong style="font-size:12px"&gt;&amp;#x1D4A9;&lt;/strong&gt;.
 &lt;/figcaption&gt;
 
-&lt;p&gt;Modern computer graphics systems rely heavily on scene graphs. Part of the beauty of SVG is that it is, inherently, itself a scene graph. As such, when you adopt and work with SVG you get all the benefits of a scene graph structure for free. If you’re interested in creating complex SVG artwork, understanding that structure and what it carries with it is invaluable.&lt;/p&gt;
+&lt;p&gt;Modern computer graphics systems rely heavily on scene graphs. Part of the beauty of SVG is that it is, inherently, itself precisely that. As such, when you adopt and work with SVG you get all the benefits of a scene-graph structure for free. If you're interested in creating complex SVG artwork, understanding that structure and what it carries with it is invaluable.&lt;/p&gt;
 &lt;h2&gt;SVG as Scene Graph&lt;/h2&gt;
 &lt;p&gt;&lt;img id='tree_structure' 
      src='/svg/scene_graph/tree_structure_opt.svg'
@@ -2607,13 +2649,22 @@ Poor Alice. Look's like she's feeling a little overwhelmed right now. Cheer up A
       &lt;/g&gt;
    &lt;/g&gt;
 
-  &lt;g  id="pot_o_gold"
-     display="inline"
+  &lt;g  id="pot_o_gold" 
      inkscape:groupmode="layer"
      inkscape:label="pot_o_gold"
      sodipodi:insensitive="true"
      transform="matrix( 0.5 0 0 0.5 331 230 )"
      &gt;
+
+      &lt;g id="text_balloon" &gt;
+         &lt;ellipse cx="-50" cy="-50" rx="100" ry="25"/&gt;
+         &lt;polygon points="-50,-50 -30,-50 -10,-10"/&gt;
+         &lt;text x="-50" y="-55"&gt;A touch! 'tis but a touch!&lt;/text&gt;
+         &lt;text id="coordText" x="-50" y="-40" &gt;&lt;/text&gt;
+      &lt;/g&gt;
+
+
+   &lt;g id="style_wrapper" &gt;
     &lt;g
        id="g59"
        inkscape:label="pot"&gt;
@@ -2953,7 +3004,8 @@ Poor Alice. Look's like she's feeling a little overwhelmed right now. Cheer up A
            ry="0.45495263" /&gt;
       &lt;/g&gt;
     &lt;/g&gt;
-  &lt;/g&gt;
+    &lt;/g&gt; &lt;!-- END style_wrapper --&gt;
+  &lt;/g&gt; &lt;!-- END GOLD --&gt;
 
   &lt;/g&gt;
 &lt;/svg&gt;
@@ -2969,7 +3021,7 @@ Poor Alice. Look's like she's feeling a little overwhelmed right now. Cheer up A
 &lt;p&gt;The root can give rise to any number of &lt;em&gt;branches&lt;/em&gt; -- the &lt;code&gt;g&lt;/code&gt; elements that form &lt;strong&gt;transform hierarchies&lt;/strong&gt; for sprites, backgrounds, and other scene-graph objects.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;And the branches ultimate end in leaves -- the renderable shapes and paths that bring the scene to life (like "the gods riding the graph" in the world-tree artwork).&lt;/p&gt;
+&lt;p&gt;And the branches ultimatly end in leaves -- the renderable shapes and paths that bring the scene to life (like "the gods riding the graph" in the world-tree artwork).&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;In the following discussion I'll use the world-tree illustration to outline a practical process for creating modular artwork using the SVG scene graph concept.&lt;/p&gt;
@@ -2980,7 +3032,7 @@ Poor Alice. Look's like she's feeling a little overwhelmed right now. Cheer up A
 &lt;/blockquote&gt;
 &lt;p&gt;To illustrate, let's look at some examples from &lt;em&gt;the World Tree&lt;/em&gt;.&lt;/p&gt;
 &lt;h4&gt;Process part 1: Know your root&lt;/h4&gt;
-&lt;p&gt;First and foremost it bears reiterating that all SVG's have a &lt;strong&gt;root element&lt;/strong&gt;: the &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; tag itself. The &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; root offers intriguing possibilities as a "window" into your SVG worlds. With respect to the scene graph, the &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; node defines a coodinate system relative to which all the branches in the scene graph can be positioned scaled and rotated ... &lt;/p&gt;
+&lt;p&gt;First and foremost, it bears reiterating that all SVG's have a &lt;strong&gt;root element&lt;/strong&gt;: the &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; tag itself. The &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; root offers intriguing possibilities as a "window" into your SVG worlds. With respect to the scene graph, the &lt;code&gt;&amp;lt;svg&amp;gt;&lt;/code&gt; node defines a coodinate system relative to which all the branches in the scene graph can be positioned scaled and rotated ... &lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;The SVG "World Coordinate System"&lt;/strong&gt; esblishes the base origin and axes for all descendant coordinate systems in your scene graph. &lt;/p&gt;
 &lt;/blockquote&gt;
@@ -2995,8 +3047,8 @@ Poor Alice. Look's like she's feeling a little overwhelmed right now. Cheer up A
 &lt;p&gt;[[ INSERT FIGURE  ROTAING OUT THE WHEEL ...  ]]&lt;/p&gt;
 &lt;p&gt;The important takeaway here is &lt;em&gt;you don't have to worry about sprite placement details at creation time&lt;/em&gt;. If you build modular components centered around the SVG world origin scene composition downstream is dramatically simplified. Trust me on this one. &lt;/p&gt;
 &lt;h4&gt;Process part 3: Use a scene graph "wrapper element" to integrate modular components&lt;/h4&gt;
-&lt;p&gt;For scene composition: **use SVG &lt;code&gt;&amp;lt;g&amp;gt;&lt;/code&gt; tags to create scene graph branches holding your components.&lt;/p&gt;
-&lt;p&gt;For example, after creating the &lt;em&gt;Thor sprite&lt;/em&gt; I wrapped the whole rig in a g-tag. This group-structure gives artists and developers both a powerful handle: each scene graph group can be positioned rotated and scaled independently of other elements using the magic of the transformation matrix.&lt;/p&gt;
+&lt;p&gt;For scene composition: &lt;strong&gt;use SVG &lt;code&gt;&amp;lt;g&amp;gt;&lt;/code&gt; tags to create scene graph branches holding your components&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;For example, after creating the &lt;em&gt;Thor sprite&lt;/em&gt; I wrapped the whole rig in a g-tag. This group-structure gives artists and developers both a powerful handle: each scene graph &lt;em&gt;group&lt;/em&gt; can be positioned rotated and scaled independently of other elements using the magic of the transformation matrix.&lt;/p&gt;
 &lt;h2&gt;Advanced Topic: SVG Transformation Matrices&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;(OK to skip if you're a math hater -- but I know we all love math here...)&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;So what exactly is an SVG transformation matrix anyway? &lt;/p&gt;
@@ -3124,11 +3176,11 @@ $$&lt;/p&gt;
     &lt;/svg&gt;
 &lt;/div&gt;
 &lt;div class="FigCap"&gt;
-&lt;strong&gt;Figure 2.&lt;/strong&gt; Illustration of an SVG viewport nested within an HTML webpage in a browser (the *client viewport*). 
+&lt;strong&gt;Figure 2.&lt;/strong&gt; Illustration of an SVG viewport nested within an HTML webpage in a browser (the &lt;em&gt;client viewport&lt;/em&gt;). 
 &lt;/div&gt;
 
-&lt;p&gt;As we've seen the SVG viewport defines its own world coordinate system, relative to which all scene-graph elements are positioned. But the browser (or “client viewport”) adds &lt;em&gt;another&lt;/em&gt; layer of coordinates on top of that.&lt;/p&gt;
-&lt;p&gt;So if you want to support &lt;strong&gt;user interaction&lt;/strong&gt; -- like touches clicks pinches etc. -- you need to account for the offset between the SVG’s internal origin and the client’s coordinate origin. This can get tricky, especially when scrolling or layout changes are involved.&lt;/p&gt;
+&lt;p&gt;As we've seen, the SVG viewport defines its own world coordinate system relative to which all scene-graph elements are positioned. But the browser (or "client viewport") adds &lt;em&gt;another&lt;/em&gt; layer of coordinates on top of that.&lt;/p&gt;
+&lt;p&gt;So if you want to support &lt;strong&gt;user interaction&lt;/strong&gt; -- like touches clicks pinches etc. -- you need to account for the offset between the SVG's internal origin and the client's coordinate origin. This can get tricky, especially when scrolling or layout changes are involved.&lt;/p&gt;
 &lt;p&gt;The good news: &lt;code&gt;getScreenCTM()&lt;/code&gt; handles all this for us transparently.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;In summary:&lt;/strong&gt; use &lt;code&gt;getScreenCTM()&lt;/code&gt; when you need a matrix that includes &lt;em&gt;all transformations&lt;/em&gt;, from your target element up through the SVG root &lt;em&gt;and beyond&lt;/em&gt; (i.e., one that includes any client-space offsets introduced by the host page).&lt;/p&gt;
 &lt;p&gt;This is especially useful for interactive SVGs embedded in web pages. When mapping user input events (like mouse clicks or touch positions) from client coordinates into your SVG scene graph, remember to use the &lt;strong&gt;inverse of the screen CTM&lt;/strong&gt;:&lt;/p&gt;
@@ -3138,13 +3190,38 @@ $$&lt;/p&gt;
 \text{Scene Graph Element Local Coordinates}
 $$&lt;/p&gt;
 &lt;h4&gt;One Last Example&lt;/h4&gt;
-&lt;p&gt;Let's wrap up the discussion with one last example...&lt;/p&gt;
-&lt;p&gt;TODO DROP A POT OF GOLD&lt;/p&gt;
+&lt;p&gt;Let's wrap up the discussion with one last example. To see &lt;code&gt;getScreenCTM()&lt;/code&gt; in action (and better understand why you might need it) try looking for the pot of gold at the end of the rainbow (hint: try tapping or clicking near the end of the rainbow bridge in the &lt;em&gt;World Tree&lt;/em&gt; SVG). If you find the gold it will show you its coordinates -- both the client and also the SVG world coordinates. For handling objects like this based on user events you'll need to be able to work your way back and forth between the client coordinate system and SVG world coordinates as the following fragment using &lt;code&gt;getScreenCTM()&lt;/code&gt; shows:&lt;/p&gt;
+&lt;pre&gt;
+const svgRoot = document.getElementById( "my_svg_root" );
+svgRoot.addEventListener('pointerdown', 
+  ( event ) =&gt; {
+    const pt = svgRoot.createSVGPoint();
+    pt.x = event.clientX;
+    pt.y = event.clientY;
+    const svgP = pt.matrixTransform( camera.getScreenCTM().inverse() );
+    ...
+  }
+);
+&lt;/pre&gt;
+
+&lt;p&gt;Notice, in this example we set up an event listener to handle mouse clicks (touches on mobile screens) which:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Uses the factory to create an SVG point object, &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Reads in &lt;em&gt;client&lt;/em&gt; $X$ and $Y$ coordinates from the event, and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Converts them to &lt;strong&gt;SVG world coordinates&lt;/strong&gt; using &lt;code&gt;camera.getScreenCTM().inverse()&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This example works because of the SVG scene graph structure. I have a &lt;code&gt;&amp;lt;g&amp;gt;&lt;/code&gt; element holding transformations associated with a virtual camera which enables me to invert the transformations applied to simulate zoom, panning tilt, etc.. That's what enables mapping the client coordinates to the correct coordinates on the SVG world coordinate system.&lt;/p&gt;
 &lt;h2&gt;Summary and Conclusion&lt;/h2&gt;
 &lt;p&gt;In this blog post I illustrated the concept of the SVG scene graph by way of analogy with Yggdrasil, the metaphorical world tree from norse mythology. What I love about the world-tree myth is that it echoes the concept of the scene graph not just decoratively but structurally. To me it makes perfect sense: the World Tree as the root node, branches as transform hierarchies, leaves or subrealms as local coordinate systems. And Thor's chariot, coursing through one branch or realm, becomes a living example of hierarchical motion within that structure. It's a beautiful conceptual bridge -- both mythically and technically. It makes perfect sense.&lt;/p&gt;
 &lt;p&gt;So it was fun for me to leverage the mythology to illustrate conceptually the idea of SVG-as-scene-graph. The beauty of the structure is that it makes transormation, layering and animation so much easier to mangage. Especially for multi-layered pseudo-3D platforms and perspectives. I truely hope this work inspires others to consider SVG as star player for a wide range of artistic applications!&lt;/p&gt;
 &lt;h2&gt;More to Come&lt;/h2&gt;
-&lt;p&gt;When I originallly sat down to hammer out this post I'd intended include coverage of the &lt;strong&gt;SVG transform API&lt;/strong&gt; for creative coders. But it quickly became apparent that there is a lot of material to cover there. So, rather than overwhelm here, look for a future post on this important topic. In the meantime, I'm including a number of appendices with the source code for important utility functions available in the SVG Creators Collaborative&amp;trade; framework which creative coders can employ to create SVG artwork starting today. &lt;/p&gt;
+&lt;p&gt;When I originallly sat down to hammer out this post I'd intended to include coverage of the &lt;strong&gt;SVG transform API&lt;/strong&gt; for creative coders. But it quickly became apparent that there is a lot of material to cover there. So, rather than overwhelm here, look for a future post on this important topic. In the meantime, I'm including a number of appendices with the source code for important utility functions available in the SVG Creators Collaborative&amp;trade; framework. Functions that creative coders can employ to create SVG artwork starting today. &lt;/p&gt;
 &lt;h2&gt;Appendix: Utility Functions to Get Local Transformation Mattrices in SVG&lt;/h2&gt;
 &lt;p&gt;For those who've made it this far you're doing great. One quesion you may be asking though is; "Fine Dr. Nick. You've shown how to get the &lt;em&gt;cumulative&lt;/em&gt; transformation matrix from the SVG root to any branch, but what about the transformation for more deeply nested branches and their parents? &lt;/p&gt;
 &lt;p&gt;... ELABORATE??!!!&lt;/p&gt;

@@ -97,7 +97,6 @@ document.addEventListener(
   }
 );
 
-
 /**
  * Updates or animates an SVG element's transform matrix. 
  * 
@@ -117,99 +116,100 @@ document.addEventListener(
  *                                   If omitted, current transform is used.
  * @returns {Promise<SVGElement>} Resolves with the target node on completion.
  */
-function updateTransform( svgNode, toMatrixStr, duration = 0, easing = t => t, fromMatrixStr = null ) {
-
-  if ( ! ( svgNode instanceof SVGGraphicsElement )    ) {
+function updateTransform(svgNode, toMatrixStr, duration = 0, easing = t => t, fromMatrixStr = null) {
+  if (!(svgNode instanceof SVGGraphicsElement)) {
     throw new Error("[updateTransform] svgNode must be an SVGGraphicsElement");
   }
 
-  // Parse matrix strings into numeric arrays
   const parseMatrix = str => {
-    const nums = str.trim().split(/\s+/).map( Number );
-    if (nums.length !== 6 || nums.some( isNaN )) {
-      throw new Error( `[updateTransform] non-valid SVG matrix string: "${str}"` );
+    const nums = str.trim().split(/\s+/).map(Number);
+    if (nums.length !== 6 || nums.some(isNaN)) {
+      throw new Error(`[updateTransform] non-valid SVG matrix string: "${str}"`);
     }
-    return new DOMMatrix(
-      [ nums[0], nums[1], nums[2], nums[3], nums[4], nums[5] ]
-    );
-  }
+    return { a: nums[0], b: nums[1], c: nums[2], d: nums[3], e: nums[4], f: nums[5] };
+  };
 
-const M_from = getTM( svgNode );
+  const M_from = getTM(svgNode);
+  const from = fromMatrixStr ? parseMatrix(fromMatrixStr) : { a: M_from.a, b: M_from.b, c: M_from.c, d: M_from.d, e: M_from.e, f: M_from.f };
+  const to = parseMatrix(toMatrixStr);
 
-l( M_from.a + " " + M_from.f );
-  
-  // use from matrix or get current from element
-  // const from = fromMatrixStr ? parseMatrix( fromMatrixStr ) : getCurrentMatrix( svgNode );
-  const from = { a:M_from.a, b:M_from.b, c:M_from.c, d:M_from.d, e:M_from.e, f:M_from.f } ;
+  const svgEl = svgNode.ownerSVGElement;
 
-  const to   = parseMatrix( toMatrixStr );
-
-  // If no duration (is 0), transform is instantaneous
+  // Instantaneous update
   if (duration <= 0) {
-    const M_trans = svgNode.ownerSVGElement.createSVGTransformFromMatrix( to) ;
-    svgNode.transform.baseVal.initialize( M_trans );
-    return Promise.resolve( svgNode );
+    const finalMatrix = svgEl.createSVGMatrix();
+    finalMatrix.a = to.a;
+    finalMatrix.b = to.b;
+    finalMatrix.c = to.c;
+    finalMatrix.d = to.d;
+    finalMatrix.e = to.e;
+    finalMatrix.f = to.f;
+    const transform = svgEl.createSVGTransformFromMatrix(finalMatrix);
+    svgNode.transform.baseVal.initialize(transform);
+    return Promise.resolve(svgNode);
   }
 
-  l( "DURATION: " + duration );
-
-  // Otherwise animate
-  return new Promise( resolve => {
-
+  // Animated interpolation
+  return new Promise(resolve => {
     const startTime = performance.now();
-    const transformList = svgNode.transform.baseVal;
 
-    const currentTransform =
-      transformList.numberOfItems > 0
-        ? transformList.getItem( 0 )
-        : svgNode.ownerSVGElement.createSVGTransformFromMatrix( from );
+    function step(time) {
+      const tElapsed = Math.min((time - startTime) / duration, 1);
+      const k = easing(tElapsed);
 
-    if (transformList.numberOfItems === 0) transformList.appendItem( currentTransform );
+      // Linear interpolation of numeric values
+      const interp = {
+        a: from.a + (to.a - from.a) * k,
+        b: from.b + (to.b - from.b) * k,
+        c: from.c + (to.c - from.c) * k,
+        d: from.d + (to.d - from.d) * k,
+        e: from.e + (to.e - from.e) * k,
+        f: from.f + (to.f - from.f) * k
+      };
 
+      // Apply interpolated values
+      const M_step = svgEl.createSVGMatrix();
+      M_step.a = interp.a;
+      M_step.b = interp.b;
+      M_step.c = interp.c;
+      M_step.d = interp.d;
+      M_step.e = interp.e;
+      M_step.f = interp.f;
 
-    function step( time ) {
+      // Replace transform on node
+      let transform = svgNode.transform.baseVal.numberOfItems > 0
+        ? svgNode.transform.baseVal.getItem(0)
+        : svgEl.createSVGTransform();
+      transform.setMatrix(M_step);
+      if (svgNode.transform.baseVal.numberOfItems === 0) svgNode.transform.baseVal.appendItem(transform);
 
-      // proportion of elapsed time ( 0 --> 1 )
-      const p_time_elapsed = Math.min( (time - startTime) / duration, 1 );
-      const k = easing( p_time_elapsed );
-
-      const M_step_svg = svgRoot.createSVGMatrix();
-
-      // Linear interpolation on all 6 components
-      const M_step = new DOMMatrix([
-        from.a + (to.a - from.a) * k,
-        from.b + (to.b - from.b) * k,
-        from.c + (to.c - from.c) * k,
-        from.d + (to.d - from.d) * k,
-        from.e + (to.e - from.e) * k,
-        from.f + (to.f - from.f) * k
-      ]);
-
-      M_step_svg.a = M_step.a;
-      M_step_svg.b = M_step.b;
-      M_step_svg.c = M_step.c;
-      M_step_svg.d = M_step.d;
-      M_step_svg.e = M_step.e;
-      M_step_svg.f = M_step.f;
-
-      currentTransform.setMatrix( M_step_svg );
-
-      if ( p_time_elapsed < 1 ) {
-        requestAnimationFrame( step );
+      if (tElapsed < 1) {
+        requestAnimationFrame(step);
       } else {
-        resolve( svgNode );
+        resolve(svgNode);
       }
-
     }
 
-    requestAnimationFrame( step );
-  } );
-
+    requestAnimationFrame(step);
+  });
 }
 
 
-
-// Easing function 
+/**
+ * Callback Easing function for camera transitions.
+ * Collaborates with update transform to ease in and out.
+ *  
+ * INPUTS:
+ * 1. time elapsed (over DURATION of ANIMATION)
+ * 2. power for polynomial ease shape ... 
+ * 
+ * OUTPUT f(t) -- the value on the s polynomial curve 
+ * (NORMALIZED TO BETWEEN 0 and 1  [0 <--> 1] )
+ * 
+ * @param {*} p_elapsed_time 
+ * @param {*} power 
+ * @returns scalar between 0 and 1 reflecting polynomial shape ...
+ */
 function polyNomialEase( p_elapsed_time, power = 3 ) {
   const MIDWAY= 0.5;
   let f_t_elapsed = 0;
@@ -222,125 +222,207 @@ function polyNomialEase( p_elapsed_time, power = 3 ) {
 }
 
 
-/**
- * Cubic ease-in-out function
- * @param {number} t - The current time (progress) of the animation, normalized to the range [0, 1].
- * @returns {number} The eased value, also in the range [0, 1].
- */
-// const easeInOutCubic = (t) => {
-//   // Check if t is in the first half of the animation (ease-in)
-//   if (t < 0.5) {
-//     // Standard cubic ease-in (2*t)^3 / 2
-//     return 4 * t * t * t;
+// svgRoot.addEventListener('click', 
+//   async (event) => {
+
+//     await updateTransform(
+//       document.querySelector("#camera"),
+//       // "6 0 0 6 -1200 -600",
+// "6 0 0 6 -1500 -900",
+//       // "4 0 0 4 -800 -400",
+//       5000,
+//       polyNomialEase
+//     );  
+
 //   }
-//   // t is in the second half of the animation (ease-out)
-//   // The '2*t - 2' term shifts and scales the time to be between -1 and 0,
-//   // making it a mirrored cubic ease-out.
-//   t = 2 * t - 2;
-//   return 0.5 * (t * t * t + 2);
-// };
+// );
 
 
-
-svgRoot.addEventListener('click', 
-  async (event) => {
-
-    console.log( performance.now() );
-
-    await updateTransform(
-      document.querySelector("#camera"),
-      // "6 0 0 6 -1200 -600",
-"6 0 0 6 -1500 -900",
-      // "4 0 0 4 -800 -400",
-      5000,
-      polyNomialEase
-    );  
-
-    console.log( performance.now() );
-
+const target = { x: 331, y: 230, radius: 50 };
+const camera = document.getElementById( "camera" );
+const potStyles = document.getElementById("style_wrapper");
+const balloon   = document.getElementById("text_balloon");
+const coordText = document.getElementById("coordText");
+svgRoot.addEventListener('pointerdown', 
+  ( event ) => {
+    const pt = svgRoot.createSVGPoint();
+    pt.x = event.clientX;
+    pt.y = event.clientY;
+    const svgP = pt.matrixTransform( camera.getScreenCTM().inverse() );
+    // hit test
+    const dx = svgP.x - target.x;
+    const dy = svgP.y - target.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < target.radius) {
+      potStyles.classList.add("fade-in");
+      let text = "";
+      text += "client coords: ";
+      text += `${pt.x}, ${pt.y} `;
+      text += "SVG coords: ";
+      text += `${ svgP.x.toFixed(0) }, ${ svgP.y.toFixed(0) } `;
+      coordText.textContent = text;
+      balloon.classList.add("show");
+      requestAnimationFrame(() => {
+        balloon.classList.remove("show");
+      });
+    }
   }
 );
 
 
-
-// svgRoot.addEventListener('click', 
-//   async (event) => {
-//     console.log( performance.now() );
-//     let ft = 0;
-//     l( `t \t ft ` );
-
-//     for( let i=0; i<10; i++  ) {
-//       const t =  i * 0.1;
-//       ft = polyNomialEase( t );
-//       l( `${ t } | ${ ft } ` );
-//     }
-
-//     console.log( performance.now() );
-//   }
-// );
-
-
-
-
-// ---- Event Handlers: Mouse Wheel ----------------------------------------
-// zoom constant numbers for arithmetic...
-const zoom = {
-  IN  : -1,
-  OUT : 1
-};
-
-const CAMERA_NODE_ID = "camera";
-const ANIMATION_ID   = "zoom_animation";
-const cameraNode    = document.getElementById( CAMERA_NODE_ID );
-const zoomAnimation = document.getElementById( ANIMATION_ID );
-// SVG transform matrix values...
-const transMatrices = [
-    "matrix(1, 0, 0, 1, 0, 0)",     
-    "matrix(2, 0, 0, 2, -200 , -100)", 
-    "matrix(4, 0, 0, 4, -800 , -400)"  
-];
-// Level of Detail
-let lodIndex = 0;
+// ---- CAMERA Encapsulation .... ----------------------------------------
 
 /**
- * Applies the transform matrix corresponding to the new LOD index,
- * using the animateTransform element for a smooth transition.
+ * Encapsulates camera functionality (pan and zoom)
+ * Artwork specific ... 
  * 
- * @param {number} zoomIndex - The target index (0, 1, or 2).
  * 
  */
-function applyZoom( zoomIndex ) {
-  if ( zoomIndex < 0 || zoomIndex >= transMatrices.length ) {
-      return; 
+class Camera {
+  /**
+   * @param {SVGGraphicsElement} cameraNode - The node to transform
+   * @param {object} options - Configuration for zoom and pan
+   */
+  constructor(cameraNode, options = {}) {
+
+    if (!(cameraNode instanceof SVGGraphicsElement)) {
+      throw new Error(  "[CAMERA] cameraNode must be an SVGGraphicsElement");
+    }
+    this.node = cameraNode;
+    this.isZoomedIn = false;
+
+    // Zoom matrices (toggle)
+    this.zoomedOutMatrix = options.zoomedOutMatrix || "1 0 0 1 0 0";
+    this.zoomedInMatrix  = options.zoomedInMatrix  || "6 0 0 6 -1500 -900";
+
+    // Pan constraints (in SVG world coordinates)
+    this.panLimits = options.panLimits || { left: 0, top: 0, right: 600, bottom: 600 };
+
+    // Pan state
+    this.isPanning   = false;
+    this.lastPointer = null;
+
+    // Bind methods
+    this.toggleZoom = this.toggleZoom.bind(this);
+    this.startPan   = this.startPan.bind(this);
+    this.panMove    = this.panMove.bind(this);
+    this.endPan     = this.endPan.bind(this);
+
   }
-  lodIndex = zoomIndex;
-  const matrixStr = transMatrices[ lodIndex ];
-  // l( matrixStr );
-  
-  
-  // 3. Set up and start the animation
-  
-  // Get the current transform value from the camera node to use as the animation 'from' value.
-  // NOTE: 'from' is optional, but setting 'to' and starting the animation is enough.
-  // The browser automatically interpolates from the current state to the 'to' state.
-  
-  // Set the target 'to' value for the transition
 
-  zoomAnimation.setAttribute('to', matrixStr);
-  zoomAnimation.beginElement();
+  async toggleZoom( duration = 5000, easing = t => polyNomialEase (t, 3) ) {
+    const targetMatrix = this.isZoomedIn ? this.zoomedOutMatrix : this.zoomedInMatrix;
+    await updateTransform(this.node, targetMatrix, duration, easing);
+    this.isZoomedIn = !this.isZoomedIn;
+  }
 
-  l( zoomAnimation );
+  startPan( event ) {
+    // Only allow pan when zoomed
+    if (!this.isZoomedIn) return; 
+    event.preventDefault();
+    const pt = this._getEventPoint(event);
+    this.isPanning   = true;
+    this.lastPointer = pt;
+  }
 
+  panMove( event ) {
+    if (!this.isPanning) return;
+    event.preventDefault();
+
+    const pt = this._getEventPoint(event);
+
+    const dx = pt.x - this.lastPointer.x;
+    const dy = pt.y - this.lastPointer.y;
+
+    const currentMatrix = getTM(this.node);
+    let e = currentMatrix.e + dx;
+    let f = currentMatrix.f + dy;
+
+    // Clamp to pan limits
+    e = Math.min(Math.max(e, this.panLimits.left), this.panLimits.right);
+    f = Math.min(Math.max(f, this.panLimits.top), this.panLimits.bottom);
+
+    const newMatrix = `${currentMatrix.a} ${currentMatrix.b} ${currentMatrix.c} ${currentMatrix.d} ${e} ${f}`;
+    updateTransform(this.node, newMatrix, 0); // instant pan
+
+    this.lastPointer = pt;
+  }
+
+  endPan(event) {
+    if (!this.isPanning) return;
+    this.isPanning = false;
+    this.lastPointer = null;
+  }
+
+  _getEventPoint( event ) {
+    // Works for touch or mouse
+    const svg = this.node.ownerSVGElement;
+    const pt = svg.createSVGPoint();
+    if (event.touches && event.touches[0]) {
+      pt.x = event.touches[0].clientX;
+      pt.y = event.touches[0].clientY;
+    } else {
+      pt.x = event.clientX;
+      pt.y = event.clientY;
+    }
+    return pt.matrixTransform(svg.getScreenCTM().inverse());
+  }
 }
 
-// svgRoot.addEventListener('wheel', (event) => {
-//   event.preventDefault(); 
-//   const direction = event.deltaY > 0 ? zoom.OUT : zoom.IN; 
-//   const newLOD = lodIndex + direction;
-//   applyZoom(newLOD);
-//   }, 
-//   { passive: false }
-// );
+// ---- Camera initialization ----------
+const cameraObj = new Camera(camera);
 
+// DESKTOP: double-click to toggle zoom
+svgRoot.addEventListener(
+  "dblclick", 
+  async ( evt ) => {
+    await cameraObj.toggleZoom();
+});
+
+
+// MOBILE: pinch / spread to handle zoom 
+let touchStartDist = 0;
+
+svgRoot.addEventListener("touchstart", (e) => {
+  if (e.touches.length === 2) {
+    const dx = e.touches[0].clientX - e.touches[1].clientX;
+    const dy = e.touches[0].clientY - e.touches[1].clientY;
+    touchStartDist = Math.hypot(dx, dy);
+  }
+});
+
+svgRoot.addEventListener("touchend", (e) => {
+  if (e.touches.length < 2 && touchStartDist) {
+    touchStartDist = 0; 
+  }
+});
+
+/**
+ * TODO: RESUME HERE
+ * 
+ * THE TOGGLE IS NOT GOOD FOR PINCH/SPREAD GESTURES ... 
+ * 
+ */
+svgRoot.addEventListener("touchmove", (e) => {
+  if (e.touches.length === 2) {
+    e.preventDefault(); 
+    const dx = e.touches[0].clientX - e.touches[1].clientX;
+    const dy = e.touches[0].clientY - e.touches[1].clientY;
+    const dist = Math.hypot(dx, dy);
+    const delta = dist - touchStartDist;
+
+    if (Math.abs(delta) > 50) { 
+      cameraObj.toggleZoom();
+      touchStartDist = dist; 
+    }
+  }
+});
+
+
+  // MOUSE: pan handling
+  // svgRoot.addEventListener("mousedown", camera.startPan);
+  // svgRoot.addEventListener("mousemove", camera.panMove);
+  // svgRoot.addEventListener("mouseup", camera.endPan);
+  
 
 l("End transmission!");
