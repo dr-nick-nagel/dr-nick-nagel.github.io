@@ -6,42 +6,42 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://dr-nick-nagel.github.io/</loc>
-<lastmod>2025-11-10T18:03:29-00:00</lastmod>
+<lastmod>2025-11-21T14:35:08-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/archives.html</loc>
-<lastmod>2025-11-10T18:03:29-00:00</lastmod>
+<lastmod>2025-11-21T14:35:08-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/author/dr-nick-nagel.html</loc>
-<lastmod>2025-11-10T18:03:29-00:00</lastmod>
+<lastmod>2025-11-21T14:35:08-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/author/nick-nagel.html</loc>
-<lastmod>2025-11-10T18:03:29-00:00</lastmod>
+<lastmod>2025-11-21T14:35:08-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/authors.html</loc>
-<lastmod>2025-11-10T18:03:29-00:00</lastmod>
+<lastmod>2025-11-21T14:35:08-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
 
 <url>
 <loc>https://dr-nick-nagel.github.io/blog/</loc>
-<lastmod>2025-11-10T18:03:29-00:00</lastmod>
+<lastmod>2025-11-21T14:35:08-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
@@ -56,6 +56,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://dr-nick-nagel.github.io/blog/bandai.html</loc>
 <lastmod>2009-10-29T00:00:00-04:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://dr-nick-nagel.github.io/blog/bases-and-affine-transformations-the-linear-algebra-behind-svg-graphics.html</loc>
+<lastmod>2025-11-12T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -271,6 +278,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>https://dr-nick-nagel.github.io/blog/sat.html</loc>
+<lastmod>2025-11-13T00:00:00-05:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>https://dr-nick-nagel.github.io/blog/scene_graph.html</loc>
 <lastmod>2025-11-08T00:00:00-05:00</lastmod>
 <changefreq>weekly</changefreq>
@@ -356,7 +370,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://dr-nick-nagel.github.io/categories.html</loc>
-<lastmod>2025-11-10T18:03:29-00:00</lastmod>
+<lastmod>2025-11-21T14:35:08-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>
@@ -377,7 +391,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://dr-nick-nagel.github.io/tags.html</loc>
-<lastmod>2025-11-10T18:03:29-00:00</lastmod>
+<lastmod>2025-11-21T14:35:08-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.6</priority>
 </url>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-          <title>NickNagel.com - Beneath the World Tree: Understanding SVG as Scene Graph</title>
+          <title>NickNagel.com - Understanding the Basis of the Separating Axis Theorem (SAT)</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script>
@@ -39,26 +39,17 @@
 
 
 
-    <meta name="tags" content="javascript" />
-    <meta name="tags" content="computer graphics" />
-    <meta name="tags" content="animation" />
+    <meta name="tags" content="basis" />
+    <meta name="tags" content="vector space" />
+    <meta name="tags" content="affine transformation" />
     <meta name="tags" content="svg" />
-    <meta name="tags" content="scalable vector graphics" />
-    <meta name="tags" content="art" />
-    <meta name="tags" content="artwork" />
-    <meta name="tags" content="artworks" />
-    <meta name="tags" content="Inkscape" />
-    <meta name="tags" content="SVG Creators Collaborative" />
-    <meta name="tags" content="sprites" />
-    <meta name="tags" content="interactive art" />
-    <meta name="tags" content="games" />
-    <meta name="tags" content="computer games" />
-    <meta name="tags" content="computer simulations" />
-    <meta name="tags" content="vectors" />
-    <meta name="tags" content="artists" />
-    <meta name="tags" content="creative coding" />
-    <meta name="tags" content="scene graph" />
-    <meta name="tags" content="2d" />
+    <meta name="tags" content="linear algebra" />
+    <meta name="tags" content="separating axis theorem" />
+    <meta name="tags" content="SAT" />
+    <meta name="tags" content="geometry" />
+    <meta name="tags" content="polygon intersection" />
+    <meta name="tags" content="algorithms" />
+    <meta name="tags" content="algoritm" />
 
     </head>
 
@@ -168,125 +159,41 @@ Welcome to NickNagel.com
   <article>
     <header>
       <h2>
-        <a href="https://dr-nick-nagel.github.io/blog/scene_graph.html" rel="bookmark"
-           title="Permalink to Beneath the World Tree: Understanding SVG as Scene Graph">Beneath the World Tree: Understanding SVG as Scene Graph</a></h2>
+        <a href="https://dr-nick-nagel.github.io/blog/sat.html" rel="bookmark"
+           title="Permalink to Understanding the Basis of the Separating Axis Theorem (SAT)">Understanding the Basis of the Separating Axis Theorem (SAT)</a></h2>
       
     </header>
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "VisualArtwork",
-  "name": "The SVG Scene Graph",
-  "creator": {
-    "@type": "Person",
-    "name": "Nick Nagel",
-    "url": "https://dr-nick-nagel.github.io/"
-  },
-  "dateCreated": "2025-11-08",
-  "description": "A marginal illustration depicting the tree structure of an SVG scene graph, inspired by the Norse World Tree and the hierarchy of SVG elements.",
-  "image": "https://dr-nick-nagel.github.io/svg/scene_graph/tree_structure_opt.svg",
-  "artform": "SVG illustration",
-  "genre": "Digital art, Educational illustration",
-  "inLanguage": "en",
-  "keywords": "SVG, scene graph, Norse mythology, World Tree, creative coding, digital illustration, interactive art"
-}
-</script>
+    <style>
 
-<style>
-.CodeList {
-    background-color: #333;
-    color: #FFE;
-    padding: 5px;
-    border: solid 1px black;
-    border-radius: 5px
-    font-size: 8px;
-}
-.AlignCenter {
-  text-align: center;
-}
-
-.CodeHighlight {
-    color:#f99
-}
-
-.CodeLine{
-    font-family: monospace;
-    font-size: smaller;
-    font-weight: bold;
-    color: #A00;
-}
-
-.ImageWrapper {
-    display: block;
-    margin-right:auto;
-    margin-left:auto;
-    border: inset grey 4px;
-}
-
-.ImageContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+figure {
+    margin: 0px;
 }
 
 figcaption {
     font-size: smaller;
+    text-align: justify;
+    margin-top: 5px;
 }
 
-.EndnoteReturn {
-  width:  10px;
-  height: 15px;
-}
-
-/*    --------  DEMOS ------------    */
-.SvgArtFrame {
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    align-items: center;
-    gap: 10px;
-}
-
- #viewport_container_01 {
+ #svg_container {
   display: block;
   margin: auto;
   background-color: #eee;
-  border: inset 4px #080;
-
-
-  /* width: 550px; */
-
-
+  border: solid 1px #aaa;
+  border-radius: 10px;
+  width: 550px;
 
   @media( max-width: 450px ) {
-    /*Insert mobile rules*/
     width:  300px;
-    /* height: 250px; */
     margin: 0;
   }
 
 }
 
-svg#ginnungagap {
+svg#ginnungagap_debug {
     display: block;
-    /* width:  100%; */
+    width:  100%;
     height: auto;
-}
-
-/* ---- CUSTOM CSS ---- */
-
-img#tree_structure {
-  float: right;
-  margin: 0 0 1em 1em;
-  width: 100px;
-  height: auto;
-  display: block;
-  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));
-
-  @media( max-width: 450px ) {
-    width:  80px;
-  }
-
 }
 
 #style_wrapper {
@@ -336,50 +243,23 @@ img#tree_structure {
    color: black;
 }
 
+
+
+
+
 </style>
 
-<h2>In this Post ...</h2>
-<p>I'll look at Scalable Vector Graphics (SVG) as a scene graph. Then, in light of this conceptualization, I'll share some very practical insights I had working with SVG transforms ... </p>
-<h2>Introduction</h2>
-<p><picture>
-  <source 
-    srcset="/svg/scene_graph/poor_alice.svg"
-    type="image/svg+xml" />
-  <img 
-    src="https://dr-nick-nagel.github.io/svg/scene_graph/poor_alice.png"
-    alt="Alice in Wonderland having a bit of a cry because she's feeling overwhelmed"
-    loading="lazy"
-    width="360"
-    height="auto"
-  />
-</picture></p>
-<figcaption>
-Poor Alice. 'Looks like she's feeling a little overwhelmed right now. Cheer up Alice! We'll make sense of this yet!</em> Artwork by <strong style="font-size:12px">&#x1D4A9;</strong>.
-</figcaption>
-
-<p>Modern computer graphics systems rely heavily on scene graphs. Part of the beauty of SVG is that it is, inherently, itself precisely that. As such, when you adopt and work with SVG you get all the benefits of a scene-graph structure for free. If you're interested in creating complex SVG artwork, understanding that structure and what it carries with it is invaluable.</p>
-<h2>SVG as Scene Graph</h2>
-<p><img id='tree_structure' 
-     src='/svg/scene_graph/tree_structure_opt.svg'
-     alt='A marginal illustration by N depicting the tree structure of the SVG scene graph'
-/></p>
-<p>Let's step back and revisit exactly what a scene graph is:</p>
-<blockquote>
-<p>A <strong>scene graph</strong> is a tree-structured hierarchy of nodes and leaves that defines the relationships between all parts of a scene.</p>
-</blockquote>
-<p>In the SVG scene graph, the <strong>root node</strong> is the <code>svg</code> element itself, <strong>branch nodes</strong> are the <code>g</code> elements, and <strong>leaf nodes</strong> are the shapes, paths, and curves that make up the visible parts of a scene.</p>
-<h2>The <em>World Tree</em> Analogy</h2>
-<p>While working on a video game recently, thinking deeply about the SVG scene graph reminded me of old Norse cosmology. Now a staple of comic books and Disney movies, I've been a fan of Norse myths ever since reading the <em>Poetic Eddas</em> in my teens. Remember <strong>Yggdrasil</strong>, the World Tree? In Norse myths, the realms of gods, humans, elves, giants, dwarves, and so on are connected by the roots and branches of this cosmic tree. Yggdrasil is the center of the Norse universe, holding together the nine realms and all the creatures living within them. In this regard, it is like the "axis of the cosmos".</p>
-<div class="SvgArtFrame">
-  <div id="viewport_container_01">
-<svg id="ginnungagap"
-
-   width="600"
-   height="600"
-
+<h2>Rationale</h2>
+<p>This article is part of a series I've been working on centered around the scene-graph conceptualization of Scalable Vector Graphics (SVG). The motivation for the series stems from work I've been undertaking to add virtual camera funtionality to my <em>SVG Creator's framework</em>. Specifically, I needed to simulate camera features (like zoom, panning and tilt) to facilitate the creation of interactive SVG artworks. </p>
+<p>In the previous article in the series I shared some insights that occured to me relating the concept of <strong>mathematical bases and basis vectors</strong> to a generalized process for understanding and using SVG transformations within the scene-graph. The present piece dovetails off the previous by looking at how <strong>projection</strong> and <strong>basis reasoning</strong> lead to robust geometric constraints definitions (e.g., collisions, containment, and panning limits).</p>
+<h2>The Problem</h2>
+<p>The problem at hand concerned the development of an SVG virtual camera system. One of the things I enjoy about working with SVG is the ability to create artworks with varying levels of detail and set up systems that allow viewers to navigate the work and appreciate features from different perspectives. </p>
+<p>For example, below you see some SVG which illustrates the concept of the "World Tree" from Norse mythology. In it, I've set up a camera system to enable viewers to zoom in an pan around to explore some of the details hidden away in the more distant perspective. The problem for this piece (and it's a general problem creating artwork for any number of applications like games, sims, or advertisements for example) is that the virtual camera panning has to be constrained or the viewer will get lost. Think about it for a minute. How would you express the constraints? </p>
+<h2>Live Interactive Illustration</h2>
+<figure>
+<div id='svg_container'>
+<svg id="ginnungagap_debug"
    viewBox="-300 -300 1200 1200"
-
-
    version="1.1"
    inkscape:version="1.3.2 (091e20e, 2023-11-25)"
    sodipodi:docname="ginnungagap.svg"
@@ -1495,8 +1375,6 @@ Poor Alice. 'Looks like she's feeling a little overwhelmed right now. Cheer up A
        ry="0.10143146" />
   </g>
 
-
-
   <g id="camera"
       transform="matrix( 1, 0, 0, 1, 0, 0 )"
   >
@@ -1523,7 +1401,6 @@ Poor Alice. 'Looks like she's feeling a little overwhelmed right now. Cheer up A
         stroke="green"
         />
   </g>
-
 
    <g
       inkscape:groupmode="layer"
@@ -3212,7 +3089,6 @@ Poor Alice. 'Looks like she's feeling a little overwhelmed right now. Cheer up A
       <text class="OutputText" id="test_out" 
           x="2" y="18" ></text>
   </g>
-
    <g id="world_axes_branch">
       <rect id="world_axes"
         x="0" y="0" width="600" height="600"
@@ -3230,345 +3106,213 @@ Poor Alice. 'Looks like she's feeling a little overwhelmed right now. Cheer up A
         stroke="blue"
         />
   </g>
-
 </svg>
-    </div>
-</div>
 
-<p>I like this analogy because it's practically a literal mapping. The notion of mythical realms connected by the branches of Yggdrasil neatly parallels the nested coordinate spaces -- or <em>subtrees</em> -- in a scene graph, each with its own local behavior, timing and visual scale. </p>
-<ol>
-<li>
-<p>Like the world tree, the SVG scene-graph has a <em>root</em> which defines the axes of <strong>the SVG world coordinate system</strong>.</p>
-</li>
-<li>
-<p>The root can give rise to any number of <em>branches</em> -- the <code>g</code> elements that form <strong>transform hierarchies</strong> for sprites, backgrounds, and other scene-graph objects.</p>
-</li>
-<li>
-<p>And the branches ultimatly end in leaves -- the renderable shapes and paths that bring the scene to life (like "the gods riding the graph" in the world-tree artwork).</p>
-</li>
-</ol>
-<p>In the following discussion I'll use the world-tree illustration to outline a practical process for creating modular artwork using the SVG scene graph concept.</p>
-<h2>A Process for Creating Modular Artworks</h2>
-<p>First, what do I mean by <em>modularity</em> in design. For me, it's a guiding principle in creating SVG art. <strong>Modularity</strong> is another blog-post in-and-of-itself but, for now, just think of it as ...</p>
-<blockquote>
-<p>... creating complex visuals with self-contained re-usable graphical components that can be combined, transformed, and animated <em>independently</em>, yet composed seamlessly to create a whole that is "greater than the sum of its parts".</p>
-</blockquote>
-<p>To illustrate, let's look at some examples from <em>the World Tree</em>.</p>
-<h4>Process part 1: Know your root</h4>
-<p>First and foremost, it bears reiterating that all SVG's have a <strong>root element</strong>: the <code>&lt;svg&gt;</code> tag itself. The <code>&lt;svg&gt;</code> root offers intriguing possibilities as a "window" into your SVG worlds. With respect to the scene graph, the <code>&lt;svg&gt;</code> node defines a coodinate system relative to which all the branches in the scene graph can be positioned scaled and rotated ... </p>
-<blockquote>
-<p><strong>The SVG "World Coordinate System"</strong> esblishes the base origin and axes for all descendant coordinate systems in your scene graph. </p>
-</blockquote>
-<h4>Process part 2: Define modular components around the SVG world origin</h4>
-<p>Perhaps the most important tip I can offer for SVG scene creation is this:</p>
-<blockquote>
-<p>Develop your model components (e.g., sprites, scene elements, etc.) <strong>around the SVG world origin</strong>. </p>
-</blockquote>
-<p>Here's an example. If you look closely at "the world tree" (try zooming in with a pinch or mouse), you'll spot the mythic Thor riding down the rainbow bridge in his goat-drawn cart. </p>
-<p>How would you create something like that? </p>
-<p>The naive approach would be to try to create the sprite directly inside one large monolithic SVG. The <em>modular approach</em> is to create the sprite independently <em>centering it around the SVG world coordinates origin</em>. This will make your life so much easier downstream when it's time to bring the sprite into a larger composition. </p>
-<p>[[ INSERT FIGURE  ROTAING OUT THE WHEEL ...  ]]</p>
-<p>The important takeaway here is <em>you don't have to worry about sprite placement details at creation time</em>. If you build modular components centered around the SVG world origin scene composition downstream is dramatically simplified. Trust me on this one. </p>
-<h4>Process part 3: Use a scene graph "wrapper element" to integrate modular components</h4>
-<p>For scene composition: <strong>use SVG <code>&lt;g&gt;</code> tags to create scene graph branches holding your components</strong>.</p>
-<p>For example, after creating the <em>Thor sprite</em> I wrapped the whole rig in a g-tag. This group-structure gives artists and developers both a powerful handle: each scene graph <em>group</em> can be positioned rotated and scaled independently of other elements using the magic of the transformation matrix.</p>
-<h2>Advanced Topic: SVG Transformation Matrices</h2>
-<p><strong>(OK to skip if you're a math hater -- but I know we all love math here...)</strong></p>
-<p>So what exactly is an SVG transformation matrix anyway? </p>
-<p>I've written extensively on SVG transformations elsewhere <sup><a href="https://dr-nick-nagel.github.io/blog/trans-matrix.html">1</a>, <a href="https://dr-nick-nagel.github.io/blog/svg-transform-matrix.html">2</a></sup> but it's worth revisiting the concepts here because <em>repetion aids learning</em>. (Full disclosure; I, myself, never stop learning).</p>
-<p>This time around I want to add some insights that tie directly into the preceding discussion; namely how transformation matrices connect the scene graph hierarchy and modular design. </p>
-<h3>Matrix structure</h3>
-<p>First, let's recall the SVG transformation matrix. In SVG (and CSS too, by the way), transformations are applied through a $3 \times 3$ <em>affine matrix</em>.</p>
-<div>
-$$
-\mathbf{M_{Transform}} = \begin{bmatrix}
-a & c & e \\
-b & d & f \\
-0 & 0 & 1
-\end{bmatrix}
-$$
 </div>
+<figcaption><strong>Figure:</strong> The world Tree by <strong style="font-size:12px">&#x1D4A9;</strong> (shown with test scaffolding).</figcaption>
+</figure>
 
-<p>Each element corresponds to part of an affine transformation -- <em>translation</em>, <em>scale</em> and <em>skew</em>: </p>
+<p>Think about it: if the user pans too far, they'll fall off the edge of the world, right? We can't have that! So we need to constrain the pannable area whenever the user zooms in to view details.</p>
+<p>If you look closely at the World Tree SVG, you'll see I've added some test scaffolding. I've drawn the world coordinate system axes (shown in blue) and also the local coordinate system axes for the camera (shown in red). The blue axes represent the <strong>global SVG coordinate system</strong> -- the world's <strong>basis</strong>. The red axes represent the <strong>camera's local coordinate system</strong> -- the basis attached to the user's view. I want you to think of these coordinate systems as <strong>bases in the geometric sense</strong>: each basis defines how vectors, distances, and shapes are interpreted in its own frame of reference.</p>
+<p>I've also drawn rectangles around each basis.</p>
 <ul>
-<li><strong>a</strong> : scale on x</li>
-<li><strong>b</strong> : y sheer (skew factor)</li>
-<li><strong>c</strong> : x sheer (skew factor)</li>
-<li><strong>d</strong> : scale on y</li>
-<li><strong>e</strong> : translation along x</li>
-<li><strong>f</strong> : translation along y </li>
+<li>
+<p>The blue rectangle corresponds to my target <code>viewBox</code> dimensions in <em>world coordinates</em>.</p>
+</li>
+<li>
+<p>The red rectangle corresponds to the <em>transformed viewBox</em> under the camera's <strong>affine transform</strong>.</p>
+</li>
 </ul>
-<p>Rotation can also be captured in matrix form: </p>
-<div>
-$$
-\mathbf{M_{Rotation}} = \begin{bmatrix}
-cos( \theta ) & -sin( \theta )  & 0 \\
-sin( \theta ) &  cos( \theta )  & 0 \\
-0 & 0 & 1
-\end{bmatrix}
-$$
-</div>
-
-<p>And rotation can be combined with scale by adding scale factors, $Sx$ and $Sy$ :</p>
-<ul>
-<li><strong>a</strong> = $S_x \cdot cos(\theta)$</li>
-<li><strong>b</strong> = $S_x \cdot sin(\theta)$</li>
-<li><strong>c</strong> = $-S_y \cdot sin(\theta)$</li>
-<li><strong>d</strong> = $S_y \cdot cos(\theta)$</li>
-</ul>
-<p>Yes. That's why poor Alice is in tears. But the good news is <em>you don't have to do any of this math by hand</em>. You'll get it for free from the browser engine and your well designed SVG scene graph! </p>
-<p>Bottom line?</p>
+<p>Initially, when the artwork loads, the global basis and the camera basis coincide. But as soon as the user zooms in, the camera basis is scaled up, and its rectangle becomes larger than the SVG viewport in world coordinates.</p>
+<p>To express the panning constraints in this larger context, I added a green rectangle. This perimeter defines the set of legal panning positions -- boundaries within which the camera is allowed to move without exposing empty space. At the initial zoom level, the green box sits neatly inside the blue world box. But once the user zooms in, the camera's viewBox becomes larger in world units. The green region becomes the area to which the camera view must be constrained in order to keep the world fully visible.</p>
+<p>Whew! Now that we've established these two bases -- the <em>world basis</em> and the <em>scaled camera basis</em> we're in the perfect position to enforce panning constraints using the <em>Separation of Axes Theorem</em>.</p>
+<hr />
+<h2>The Separating Axis Theorem  &lt;--| rename section</h2>
+<p>The <strong>Separating Axis Theorem</strong> (SAT) sets up a computer graphics algorithm that is often used in gaming and simulation to test for the intersection of convex polygons (think collision detection). Here, I'll extend it to test for <em>containment</em>. </p>
+<p>Play with the wold tree for a bit. Double click (or spread) to "zoom in". Since I've adjusted the SVG <code>viewBox</code> for this illustration you won't perceive the zoom-effect so much as you'll see the camera basis scale up. Now if you pan about (touch and drag the camera view around with your finger or device) you'll see how the camera constraint box starts out fully contained by but can come to overlap with the SVG view box. Notice how the system is only "happy" if the green box is fully <em>contained</em> by the viewbox. </p>
+<p>How do we test for containment. The most obvious way (to me) is set up a conditional to check the verts on the boxes. Something like:</p>
+<pre><code>IF 
+  CAM_CONSTRAINTS_upper_left outside  WORLDVIEW_upper_left AND
+  CAM_CONSTRAINTS_lower_left outside  WORLDVIEW_lower_left AND
+  etc...
+THEN 
+  it's all good ... 
+ELSE
+  not so much ...
+</code></pre>
+<p>Sure that'll work. For this case. Using simple rectangles. But it feels kinda kludgey, doesn't it? Wouldn't it be great if we could formulate a test that could be used for any given set of concave polygons of any arbitrary degree of complexity? Yes! Now you're thinking in algorithms! The good news is you're not the only one who's thought about this. Standing on the shoulders of <em>Hermann Minkowski</em> we can formulate a nice, neat formal statement:</p>
+<h4>The Separating Axis Theorem:</h4>
 <blockquote>
-<p>The <strong>SVG transform matrix</strong> elements -- the <strong>a</strong>, <strong>b</strong>, <strong>c</strong>, <strong>d</strong>, <strong>e</strong>, and <strong>f</strong> paramters encode <em>all the affine transformations</em> (including translation, rotation and scale) at each step along the scene graph. </p>
+<p>Two <strong>convex polygons</strong> $A$ and $B$ are <strong>disjoint</strong> (i.e., they do not overlap or touch) if, and only if, there exists a line (let that be called a <strong>separating axis</strong>) such that the projections of the two polygons onto that line are also disjoint.</p>
 </blockquote>
-<p>Thats powerful magic!</p>
-<h2>In Practice: Working with Transforms on the SVG Scene Graph</h2>
-<p>Armed with this deeper understanding of transformation matrices, let's explore how to use them in practice. In SVG, we have two main methods to inspect an element's transformation matrix: <code>getCTM()</code> and <code>getScreenCTM()</code>. It's <em>mission critical</em> to understand the differences between these two, so let's demystify them here. </p>
-<h3>getCTM()</h3>
-<p><code>getCTM()</code> returns the <em>cumulative transformation matrix</em> associated with any SVG graphics element. This means that it gives you all the accumulated transformations (in matrix form) from the <em>SVG root</em> all the way down to the SVG element in question [INSERT FOOTNOTE ABOUT VIEWBOX TRANSFORMS ... ]. </p>
-<div class="admonition tip">
-<p class="admonition-title">PRO-TIP</p>
-<p>Use <code>getCTM()</code> when you need to work on element transformations relative to the SVG <em>world coordinate system</em>.</p>
-</div>
-<p>For example, suppose we're in the world-tree and want to plan a trip to <strong>Asgard</strong>. To find where Asgard sits <em>relative to the world origin</em>, we can use <code>getCTM()</code>.</p>
-<p>Given the structure:</p>
-<pre>
-&lt;svg ...>
-...
-  &lt;g id="asgard" ...>
-    &lt;path ... />
-    ...
-  &lt;/g>
-...
-&lt;/svg>
-</pre>
-
-<p>Where <code>&lt;svg&gt;</code> is the root, and <code>&lt;g id="asgard"&gt;</code> is a scene-graph node containing all the paths (leaf nodes) that define "Asgard". Given all that we can find our way to asgard using: </p>
-<pre>
-const asgardGroup = document.getElementById( "asgard" );
-const M_root_to_asgard = asgardGroup.getCTM(  );
-</pre>
-
-<p><code>M_root_to_asgard</code> will take the form of an SVG transform matrix as I just described -- with properties <em>a</em> through <em>f</em> embodying the affine transformation up through to the SVG root. So if we want the x and y coordinates for the asgard group's translation we can simply write:</p>
-<pre>
-const tx = M_root_to_asgard.e ; 
-const ty = M_root_to_asgard.f ; 
-</pre>
-
-<p>Understanding the transformation matrix <em>is the very essense of understanding scene graphs</em> -- not just for SVG but in <em>all</em> computer graphics systems. In SVG, the cumulative transformation matrix (CTM) elegantly captures the translation, rotation and scale operations applied from any branch node all the way back to the SVG root. We can express that relationsip in a singular expression:</p>
-<p>$$
-\text{SVG world coordinates} \xrightarrow{M_{CTM}} \text{Element Local Coordinates}
-$$</p>
-<p>In plain English: "Get me from the SVG World coordinate system to the local Asgard platform coordinate system using the cumulative transform matrix". </p>
-<p>If we ever need to "undo" this transformation (for example to find our way back from Asgard and work with world normalized coordinates we  can do so simply by applying the <strong>inverse matrix</strong>:</p>
-<p>$$
-\text{Element Local Coordinates}
-\xrightarrow{M_{CTM}^{-1}} 
-\text{SVG world coordinates} 
-$$</p>
-<p><strong>Bottom line:</strong> Just remember to use <code>getCTM()</code> to map between a node's local coordinate space and the global, SVG world coordinate system.</p>
-<h3>getScreenCTM()</h3>
-<p>In contrast, <code>getScreenCTM()</code> returns the <strong>cumulative transformation matrix</strong> of an element all the way up through the SVG root <em>and beyond</em> (into the SVG host's coordinate system). </p>
-<p>In creating interactive artworks with SVG you'll often need to consider not one, not just two, but three coordinate systems:</p>
-<ol>
-<li>
-<p><strong>Element local coordinates</strong> -- the coordinate system of your local branch or leaf node(s)),</p>
-</li>
-<li>
-<p><strong>SVG world coordinates</strong> -- the SVG root coordinate basis, <em>and also</em></p>
-</li>
-<li>
-<p><strong>Client (screen) coordinates</strong> -- the coordinate system of the host HTML document or browser window.</p>
-</li>
-</ol>
-<p>To see what I mean, play around with the interactive widget I included below (if you're reading this on a computer).</p>
+<p>Simple, right? No, really it's a mouthful and densely packed at that. As a visual thinker I like use illustration when reasoning about algortithms. So in the following section I'll try to unpack this visually with a solid example. Think of it as a bit of linear algebra for artists.</p>
+<h3 id="start_float">Bases in Action: SAT Illustrated</h3>
+<p>Let's take for example the very simplest case possible ... </p>
+<p>TODO: Move me out to styles ... </p>
 <style>
-#viewport-container {
-    display: inline-block;
-    width:  300px;
-    height: 300px;
+
+.float_me {
+    position: fixed ;
+    top: 50px;
+    right: 50px;
+    z-index: 1000;
+}
+
+#sat_diagram_window {
+    width:300px;
+    height:300px;
+    margin:0;
+    border: outset gray 4px;
+    box-shadow: 0px 10px 10px rgba( 0, 0, 0, 0.25 );
 }
 </style>
-<div id="viewport-container">
-    <svg id="svg_2"
-        xmlns="http://www.w3.org/2000/svg" 
-        width="300"
-        height="300" 
-    >
-        <!--INSERT SVG CONTENT-->
-    </svg>
-</div>
-<div class="FigCap">
-<strong>Figure 2.</strong> Illustration of an SVG viewport nested within an HTML webpage in a browser (the <em>client viewport</em>). 
+<iframe id="sat_diagram_window"
+  src="/html/sat_diagram.html" 
+  title="Separating Axis Theorem Illustrated" 
+  scrolling="no"
+>
+</iframe>
+<figcaption><strong>Figure 1: </strong> Two triangles A and B. Are they overlapping? Easy enough to see, right? But can we prove it to the machine ... ?</figcaption>
+
+<p>If you study <em>Figure 1</em> for a minute you'll see I've drawn two triangles. </p>
+<div>
+$$
+\begin{align*}
+\text{Triangle } A: & \quad A_1=(0, 0), \quad A_2=(2, 0), \quad A_3=(1, 2) \\
+\text{Triangle } B: & \quad B_1=(3, 1), \quad B_2=(5, 1), \quad B_3=(4, 3)
+\end{align*}
+$$
 </div>
 
-<p>As we've seen, the SVG viewport defines its own world coordinate system relative to which all scene-graph elements are positioned. But the browser (or "client viewport") adds <em>another</em> layer of coordinates on top of that.</p>
-<p>So if you want to support <strong>user interaction</strong> -- like touches clicks pinches etc. -- you need to account for the offset between the SVG's internal origin and the client's coordinate origin. This can get tricky, especially when scrolling or layout changes are involved.</p>
-<p>The good news: <code>getScreenCTM()</code> handles all this for us transparently.</p>
-<p><strong>In summary:</strong> use <code>getScreenCTM()</code> when you need a matrix that includes <em>all transformations</em>, from your target element up through the SVG root <em>and beyond</em> (i.e., one that includes any client-space offsets introduced by the host page).</p>
-<p>This is especially useful for interactive SVGs embedded in web pages. When mapping user input events (like mouse clicks or touch positions) from client coordinates into your SVG scene graph, remember to use the <strong>inverse of the screen CTM</strong>:</p>
+<p>On visual inspection it's pretty easy to see they're separated, right? So how do we prove that with separating axes? </p>
+<h4>Step 1. Pick an axis -- any axis ...</h4>
+<p>What exactly do we mean by axis here? Think of it as a line we can draw between the two figures. If any line can be drawn that cuts between the two, clearly they must be separated. Theoretically we could draw an infinite number of such lines to test the theorem. But in practice we'll use the edges of the polygons. For our triangles, let's arbitrarily inspect $\vec{E_{B_1B_2}}$ to get us going. We can get the edge as a <em>vector quantity</em> by subtraction:</p>
+<div>
+$$
+\vec{E}_{B_{1}B_{2}} = B_2 - B_1 = (5-3, 1-1) = (2, 0)
+$$
+</div>
+
+<h4>2. Use the <em>normal</em> as a basis for projection</h4>
+<p>And this brings us to the heart of the discussion. Once we have an edge, we can obtain its <strong>normal</strong> (a line indicating a direction perpendicular to the edge) and use it as a basis for the projection. As I discussed at length in the <a href="{file} ./basisvectors.md">preceding article in this series</a> , a <strong>basis</strong> in linear algebra gives us a coordinate system. In this case we get a way of <em>mapping</em> from our 2D svg world coordinates to a one-dimensional basis on which we can project our triangles and look for separation. </p>
+<div class="admonition tip">
+<p class="admonition-title">Insight!</p>
+<p>For me, the key insight to understanding the SAT is to understand that the separating axes are <strong>geometric bases</strong> for <strong>projection</strong>. </p>
+</div>
+<p>Here's the normal for edge $\vec{E_{B_1B_2}}$ .</p>
+<div>
+$$
+\vec{N}_1 = (-E_y, E_x) = (0, 2)
+$$
+</div>
+
+<p>If you touch or click triangle $B$ in <strong>Figure 1</strong> you'll see how we get its <em>normal</em>. </p>
+<h4>3. Project the triangles on the normal basis</h4>
+<p>Touch or click again and you'll see how we <em>project</em> the triangles. Conceptually, it's easy. We <strong>project</strong> the polygon by mapping its <em>vertices</em>, $V_i$, onto the normal basis using the dot-product [FOOT_NOTE]:</p>
 <p>$$
-\text{Client (browser) Coordinates} 
-\xrightarrow{M_{ScreenCTM}^{-1}} 
-\text{Scene Graph Element Local Coordinates}
+Proj( V_i ) = V_i \cdot \vec n
 $$</p>
-<h4>One Last Example</h4>
-<p>Let's wrap up the discussion with one last example. To see <code>getScreenCTM()</code> in action (and better understand why you might need it) try looking for the pot of gold at the end of the rainbow (hint: try tapping or clicking near the end of the rainbow bridge in the <em>World Tree</em> SVG). If you find the gold it will show you its coordinates -- both the client and also the SVG world coordinates. For handling objects like this based on user events you'll need to be able to work your way back and forth between the client coordinate system and SVG world coordinates as the following fragment using <code>getScreenCTM()</code> shows:</p>
-<pre>
-const svgRoot = document.getElementById( "my_svg_root" );
-svgRoot.addEventListener('pointerdown', 
-  ( event ) => {
-    const pt = svgRoot.createSVGPoint();
-    pt.x = event.clientX;
-    pt.y = event.clientY;
-    const svgP = pt.matrixTransform( camera.getScreenCTM().inverse() );
-    ...
-  }
-);
-</pre>
+<p>Projecting a single vertex gives us a scalar value. Projecting all the vertices in a polygon gives us an <strong>interval</strong> along the basis line (think of it as a "shadow" cast by the polygon along the basis). In this case, the shadows of the two polygons are useful measures; we can use them to look for a gap indicating separation! And to satisfy the Separating Axis Theorem all we need is one (gap that is)! So for Triangle $B$ we project:</p>
+<div>
+$$
+\begin{align*}
+\text{Proj}(B_1) &= (3, 1) \cdot (0, 2) = 2 \\
+\text{Proj}(B_2) &= (5, 1) \cdot (0, 2) = 2 \\
+\text{Proj}(B_3) &= (4, 3) \cdot (0, 2) = 6
+\end{align*}
+$$
+</div>
 
-<p>Notice, in this example we set up an event listener to handle mouse clicks (touches on mobile screens) which:</p>
-<ol>
-<li>
-<p>Uses the factory to create an SVG point object, </p>
-</li>
-<li>
-<p>Reads in <em>client</em> $X$ and $Y$ coordinates from the event, and</p>
-</li>
-<li>
-<p>Converts them to <strong>SVG world coordinates</strong> using <code>camera.getScreenCTM().inverse()</code>.</p>
-</li>
-</ol>
-<p>This example works because of the SVG scene graph structure. I have a <code>&lt;g&gt;</code> element holding transformations associated with a virtual camera which enables me to invert the transformations applied to simulate zoom, panning tilt, etc.. That's what enables mapping the client coordinates to the correct coordinates on the SVG world coordinate system.</p>
-<h2>Summary and Conclusion</h2>
-<p>In this blog post I illustrated the concept of the SVG scene graph by way of analogy with Yggdrasil, the metaphorical world tree from norse mythology. What I love about the world-tree myth is that it echoes the concept of the scene graph not just decoratively but structurally. To me it makes perfect sense: the World Tree as the root node, branches as transform hierarchies, leaves or subrealms as local coordinate systems. And Thor's chariot, coursing through one branch or realm, becomes a living example of hierarchical motion within that structure. It's a beautiful conceptual bridge -- both mythically and technically. It makes perfect sense.</p>
-<p>So it was fun for me to leverage the mythology to illustrate conceptually the idea of SVG-as-scene-graph. The beauty of the structure is that it makes transormation, layering and animation so much easier to mangage. Especially for multi-layered pseudo-3D platforms and perspectives. I truely hope this work inspires others to consider SVG as star player for a wide range of artistic applications!</p>
-<h2>More to Come</h2>
-<p>When I originallly sat down to hammer out this post I'd intended to include coverage of the <strong>SVG transform API</strong> for creative coders. But it quickly became apparent that there is a lot of material to cover there. So, rather than overwhelm here, look for a future post on this important topic. In the meantime, I'm including a number of appendices with the source code for important utility functions available in the SVG Creators Collaborative&trade; framework. Functions that creative coders can employ to create SVG artwork starting today. </p>
-<h2>Appendix: Utility Functions to Get Local Transformation Mattrices in SVG</h2>
-<p>For those who've made it this far you're doing great. One quesion you may be asking though is; "Fine Dr. Nick. You've shown how to get the <em>cumulative</em> transformation matrix from the SVG root to any branch, but what about the transformation for more deeply nested branches and their parents? </p>
-<p>... ELABORATE??!!!</p>
-<h3>getTM</h3>
-<pre><code>/**
- * Get the *local* transformation matrix on an element (i.e., 
- * the transform matrix between the element and its parent). 
- * 
- * @param(SVG Graphics Element) el -- any SVG graphics element
- *
- * @returns any transformations applied to the element in 
- * matrix form or identity matrix if none.
- */
-function getTM( el ) {
-  const svg = el.ownerSVGElement || el;
-  const list = el.transform?.baseVal;
-  if (!list || list.numberOfItems === 0)
-    return svg.createSVGMatrix(); // identity
-  return list.consolidate().matrix;
-}
-</code></pre>
-<p>Example Usage:</p>
-<pre><code>const mySprite = document.querySelector('my_sprite');
-// get the local transformation matrix off your sprite...
-const M = getTM( mySprite ); 
-console.log(M.a, M.b, M.c, M.d, M.e, M.f);
-</code></pre>
-<h1>getTM as a Prototype Extension</h1>
-<p>For those who'd prefer to add the <code>getTM</code> utility as a <em>prototype extension</em> (consistent with the CTM getter semantics) here's the implementation from the SVG Creator's Collab&trade; framework.</p>
-<pre><code>// Extend SVGGraphicsElement (covers &lt;g&gt;, &lt;path&gt;, &lt;rect&gt;, &lt;circle&gt;, etc.)
-if ( !SVGGraphicsElement.prototype.getTM ) {
-  SVGGraphicsElement.prototype.getTM = function() {
-    const svg = this.ownerSVGElement || this;
-    const list = this.transform?.baseVal;
-    if (!list || list.numberOfItems === 0) {
-      return svg.createSVGMatrix(); // return the identity matrix
-    }
-    // Consolidate the transform list into a single matrix
-    const consolidated = list.consolidate();
-    // defensive coding against browsers that return null 
-    // rather than identity...
-    return consolidated ? consolidated.matrix : svg.createSVGMatrix();
-  };
-}
+<p>And the projections give us interval:</p>
+<p>$$
+I_B = [2, 6]
+$$</p>
+<p>Now for <strong>Triangle $A$ </strong>: </p>
+<div>
+\begin{align*}
+\text{Proj}(A_1) &= (0, 0) \cdot (0, 2) = 0 \\
+\text{Proj}(A_2) &= (2, 0) \cdot (0, 2) = 0 \\
+\text{Proj}(A_3) &= (1, 2) \cdot (0, 2) = 4
+\end{align*}
+</div>
 
-</code></pre>
-<p>Example Usage:</p>
-<pre><code>const mySprite = document.querySelector('my_sprite');
-const M = mySprite.getTM(); 
-console.log(M.a, M.b, M.c, M.d, M.e, M.f);
-</code></pre>
-<h2>Appendix 2: BONUS! Get the Cumulative Transformation Matrix between Arbitrary Scene Graph Nodes</h2>
-<pre><code>/**
- * SVGGraphicsElement prototype extension to get the 
- * *cumulative transformation matrix* relative to any
- * arbitrary ancestor in the SVG scene graph ... 
- */
-if ( !SVGGraphicsElement.prototype.getRelativeCTM ) {
+<p>$$
+I_A = [0, 4]
+$$</p>
+<h3>The Story So Far ...</h3>
+<p>In <strong>Figure 1</strong> I've sketched the shadows of the two triangles plotted along our normal basis. By visual inspection we can readily see that the shadows overlap. We haven't found our gap yet. </p>
+<p>And you can sort of see this intuitively. If we were to project our triangles onto the Y axis of the original 2D basis for our SVG world (which is exactly what this normal does), you can imagine how their vertical shadows would overlap. In any case, I want to point out that with respect to our normal basis, <em>all that it defines is</em> <strong>a direction for a line</strong> <em>and a</em> <strong>zero point of reference</strong>. As a <em>basis</em> The normal vector simply gives us a key to measure the intervals of our polygons.</p>
+<h3 id="end_float">Finding a Gap</h3>
+<p>So we're not done yet! We still need to find a gap to prove the triangles are not overlapping. Look again below at our figure.</p>
+<p>FIGURE 2: SAME TRIANGLES BUT INITIALIZED TO TEST ALONG EDGE B1 - 3</p>
+<p>Can you spot an axis along which we might find a gap? How 'bout edge $B_{1 \rightarrow 3}$ ? If you look closely you can almost see intuitively that the triangles might separate along this axis. And, indeed, if you click or touch Triangle $B$ you'll see that this time we'll find the gap. It's worth looking at the computations I've provided and comparing them against the figure to "connect the dots".</p>
+<p><strong>Step 1.</strong> Compute the edge vector and obtain the normal basis:</p>
+<div>
+$$
+\vec{E}_{B_{1}B_{3}} = B_3 - B_1 = (4-3, 3-1) = (1, 2)
+$$
+</div>
 
-  /**
-   * Get the *cumulative transformation matrix* relative to ...
-   * 
-   * @param( SVGGraphicsElement) ancestralGE -- any arbitrary 
-   *  ancestor in the SVG scene graph ... 
-   *
-   * @returns the cumulative transformation matrix between nodes... 
-   */
-  SVGGraphicsElement.prototype.getRelativeCTM = function( ancestralGE ) {
-    if ( !( ancestralGE instanceof SVGGraphicsElement ) ) {
-      throw new TypeError(&quot;[getRelativeCTM]: parameter is not an SVGGraphicsElement&quot;);
-    }
-    // Ensure the element is on the SVG DOM
-    const svg = this.ownerSVGElement;
-    if (!svg || svg !== ancestralGE.ownerSVGElement) {
-      throw new Error(&quot;[getRelativeCTM]: Elements must share the same &lt;svg&gt; root...&quot;);
-    }
-    // ( Multiply elementCTM by inverse( ancestorCTM ) )
-    const elementCTM = this.getCTM();
-    const ancestorCTM = ancestralGE.getCTM();
-    const relativeMatrix = ancestorCTM.inverse().multiply( elementCTM );
-    return relativeMatrix;
-  };
-}
+<div>
+$$
+\vec{N}_2 = (-E_y, E_x) = (-2, 1)
+$$
+</div>
 
-</code></pre>
+<p><strong>Step 2.</strong> Project the triangles and get the intervals.</p>
+<p><strong>Triangle $B$ </strong>: </p>
+<div>
+$$
+    \begin{align*}
+    \text{Proj}(B_1) &= (3, 1) \cdot (-2, 1) = -6 + 1 = -5 \\
+    \text{Proj}(B_2) &= (5, 1) \cdot (-2, 1) = -10 + 1 = -9 \\
+    \text{Proj}(B_3) &= (4, 3) \cdot (-2, 1) = -8 + 3 = -5
+    \end{align*}
+
+$$
+</div>
+
+<p>$$
+\text{Interval } I_B = [-9, -5]
+$$</p>
+<p><strong>Triangle $A$ </strong>: </p>
+<div>
+$$
+    \begin{align*}
+    \text{Proj}(A_1) &= (0, 0) \cdot (-2, 1) = 0 \\
+    \text{Proj}(A_2) &= (2, 0) \cdot (-2, 1) = -4 \\
+    \text{Proj}(A_3) &= (1, 2) \cdot (-2, 1) = -2 + 2 = 0
+    \end{align*}
+$$
+</div>
+
+<p>$$
+\text{Interval } I_A = [-4, 0]
+$$</p>
+<p><strong>Step 3.</strong> Look for separation. In the following figure I've sketched the basis line we obtained above and plotted the intervals for Triangles $A$ and $B$. And based on visual inspection it's pretty clear that we've found our gap! We've satisfied the SAT!</p>
+<h2>Application: Thinking with Bases</h2>
+<p>As a visual thinker I'm always trying to imagine and sketch out abstract concepts. For anything from driving directions to computing bounding box intersection to understanding gradient descent; good visualizations are often a key to understanding. And understanding is important and valuable! </p>
+<p>TODO: BRING THE DISCUSSION BACK TO THE CAMERA ...</p>
+<h2>Discussion and Application</h2>
+<p>Thinking about containment in this way might seem like overkill at first. For a simple problem like rectangular bounds checking why not just set up your conditionals on the verts and be done with it. But the art of the algorithm we've just walked through takes a specific case and generalizes it to handle an infinitude. Understand the logic of the basis projections used in the SAT and you'll have a much more fine grained-approach to collision detection that fits closer object interactions for detailed polygonal shapes. Apply the axis separation theorem in this way and you'll never have to worry about collision detection again!</p>
+<p>I originally applied this algo to create flight traaining simulator for the DoD back in the day ... TODO bring in the Nellis AFB experience... </p>
+<h2>Summary</h2>
 <h2>Resources</h2>
 <ol>
-<li><a href="https://www.red3d.com/cwr/steer/gdc99/">Scene Graphs</a>.</li>
+<li>
+<p>Hermann Minkowski</p>
+</li>
+<li>
+<p><a href="https://youtu.be/P2LTAUO1TdA?si=wY6QBDjuEdLoKb2S">Grant Sander's beautiful artful animation on basis vectors</a>. I highly recommend give this a watch. It is soo relaxing and gorgeously presented. And there's no test :) .</p>
+</li>
+<li>
+<p>SVG 2 Specification, &#xA7;8: <a href="https://www.w3.org/TR/SVG2/coords.html">Coordinate Systems, Transformations, and Units (W3C)</a>.</p>
+</li>
 </ol>
-<script src="/scripts/dist_scene_graph/app.js" type="module"></script>
-
-<ol>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGTransformList">SVGTransformList</a></li>
-</ol>
-<script src="/svg/loadsvg.js"></script>
-
-<script>
-/**
- * One off script for this article. 
- */
-async function doLoads () {
-    await loadSvg( "/svg/tx_matrix/svg_viewport.svg", "svg_2" );
-    let svg2 = document.getElementById( "svg_01_viewport" );
-    let textElem = document.getElementById("mouse-coords"); 
-    let textElem2 = document.getElementById("client-coords"); 
-    function getSVGCoords(evt) {
-        let pt = svg2.createSVGPoint();
-        pt.x = evt.clientX;
-        pt.y = evt.clientY;
-        let transformed = pt.matrixTransform(svg2.getScreenCTM().inverse());
-        let svg_x = transformed.x - 40 ;
-        let svg_y = transformed.y - 120 ;
-        let client_x = transformed.x - 20 ;
-        let client_y = transformed.y - 50 ;
-        textElem.textContent = `SVG x: ${ Math.round(svg_x) }, SVG y: ${ Math.round(svg_y) }`;
-        textElem2.textContent = `Client x: ${ Math.round(client_x) }, Client y: ${ Math.round(client_y) }`;
-    }
-    svg2.addEventListener("mousemove", getSVGCoords);
-}
-doLoads();
-</script>
+<script src="/scripts/dist_sat/sat_app.js" type="module"></script>
     <footer>
-      <p>Published: <time datetime="2025-11-08T00:00:00-05:00">
-        Sat 08 November 2025
+      <p>Published: <time datetime="2025-11-13T00:00:00-05:00">
+        Thu 13 November 2025
       </time></p>
         <address>
           By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
@@ -3578,26 +3322,17 @@ doLoads();
         </p>
         <p>
           Tags:
-            <a href="https://dr-nick-nagel.github.io/tag/javascript.html">javascript</a>
-            <a href="https://dr-nick-nagel.github.io/tag/computer-graphics.html">computer graphics</a>
-            <a href="https://dr-nick-nagel.github.io/tag/animation.html">animation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/basis.html">basis</a>
+            <a href="https://dr-nick-nagel.github.io/tag/vector-space.html">vector space</a>
+            <a href="https://dr-nick-nagel.github.io/tag/affine-transformation.html">affine transformation</a>
             <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
-            <a href="https://dr-nick-nagel.github.io/tag/scalable-vector-graphics.html">scalable vector graphics</a>
-            <a href="https://dr-nick-nagel.github.io/tag/art.html">art</a>
-            <a href="https://dr-nick-nagel.github.io/tag/artwork.html">artwork</a>
-            <a href="https://dr-nick-nagel.github.io/tag/artworks.html">artworks</a>
-            <a href="https://dr-nick-nagel.github.io/tag/inkscape.html">Inkscape</a>
-            <a href="https://dr-nick-nagel.github.io/tag/svg-creators-collaborative.html">SVG Creators Collaborative</a>
-            <a href="https://dr-nick-nagel.github.io/tag/sprites.html">sprites</a>
-            <a href="https://dr-nick-nagel.github.io/tag/interactive-art.html">interactive art</a>
-            <a href="https://dr-nick-nagel.github.io/tag/games.html">games</a>
-            <a href="https://dr-nick-nagel.github.io/tag/computer-games.html">computer games</a>
-            <a href="https://dr-nick-nagel.github.io/tag/computer-simulations.html">computer simulations</a>
-            <a href="https://dr-nick-nagel.github.io/tag/vectors.html">vectors</a>
-            <a href="https://dr-nick-nagel.github.io/tag/artists.html">artists</a>
-            <a href="https://dr-nick-nagel.github.io/tag/creative-coding.html">creative coding</a>
-            <a href="https://dr-nick-nagel.github.io/tag/scene-graph.html">scene graph</a>
-            <a href="https://dr-nick-nagel.github.io/tag/2d.html">2d</a>
+            <a href="https://dr-nick-nagel.github.io/tag/linear-algebra.html">linear algebra</a>
+            <a href="https://dr-nick-nagel.github.io/tag/separating-axis-theorem.html">separating axis theorem</a>
+            <a href="https://dr-nick-nagel.github.io/tag/sat.html">SAT</a>
+            <a href="https://dr-nick-nagel.github.io/tag/geometry.html">geometry</a>
+            <a href="https://dr-nick-nagel.github.io/tag/polygon-intersection.html">polygon intersection</a>
+            <a href="https://dr-nick-nagel.github.io/tag/algorithms.html">algorithms</a>
+            <a href="https://dr-nick-nagel.github.io/tag/algoritm.html">algoritm</a>
         </p>
     </footer>
   </article>

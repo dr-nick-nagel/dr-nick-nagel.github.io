@@ -86,7 +86,7 @@ if ( !SVGGraphicsElement.prototype.getRelativeCTM ) {
 }
 
 // injectible ...
-let svgRoot = document.querySelector( "svg#ginnungagap" );
+let svgRoot = document.querySelector( "svg#ginnungagap_debug" );
 
 
 /**
@@ -273,8 +273,6 @@ panningBox.lr.y = 360;
 
 // Test that camera viewing boundaries are all outside world boundaries
 // (in other words viewing box contains world boundaries)
-
-
 function isContained(  ) {
 
   const display = document.getElementById("test_out");
@@ -317,8 +315,6 @@ function isContained(  ) {
 } 
 
 
-
-
 /**
  * Encapsulates camera functionality (pan and zoom)
  * Artwork specific ... 
@@ -340,9 +336,6 @@ class Camera {
 
     // Zoom matrices (toggle)
     this.zoomedOutMatrix = options.zoomedOutMatrix || "1 0 0 1 0 0";
-    // this.zoomedInMatrix  = options.zoomedInMatrix  || "6 0 0 6 -1500 -900";
-    // this.zoomedInMatrix  = options.zoomedInMatrix  || "2 0 0 2 -300 -300";
-    // this.zoomedInMatrix  = options.zoomedInMatrix  || "3 0 0 3 -600 -600";
     this.zoomedInMatrix  = options.zoomedInMatrix  || "3 0 0 3 -650 -450";
 
     // Pan constraints (in SVG world coordinates)
@@ -368,12 +361,6 @@ class Camera {
 
   startPan( event ) {
 
-    
-
-    // Only allow pan when zoomed
-    // if (!this.isZoomedIn) return; 
-
-
     event.preventDefault();
     const pt = this._getEventPoint(event);
     this.isPanning   = true;
@@ -381,13 +368,6 @@ class Camera {
 
     const {x, y} = this.lastPointer;
     const M_trans = getTM( this.node );
-
-    // l( "START" );
-    // l( "pt", pt );
-    // l( "last pointer", this.lastPointer );
-    // l( M_trans );
-
-    // document.getElementById("test_out").textContent=`POINT: x ${ x.toFixed(0)}  y ${ y.toFixed(0)}`
 
   }
 
@@ -408,11 +388,6 @@ class Camera {
     // to convert to SVG world
     const gM_normalized = M_new.multiply(camM_inverse);
 
-    // const M_normed = newMatrix * M_inverse;
-    // l( "New Matrix: ", newM_str );
-    // l( "camera INVERSE: ", camM_inverse );
-    // l( "Inverted NEw Matrix: ", gM_normalized );
-
   }
 
   panMove( event ) {
@@ -428,23 +403,16 @@ class Camera {
     let e = currentMatrix.e + dx;
     let f = currentMatrix.f + dy;
 
-    // Clamp to pan limits
-    // e = Math.min(Math.max(e, this.panLimits.left), this.panLimits.right);
-    // f = Math.min(Math.max(f, this.panLimits.top), this.panLimits.bottom);
-
     const newMatrix = `${currentMatrix.a} ${currentMatrix.b} ${currentMatrix.c} ${currentMatrix.d} ${e} ${f}`;
     
-    // this._isInLimits( newMatrix );
+    // TEST PANNING CONSTRAINTS
     isContained();
-    
-    updateTransform(this.node, newMatrix, 0); // instant pan
+    // panning
+    updateTransform(this.node, newMatrix, 0); 
 
     this.lastPointer = pt;
 
     l( "MOVING" );
-    // l( "x ", dx, "y: ", dy );
-    // l( currentMatrix );
-    // l( newMatrix );
 
   }
 
@@ -456,10 +424,7 @@ class Camera {
 
   _getEventPoint( event ) {
 
-    // Works for touch or mouse
-    // const svg = this.node.ownerSVGElement;
     const svg = svgRoot;
-
     const pt = svg.createSVGPoint();
     if (event.touches && event.touches[0]) {
       pt.x = event.touches[0].clientX;
@@ -477,9 +442,6 @@ class Camera {
 // ---- Camera initialization ----------
 const cameraObj = new Camera( camera );
 
-// const cameraObj = new Camera( svgRoot );
-
-
 // DESKTOP: double-click to toggle zoom
 svgRoot.addEventListener(
   "dblclick", 
@@ -489,6 +451,7 @@ svgRoot.addEventListener(
 
 
 // MOBILE: pinch / spread to handle zoom 
+// WOTTA PIA
 let touchStartDist = 0;
 
 svgRoot.addEventListener("touchstart", (e) => {
@@ -505,12 +468,7 @@ svgRoot.addEventListener("touchend", (e) => {
   }
 });
 
-/**
- * TODO: RESUME HERE
- * 
- * THE TOGGLE IS NOT GOOD FOR PINCH/SPREAD GESTURES ... 
- * 
- */
+
 svgRoot.addEventListener("touchmove", (e) => {
   if (e.touches.length === 2) {
     e.preventDefault(); 
@@ -533,59 +491,50 @@ svgRoot.addEventListener("mousemove", cameraObj.panMove);
 svgRoot.addEventListener("mouseup", cameraObj.endPan);
 
 
-  
-
 l("End transmission!");
 
 // DEV TESTING DO NOT DELETE
-document.addEventListener( 
-  'DOMContentLoaded' , 
-  (evt) => {
-    document.addEventListener(
-      "click",
-      createSvgCoordsFinder( svgRoot )
-    );
-  }
-);
+// document.addEventListener( 
+//   'DOMContentLoaded' , 
+//   (evt) => {
+//     document.addEventListener(
+//       "click",
+//       createSvgCoordsFinder( svgRoot )
+//     );
+//   }
+// );
 
 
+// document.addEventListener(
 
+//     "click", 
 
+//     ( evt ) => {
 
+//         l( "TESTING 1, 2, 3" );
 
-document.addEventListener(
+//         const M_trans = camera.getTM();
+//         const M_trans_inverse = M_trans.inverse();
+//         const M_scrn_to_svg_world = svgRoot.getScreenCTM().inverse();
 
-    "click", 
+//         const M_scrn_to_cam_transformed_coords = camera.getScreenCTM().inverse()
 
-    ( evt ) => {
+//         let pt = svgRoot.createSVGPoint();
+//         pt.x = evt.clientX;
+//         pt.y = evt.clientY;
 
-        l( "TESTING 1, 2, 3" );
+//         let svg_pt = pt.matrixTransform( M_scrn_to_svg_world ); 
+//         let cam_local_point = pt.matrixTransform( M_scrn_to_cam_transformed_coords ); 
 
-        const M_trans = camera.getTM();
-        const M_trans_inverse = M_trans.inverse();
-        const M_scrn_to_svg_world = svgRoot.getScreenCTM().inverse();
+//         l("Camera matrix: ", M_trans );
+//         l("Camera inverse matrix: ", M_trans_inverse );   
+//         l("screen coords: ", pt ); 
+//         l("svg coords: ",    svg_pt ); 
+//         l("cam local coords: ", cam_local_point );
 
+//         l( "END TEST" );
 
-        const M_scrn_to_cam_transformed_coords = camera.getScreenCTM().inverse()
+//     }
 
-
-        let pt = svgRoot.createSVGPoint();
-        pt.x = evt.clientX;
-        pt.y = evt.clientY;
-
-        let svg_pt = pt.matrixTransform( M_scrn_to_svg_world ); 
-        let cam_local_point = pt.matrixTransform( M_scrn_to_cam_transformed_coords ); 
-
-        l("Camera matrix: ", M_trans );
-        l("Camera inverse matrix: ", M_trans_inverse );   
-
-        l("screen coords: ", pt ); 
-        l("svg coords: ",    svg_pt ); 
-        l("cam local coords: ", cam_local_point );
-
-        l( "END TEST" );
-
-    }
-
-);
+// );
 
