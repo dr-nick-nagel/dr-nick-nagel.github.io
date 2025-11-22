@@ -532,41 +532,68 @@ function throttle(fnc, interval) {
   }
 }
 
+
+// elements
+const scrollable     = document.querySelector( "main.content" );
+const floatSectionStartElem = document.querySelector( "#start_float" );
+const floatSectionEndElem   = document.querySelector( "#end_float" );
+const floater = document.querySelector( "div.floater" );
 /**
- * Sets the CSS to float the given element on scroll
- * conditions ...
- * 
- * @param {DOM Element} floater : target element to float
+ * Scrolling function to float and pin a target content block 
+ * based on defined section boundaries...
  */
-function floatElementOnScroll ( floater ) {
-  let startFloatElem = document.querySelector( "#start_float" );
-  let endFloatElem   = document.querySelector( "#end_float" );
-  let floating = floater.classList.contains('float_me');
-  const scrollTop  = scrollable.scrollTop;
-  const startFloat = startFloatElem.offsetTop;
-  const endFloat   = endFloatElem.offsetTop;
-  const floaterHeight = floater.offsetHeight;
-  const floatEndBoundary = floating ? endFloat : endFloat - floaterHeight;
-  // l( "----  SCROLLING   ----" );
-  // l( floater  );
-  // l( scrollTop  );
-  // l( startFloat );
-  // l( endFloat );
-  // l(floatEndBoundary);
-  if(  scrollTop >= startFloat  &&  scrollTop < floatEndBoundary ) {
-      floater.classList.add( "float_me" );
-  } else {
-      floater.classList.remove( "float_me" );
+function floatElementOnScroll(  ) {
+  // pinnable content
+  const floating = floater.classList.contains('float_me');
+  const floatRect = floater.getBoundingClientRect();
+  // document offests
+  let floatStartBoundary = floatSectionStartElem.offsetTop;
+  let floatEndBoundary   = floatSectionEndElem.offsetTop;
+  // current scroll position 
+  const scrollPosition = scrollable.scrollTop;
+
+  l( "----  SCROLLING PRE  ----" );
+  l( floater );
+  l( "rectangle", floatRect );
+  l( "scroll position PRE", scrollPosition );
+  l( "start", floatStartBoundary );
+  l( "end",   floatEndBoundary );
+  l( "fHeight EXPECT 353  ",   floatRect.height );
+
+
+  if( floating ) {
+    floatStartBoundary -= floatRect.height;
+    // floatEndBoundary   -= floatRect.height;
   }
+
+
+  if( scrollPosition > floatStartBoundary && scrollPosition < floatEndBoundary ) {
+    if ( !floating ) {
+      floater.classList.add( "float_me" );
+      // scrollBy Scrolls by specified amount. Need to correct for the floated content; 
+      // Subtract out height of floater ...
+      scrollable.scrollBy( 0, - floatRect.height );
+    }
+  } else {
+    if( floating ) {
+      floater.classList.remove( "float_me" );
+      // scrollBy Scrolls by specified amount. Need to correct for the floated content; 
+      // add back in the height of floater ...
+      scrollable.scrollBy( 0, + floatRect.height );
+    }
+  }
+
+
+  l( "----\nSCROLLING POST" );
+  l( "start", floatStartBoundary );
+  l( "end",   floatEndBoundary );
+  l( "scroll position POST", scrollable.scrollTop );
+
 }
 
-let scrollable = document.querySelector( "main.content" );
-const floater = document.getElementById( "sat_diagram_window" );
 scrollable.addEventListener(
   'scroll', 
-  ( evt ) => {
-    throttle( floatElementOnScroll ( floater ), 100 )
-  }
+  throttle( floatElementOnScroll  , 100 )
 );
 
 l("End transmission!");

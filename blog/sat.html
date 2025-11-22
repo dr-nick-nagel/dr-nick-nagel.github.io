@@ -165,6 +165,10 @@ Welcome to NickNagel.com
     </header>
     <style>
 
+main.content {
+   overflow-anchor: none;
+}
+
 figure {
     margin: 0px;
 }
@@ -3125,22 +3129,43 @@ svg#ginnungagap_debug {
 </ul>
 <p>Initially, when the artwork loads, the global basis and the camera basis coincide. But as soon as the user zooms in, the camera basis is scaled up, and its rectangle becomes larger than the SVG viewport in world coordinates.</p>
 <p>To express the panning constraints in this larger context, I added a green rectangle. This perimeter defines the set of legal panning positions -- boundaries within which the camera is allowed to move without exposing empty space. At the initial zoom level, the green box sits neatly inside the blue world box. But once the user zooms in, the camera's viewBox becomes larger in world units. The green region becomes the area to which the camera view must be constrained in order to keep the world fully visible.</p>
-<p>Whew! Now that we've established these two bases -- the <em>world basis</em> and the <em>scaled camera basis</em> we're in the perfect position to enforce panning constraints using the <em>Separation of Axes Theorem</em>.</p>
-<hr />
-<h2>The Separating Axis Theorem  &lt;--| rename section</h2>
+<p>Whew! Now that we've established these two bases -- the <em>world basis</em> and the <em>scaled camera basis</em> we're in the perfect position to enforce panning constraints using the <em>Separating of Axis Theorem</em>.</p>
+<h2>The Separating Axis Theorem</h2>
 <p>The <strong>Separating Axis Theorem</strong> (SAT) sets up a computer graphics algorithm that is often used in gaming and simulation to test for the intersection of convex polygons (think collision detection). Here, I'll extend it to test for <em>containment</em>. </p>
-<p>Play with the wold tree for a bit. Double click (or spread) to "zoom in". Since I've adjusted the SVG <code>viewBox</code> for this illustration you won't perceive the zoom-effect so much as you'll see the camera basis scale up. Now if you pan about (touch and drag the camera view around with your finger or device) you'll see how the camera constraint box starts out fully contained by but can come to overlap with the SVG view box. Notice how the system is only "happy" if the green box is fully <em>contained</em> by the viewbox. </p>
-<p>How do we test for containment. The most obvious way (to me) is set up a conditional to check the verts on the boxes. Something like:</p>
-<pre><code>IF 
-  CAM_CONSTRAINTS_upper_left outside  WORLDVIEW_upper_left AND
-  CAM_CONSTRAINTS_lower_left outside  WORLDVIEW_lower_left AND
-  etc...
-THEN 
-  it's all good ... 
+<p>The <strong>Separating Axis Theorem</strong> (SAT) is a foundational tool in computer graphics. It's often used for collision detection in games and simulations. In its classic form, it provides a means to determine whether two convex shapes overlap. I first applied this algorithm developing a flight simulation for Nellis Airforce Base flight training. Back then I used it to identify when pilots flew out of bounds in a virtual training course. Here, I’ll extend the idea to test for containment -- which is exactly what we need for the camera system in our scenegraph. </p>
+<p>Go ahead and play with the wold tree for a bit. </p>
+<ul>
+<li>
+<p>Double click (or spread on mobile) to "zoom" the camera in order to see the camera basis scale up. </p>
+</li>
+<li>
+<p>Once zoomed in drag or swipe to pan. Notice how the green camera constraint box moves relative to the blue world-box.</p>
+</li>
+</ul>
+<p>At first, the green constraint box is fully inside the world. But once you've zoomed in, the camera basis grows and the constraint box now overflows the world box. The system is only "happy" when the entire green box is contained inside the blue box.</p>
+<p>So how do we <em>test for that</em>?</p>
+<h3>The naive conditional approach</h3>
+<p>The most obvious way (and probably the first thing any artist-engineer thinks of) is to check vertices manually:</p>
+<pre><code>IF
+   CAM.upper_left   inside WORLD &amp;&amp;
+   CAM.lower_left   inside WORLD &amp;&amp;
+   CAM.upper_right  inside WORLD &amp;&amp;
+   CAM.lower_right  inside WORLD
+THEN
+   all good
 ELSE
-  not so much ...
+   not so much …
 </code></pre>
-<p>Sure that'll work. For this case. Using simple rectangles. But it feels kinda kludgey, doesn't it? Wouldn't it be great if we could formulate a test that could be used for any given set of concave polygons of any arbitrary degree of complexity? Yes! Now you're thinking in algorithms! The good news is you're not the only one who's thought about this. Standing on the shoulders of <em>Hermann Minkowski</em> we can formulate a nice, neat formal statement:</p>
+<p>Sure that'll work. Here. For this specific case. Because it involves only axis-aligned rectangles. But it's also brittle, verbose and limited. </p>
+<p>It does <em>not</em> generalize to:</p>
+<ul>
+<li>rotated rectangles,</li>
+<li>arbitrary convex shapes,</li>
+<li>concave shapes (without preprocessing),</li>
+<li>or any situation where the axes don't line up.</li>
+</ul>
+<h3>The better general purpose solution</h3>
+<p>What we really want is one clean, elegant test that works for any convex polygons -- of any number of vertices, at any orientation, under any transform. Standing on the shoulders of Hermann Minkowski, we arrive at the clean, mathematical version using the Separating Axis Theorem.</p>
 <h4>The Separating Axis Theorem:</h4>
 <blockquote>
 <p>Two <strong>convex polygons</strong> $A$ and $B$ are <strong>disjoint</strong> (i.e., they do not overlap or touch) if, and only if, there exists a line (let that be called a <strong>separating axis</strong>) such that the projections of the two polygons onto that line are also disjoint.</p>
@@ -3148,31 +3173,46 @@ ELSE
 <p>Simple, right? No, really it's a mouthful and densely packed at that. As a visual thinker I like use illustration when reasoning about algortithms. So in the following section I'll try to unpack this visually with a solid example. Think of it as a bit of linear algebra for artists.</p>
 <h3 id="start_float">Bases in Action: SAT Illustrated</h3>
 <p>Let's take for example the very simplest case possible ... </p>
-<p>TODO: Move me out to styles ... </p>
 <style>
-
 .float_me {
-    position: fixed ;
-    top: 50px;
-    right: 50px;
-    z-index: 1000;
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0px 10px 10px rgba( 0, 0, 0, 0.25 );
 }
-
+@media (max-width: 600px) {
+  .float_me {
+    top: 10px;
+    right: 10px;
+    /* width: 200px; */
+  }
+}
+figcaption  {
+   padding: 2px;
+   line-height: 1.2;
+}
 #sat_diagram_window {
-    width:300px;
-    height:300px;
-    margin:0;
-    border: outset gray 4px;
-    box-shadow: 0px 10px 10px rgba( 0, 0, 0, 0.25 );
+   width:300px;
+   height:300px;
+   border: none;
+}
+.floater {
+   width:300px;
+   height:auto;
+   border: solid red 4px;
 }
 </style>
+<div class="floater">
 <iframe id="sat_diagram_window"
   src="/html/sat_diagram.html" 
   title="Separating Axis Theorem Illustrated" 
   scrolling="no"
 >
 </iframe>
-<figcaption><strong>Figure 1: </strong> Two triangles A and B. Are they overlapping? Easy enough to see, right? But can we prove it to the machine ... ?</figcaption>
+<figcaption><strong>Figure 1: </strong> Two triangles A and B. Are they overlapping? Easy enough to see, right? But can we prove it to the machine ... ?</figcaption> 
+</div>
 
 <p>If you study <em>Figure 1</em> for a minute you'll see I've drawn two triangles. </p>
 <div>
@@ -3242,7 +3282,7 @@ $$</p>
 <h3>The Story So Far ...</h3>
 <p>In <strong>Figure 1</strong> I've sketched the shadows of the two triangles plotted along our normal basis. By visual inspection we can readily see that the shadows overlap. We haven't found our gap yet. </p>
 <p>And you can sort of see this intuitively. If we were to project our triangles onto the Y axis of the original 2D basis for our SVG world (which is exactly what this normal does), you can imagine how their vertical shadows would overlap. In any case, I want to point out that with respect to our normal basis, <em>all that it defines is</em> <strong>a direction for a line</strong> <em>and a</em> <strong>zero point of reference</strong>. As a <em>basis</em> The normal vector simply gives us a key to measure the intervals of our polygons.</p>
-<h3 id="end_float">Finding a Gap</h3>
+<h3>Finding a Gap</h3>
 <p>So we're not done yet! We still need to find a gap to prove the triangles are not overlapping. Look again below at our figure.</p>
 <p>FIGURE 2: SAME TRIANGLES BUT INITIALIZED TO TEST ALONG EDGE B1 - 3</p>
 <p>Can you spot an axis along which we might find a gap? How 'bout edge $B_{1 \rightarrow 3}$ ? If you look closely you can almost see intuitively that the triangles might separate along this axis. And, indeed, if you click or touch Triangle $B$ you'll see that this time we'll find the gap. It's worth looking at the computations I've provided and comparing them against the figure to "connect the dots".</p>
@@ -3293,7 +3333,7 @@ $$</p>
 <h2>Application: Thinking with Bases</h2>
 <p>As a visual thinker I'm always trying to imagine and sketch out abstract concepts. For anything from driving directions to computing bounding box intersection to understanding gradient descent; good visualizations are often a key to understanding. And understanding is important and valuable! </p>
 <p>TODO: BRING THE DISCUSSION BACK TO THE CAMERA ...</p>
-<h2>Discussion and Application</h2>
+<h2 id="end_float">Discussion and Application</h2>
 <p>Thinking about containment in this way might seem like overkill at first. For a simple problem like rectangular bounds checking why not just set up your conditionals on the verts and be done with it. But the art of the algorithm we've just walked through takes a specific case and generalizes it to handle an infinitude. Understand the logic of the basis projections used in the SAT and you'll have a much more fine grained-approach to collision detection that fits closer object interactions for detailed polygonal shapes. Apply the axis separation theorem in this way and you'll never have to worry about collision detection again!</p>
 <p>I originally applied this algo to create flight traaining simulator for the DoD back in the day ... TODO bring in the Nellis AFB experience... </p>
 <h2>Summary</h2>
