@@ -247,10 +247,6 @@ svg#ginnungagap_debug {
    color: black;
 }
 
-
-
-
-
 </style>
 
 <h2>Rationale</h2>
@@ -3154,7 +3150,7 @@ svg#ginnungagap_debug {
 THEN
    all good
 ELSE
-   not so much …
+   not so much ...
 </code></pre>
 <p>Sure that'll work. Here. For this specific case. Because it involves only axis-aligned rectangles. But it's also brittle, verbose and limited. </p>
 <p>It does <em>not</em> generalize to:</p>
@@ -3168,11 +3164,12 @@ ELSE
 <p>What we really want is one clean, elegant test that works for any convex polygons -- of any number of vertices, at any orientation, under any transform. Standing on the shoulders of Hermann Minkowski, we arrive at the clean, mathematical version using the Separating Axis Theorem.</p>
 <h4>The Separating Axis Theorem:</h4>
 <blockquote>
-<p>Two <strong>convex polygons</strong> $A$ and $B$ are <strong>disjoint</strong> (i.e., they do not overlap or touch) if, and only if, there exists a line (let that be called a <strong>separating axis</strong>) such that the projections of the two polygons onto that line are also disjoint.</p>
+<p>Two <strong>convex polygons</strong> $A$ and $B$ are <strong>disjoint</strong> (i.e., they do not overlap or touch) if, and only if, there exists at least one line (let that be called a <strong>separating axis</strong>) such that the projections of the two polygons onto that line are also disjoint.</p>
 </blockquote>
-<p>Simple, right? No, really it's a mouthful and densely packed at that. As a visual thinker I like use illustration when reasoning about algortithms. So in the following section I'll try to unpack this visually with a solid example. Think of it as a bit of linear algebra for artists.</p>
+<p>Simple, right? No, really it's a mouthful. On paper, that statement looks compact, but it’s carrying a lot of meaning. It’s one of those deceptively simple phrases that packs an entire geometric worldview into a single sentence.</p>
+<p>If you're a visual thinker (and if you’re reading this blog, you probably are), the best way to understand SAT is to <strong>see</strong> it. To that end I've created an interactive diagram hoping to to make the idea tangible, and to make the algorithm feel less like abstract algebra and more like geometry you can touch.</p>
 <h3 id="start_float">Bases in Action: SAT Illustrated</h3>
-<p>Let's take for example the very simplest case possible ... </p>
+<p>In this section, we'll unpack the theorem step-by-step using an explicit example: two triangles. We'll use math to create sweeping axes -- 1-dimensional <strong>basis directions</strong> onto which we can project the "shadows" of each polygon and look for separation. Think of it as a taste of <strong>linear algebra for artists</strong>.</p>
 <style>
 .float_me {
   position: fixed;
@@ -3214,7 +3211,7 @@ figcaption  {
 <figcaption><strong>Figure 1: </strong> Two triangles A and B. Are they overlapping? Easy enough to see, right? But can we prove it to the machine ... ?</figcaption> 
 </div>
 
-<p>If you study <em>Figure 1</em> for a minute you'll see I've drawn two triangles. </p>
+<p>Let's start with the two triangles I've shown in Figure 1.</p>
 <div>
 $$
 \begin{align*}
@@ -3226,15 +3223,17 @@ $$
 
 <p>On visual inspection it's pretty easy to see they're separated, right? So how do we prove that with separating axes? </p>
 <h4>Step 1. Pick an axis -- any axis ...</h4>
-<p>What exactly do we mean by axis here? Think of it as a line we can draw between the two figures. If any line can be drawn that cuts between the two, clearly they must be separated. Theoretically we could draw an infinite number of such lines to test the theorem. But in practice we'll use the edges of the polygons. For our triangles, let's arbitrarily inspect $\vec{E_{B_1B_2}}$ to get us going. We can get the edge as a <em>vector quantity</em> by subtraction:</p>
+<p>Well, maybe not just any axis (the choice is, after all, infinite). SAT tells us that for our purposes it's enough to test axes that come from the <strong>normals of the polygon edges</strong>. That's a finite and tractable set.</p>
+<p>Let's start with the edge $B_1 \rightarrow B_2$. We can get that edge as a vector:</p>
 <div>
 $$
 \vec{E}_{B_{1}B_{2}} = B_2 - B_1 = (5-3, 1-1) = (2, 0)
 $$
 </div>
 
+<p>Try tapping $Triangle B$ to see this formula in action.</p>
 <h4>2. Use the <em>normal</em> as a basis for projection</h4>
-<p>And this brings us to the heart of the discussion. Once we have an edge, we can obtain its <strong>normal</strong> (a line indicating a direction perpendicular to the edge) and use it as a basis for the projection. As I discussed at length in the <a href="{file} ./basisvectors.md">preceding article in this series</a> , a <strong>basis</strong> in linear algebra gives us a coordinate system. In this case we get a way of <em>mapping</em> from our 2D svg world coordinates to a one-dimensional basis on which we can project our triangles and look for separation. </p>
+<p>Now this brings us to the heart of the discussion. Once we have an edge, we can obtain its <strong>normal</strong> (a line indicating a direction perpendicular to the edge) and <strong>use it as a basis for the projection</strong>. What this gives us is a way of <em>mapping</em> from our 2D svg world coordinates to a one-dimensional basis on which we can project our triangles -- and look for separation. </p>
 <div class="admonition tip">
 <p class="admonition-title">Insight!</p>
 <p>For me, the key insight to understanding the SAT is to understand that the separating axes are <strong>geometric bases</strong> for <strong>projection</strong>. </p>
@@ -3246,13 +3245,14 @@ $$
 $$
 </div>
 
-<p>If you touch or click triangle $B$ in <strong>Figure 1</strong> you'll see how we get its <em>normal</em>. </p>
+<p>Tap $Triangle B$ in <strong>Figure 1</strong> you'll see how we get its <em>normal</em>. An tap once more to pull it off to the side.</p>
 <h4>3. Project the triangles on the normal basis</h4>
-<p>Touch or click again and you'll see how we <em>project</em> the triangles. Conceptually, it's easy. We <strong>project</strong> the polygon by mapping its <em>vertices</em>, $V_i$, onto the normal basis using the dot-product [FOOT_NOTE]:</p>
+<p>Once you have the basis off to the side, tap again to see how we <em>project</em> the triangles. Conceptually, it's easy. We <strong>project</strong> the polygon by mapping its <em>vertices</em>, $V_i$, onto the normal basis using the dot-product:</p>
 <p>$$
 Proj( V_i ) = V_i \cdot \vec n
 $$</p>
-<p>Projecting a single vertex gives us a scalar value. Projecting all the vertices in a polygon gives us an <strong>interval</strong> along the basis line (think of it as a "shadow" cast by the polygon along the basis). In this case, the shadows of the two polygons are useful measures; we can use them to look for a gap indicating separation! And to satisfy the Separating Axis Theorem all we need is one (gap that is)! So for Triangle $B$ we project:</p>
+<p>Projecting a single vertex gives us a <strong>scalar value</strong>. Projecting all the vertices in a polygon gives us an <strong>interval</strong> along the basis. Think of it as a <em>shadow</em> cast by the polygon. </p>
+<p>The shadows of the two polygons are useful measures. We can use them to look for a gap indicating separation! And to satisfy the Separating Axis Theorem all we need to find is one (gap that is). So for $Triangle B$ we project:</p>
 <div>
 $$
 \begin{align*}
@@ -3280,12 +3280,21 @@ $$</p>
 I_A = [0, 4]
 $$</p>
 <h3>The Story So Far ...</h3>
-<p>In <strong>Figure 1</strong> I've sketched the shadows of the two triangles plotted along our normal basis. By visual inspection we can readily see that the shadows overlap. We haven't found our gap yet. </p>
-<p>And you can sort of see this intuitively. If we were to project our triangles onto the Y axis of the original 2D basis for our SVG world (which is exactly what this normal does), you can imagine how their vertical shadows would overlap. In any case, I want to point out that with respect to our normal basis, <em>all that it defines is</em> <strong>a direction for a line</strong> <em>and a</em> <strong>zero point of reference</strong>. As a <em>basis</em> The normal vector simply gives us a key to measure the intervals of our polygons.</p>
+<p><strong>Figure 1</strong> now illustrates the projected shadows of our triangles. Since the shadows overlap we can conclude that $\vec{N}_1$ is <em>not</em> a separating axis.</p>
+<p>Intuitively, this should make sense. If we were to project our triangles onto the Y axis of the global 2D basis it's easy to intuit we'd get similar overlapping shadows. And that exactly what our normal, $\vec{N}_1$, is -- a line int the $Y$ direction. Bottom line? Just keep in mind that for SAT, the <em>normal</em> simply gives us:</p>
+<ol>
+<li>
+<p><strong>A direction line</strong>, and </p>
+</li>
+<li>
+<p>An implied <strong>zero point of reference</strong>.</p>
+</li>
+</ol>
+<p>This <em>basis</em> gives us the key to measure the <em>intervals</em> (shadows) of our polygons.</p>
 <h3>Finding a Gap</h3>
-<p>So we're not done yet! We still need to find a gap to prove the triangles are not overlapping. Look again below at our figure.</p>
-<p>FIGURE 2: SAME TRIANGLES BUT INITIALIZED TO TEST ALONG EDGE B1 - 3</p>
-<p>Can you spot an axis along which we might find a gap? How 'bout edge $B_{1 \rightarrow 3}$ ? If you look closely you can almost see intuitively that the triangles might separate along this axis. And, indeed, if you click or touch Triangle $B$ you'll see that this time we'll find the gap. It's worth looking at the computations I've provided and comparing them against the figure to "connect the dots".</p>
+<p>But we're not done yet! We still need to find a gap to prove the triangles are not overlapping. Look again at our figure. Can you spot an axis along which we might find a gap? </p>
+<p>Edge $B_1 \rightarrow B3$ appears to be a likely candidate. Its normal roughly points diagonally between the shapes. Continue tapping $Triangle B$ to complete the projection on this axis and you'll see that, yes, indeed we'll find our gap on this one.</p>
+<p>If you tap or click Triangle B in the diagram, you’ll see this axis highlighted, and the projections make the separation plainly visible. Just for fun, let's walk through the computations.</p>
 <p><strong>Step 1.</strong> Compute the edge vector and obtain the normal basis:</p>
 <div>
 $$
@@ -3329,24 +3338,76 @@ $$
 <p>$$
 \text{Interval } I_A = [-4, 0]
 $$</p>
-<p><strong>Step 3.</strong> Look for separation. In the following figure I've sketched the basis line we obtained above and plotted the intervals for Triangles $A$ and $B$. And based on visual inspection it's pretty clear that we've found our gap! We've satisfied the SAT!</p>
-<h2>Application: Thinking with Bases</h2>
-<p>As a visual thinker I'm always trying to imagine and sketch out abstract concepts. For anything from driving directions to computing bounding box intersection to understanding gradient descent; good visualizations are often a key to understanding. And understanding is important and valuable! </p>
-<p>TODO: BRING THE DISCUSSION BACK TO THE CAMERA ...</p>
-<h2 id="end_float">Discussion and Application</h2>
-<p>Thinking about containment in this way might seem like overkill at first. For a simple problem like rectangular bounds checking why not just set up your conditionals on the verts and be done with it. But the art of the algorithm we've just walked through takes a specific case and generalizes it to handle an infinitude. Understand the logic of the basis projections used in the SAT and you'll have a much more fine grained-approach to collision detection that fits closer object interactions for detailed polygonal shapes. Apply the axis separation theorem in this way and you'll never have to worry about collision detection again!</p>
-<p>I originally applied this algo to create flight traaining simulator for the DoD back in the day ... TODO bring in the Nellis AFB experience... </p>
-<h2>Summary</h2>
+<p><strong>Step 3.</strong> Look for separation. Once again inspect our figure and we can clearly see it. We've found our gap and satisfied the SAT!</p>
+<h2 id="end_float">Application: Thinking with Bases</h2>
+<p>Having worked through the linalg underlying the Separating Axis Theorem let's turn now to an implementation of the algorithm suitable for the SVG Creative Collab &trade; framework. Recall the problem I presented at the outset of the discussion that led us down this rabit hole in the first place. As an SVG artist needing to set up a <strong>scene-graph camera</strong> I need to enforce panning constraints to enable viewers to explore the artwork. </p>
+<p>Thinking in terms of geometric bases might sound like overkill for this problem. But it actually makes it <em>easy</em> to formulate and enforce the constraints using the SAT. Remember the <strong>constraint box</strong> defined for the camera (the green box in the World Tree Illustration)? In the context of the SAT it's easy to state the constraints:</p>
+<blockquote>
+<p>When zoomed into the world-tree the camera <em>constraint-box</em> must remain entirely contained within the <em>SVG world-box</em>. </p>
+</blockquote>
+<p>Sounds simple enough, right? But it actually turns out easy to get <em>wrong</em> when you have to deal with nested transforms and basis changes. The art of the algorithm is that the SAT gives an elegant way to test for containment of <em>any</em> convex shapes of arbitrary complexity -- be they scaled rotated skewed or <em>whatever</em>. </p>
+<h3>Testing for Containment with SAT</h3>
+<p>Again, the Separating Axis Theorem tells us that polygons are <em>not overlapping</em> if there is at least one separating axis. To test for containment we can simply invert the logic. Given two polygons (which our SVG rectangles are) we can assert:</p>
+<blockquote>
+<p>Polygon A is contained inside polygon B if there is <em>no</em> axis on which A's projection extends outside B's projection.</p>
+</blockquote>
+<p>In other words, <em>no gaps allowed</em>. Anywhere. </p>
+<p>In the case of the World Tree camera: </p>
+<ul>
+<li>Polygon A = the SVG viewBox</li>
+<li>Polygon B = the camera constraint box (tansformed into world coordinates)</li>
+<li>On user pan apply SAT to check for containment. </li>
+</ul>
+<p><strong>Note: </strong> It's worth noting here that SAT is agnostic with regard to the coordinate system used for the computations <em>as long as both polygons are expressed in the same space</em> . </p>
+<div class="admonition tip">
+<p class="admonition-title">Pro-Tip</p>
+<p>Use the <strong>inverse transformation matrix</strong> to ensure the polygons are in the same coordinate space for comparison.</p>
+</div>
+<h3>The Algorithm</h3>
+<p>The following pseudocode reflects the SVG Creators framework camera implementation. I use pseudocode here intentionally to remain language agnostic and for readability. </p>
+<pre>
+function is_contained (cameraPoly, worldPoly):
+
+    # 1. Ensure both polygons are compared on equivalent space
+    C = transform_to_world_space(cameraPoly)
+    W = worldPoly   # already in world coordinates
+
+    # 2. Build a list of axes (normals of edges)
+    axes = normals_of_edges(W)      # 4 axes from world rect
+    axes += normals_of_edges(C)     # 4 axes from camera rect
+
+    # 3. Project both polygons onto every axis
+    for axis in axes:
+        intervalC = project_polygon(C, axis)
+        intervalW = project_polygon(W, axis)
+
+        # 4. Containment test: IS THERE A GAP?
+        if intervalC.min < intervalW.min or intervalC.max > intervalW.max:
+            return false    # Camera escapes bounds
+
+    return true             # Camera safely contained
+</pre>
+
+<p>With this implementation, the camera object can check for overlap on all panning interactions and readily enforce the panning constraints. Beyond that, we now have a generic function to enable multiple future enhancments (think collision detection, culling, occlusion, spatial indexing, collision physics -- the list goes on).I</p>
+<h2>A Note on Performance</h2>
+<p>I've heard enough criticism leveled against SVG on performance grounds. So I guess it's reasonable to be concerned with that here. But the beautiful thing about SAT is that while it <em>sounds</em> heavyweight the actual cost is quite small. Think about it. For two polygons with $n$ and $m$ edges to test for containment SAT requires testing $(n + m)$ axes. For each axis, both polygons get projected (a linear pass over the verts). So overall complexity is: </p>
+<p>$$
+O( (n+m)^2 )
+$$</p>
+<p>In this case (checking two rectangles = 64 dot products) the cost is tiny. Also, since it uses the <strong>inverse transformation matrix</strong> the SVG Creative Collab&trade; framework collapses all transforms into a single affine transform before the SAT loop, meaning no overhead no matter the depth of the scene graph. So the actual runtime for this case? effectively constant time. </p>
+<h2>Discussion</h2>
+<p>In this article I approached SAT as a way to implement camera panning constraints in the context of the SVG scene graph. But the deeper win with this solution is the capability to apply SAT across the entirety of the framework. I first used SAT a long way back in order to enforce bounds-checking constraints in a flight simulation developed for US Air Force pilot training. That's just one of a multitude of examples of how the theorem can be applied to achieve numerous ends in graphics development. With the present implementation, SAT becomes a general-purpose geometric primitive that can be re-used all across the SVG Creators Collaborative&trade; framework. The very same projection logic that constrains the World Tree camera can be used elsewhere to implement collision detection between sprites, view-frustum culling, hit-testing for interactive SVG elements, selective redrawing for performance, and even simple physics responses. In other words: by solving the "camera constraint" problem -- correctly -- we now have the geometric foundation for nearly every spatial algorithm the framework will need as it grows.</p>
+<p>If you've made it this far, you've probably sensed that this post is just one chapter in a much grander story. All of the content in this series -- SVG geometry, scene-graphs, basis transformations, cameras, the Separating Axis Theorem -- it's all part of the groundwork for a book I've been quietly assembling. Aimed at supporting creative coders and SVG artists alike the book will become a huge asset for anyone who loves building worlds and deepening their understanding of the art and mathematics behind the endeavor. </p>
 <h2>Resources</h2>
 <ol>
 <li>
-<p>Hermann Minkowski</p>
-</li>
-<li>
-<p><a href="https://youtu.be/P2LTAUO1TdA?si=wY6QBDjuEdLoKb2S">Grant Sander's beautiful artful animation on basis vectors</a>. I highly recommend give this a watch. It is soo relaxing and gorgeously presented. And there's no test :) .</p>
+<p><a href="https://youtu.be/P2LTAUO1TdA?si=wY6QBDjuEdLoKb2S">Grant Sander's beautiful artful animation on basis vectors</a>. I highly recommend giving this a watch. It is sooo relaxing and gorgeously presented. And there's no test :) .</p>
 </li>
 <li>
 <p>SVG 2 Specification, &#xA7;8: <a href="https://www.w3.org/TR/SVG2/coords.html">Coordinate Systems, Transformations, and Units (W3C)</a>.</p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Hermann_Minkowski">Hermann Minkowski</a></p>
 </li>
 </ol>
 <script src="/scripts/dist_sat/sat_app.js" type="module"></script>
