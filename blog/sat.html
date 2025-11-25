@@ -49,7 +49,7 @@
     <meta name="tags" content="geometry" />
     <meta name="tags" content="polygon intersection" />
     <meta name="tags" content="algorithms" />
-    <meta name="tags" content="algoritm" />
+    <meta name="tags" content="algorithm" />
 
     </head>
 
@@ -250,11 +250,11 @@ svg#ginnungagap_debug {
 </style>
 
 <h2>Rationale</h2>
-<p>This article is part of a series I've been working on centered around the scene-graph conceptualization of Scalable Vector Graphics (SVG). The motivation for the series stems from work I've been undertaking to add virtual camera funtionality to my <em>SVG Creator's framework</em>. Specifically, I needed to simulate camera features (like zoom, panning and tilt) to facilitate the creation of interactive SVG artworks. </p>
-<p>In the previous article in the series I shared some insights that occured to me relating the concept of <strong>mathematical bases and basis vectors</strong> to a generalized process for understanding and using SVG transformations within the scene-graph. The present piece dovetails off the previous by looking at how <strong>projection</strong> and <strong>basis reasoning</strong> lead to robust geometric constraints definitions (e.g., collisions, containment, and panning limits).</p>
+<p>This article is part of a series I've been working on centered around the scene-graph conceptualization of Scalable Vector Graphics (SVG). The motivation for the series stems from work I've been undertaking to add virtual camera functionality to my <em>SVG Creator's framework</em>. Specifically, I needed to simulate camera features (like zoom, panning and tilt) to facilitate the creation of interactive SVG artworks. </p>
+<p>In the previous article in the series I shared some insights that occurred to me relating the concept of <strong>mathematical bases and basis vectors</strong> to a generalized process for understanding and using SVG transformations within the scene-graph. The present piece dovetails off the previous by looking at how <strong>projection</strong> and <strong>basis reasoning</strong> lead to robust geometric constraints definitions (e.g., collisions, containment, and panning limits).</p>
 <h2>The Problem</h2>
 <p>The problem at hand concerned the development of an SVG virtual camera system. One of the things I enjoy about working with SVG is the ability to create artworks with varying levels of detail and set up systems that allow viewers to navigate the work and appreciate features from different perspectives. </p>
-<p>For example, below you see some SVG which illustrates the concept of the "World Tree" from Norse mythology. In it, I've set up a camera system to enable viewers to zoom in an pan around to explore some of the details hidden away in the more distant perspective. The problem for this piece (and it's a general problem creating artwork for any number of applications like games, sims, or advertisements for example) is that the virtual camera panning has to be constrained or the viewer will get lost. Think about it for a minute. How would you express the constraints? </p>
+<p>For example, below you see some SVG artwork which illustrates the concept of the "World Tree" from Norse mythology. In it, I've set up a camera system to enable viewers to zoom in an pan around to explore some of the details hidden away in the more distant perspective. The problem for this piece (and it's a general problem for any number of applications like games, sims, or advertisements) is that virtual camera panning has to be constrained or the viewer will get lost. Think about it for a minute. How would you express constraints preventing the user from panning "out of bounds"? </p>
 <h2>Live Interactive Illustration</h2>
 <figure>
 <div id='svg_container'>
@@ -3109,12 +3109,12 @@ svg#ginnungagap_debug {
 </svg>
 
 </div>
-<figcaption><strong>Figure:</strong> The world Tree by <strong style="font-size:12px">&#x1D4A9;</strong> (shown with test scaffolding).</figcaption>
+<figcaption><strong>Figure 1:</strong> The world Tree by <strong style="font-size:12px">&#x1D4A9;</strong>. An SVG artwork depicting Yggdrasil -- the world tree from Norse mythology. The figure shows the artwork along with debug scaffolding (the red, green and blue box outlines) used to develop virtual camera functionality.</figcaption>
 </figure>
 
-<p>Think about it: if the user pans too far, they'll fall off the edge of the world, right? We can't have that! So we need to constrain the pannable area whenever the user zooms in to view details.</p>
-<p>If you look closely at the World Tree SVG, you'll see I've added some test scaffolding. I've drawn the world coordinate system axes (shown in blue) and also the local coordinate system axes for the camera (shown in red). The blue axes represent the <strong>global SVG coordinate system</strong> -- the world's <strong>basis</strong>. The red axes represent the <strong>camera's local coordinate system</strong> -- the basis attached to the user's view. I want you to think of these coordinate systems as <strong>bases in the geometric sense</strong>: each basis defines how vectors, distances, and shapes are interpreted in its own frame of reference.</p>
-<p>I've also drawn rectangles around each basis.</p>
+<p>The artwork is intended to let the viewer zoom in and pan around to look at details. But if the user pans too far, they'll fall off the edge of the world, right? We can't have that! So we need to constrain the pannable area whenever the user is in a zoomed in state.</p>
+<p>For this article, I've left visible the test scaffolding I used to develop the camera functionality. I've drawn the <strong>SVG world coordinate system axes</strong> (shown in blue) and also the <strong>local coordinate system axes</strong> for the camera (shown in red). The point of this article is I want you to think of these coordinate systems as <strong>bases in the geometric sense</strong>: each basis defines how vectors, distances, and shapes are interpreted in its own frame of reference.</p>
+<p>I've also drawn rectangles within each basis.</p>
 <ul>
 <li>
 <p>The blue rectangle corresponds to my target <code>viewBox</code> dimensions in <em>world coordinates</em>.</p>
@@ -3127,9 +3127,9 @@ svg#ginnungagap_debug {
 <p>To express the panning constraints in this larger context, I added a green rectangle. This perimeter defines the set of legal panning positions -- boundaries within which the camera is allowed to move without exposing empty space. At the initial zoom level, the green box sits neatly inside the blue world box. But once the user zooms in, the camera's viewBox becomes larger in world units. The green region becomes the area to which the camera view must be constrained in order to keep the world fully visible.</p>
 <p>Whew! Now that we've established these two bases -- the <em>world basis</em> and the <em>scaled camera basis</em> we're in the perfect position to enforce panning constraints using the <em>Separating of Axis Theorem</em>.</p>
 <h2>The Separating Axis Theorem</h2>
-<p>The <strong>Separating Axis Theorem</strong> (SAT) sets up a computer graphics algorithm that is often used in gaming and simulation to test for the intersection of convex polygons (think collision detection). Here, I'll extend it to test for <em>containment</em>. </p>
-<p>The <strong>Separating Axis Theorem</strong> (SAT) is a foundational tool in computer graphics. It's often used for collision detection in games and simulations. In its classic form, it provides a means to determine whether two convex shapes overlap. I first applied this algorithm developing a flight simulation for Nellis Airforce Base flight training. Back then I used it to identify when pilots flew out of bounds in a virtual training course. Here, I’ll extend the idea to test for containment -- which is exactly what we need for the camera system in our scenegraph. </p>
-<p>Go ahead and play with the wold tree for a bit. </p>
+<p>The <strong>Separating Axis Theorem</strong> (SAT) sets up a computer graphics algorithm that is often used in gaming and simulation to test for the intersection of convex polygons for, e.g., collision detection. Here, I'll extend it to test for <em>containment</em>. </p>
+<p>In its classic form, SAT provides a means to determine whether two convex shapes overlap. I first applied this algorithm developing a flight simulation for Nellis Airforce Base. Back then I used it to identify when pilots flew out of bounds in a virtual training course. Here, I'll extend the idea to add functionality to the camera system in the SVG scene graph. </p>
+<p>Go ahead and play with the world tree for a bit. </p>
 <ul>
 <li>
 <p>Double click (or spread on mobile) to "zoom" the camera in order to see the camera basis scale up. </p>
@@ -3166,8 +3166,8 @@ ELSE
 <blockquote>
 <p>Two <strong>convex polygons</strong> $A$ and $B$ are <strong>disjoint</strong> (i.e., they do not overlap or touch) if, and only if, there exists at least one line (let that be called a <strong>separating axis</strong>) such that the projections of the two polygons onto that line are also disjoint.</p>
 </blockquote>
-<p>Simple, right? No, really it's a mouthful. On paper, that statement looks compact, but it’s carrying a lot of meaning. It’s one of those deceptively simple phrases that packs an entire geometric worldview into a single sentence.</p>
-<p>If you're a visual thinker (and if you’re reading this blog, you probably are), the best way to understand SAT is to <strong>see</strong> it. To that end I've created an interactive diagram hoping to to make the idea tangible, and to make the algorithm feel less like abstract algebra and more like geometry you can touch.</p>
+<p>Simple, right? No, really it's a mouthful. On paper, that statement looks compact, but it's carrying a lot of meaning. It's one of those deceptively simple phrases that packs an entire geometric worldview into a single sentence.</p>
+<p>If you're a visual thinker (and if you're reading this blog, you probably are), the best way to understand SAT is to <strong>see</strong> it. To that end I've created an interactive diagram hoping to to make the idea tangible, and to make the algorithm feel less like abstract algebra and more like geometry you can touch.</p>
 <h3 id="start_float">Bases in Action: SAT Illustrated</h3>
 <p>In this section, we'll unpack the theorem step-by-step using an explicit example: two triangles. We'll use math to create sweeping axes -- 1-dimensional <strong>basis directions</strong> onto which we can project the "shadows" of each polygon and look for separation. Think of it as a taste of <strong>linear algebra for artists</strong>.</p>
 <style>
@@ -3208,10 +3208,10 @@ figcaption  {
   scrolling="no"
 >
 </iframe>
-<figcaption><strong>Figure 1: </strong> Two triangles A and B. Are they overlapping? Easy enough to see, right? But can we prove it to the machine ... ?</figcaption> 
+<figcaption><strong>Figure 2: </strong> Two triangles A and B. Are they overlapping? Easy enough to see, right? But can we prove it to the machine ... ?</figcaption> 
 </div>
 
-<p>Let's start with the two triangles I've shown in Figure 1.</p>
+<p>Let's start with the two triangles I've shown in Figure 2.</p>
 <div>
 $$
 \begin{align*}
@@ -3224,19 +3224,18 @@ $$
 <p>On visual inspection it's pretty easy to see they're separated, right? So how do we prove that with separating axes? </p>
 <h4>Step 1. Pick an axis -- any axis ...</h4>
 <p>Well, maybe not just any axis (the choice is, after all, infinite). SAT tells us that for our purposes it's enough to test axes that come from the <strong>normals of the polygon edges</strong>. That's a finite and tractable set.</p>
-<p>Let's start with the edge $B_1 \rightarrow B_2$. We can get that edge as a vector:</p>
+<p>Let's start with the edge $B_1 \rightarrow B_2$. Try tapping $Triangle B$ to see this edge as a vector: </p>
 <div>
 $$
 \vec{E}_{B_{1}B_{2}} = B_2 - B_1 = (5-3, 1-1) = (2, 0)
 $$
 </div>
 
-<p>Try tapping $Triangle B$ to see this formula in action.</p>
 <h4>2. Use the <em>normal</em> as a basis for projection</h4>
 <p>Now this brings us to the heart of the discussion. Once we have an edge, we can obtain its <strong>normal</strong> (a line indicating a direction perpendicular to the edge) and <strong>use it as a basis for the projection</strong>. What this gives us is a way of <em>mapping</em> from our 2D svg world coordinates to a one-dimensional basis on which we can project our triangles -- and look for separation. </p>
 <div class="admonition tip">
 <p class="admonition-title">Insight!</p>
-<p>For me, the key insight to understanding the SAT is to understand that the separating axes are <strong>geometric bases</strong> for <strong>projection</strong>. </p>
+<p>For me, the key insight to understanding the SAT is to realize that the separating axes are <strong>geometric bases</strong> for <strong>projection</strong>. </p>
 </div>
 <p>Here's the normal for edge $\vec{E_{B_1B_2}}$ .</p>
 <div>
@@ -3245,9 +3244,9 @@ $$
 $$
 </div>
 
-<p>Tap $Triangle B$ in <strong>Figure 1</strong> you'll see how we get its <em>normal</em>. An tap once more to pull it off to the side.</p>
+<p>Tap $Triangle B$ again to see the formula in action. And tap once more to pull the normal off to the side.</p>
 <h4>3. Project the triangles on the normal basis</h4>
-<p>Once you have the basis off to the side, tap again to see how we <em>project</em> the triangles. Conceptually, it's easy. We <strong>project</strong> the polygon by mapping its <em>vertices</em>, $V_i$, onto the normal basis using the dot-product:</p>
+<p>With our edge normal obtained, we now have a basis on which to <strong>project</strong> the triangles. Conceptually, projection is easy to grock. We project the polygon by mapping its <em>vertices</em>, $V_i$, onto the normal basis using the dot-product:</p>
 <p>$$
 Proj( V_i ) = V_i \cdot \vec n
 $$</p>
@@ -3280,8 +3279,9 @@ $$</p>
 I_A = [0, 4]
 $$</p>
 <h3>The Story So Far ...</h3>
-<p><strong>Figure 1</strong> now illustrates the projected shadows of our triangles. Since the shadows overlap we can conclude that $\vec{N}_1$ is <em>not</em> a separating axis.</p>
-<p>Intuitively, this should make sense. If we were to project our triangles onto the Y axis of the global 2D basis it's easy to intuit we'd get similar overlapping shadows. And that exactly what our normal, $\vec{N}_1$, is -- a line int the $Y$ direction. Bottom line? Just keep in mind that for SAT, the <em>normal</em> simply gives us:</p>
+<p><strong>Figure 2</strong> now illustrates the projected shadows of our triangles. Since the shadows overlap we can conclude that $\vec{N}_1$ is <em>not</em> a separating axis.</p>
+<p>Intuitively, this should make sense. If we were to project our triangles onto the Y axis of the global 2D basis it's easy to intuit we'd get similar overlapping shadows. And that's exactly what our normal, $\vec{N}_1$, is -- a line in the $Y$ direction. </p>
+<p>Bottom line? Just keep in mind that for SAT, the <em>normal</em> gives us:</p>
 <ol>
 <li>
 <p><strong>A direction line</strong>, and </p>
@@ -3293,8 +3293,7 @@ $$</p>
 <p>This <em>basis</em> gives us the key to measure the <em>intervals</em> (shadows) of our polygons.</p>
 <h3>Finding a Gap</h3>
 <p>But we're not done yet! We still need to find a gap to prove the triangles are not overlapping. Look again at our figure. Can you spot an axis along which we might find a gap? </p>
-<p>Edge $B_1 \rightarrow B3$ appears to be a likely candidate. Its normal roughly points diagonally between the shapes. Continue tapping $Triangle B$ to complete the projection on this axis and you'll see that, yes, indeed we'll find our gap on this one.</p>
-<p>If you tap or click Triangle B in the diagram, you’ll see this axis highlighted, and the projections make the separation plainly visible. Just for fun, let's walk through the computations.</p>
+<p>Edge $B_1 \rightarrow B3$ appears to be a likely candidate. Its normal roughly points diagonally between the shapes. Continue tapping $Triangle B$ to complete the projection on this axis and you'll see that, yes, indeed we'll find our gap on this one. Just for fun, let's walk through the computations.</p>
 <p><strong>Step 1.</strong> Compute the edge vector and obtain the normal basis:</p>
 <div>
 $$
@@ -3340,7 +3339,7 @@ $$
 $$</p>
 <p><strong>Step 3.</strong> Look for separation. Once again inspect our figure and we can clearly see it. We've found our gap and satisfied the SAT!</p>
 <h2 id="end_float">Application: Thinking with Bases</h2>
-<p>Having worked through the linalg underlying the Separating Axis Theorem let's turn now to an implementation of the algorithm suitable for the SVG Creative Collab &trade; framework. Recall the problem I presented at the outset of the discussion that led us down this rabit hole in the first place. As an SVG artist needing to set up a <strong>scene-graph camera</strong> I need to enforce panning constraints to enable viewers to explore the artwork. </p>
+<p>Having worked through the linalg underlying the Separating Axis Theorem let's turn now to an implementation of the algorithm suitable for the SVG Creative Collab &trade; framework. Recall the problem I presented at the outset of the discussion that led us down this rabbit hole in the first place. As an SVG artist needing to set up a <strong>scene-graph camera</strong> I need to enforce panning constraints to enable viewers to explore the artwork. </p>
 <p>Thinking in terms of geometric bases might sound like overkill for this problem. But it actually makes it <em>easy</em> to formulate and enforce the constraints using the SAT. Remember the <strong>constraint box</strong> defined for the camera (the green box in the World Tree Illustration)? In the context of the SAT it's easy to state the constraints:</p>
 <blockquote>
 <p>When zoomed into the world-tree the camera <em>constraint-box</em> must remain entirely contained within the <em>SVG world-box</em>. </p>
@@ -3349,13 +3348,13 @@ $$</p>
 <h3>Testing for Containment with SAT</h3>
 <p>Again, the Separating Axis Theorem tells us that polygons are <em>not overlapping</em> if there is at least one separating axis. To test for containment we can simply invert the logic. Given two polygons (which our SVG rectangles are) we can assert:</p>
 <blockquote>
-<p>Polygon A is contained inside polygon B if there is <em>no</em> axis on which A's projection extends outside B's projection.</p>
+<p>Polygon A is <em>contained</em> inside polygon B if there is <em>no</em> axis on which A's projection extends outside B's projection.</p>
 </blockquote>
 <p>In other words, <em>no gaps allowed</em>. Anywhere. </p>
 <p>In the case of the World Tree camera: </p>
 <ul>
 <li>Polygon A = the SVG viewBox</li>
-<li>Polygon B = the camera constraint box (tansformed into world coordinates)</li>
+<li>Polygon B = the camera constraint box (transformed into world coordinates)</li>
 <li>On user pan apply SAT to check for containment. </li>
 </ul>
 <p><strong>Note: </strong> It's worth noting here that SAT is agnostic with regard to the coordinate system used for the computations <em>as long as both polygons are expressed in the same space</em> . </p>
@@ -3364,7 +3363,7 @@ $$</p>
 <p>Use the <strong>inverse transformation matrix</strong> to ensure the polygons are in the same coordinate space for comparison.</p>
 </div>
 <h3>The Algorithm</h3>
-<p>The following pseudocode reflects the SVG Creators framework camera implementation. I use pseudocode here intentionally to remain language agnostic and for readability. </p>
+<p>The following pseudo code reflects how the camera implementation for the SVG Creators Collaborative&trade; framework applies the SAT. I use pseudo code here intentionally to remain language agnostic and for readability. </p>
 <pre>
 function is_contained (cameraPoly, worldPoly):
 
@@ -3388,7 +3387,7 @@ function is_contained (cameraPoly, worldPoly):
     return true             # Camera safely contained
 </pre>
 
-<p>With this implementation, the camera object can check for overlap on all panning interactions and readily enforce the panning constraints. Beyond that, we now have a generic function to enable multiple future enhancments (think collision detection, culling, occlusion, spatial indexing, collision physics -- the list goes on).I</p>
+<p>With this implementation, the camera object can check for overlap on all panning interactions and readily enforce the panning constraints. Beyond that, we now have a generic function to enable multiple future enhancements (think collision detection, culling, occlusion, spatial indexing, collision physics -- the list goes on).</p>
 <h2>A Note on Performance</h2>
 <p>I've heard enough criticism leveled against SVG on performance grounds. So I guess it's reasonable to be concerned with that here. But the beautiful thing about SAT is that while it <em>sounds</em> heavyweight the actual cost is quite small. Think about it. For two polygons with $n$ and $m$ edges to test for containment SAT requires testing $(n + m)$ axes. For each axis, both polygons get projected (a linear pass over the verts). So overall complexity is: </p>
 <p>$$
@@ -3396,8 +3395,8 @@ O( (n+m)^2 )
 $$</p>
 <p>In this case (checking two rectangles = 64 dot products) the cost is tiny. Also, since it uses the <strong>inverse transformation matrix</strong> the SVG Creative Collab&trade; framework collapses all transforms into a single affine transform before the SAT loop, meaning no overhead no matter the depth of the scene graph. So the actual runtime for this case? effectively constant time. </p>
 <h2>Discussion</h2>
-<p>In this article I approached SAT as a way to implement camera panning constraints in the context of the SVG scene graph. But the deeper win with this solution is the capability to apply SAT across the entirety of the framework. I first used SAT a long way back in order to enforce bounds-checking constraints in a flight simulation developed for US Air Force pilot training. That's just one of a multitude of examples of how the theorem can be applied to achieve numerous ends in graphics development. With the present implementation, SAT becomes a general-purpose geometric primitive that can be re-used all across the SVG Creators Collaborative&trade; framework. The very same projection logic that constrains the World Tree camera can be used elsewhere to implement collision detection between sprites, view-frustum culling, hit-testing for interactive SVG elements, selective redrawing for performance, and even simple physics responses. In other words: by solving the "camera constraint" problem -- correctly -- we now have the geometric foundation for nearly every spatial algorithm the framework will need as it grows.</p>
-<p>If you've made it this far, you've probably sensed that this post is just one chapter in a much grander story. All of the content in this series -- SVG geometry, scene-graphs, basis transformations, cameras, the Separating Axis Theorem -- it's all part of the groundwork for a book I've been quietly assembling. Aimed at supporting creative coders and SVG artists alike the book will become a huge asset for anyone who loves building worlds and deepening their understanding of the art and mathematics behind the endeavor. </p>
+<p>In this article I approached SAT as a way to implement camera panning constraints in the context of the SVG scene graph. But the deeper win with this solution is the capability to apply SAT across the entirety of the framework. I first used SAT a long way back in order to enforce bounds-checking constraints in a flight simulation developed for US Air Force pilot training. That's just one of a multitude of examples of how the theorem can be applied to achieve numerous ends in graphics development. With the present implementation, SAT becomes a general-purpose geometric primitive that can be re-used all across the SVG Creators Collaborative&trade; framework. The very same projection logic that constrains the World Tree camera can be used elsewhere to implement collision detection between sprites, view-frustum culling, hit-testing for interactive SVG elements, selective redrawing for performance, and even simple physics responses. In other words: by solving the "camera constraint" problem -- <em>correctly</em> -- we now have the geometric foundation for nearly every spatial algorithm the framework will need as it grows. Not bad!</p>
+<p>If you've made it this far, you've probably sensed that this post is just one chapter in a much grander story. All of the content in this series -- SVG geometry, scene-graphs, basis transformations, cameras, the Separating Axis Theorem -- it's all part of the groundwork for a book I've been quietly assembling. Aimed at supporting creative coders and SVG artists alike, the book will become a huge asset for anyone who loves building worlds and deepening their understanding of the art and mathematics behind it! </p>
 <h2>Resources</h2>
 <ol>
 <li>
@@ -3412,8 +3411,8 @@ $$</p>
 </ol>
 <script src="/scripts/dist_sat/sat_app.js" type="module"></script>
     <footer>
-      <p>Published: <time datetime="2025-11-13T00:00:00-05:00">
-        Thu 13 November 2025
+      <p>Published: <time datetime="2025-11-25T00:00:00-05:00">
+        Tue 25 November 2025
       </time></p>
         <address>
           By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
@@ -3433,7 +3432,7 @@ $$</p>
             <a href="https://dr-nick-nagel.github.io/tag/geometry.html">geometry</a>
             <a href="https://dr-nick-nagel.github.io/tag/polygon-intersection.html">polygon intersection</a>
             <a href="https://dr-nick-nagel.github.io/tag/algorithms.html">algorithms</a>
-            <a href="https://dr-nick-nagel.github.io/tag/algoritm.html">algoritm</a>
+            <a href="https://dr-nick-nagel.github.io/tag/algorithm.html">algorithm</a>
         </p>
     </footer>
   </article>
