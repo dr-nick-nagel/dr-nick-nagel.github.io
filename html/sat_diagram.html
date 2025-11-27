@@ -467,7 +467,7 @@
     </svg>
 
 <script >
-const l= console.log;
+
 
 // helper dev time
 function createSvgCoordsFinder( svg ) {
@@ -478,7 +478,7 @@ function createSvgCoordsFinder( svg ) {
       let transformed = pt.matrixTransform(
           svg.getScreenCTM().inverse()
       );
-      console.log(`SVG COORDS: (  ${transformed.x.toFixed(2)}, ${transformed.y.toFixed(2)}  )`);
+
   };
 }
 
@@ -528,19 +528,19 @@ document.addEventListener(
                switch( state ) {
                   case steps.AXIS_SELECT :
                       animations.fadeInEdge.beginElement();
-                      l( state );
+
                       break;
                   case steps.NORMAL :
                       animations.normal.beginElement();
                       document.getElementById("normal_formula").classList.add( "visible" );
-                      l( state );
+
                       break;
                   case steps.BASIS :
                       document.getElementById("normal_formula").classList.remove( "visible" );
                       animations.createBasis.beginElement();
                       animations.lengthenX2.beginElement();
                       animations.lengthenX1.beginElement();
-                      l( state );
+
                       break;
                   case steps.PROJECT :
                       animations.project.beginElement();
@@ -551,17 +551,17 @@ document.addEventListener(
                           },
                           5000
                       );
-                      l( state );
+
                       break;
                   case steps.AXIS_SELECT_2 :
                       document.getElementById("projection_formula").classList.remove( "visible" );
                       animations.fadeInEdge2.beginElement();
-                      l( state );
+
                       break;
                   case steps.NORMAL_2 :
                       animations.normal2.beginElement();
                       document.getElementById("normal_formula").classList.add( "visible" );
-                      l( state );
+
                       break;
                   case steps.BASIS_2 :
                       document.getElementById("normal_formula").classList.remove( "visible" );
@@ -569,7 +569,7 @@ document.addEventListener(
                       animations.lengthenX2_2.beginElement();
                       animations.lengthenX1_2.beginElement();
                       animations.rotateBais2.beginElement();
-                      l( state );
+
                       break;
                   case steps.PROJECT_2 :
                       animations.project2.beginElement();
@@ -580,10 +580,10 @@ document.addEventListener(
                           },
                           5000
                       );
-                      l( state );
+
                       break;
                   default:
-                      l( "RESET" );
+
                       state = 8;
                }
             }

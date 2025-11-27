@@ -78,41 +78,21 @@ svgRoot.addEventListener("touchstart", (e) => {
 
   if (e.touches.length === 1) {
     const { clientX, clientY } = e.touches[0];
-    // Set delay to check for more complex gesture (pinch or spread)
-    // panTimer = setTimeout( 
-    //     () => {
-    //       if ( cameraObj.isZoomedIn ) {
-    //         mode = uiStates.PANNING;
-    //         cameraObj.startPan(
-    //           { clientX: clientX, clientY: clientY }
-    //         );
-    //       }
-    //     },
-    //     60 // <--| magic number: delays pan so pinch gets priority
-    // );
-
     if ( cameraObj.isZoomedIn ) {
       mode = uiStates.PANNING;
       cameraObj.startPan(
         { clientX: clientX, clientY: clientY }
       );
     }
-
-
   }
 
   else if (e.touches.length === 2) {
-
-    // Cancel the  pan timer, if length is 2 you're zooming ... 
-    // clearTimeout( panTimer );
-
     mode = uiStates.PINCHING;
     const dx = e.touches[0].clientX - e.touches[1].clientX;
     const dy = e.touches[0].clientY - e.touches[1].clientY;
     // get the distanced needed to assess: pinch or spread? 
     // (see next touchmove ... )
     touchStartDistance = Math.hypot(dx, dy);
-
   }
 });
 
@@ -139,8 +119,6 @@ svgRoot.addEventListener("touchmove", (e) => {
 
 
 svgRoot.addEventListener("touchend", (e) => {
-
-  // clearTimeout(panTimer);
 
   if (mode === uiStates.PANNING && e.touches.length === 0) {
     cameraObj.endPan(  );

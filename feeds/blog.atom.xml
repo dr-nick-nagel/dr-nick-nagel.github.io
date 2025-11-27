@@ -1,44 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-11-25T00:00:00-05:00</updated><entry><title>Understanding the Basis of the Separating Axis Theorem (SAT)</title><link href="https://dr-nick-nagel.github.io/blog/sat.html" rel="alternate"></link><published>2025-11-25T00:00:00-05:00</published><updated>2025-11-25T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-11-25:/blog/sat.html</id><summary type="html">&lt;style&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>NickNagel.com - blog</title><link href="https://dr-nick-nagel.github.io/" rel="alternate"></link><link href="https://dr-nick-nagel.github.io/feeds/blog.atom.xml" rel="self"></link><id>https://dr-nick-nagel.github.io/</id><updated>2025-11-27T00:00:00-05:00</updated><entry><title>Understanding the Basis of the Separating Axis Theorem (SAT)</title><link href="https://dr-nick-nagel.github.io/blog/sat.html" rel="alternate"></link><published>2025-11-27T00:00:00-05:00</published><updated>2025-11-27T00:00:00-05:00</updated><author><name>Nick Nagel</name></author><id>tag:dr-nick-nagel.github.io,2025-11-27:/blog/sat.html</id><summary type="html">&lt;p&gt;Understanding the the Separating Axis Theorem as a set of basis projections...&lt;/p&gt;</summary><content type="html">&lt;style&gt;
 
-main.content {
-   overflow-anchor: none;
+pre.pseudocode {
+   font-size: small;
 }
-
-figure {
-    margin: 0px;
-}
-
-figcaption {
-    font-size: smaller;
-    text-align: justify;
-    margin-top: 5px;
-}
-
- #svg_container {
-  display: block;
-  margin: auto;
-  background-color: #eee;
-  border: solid 1px #aaa;
-  border-radius: 10px;
-  width: 550px;
-
-  @media( max-width: 450px ) {
-    width:  300px;
-    margin: 0;
-  }
-
-}
-
-svg#ginnungagap_debug {
-    display: block;
-    width:  100%;
-    height: auto;
-}
-
-#style_wrapper {
-   opacity: 0;
-   transition: opacity 1 …&lt;/style&gt;</summary><content type="html">&lt;style&gt;
 
 main.content {
    overflow-anchor: none;
@@ -124,6 +89,12 @@ svg#ginnungagap_debug {
 
 &lt;/style&gt;
 
+&lt;h3&gt;Nick Nagel's SVG Scene Graph Series&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/scene_graph.html"&gt;Understanding and using the SVG Scene Graph&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/bases-and-affine-transformations-the-linear-algebra-behind-svg-graphics.html"&gt;Bases and Affine Transformations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://dr-nick-nagel.github.io/blog/sat.html"&gt;The Separating Axis Theorem&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
 &lt;h2&gt;Rationale&lt;/h2&gt;
 &lt;p&gt;This article is part of a series I've been working on centered around the scene-graph conceptualization of Scalable Vector Graphics (SVG). The motivation for the series stems from work I've been undertaking to add virtual camera functionality to my &lt;em&gt;SVG Creator's framework&lt;/em&gt;. Specifically, I needed to simulate camera features (like zoom, panning and tilt) to facilitate the creation of interactive SVG artworks. &lt;/p&gt;
 &lt;p&gt;In the previous article in the series I shared some insights that occurred to me relating the concept of &lt;strong&gt;mathematical bases and basis vectors&lt;/strong&gt; to a generalized process for understanding and using SVG transformations within the scene-graph. The present piece dovetails off the previous by looking at how &lt;strong&gt;projection&lt;/strong&gt; and &lt;strong&gt;basis reasoning&lt;/strong&gt; lead to robust geometric constraints definitions (e.g., collisions, containment, and panning limits).&lt;/p&gt;
@@ -3017,16 +2988,18 @@ svg#ginnungagap_debug {
 &lt;p&gt;So how do we &lt;em&gt;test for that&lt;/em&gt;?&lt;/p&gt;
 &lt;h3&gt;The naive conditional approach&lt;/h3&gt;
 &lt;p&gt;The most obvious way (and probably the first thing any artist-engineer thinks of) is to check vertices manually:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;IF
-   CAM.upper_left   inside WORLD &amp;amp;&amp;amp;
-   CAM.lower_left   inside WORLD &amp;amp;&amp;amp;
-   CAM.upper_right  inside WORLD &amp;amp;&amp;amp;
+&lt;pre class='pseudocode'&gt;
+IF
+   CAM.upper_left   inside WORLD &amp;&amp;
+   CAM.lower_left   inside WORLD &amp;&amp;
+   CAM.upper_right  inside WORLD &amp;&amp;
    CAM.lower_right  inside WORLD
 THEN
    all good
 ELSE
    not so much ...
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/pre&gt;
+
 &lt;p&gt;Sure that'll work. Here. For this specific case. Because it involves only axis-aligned rectangles. But it's also brittle, verbose and limited. &lt;/p&gt;
 &lt;p&gt;It does &lt;em&gt;not&lt;/em&gt; generalize to:&lt;/p&gt;
 &lt;ul&gt;
@@ -3073,7 +3046,7 @@ figcaption  {
 .floater {
    width:300px;
    height:auto;
-   border: solid red 4px;
+   border: solid grey 4px;
 }
 &lt;/style&gt;
 &lt;div class="floater"&gt;
@@ -3239,27 +3212,34 @@ $$&lt;/p&gt;
 &lt;/div&gt;
 &lt;h3&gt;The Algorithm&lt;/h3&gt;
 &lt;p&gt;The following pseudo code reflects how the camera implementation for the SVG Creators Collaborative&amp;trade; framework applies the SAT. I use pseudo code here intentionally to remain language agnostic and for readability. &lt;/p&gt;
-&lt;pre&gt;
+&lt;pre class='pseudocode'&gt;
 function is_contained (cameraPoly, worldPoly):
 
-    # 1. Ensure both polygons are compared on equivalent space
+    # 1. Ensure both polygons are compared on 
+    #    equivalent space...
+
     C = transform_to_world_space(cameraPoly)
     W = worldPoly   # already in world coordinates
 
-    # 2. Build a list of axes (normals of edges)
-    axes = normals_of_edges(W)      # 4 axes from world rect
-    axes += normals_of_edges(C)     # 4 axes from camera rect
+    # 2. Build a list of axes (4 from each rect)
+
+    axes = normals_of_edges(W)
+    axes += normals_of_edges(C)
 
     # 3. Project both polygons onto every axis
+
     for axis in axes:
         intervalC = project_polygon(C, axis)
         intervalW = project_polygon(W, axis)
 
-        # 4. Containment test: IS THERE A GAP?
-        if intervalC.min &lt; intervalW.min or intervalC.max &gt; intervalW.max:
-            return false    # Camera escapes bounds
+   # 4. Containment test: IS THERE A GAP?
 
-    return true             # Camera safely contained
+        if 
+         intervalC.min &lt; intervalW.min   OR 
+         intervalC.max &gt; intervalW.max:
+            return false
+
+    return true
 &lt;/pre&gt;
 
 &lt;p&gt;With this implementation, the camera object can check for overlap on all panning interactions and readily enforce the panning constraints. Beyond that, we now have a generic function to enable multiple future enhancements (think collision detection, culling, occlusion, spatial indexing, collision physics -- the list goes on).&lt;/p&gt;
@@ -3272,10 +3252,20 @@ $$&lt;/p&gt;
 &lt;h2&gt;Discussion&lt;/h2&gt;
 &lt;p&gt;In this article I approached SAT as a way to implement camera panning constraints in the context of the SVG scene graph. But the deeper win with this solution is the capability to apply SAT across the entirety of the framework. I first used SAT a long way back in order to enforce bounds-checking constraints in a flight simulation developed for US Air Force pilot training. That's just one of a multitude of examples of how the theorem can be applied to achieve numerous ends in graphics development. With the present implementation, SAT becomes a general-purpose geometric primitive that can be re-used all across the SVG Creators Collaborative&amp;trade; framework. The very same projection logic that constrains the World Tree camera can be used elsewhere to implement collision detection between sprites, view-frustum culling, hit-testing for interactive SVG elements, selective redrawing for performance, and even simple physics responses. In other words: by solving the "camera constraint" problem -- &lt;em&gt;correctly&lt;/em&gt; -- we now have the geometric foundation for nearly every spatial algorithm the framework will need as it grows. Not bad!&lt;/p&gt;
 &lt;p&gt;If you've made it this far, you've probably sensed that this post is just one chapter in a much grander story. All of the content in this series -- SVG geometry, scene-graphs, basis transformations, cameras, the Separating Axis Theorem -- it's all part of the groundwork for a book I've been quietly assembling. Aimed at supporting creative coders and SVG artists alike, the book will become a huge asset for anyone who loves building worlds and deepening their understanding of the art and mathematics behind it! &lt;/p&gt;
+&lt;div class='certifedMachineReadable'&gt;
+  &lt;img id="hcmr_badge"
+        src="/svg/machine_readable_badge.svg"
+        alt="Dr. Nick's AI friendly certified readability badge"
+  &gt;
+  &lt;div style="width:150px;font-size:smaller"&gt;
+Certified Human-Crafted Machine-Readable
+  &lt;/div&gt;
+&lt;/div&gt;
+
 &lt;h2&gt;Resources&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href="https://youtu.be/P2LTAUO1TdA?si=wY6QBDjuEdLoKb2S"&gt;Grant Sander's beautiful artful animation on basis vectors&lt;/a&gt;. I highly recommend giving this a watch. It is sooo relaxing and gorgeously presented. And there's no test :) .&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://youtu.be/P2LTAUO1TdA?si=wY6QBDjuEdLoKb2S"&gt;Grant Sander's artful animation on basis vectors&lt;/a&gt;. I highly recommend giving this a watch. It is sooo relaxing and gorgeously presented. And there's no exam :) .&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;SVG 2 Specification, &amp;#xA7;8: &lt;a href="https://www.w3.org/TR/SVG2/coords.html"&gt;Coordinate Systems, Transformations, and Units (W3C)&lt;/a&gt;.&lt;/p&gt;
