@@ -1,5 +1,4 @@
 const l = console.log;
-l("Begin ...");
 
 const uiStates = {
   IDLE: "idle",
@@ -74,59 +73,58 @@ let touchStartDistance = 0;
  * management ... 
  */
 svgRoot.addEventListener("touchstart", (e) => {
+  // prevent default scrolling, zooming, etc..
+  e.preventDefault();  
 
   if (e.touches.length === 1) {
-    
-    // const touch = e.touches[0];
-    // panStartCoords = { 
-    //   clientX: touch.clientX, 
-    //   clientY: touch.clientY 
-    // };
-    // e.preventDefault();
-
-    l( "TOUCH EVENT ", e.touches[0] );
     const { clientX, clientY } = e.touches[0];
-    l( "TOUCH EVENT ", clientX, clientY );
-
-
     // Set delay to check for more complex gesture (pinch or spread)
-    panTimer = setTimeout( 
-        () => {
-          if ( cameraObj.isZoomedIn ) {
-            mode = uiStates.PANNING;
-            cameraObj.startPan(
-              { clientX: clientX, clientY: clientY }
-              // e
-            );
-          }
-        }, 
-        60 // <--| magic number: delays pan so pinch gets priority
-    );
+    // panTimer = setTimeout( 
+    //     () => {
+    //       if ( cameraObj.isZoomedIn ) {
+    //         mode = uiStates.PANNING;
+    //         cameraObj.startPan(
+    //           { clientX: clientX, clientY: clientY }
+    //         );
+    //       }
+    //     },
+    //     60 // <--| magic number: delays pan so pinch gets priority
+    // );
+
+    if ( cameraObj.isZoomedIn ) {
+      mode = uiStates.PANNING;
+      cameraObj.startPan(
+        { clientX: clientX, clientY: clientY }
+      );
+    }
+
+
   }
 
   else if (e.touches.length === 2) {
+
     // Cancel the  pan timer, if length is 2 you're zooming ... 
-    clearTimeout( panTimer );
+    // clearTimeout( panTimer );
+
     mode = uiStates.PINCHING;
     const dx = e.touches[0].clientX - e.touches[1].clientX;
     const dy = e.touches[0].clientY - e.touches[1].clientY;
     // get the distanced needed to assess: pinch or spread? 
     // (see next touchmove ... )
     touchStartDistance = Math.hypot(dx, dy);
+
   }
 });
 
 svgRoot.addEventListener("touchmove", (e) => {
+  // prevent default scrolling, zooming, etc..
+  e.preventDefault();  
 
   if (mode === uiStates.PINCHING && e.touches.length === 2) {
-    // don't scroll ... 
-    e.preventDefault(); 
-
     const dx = e.touches[0].clientX - e.touches[1].clientX;
     const dy = e.touches[0].clientY - e.touches[1].clientY;
     const dist = Math.hypot(dx, dy);
     const delta = dist - touchStartDistance;
-
     if ( Math.abs( delta ) > 50 ) {
       cameraObj.toggleZoom();
       touchStartDistance = dist;
@@ -134,71 +132,26 @@ svgRoot.addEventListener("touchmove", (e) => {
   }
 
   else if (mode === uiStates.PANNING && e.touches.length === 1) {
-
-    // prevent scrolling
-    e.preventDefault();  
-
-    // const t = e.touches[ 0 ];
     const  { clientX, clientY } = e.touches[0];
     cameraObj.panMove({ clientX: clientX, clientY: clientY });
-
-    // cameraObj.panMove( e.touches[ e ] );
-
   }
 });
 
 
 svgRoot.addEventListener("touchend", (e) => {
 
-  clearTimeout(panTimer);
+  // clearTimeout(panTimer);
 
   if (mode === uiStates.PANNING && e.touches.length === 0) {
     cameraObj.endPan(  );
   }
-
   if (e.touches.length < 2) {
     touchStartDistance = 0;
   }
-
   if (e.touches.length === 0) {
     mode = uiStates.IDLE;
   }
-
 });
-
-
-
-
-
-
-// svgRoot.addEventListener("touchstart", (e) => {
-//   if (e.touches.length === 2) {
-//     const dx = e.touches[0].clientX - e.touches[1].clientX;
-//     const dy = e.touches[0].clientY - e.touches[1].clientY;
-//     touchStartDist = Math.hypot(dx, dy);
-//   }
-// });
-
-// svgRoot.addEventListener("touchend", (e) => {
-//   if (e.touches.length < 2 && touchStartDist) {
-//     touchStartDist = 0; 
-//   }
-// });
-
-// svgRoot.addEventListener("touchmove", (e) => {
-//   if (e.touches.length === 2) {
-//     e.preventDefault(); 
-//     const dx = e.touches[0].clientX - e.touches[1].clientX;
-//     const dy = e.touches[0].clientY - e.touches[1].clientY;
-//     const dist = Math.hypot(dx, dy);
-//     const delta = dist - touchStartDist;
-
-//     if (Math.abs(delta) > 50) { 
-//       cameraObj.toggleZoom();
-//       touchStartDist = dist; 
-//     }
-//   }
-// });
 
 // MOUSE: pan handling
 svgRoot.addEventListener("mousedown", cameraObj.startPan);
@@ -277,4 +230,3 @@ scrollable.addEventListener(
   throttle( floatElementOnScroll  , 100 )
 );
 
-l("End transmission!");

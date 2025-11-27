@@ -65,43 +65,34 @@ export class Camera {
       this.isZoomedIn = !this.isZoomedIn;
     }
 
-
     /**
-     * state cycle method to manage panning the camera 
+     * State cycle method to manage panning the camera ...
+     * 
      * @param {point} uiCoords client coordinates from UI
      * @returns early if not zoomed in...
      */
     startPan( uiCoords ) {
       // only allow panning if user is zoomed in...
       if ( ! this.isZoomedIn )  return;
-  
-      // event.preventDefault();
       const pt = this._getEventPoint( uiCoords );
       this.isPanning     = true;
       this.pointerCoords = pt;
-  
-      // const {x, y} = this.lastPointer;
-      // const M_trans = getTM( this.node );
-  
     }
   
-  
+    /**
+     * State cycle method for panning 
+     * @param {point} uiCoords client coordinates from UI
+     * @returns 
+     */
     panMove( uiCoords ) {
       if ( !this.isPanning ) return;
-
-      l( "*************************\nMOVING", uiCoords );
-
-      // event.preventDefault();
-  
       const pt = this._getEventPoint( uiCoords ) ;
-  
       const dx = pt.x - this.pointerCoords.x;
       const dy = pt.y - this.pointerCoords.y;
-  
       const currentMatrix = getTM(this.node);
       let e = currentMatrix.e + dx;
       let f = currentMatrix.f + dy;
-  
+
       const newMatrix = `${currentMatrix.a} ${currentMatrix.b} ${currentMatrix.c} ${currentMatrix.d} ${e} ${f}`;
       
       // TEST PANNING CONSTRAINTS -----------------------
@@ -109,23 +100,22 @@ export class Camera {
       const svgRoot = this.node.ownerSVGElement;
       const worldViewRect  = makeRect(0, 0, 600, 600);
       // RECTANGLE DIMENSIONS CONTRAINING CAMERA PAN OPERATION
-      const cameraRect     = makeRect(180, 60, 455, 360);
+      const cameraRect  = makeRect(180, 60, 455, 360);
       const M_camera    = getTM( this.node ); 
       const cameraRect_trans = transformPolygon(cameraRect, M_camera, svgRoot);
       const isContained = polygonContainsPolygon(cameraRect_trans, worldViewRect);
    
       // -- VIEW TEST RESULTS ----
-      function report() {
-        l("REPORT\n________");
-        l( "camera transform matrix\n", M_camera );
-        l( "Inner coords\n-------- \n", worldViewRect );
-        l( "Camera Rect (Constraints) \n-------- \n", cameraRect_trans );
-        l( "CONSTRAINED\n-------- \n", isContained );
-        l("_______________");
-      }
-      report();
+      // function report() {
+      //   l("REPORT\n________");
+      //   l( "camera transform matrix\n", M_camera );
+      //   l( "Inner coords\n-------- \n", worldViewRect );
+      //   l( "Camera Rect (Constraints) \n-------- \n", cameraRect_trans );
+      //   l( "CONSTRAINED\n-------- \n", isContained );
+      //   l("_______________");
+      // }
+      // report();
 
-      // TODO move to client layer ... 
       const display = document.getElementById("test_out");
       if( isContained ) {
         display.style.fill = "green";
@@ -138,7 +128,6 @@ export class Camera {
   
       // panning
       updateTransform(this.node, newMatrix, 0); 
-  
       this.pointerCoords = pt;
   
     }
@@ -181,8 +170,8 @@ export class Camera {
  * OUTPUT f(t) -- the value on the s polynomial curve 
  * (NORMALIZED TO BETWEEN 0 and 1  [0 <--> 1] )
  * 
- * @param {*} p_elapsed_time 
- * @param {*} power 
+ * @param {scalar} p_elapsed_time 
+ * @param {scalar} power 
  * @returns scalar between 0 and 1 reflecting polynomial shape ...
  */
 function polyNomialEase( p_elapsed_time, power = 3 ) {

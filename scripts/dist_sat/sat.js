@@ -88,7 +88,7 @@ export function makeRect(x0, y0, x1, y1) {
  * Compatible with SVG DOM APIs.
  */
 export function transformPolygon(polygon, matrix, svgRoot) {
-  return polygon.map((pt) => {
+  return polygon.map(( pt ) => {
     const P = svgRoot.createSVGPoint();
     P.x = pt.x;
     P.y = pt.y;
