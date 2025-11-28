@@ -76,6 +76,8 @@ svgRoot.addEventListener("touchstart", (e) => {
   // prevent default scrolling, zooming, etc..
   e.preventDefault();  
 
+  l( e.touches.length );
+
   if (e.touches.length === 1) {
     const { clientX, clientY } = e.touches[0];
     if ( cameraObj.isZoomedIn ) {
