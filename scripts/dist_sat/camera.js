@@ -69,12 +69,8 @@ export class Camera {
       const targetMatrix = this.isZoomedIn ? this.zoomedOutMatrix : this.zoomedInMatrix;
       await updateTransform(this.node, targetMatrix, duration, easing);
       const endStateMatrix = getTM( this.node );
+      // robust check for zoom state ... WAY better then notting a boolean flag!
       this.isZoomedIn = endStateMatrix.a > 1 ;
-
-      console.log( "***********\nZOOM:\n matrix a: ", endStateMatrix );
-      console.log( "is ZOOMED IN  ", this.isZoomedIn );
-
-
     }
 
     /**
@@ -85,17 +81,11 @@ export class Camera {
      */
     startPan( uiCoords ) {
       // only allow panning if user is zoomed in...
-
-      console.log( "***********\nSTART PAN:\n zoomed?: ", this.isZoomedIn );
-      console.log( " panning ", this.isPanning );
       if ( ! this.isZoomedIn )  return;
 
       const pt = this._getEventPoint( uiCoords );
       this.isPanning     = true;
       this.pointerCoords = pt;
-
-      console.log( "EARLY RETURN FAILED:\n panning ", this.isPanning );
-
     }
   
     /**
@@ -104,9 +94,6 @@ export class Camera {
      * @returns 
      */
     panMove( uiCoords ) {
-
-
-
       if ( !this.isPanning ) return;
       const pt = this._getEventPoint( uiCoords ) ;
       const dx = pt.x - this.pointerCoords.x;
