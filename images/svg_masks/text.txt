@@ -1,0 +1,10 @@
+in svg do masks inherit the transforms applied to the group to which they get attached?
+in svg do masks inherit the transforms applied to the group to which they get attached?
+
+INSERT IMAGE
+
+AI is like Pinnochio. It wishes it were alive and lies a lot. 
+
+
+
+

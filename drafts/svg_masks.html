@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <title>NickNagel.com - SVG Mask Gotchas</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        </script>
+        <script 
+            id="MathJax-script" 
+            async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+        <!-- mermaid for class diagrams and UML... -->
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+        
+
+        
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/styles.css" />
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="https://dr-nick-nagel.github.io/theme/css/admonitions.css" />
+        <link 
+            rel="stylesheet" 
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" />
+
+
+
+
+    <meta name="tags" content="basis" />
+    <meta name="tags" content="vector space" />
+    <meta name="tags" content="affine transformation" />
+    <meta name="tags" content="svg" />
+    <meta name="tags" content="linear algebra" />
+    <meta name="tags" content="separating axis theorem" />
+    <meta name="tags" content="SAT" />
+    <meta name="tags" content="geometry" />
+    <meta name="tags" content="polygon intersection" />
+    <meta name="tags" content="algorithms" />
+    <meta name="tags" content="algorithm" />
+
+    </head>
+
+    <body>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="nn_symbols"
+   version="1.1"
+   style="display:none"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs>
+    <symbol id="en_return"  viewBox="0 0 20 20">
+      <path
+        style="fill:#c83737;stroke:#751212;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 9.6379516,18.516453 C 8.0412156,15.235727 5.9327077,14.722427 3.8797118,13.908944 L 9.6622123,2.3464436 15.149901,13.929683 c -2.648024,0.824695 -4.265949,1.397854 -5.5119494,4.58677 z"
+        id="return_to_text_1"
+      />
+    </symbol>
+
+    <symbol id="circle_symbol" viewBox="-7.5 -8 15 16">
+      <circle id="circle_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        r="7.5"
+      />
+    </symbol>
+
+    <symbol id="rectangle_symbol" viewBox="-7.5 -9 15 18">
+      <rect
+        fill="currentColor"
+        style="display:inline;"
+        id="rectangular_shape"
+        width="15"
+        height="18"
+        x="-7.5"
+        y="-9"
+      />
+    </symbol>
+
+    <symbol id="diamond_symbol" viewBox="-7.5 -12 15 24">
+      <rect
+       fill="currentColor"
+       style="display:inline;"
+       id="diamond_0"
+       width="15"
+       height="15"
+       x="-7.5"
+       y="-7.5"
+       transform="rotate(45)" />
+    </symbol>
+
+    <symbol id="triangle_symbol" viewBox="-7.5 -7.5 15 20">
+      <path id="triangle_0"
+        fill="currentColor"
+        style="display:inline;"
+        d="M -7.5,-7 7.5,-6.5763981 0.29315553,11 Z"
+      />
+    </symbol>
+
+    <symbol id="oval_symbol" viewBox="-7 -10 14 20">
+      <ellipse id="oval_0"
+        fill="currentColor"
+        style="display:inline;"
+        cx="0"
+        cy="0"
+        rx="6"
+        ry="9" />
+    </symbol>
+
+    <symbol id="heart_face_symbol" viewBox="-7.5 -10 15 20">
+      <path id="heart_face"
+          fill="currentColor"
+          style="display:inline"
+          d="M 7.5,-1.8272927 C 7.5,2.5909853 3.916407,6.7966536 -0.44632207,8 -4.5545331,6.1018628 -7.5,2.564393 -7.5,-1.853885 -7.5,-6.2721629 -4.4199989,-8 -0.44632207,-8 3.5273547,-8 7.5,-6.2455707 7.5,-1.8272927 Z"
+      />
+    </symbol>
+
+   </defs>
+</svg>
+        <div class='banner'>
+Welcome to NickNagel.com
+        </div>
+        <div class="container">
+            <navbar class="navigation">
+                <div class='image_item' id="pallas-athena-container">
+                    <img id="pallas-athena-image"
+                        src="https://dr-nick-nagel.github.io/images/athena.svg" 
+                        alt="Pallas Athena"
+                    >
+                </div>
+                <ul>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/about-nick.html">About Nick</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/blog/index.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="https://dr-nick-nagel.github.io/pages/nn-cv.html">CV</a>
+                    </li>
+                </ul>
+            </navbar>
+            <main class="content">
+  <article>
+    <header>
+      <h2>
+        <a href="https://dr-nick-nagel.github.io/drafts/svg_masks.html" rel="bookmark"
+           title="Permalink to SVG Mask Gotchas">SVG Mask Gotchas</a></h2>
+      
+    </header>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "The Separating Axis Theorem (SAT)",
+  "description": "An in-depth explanation of the Separating Axis Theorem (SAT) with an interactive SVG-based diagram demonstrating polygon projection, interval overlap, and detection of separating axes.",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Nick Nagel",
+    "url": "https://dr-nick-nagel.github.io/"
+  },
+  "creator": {
+    "@type": "Person",
+    "name": "Nick Nagel",
+  },
+  "keywords": [
+      "collision detection", 
+      "SAT", 
+      "SVG", 
+      "graphics", 
+      "animation", 
+      "linear algebra",
+      "separating axis theorem",
+      "animation",
+      "basis",
+      "coordinate systems"
+   ],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://dr-nick-nagel.github.io/html/sat_diagram.html"
+  },
+  "image": [
+    "https://dr-nick-nagel.github.io/svg/sat/sat_diagram_thumb.png"
+  ],
+  "datePublished": "2025-11-27",
+}
+</script>
+
+<style>
+
+pre.pseudocode {
+   font-size: small;
+}
+
+main.content {
+   overflow-anchor: none;
+}
+
+figure {
+    margin: 0px;
+}
+
+figcaption {
+    font-size: smaller;
+    text-align: justify;
+    margin-top: 5px;
+}
+
+ #svg_container {
+  display: block;
+  margin: auto;
+  background-color: #eee;
+  border: solid 1px #aaa;
+  border-radius: 10px;
+  width: 550px;
+
+  @media( max-width: 450px ) {
+    width:  300px;
+    margin: 0;
+  }
+
+}
+
+svg#ginnungagap_debug {
+    display: block;
+    width:  100%;
+    height: auto;
+}
+
+#style_wrapper {
+   opacity: 0;
+   transition: opacity 1.2s ease-in, transform 0.8s ease-out;
+   pointer-events: none;
+}
+
+#style_wrapper.fade-in {
+   opacity: 1;
+}
+
+
+#text_balloon {
+  opacity: 0;
+  transition: opacity 5s ease-out;
+  pointer-events: none; 
+}
+
+#text_balloon.show {
+  opacity: 1;
+  transition: none; 
+}
+
+#text_balloon text {
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  font-size: 10px;
+  fill: #800;
+  text-anchor: middle;
+}
+
+#text_balloon ellipse {
+  fill: white;
+  stroke: none;
+}
+
+#text_balloon polygon {
+  fill: white;
+  stroke: none;
+}
+
+#text_balloon #coordText {
+   font-size: 6px;
+}
+
+#test_out {
+   color: black;
+}
+
+</style>
+
+<h3>Nick Nagel's SVG Scene Graph Series</h3>
+<ol>
+<li><a href="https://dr-nick-nagel.github.io/blog/scene_graph.html">TBD</a></li>
+</ol>
+<h2>In this Post</h2>
+<p>Masks behave a bit differently than in-line SVG so when planning an artwork it's important to keep some things in mind ... </p>
+<h2>The Problem</h2>
+<p>The problem is masks do NOT inherit transforms applied to elements in the way you might expect... </p>
+<ol>
+<li>according to the spec...</li>
+</ol>
+<p>EXPERIMENTS</p>
+<ol>
+<li>
+<p>Ungrouped</p>
+</li>
+<li>
+<p>grouped</p>
+</li>
+</ol>
+<p>AI LIES LIKE PINNOCHIO</p>
+<p>SEE /home/nick/project/nn/content/images/svg_masks</p>
+<p>in svg do masks inherit the transforms applied to the group to which they get attached?
+in svg do masks inherit the transforms applied to the group to which they get attached?</p>
+<p>INSERT IMAGE</p>
+<p>AI is like Pinnochio. It wishes it were alive and lies a lot. </p>
+<h2>Live Interactive Illustration</h2>
+<figure>
+<div id='svg_container'>
+<svg ...>
+
+</svg>
+
+<div class='certifedMachineReadable'>
+  <img id="hcmr_badge"
+        src="/svg/machine_readable_badge.svg"
+        alt="Dr. Nick's AI friendly certified readability badge"
+  >
+  <div style="width:150px;font-size:smaller">
+Certified Human-Crafted Machine-Readable
+  </div>
+</div>
+
+## Resources
+
+1. [Grant Sander's artful animation on basis vectors](https://youtu.be/P2LTAUO1TdA?si=wY6QBDjuEdLoKb2S). I highly recommend giving this a watch. It is sooo relaxing and gorgeously presented. And there's no exam :) .
+
+2. SVG 2 Specification, &#xA7;8: [Coordinate Systems, Transformations, and Units (W3C)](https://www.w3.org/TR/SVG2/coords.html).
+
+3. [Hermann Minkowski](https://en.wikipedia.org/wiki/Hermann_Minkowski)
+
+<script src="/scripts/dist_sat/sat_app.js" type="module"></script>
+    <footer>
+      <p>Published: <time datetime="2026-04-01T00:00:00-04:00">
+        Wed 01 April 2026
+      </time></p>
+        <address>
+          By             <a href="https://dr-nick-nagel.github.io/author/nick-nagel.html">Nick Nagel</a>
+        </address>
+        <p>
+          Category: <a href="https://dr-nick-nagel.github.io/category/blog.html">blog</a>
+        </p>
+        <p>
+          Tags:
+            <a href="https://dr-nick-nagel.github.io/tag/basis.html">basis</a>
+            <a href="https://dr-nick-nagel.github.io/tag/vector-space.html">vector space</a>
+            <a href="https://dr-nick-nagel.github.io/tag/affine-transformation.html">affine transformation</a>
+            <a href="https://dr-nick-nagel.github.io/tag/svg.html">svg</a>
+            <a href="https://dr-nick-nagel.github.io/tag/linear-algebra.html">linear algebra</a>
+            <a href="https://dr-nick-nagel.github.io/tag/separating-axis-theorem.html">separating axis theorem</a>
+            <a href="https://dr-nick-nagel.github.io/tag/sat.html">SAT</a>
+            <a href="https://dr-nick-nagel.github.io/tag/geometry.html">geometry</a>
+            <a href="https://dr-nick-nagel.github.io/tag/polygon-intersection.html">polygon intersection</a>
+            <a href="https://dr-nick-nagel.github.io/tag/algorithms.html">algorithms</a>
+            <a href="https://dr-nick-nagel.github.io/tag/algorithm.html">algorithm</a>
+        </p>
+    </footer>
+  </article>
+                <footer>
+                    <hr />
+                    <div class="footer_content">
+Now built with <a rel="nofollow" href="https://getpelican.com/"><em>Pelican</em></a>,
+which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                    </div>
+                    <div class="copyright">
+&copy; 1999-<span id="current-year"></span> Harold Nicholas Nagel. All rights reserved.  
+                    </div>
+                    <script>
+document.getElementById("current-year").textContent = new Date().getFullYear();
+                    </script>
+                </footer>
+            </main>
+        </div>
+    </body>
+    
+    
+</html>
