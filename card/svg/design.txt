@@ -1,0 +1,15 @@
+OK but I have a bit different composition in mind for the back. See if you can work off the following plain text for the layout.
+Please use appropriate text groups defined against local (0, 0) and positioned by transform as on the front. Also, for the list I'll find appropriate icons for bullets. Try that ...
+```plain  text
++------------------------------------------------+
+
+                    |   Books
+    [ QR ]          |   Blog
+                    |   GitHub
+  nicknagel.com     |   Interactive Demos
+ Scan to Explore    |   Artwork
+                    |   Contact
+                
+
++------------------------------------------------+
+```

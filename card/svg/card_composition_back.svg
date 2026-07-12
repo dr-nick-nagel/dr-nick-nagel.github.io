@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport"
-            content="width=device-width,initial-scale=1">
-        <title>Nick Nagel: Software Architect/Engineer x Vector Artist</title>
-        <link rel="stylesheet" href="./css/style.css">
-    </head>
-    <body>
-        <a href="index.html"><div id="nn_card">
+<?xml version="1.0" encoding="UTF-8"?>
 
 <svg id='nn_card_02'
     xmlns="http://www.w3.org/2000/svg"
@@ -219,7 +209,7 @@
             text-anchor="start"
             font-family="Helvetica,Arial,sans-serif"
             font-size="12"
-            fill="#eee"><a href="https://volume0preview.vercel.app/">Books</a></text>
+            fill="#eee">Books</text>
         <!-- Blog -->
         <text
             x="0"
@@ -305,7 +295,3 @@
 
 </svg>
 
-        </div></a>
-        <script src="./javascript/card.js"></script>
-    </body>
-</html>
